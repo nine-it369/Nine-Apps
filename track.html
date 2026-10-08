@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Lacak Pesanan &amp; Resi — Nine Autogarage</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=Plus+Jakarta+Sans:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/config.js"></script>
+  <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/base.css"/>
+</head>
+<body data-tab="mall" data-search="off" data-title="Lacak Pesanan Publik" class="bg-surface font-body text-body text-on-surface antialiased">
+<main class="max-w-md mx-auto min-h-screen pt-16 pb-24 bg-surface text-on-surface flex flex-col relative space-y-4 pt-3">
+
+  <!-- Search Card Form (TrackingSearchCard.vue) -->
+  <section class="px-4">
+    <div class="ios-card p-4">
+      <div class="flex items-center gap-2 mb-2">
+        <i class="ph-bold ph-truck text-primary-950 text-base"></i>
+        <h2 class="font-bold text-xs uppercase tracking-wider text-primary-950">Lacak Pengiriman Real-Time</h2>
+      </div>
+      <p class="text-xs text-neutral-500 mb-3">
+        Masukkan nomor resi ekspedisi (J&amp;T) atau nomor pesanan Nine Mall.
+      </p>
+
+      <div class="flex gap-2">
+        <div class="relative flex-1">
+          <i class="ph-bold ph-barcode absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 text-lg"></i>
+          <input id="inputAwb" value="JT0128849217" placeholder="Contoh: JT0128849217" class="w-full h-11 pl-10 pr-3 rounded-xl bg-neutral-50 border border-neutral-300 font-mono text-xs font-bold text-primary-950 outline-none focus:border-primary-950 focus:bg-white uppercase"/>
+        </div>
+        <button onclick="trackNow()" class="h-11 px-5 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-bold text-xs uppercase tracking-wider shadow-xs ios-press active:scale-95 transition-all">
+          Lacak
+        </button>
+      </div>
+
+      <div class="mt-2.5 flex items-center justify-between text-[11px] text-neutral-400">
+        <span>Contoh: JT0128849217 / #NNE-88291-JKT</span>
+        <button onclick="window.nineToast('Kamera barcode aktif', 'camera')" class="text-info font-semibold flex items-center gap-1">
+          <i class="ph-bold ph-scan"></i>Scan Barcode
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tracking Result Container -->
+  <section id="trackResult" class="px-4 space-y-3.5">
+    <div class="ios-card p-4 space-y-3.5">
+      <div class="flex items-center justify-between pb-3 border-b border-neutral-100">
+        <div>
+          <span class="text-[10px] text-neutral-400 font-bold uppercase tracking-wider block">NOMOR RESI J&amp;T</span>
+          <span class="font-mono text-sm font-bold text-primary-950" id="resAwb">JT0128849217</span>
+        </div>
+        <span class="px-2.5 py-1 rounded-full bg-blue-50 text-info border border-blue-200 text-[9.5px] font-black uppercase tracking-wider">
+          DALAM PERJALANAN
+        </span>
+      </div>
+
+      <!-- Mini Route Map Vector -->
+      <div class="relative h-36 rounded-2xl overflow-hidden bg-map-land border border-neutral-200">
+        <svg class="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice" viewBox="0 0 320 144">
+          <path d="M-10,20 Q60,10 120,40 T240,16 L280,-10 L-10,-10 Z" fill="#DCECD7"/>
+          <path d="M220,80 Q270,70 330,100 L330,160 L190,160 Z" fill="#DCECD7"/>
+          <path d="M130,-10 C145,40 135,90 150,150" fill="none" stroke="#BFDBFE" stroke-width="12"/>
+          <g stroke="#ffffff" fill="none"><path d="M-10,90 L330,50" stroke-width="5"/><path d="M90,-10 L110,150" stroke-width="4"/></g>
+          <path d="M-10,105 C80,105 170,100 330,100" stroke="#FDBA74" stroke-width="6"/>
+          <!-- Active Path -->
+          <path d="M30,125 L90,105 L160,102 L220,98" fill="none" stroke="#3B82F6" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="30" cy="125" r="4" fill="#ffffff" stroke="#3B82F6" stroke-width="2"/>
+          <circle cx="220" cy="98" r="10" fill="#22C55E" opacity="0.25"/>
+          <circle cx="220" cy="98" r="5" fill="#16A34A" stroke="#ffffff" stroke-width="1.5"/>
+        </svg>
+        <span class="absolute bottom-1 right-2 font-caption text-[7.5px] text-neutral-500">© OpenStreetMap</span>
+      </div>
+
+      <!-- Checkpoints Step List -->
+      <div class="space-y-3 pt-1">
+        <div class="flex gap-3">
+          <div class="flex flex-col items-center">
+            <span class="w-2.5 h-2.5 rounded-full bg-info ring-4 ring-blue-50 mt-1"></span>
+            <div class="w-0.5 flex-1 bg-neutral-200 my-1"></div>
+          </div>
+          <div class="text-xs pb-3">
+            <span class="font-bold text-primary-950 block">Kurir sedang mengantar ke alamat tujuan</span>
+            <span class="text-[11px] text-neutral-400">8 Okt 2026 · 15:30 WIB (Tangerang Batuceper)</span>
+          </div>
+        </div>
+
+        <div class="flex gap-3">
+          <div class="flex flex-col items-center">
+            <span class="w-2 h-2 rounded-full bg-neutral-300 mt-1"></span>
+            <div class="w-0.5 flex-1 bg-neutral-200 my-1"></div>
+          </div>
+          <div class="text-xs pb-3">
+            <span class="font-semibold text-neutral-700 block">Tiba di Drop Point Gateway DC Tangerang</span>
+            <span class="text-[11px] text-neutral-400">8 Okt 2026 · 10:15 WIB</span>
+          </div>
+        </div>
+
+        <div class="flex gap-3">
+          <div class="flex flex-col items-center">
+            <span class="w-2 h-2 rounded-full bg-neutral-300 mt-1"></span>
+          </div>
+          <div class="text-xs">
+            <span class="font-semibold text-neutral-700 block">Paket diberangkatkan dari Hub Jakarta Barat</span>
+            <span class="text-[11px] text-neutral-400">8 Okt 2026 · 04:20 WIB</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Need Help Card (TrackingSupportCard.vue) -->
+    <div class="p-3.5 rounded-2xl bg-accent-50 border border-accent-200 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <i class="ph-bold ph-whatsapp-logo text-accent-600 text-xl"></i>
+        <div class="text-xs">
+          <span class="font-bold text-accent-800 block">Kendala paket atau keterlambatan?</span>
+          <span class="text-accent-700 text-[11px]">Tim kami siap membantu pengecekan resi.</span>
+        </div>
+      </div>
+      <a href="https://wa.me/6283173271177" target="_blank" class="h-8 px-3 rounded-xl bg-accent-500 text-white font-bold text-xs flex items-center justify-center shadow-2xs ios-press">
+        Chat CS
+      </a>
+    </div>
+  </section>
+
+  <!-- Empty Error State -->
+  <section id="trackEmpty" class="hidden px-4">
+    <div class="ios-card p-8 text-center text-neutral-400">
+      <i class="ph-bold ph-package-x text-4xl mb-2 block mx-auto text-neutral-300"></i>
+      <h3 class="font-bold text-sm text-primary-950">Resi tidak ditemukan</h3>
+      <p class="text-xs text-neutral-400 mt-1">Pastikan nomor resi atau nomor pesanan yang kamu masukkan sudah benar.</p>
+    </div>
+  </section>
+
+</main>
+
+<script src="assets/shell.js"></script>
+<script>
+  function trackNow() {
+    var val = document.getElementById("inputAwb").value.trim();
+    if (val.length < 5) {
+      document.getElementById("trackResult").classList.add("hidden");
+      document.getElementById("trackEmpty").classList.remove("hidden");
+      window.nineToast("Nomor resi tidak valid", "x-circle");
+    } else {
+      document.getElementById("trackEmpty").classList.add("hidden");
+      document.getElementById("trackResult").classList.remove("hidden");
+      document.getElementById("resAwb").textContent = val.toUpperCase();
+      window.nineToast("Pelacakan diperbarui", "check-circle");
+    }
+  }
+</script>
+</body>
+</html>

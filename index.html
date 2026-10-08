@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Nine Autogarage — Prototype Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/config.js"></script>
+  <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/base.css"/>
+</head>
+<body class="bg-surface font-body text-body text-on-surface antialiased selection:bg-accent-subtle selection:text-accent-text">
+
+<main class="w-full max-w-md mx-auto min-h-screen px-4 pt-8 pb-16 flex flex-col">
+
+  <!-- Header Showcase -->
+  <header class="ios-card p-5 shadow-sm bg-primary-950 text-white relative overflow-hidden">
+    <div class="relative z-10">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-accent-pressed text-white flex items-center justify-center font-headline text-lg font-bold shadow-md">
+            9
+          </div>
+          <div>
+            <h1 class="font-headline text-title text-white font-bold leading-tight">Nine Autogarage</h1>
+            <span class="font-micro text-micro text-accent-400 uppercase tracking-widest font-bold">iOS Ecosystem Prototype</span>
+          </div>
+        </div>
+        <span class="px-2.5 py-1 rounded-full bg-white/10 backdrop-blur-md text-white font-micro text-micro font-bold uppercase tracking-wider">
+          19 Layar
+        </span>
+      </div>
+
+      <p class="font-caption text-caption text-white/80 mt-3 leading-relaxed">
+        Direka berdasarkan <span class="font-semibold text-white">Apple Human Interface Guidelines (HIG)</span>, sinkron dengan design system produksi <span class="font-semibold text-white">Frontend-Mall</span> & <span class="font-semibold text-white">mall.nine.co.id</span>.
+      </p>
+
+      <div class="flex items-center gap-2 mt-3.5 pt-3 border-t border-white/10 text-white/70 font-micro text-micro">
+        <span class="inline-flex items-center gap-1 text-accent-400 font-bold">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent-pressed"></span>Zero AI Slop
+        </span>
+        <span>•</span>
+        <span>44pt Touch Targets</span>
+        <span>•</span>
+        <span>Bahasa Indonesia</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Prototype Directory Groups -->
+  <div class="mt-5 flex flex-col gap-5" id="screenGroups">
+    <!-- Populated via JS -->
+  </div>
+
+  <!-- Footer Info -->
+  <footer class="mt-8 text-center">
+    <p class="font-micro text-micro text-secondary uppercase tracking-widest font-bold">Nine Autogarage Digital Team</p>
+    <p class="font-caption text-[11px] text-secondary mt-0.5">
+      Koleksi Prototipe Mobile PWA · 2026
+    </p>
+  </footer>
+
+</main>
+
+<script>
+  var GROUPS = [
+    {
+      title: "Tab Utama Aplikasi (iOS Frosted Tab Bar)",
+      items: [
+        { file: "home.html", name: "Beranda Utama", desc: "Hero Carousel 270x240, GPS Map, Projector Glow, Perawatan, Quick Action", icon: "house" },
+        { file: "accecories.html", name: "Aksesori Terhubung", desc: "Segmented switch, BLE device cards, pairing sheet 4 langkah", icon: "cpu" },
+        { file: "mall.html", name: "Nine Mall", desc: "Multi-warehouse, Flash sale countdown, 8 kategori, Bundling Retrofit", icon: "storefront" },
+        { file: "booking.html", name: "Booking Servis", desc: "5-Step Stepper, EV toggle, alokasi kapasitas pit, 180s Redis hold timer", icon: "calendar-dots" },
+        { file: "profile.html", name: "Akun & Garasi", desc: "Profil Platinum, Nine Koin & Garage Points, Inset Grouped lists", icon: "user-circle" }
+      ]
+    },
+    {
+      title: "Detail Perangkat & Telemetri IoT",
+      items: [
+        { file: "device-gps.html", name: "Detail GPS Tracker", desc: "OSM Vector Map, Rute 7 Hari, Geofence radius, Virtual Odometer KM", icon: "satellite-dish" },
+        { file: "device-dashcam.html", name: "Detail Dashcam 4K", desc: "Dual CH1/CH2 HUD, SOS Emergency lock, Snapshot flash, G-Sensor logs", icon: "video-camera" },
+        { file: "device-lampu.html", name: "Detail Lampu Biled", desc: "Projector lens glow HUD, 5 temperatur warna, Devil Eye RGB ring", icon: "lightbulb-filament" }
+      ]
+    },
+    {
+      title: "E-Commerce (Nine Mall)",
+      items: [
+        { file: "catalog.html", name: "Katalog & Filter", desc: "Pencarian interaktif, sheet filter kategori/harga/kendaraan, 2-kolom grid", icon: "squares-four" },
+        { file: "product-detail.html", name: "Detail Produk", desc: "Galeri swipe, countdown diskon, pemilih varian watt/lensa, review foto", icon: "package" },
+        { file: "keranjang.html", name: "Keranjang Belanja", desc: "Progress gratis ongkir, multi-warehouse, in-cart variant modifier sheet", icon: "basket" },
+        { file: "checkout.html", name: "Checkout & Pembayaran", desc: "J&T Express, potongan Nine Koin, BCA/Mandiri VA, dynamic QRIS Midtrans", icon: "credit-card" },
+        { file: "orders.html", name: "Pesanan Saya", desc: "5 tab status pesanan, order card informatif, pelacakan live", icon: "receipt" },
+        { file: "order-detail.html", name: "Detail Pesanan & Retur", desc: "Timeline checkpoint J&T Express, sheet retur komplain, modal review", icon: "truck" },
+        { file: "track.html", name: "Lacak Resi Publik", desc: "Cek resi tanpa login, visual perjalanan kurir J&T Express", icon: "crosshair" }
+      ]
+    },
+    {
+      title: "Bengkel & Layanan (Nine Garage)",
+      items: [
+        { file: "booking-detail.html", name: "Detail Tiket Booking", desc: "Apple Wallet style pass card, QR check-in pit, timeline pengerjaan", icon: "ticket" },
+        { file: "work-order.html", name: "Work Order (SPK Digital)", desc: "Tahapan instalasi fisik, progress checklist, kanvas tanda tangan 1:1", icon: "clipboard-text" },
+        { file: "service-history.html", name: "Riwayat Servis", desc: "Filter status selesai/proses, metrik servis, download invoice PDF", icon: "clock-counter-clockwise" }
+      ]
+    },
+    {
+      title: "Autentikasi & Akun",
+      items: [
+        { file: "auth.html", name: "Masuk / Daftar Akun", desc: "Segmented auth, 6-digit WhatsApp OTP dengan cooldown timer, Google SSO", icon: "sign-in" }
+      ]
+    }
+  ];
+
+  document.getElementById("screenGroups").innerHTML = GROUPS.map(function(grp) {
+    return '<section>' +
+      '<span class="font-label text-label uppercase tracking-widest text-secondary block px-1 mb-1.5">' + grp.title + '</span>' +
+      '<div class="ios-card overflow-hidden shadow-sm divide-y divide-primary-100">' +
+        grp.items.map(function(it) {
+          return '<a href="' + it.file + '" class="p-3.5 flex items-center gap-3 active:bg-primary-50 transition-colors">' +
+            '<div class="w-9 h-9 rounded-xl bg-primary-100 flex items-center justify-center text-primary-900 shrink-0">' +
+              '<i class="ph-fill ph-' + it.icon + ' text-lg"></i>' +
+            '</div>' +
+            '<div class="flex-1 min-w-0">' +
+              '<div class="flex items-center gap-1.5">' +
+                '<span class="font-body-semibold text-caption text-on-surface font-bold">' + it.name + '</span>' +
+                '<span class="font-mono text-[10px] text-secondary">(' + it.file + ')</span>' +
+              '</div>' +
+              '<p class="font-caption text-caption text-secondary truncate mt-0.5">' + it.desc + '</p>' +
+            '</div>' +
+            '<i class="ph ph-caret-right text-secondary text-base"></i>' +
+          '</a>';
+        }).join("") +
+      '</div>' +
+    '</section>';
+  }).join("");
+</script>
+</body>
+</html>

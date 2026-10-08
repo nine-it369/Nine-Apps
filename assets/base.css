@@ -1,0 +1,176 @@
+/* Apple Human Interface Guidelines (HIG) + Nine Mall Design System */
+@import url('https://fonts.cdnfonts.com/css/sf-pro-display');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap');
+
+html, body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f8fa;
+  font-family: 'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  overscroll-behavior: none;
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  color: #18181b;
+}
+
+/* Touch Action & Native Feel */
+a, button, [role="button"], input, select, textarea {
+  touch-action: manipulation;
+}
+
+:focus-visible {
+  outline: 2px solid #22c55e;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Apple HIG Touch Targets (min 44x44pt) */
+.tap-v {
+  position: relative;
+}
+.tap-v::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.tap-44 {
+  position: relative;
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.tap-44::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  min-width: 44px;
+  min-height: 44px;
+  pointer-events: none;
+}
+
+/* Apple HIG Tactile Micro-Interactions */
+.ios-press {
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s ease;
+}
+.ios-press:active {
+  transform: scale(0.975);
+  opacity: 0.82;
+}
+
+/* Apple HIG Inset Grouped Card */
+.ios-card {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid rgba(228, 228, 231, 0.8);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03), 0 4px 14px rgba(0, 0, 0, 0.02);
+}
+
+/* Apple HIG Segmented Control */
+.ios-segmented {
+  background: rgba(228, 228, 231, 0.6);
+  padding: 3px;
+  border-radius: 12px;
+  display: flex;
+}
+.ios-segmented-btn {
+  flex: 1;
+  padding: 6px 12px;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #71717a;
+}
+.ios-segmented-btn.active {
+  background: #ffffff;
+  color: #18181b;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+/* Apple HIG Action Sheet Handle */
+.ios-sheet-handle {
+  width: 38px;
+  height: 5px;
+  border-radius: 9999px;
+  background-color: #d4d4d8;
+  margin: 10px auto 14px auto;
+  cursor: grab;
+}
+
+/* Safe Area Insets */
+.pt-safe {
+  padding-top: max(env(safe-area-inset-top, 0px), 12px);
+}
+.pb-safe {
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 12px);
+}
+
+/* Scrollbars */
+*::-webkit-scrollbar {
+  display: none;
+}
+* {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Carousel Snap */
+.snap-x-carousel {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.snap-card {
+  scroll-snap-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Chips Hit Area Enhancement */
+.seg, .cat, .pick, .vchip, .temp, .mode, .tb, .f, .filt, .dur,
+.chip, .dt, .slot, .evt, .br {
+  position: relative;
+}
+.seg::after, .cat::after, .pick::after, .vchip::after, .temp::after, .mode::after,
+.tb::after, .f::after, .filt::after, .dur::after, .chip::after, .dt::after,
+.slot::after, .evt::after, .br::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}

@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Booking Servis & Retrofit — Nine Autogarage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/config.js"></script>
+  <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/base.css"/>
+</head>
+<body data-tab="booking" class="bg-surface font-body text-body text-on-surface flex flex-col antialiased selection:bg-accent-subtle selection:text-accent-text" data-search="off" data-title="Booking Servis">
+
+<main class="w-full max-w-md mx-auto pt-16 pb-36 min-h-screen px-4 flex flex-col">
+
+  <!-- Header Info & History Link -->
+  <section class="mt-2 flex items-center justify-between">
+    <div>
+      <span class="font-micro text-micro uppercase tracking-widest text-secondary font-bold">Nine Autogarage Workshop</span>
+      <p class="font-caption text-caption text-secondary">Reservasi Slot Teknisi & Pit Bengkel</p>
+    </div>
+    <div class="flex items-center gap-1.5">
+      <a href="work-order.html" class="tap-44 h-8 px-2.5 rounded-full bg-white border border-neutral-200/80 shadow-2xs flex items-center gap-1 text-xs font-bold text-accent-700 ios-press" aria-label="Work Order Aktif">
+        <i class="ph-bold ph-wrench text-xs"></i>
+        <span>Live Pit</span>
+      </a>
+      <a href="service-history.html" class="tap-44 h-8 px-2.5 rounded-full bg-white border border-neutral-200/80 shadow-2xs flex items-center gap-1 text-xs font-bold text-primary-950 ios-press" aria-label="Riwayat Servis">
+        <i class="ph-bold ph-clock-counter-clockwise text-xs text-neutral-500"></i>
+        <span>Riwayat</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 5-Step Progress Stepper (Clean Apple HIG) -->
+  <section class="mt-3.5 ios-card p-3 shadow-2xs bg-white border border-neutral-200/80">
+    <div class="flex items-center justify-between mb-1.5">
+      <span class="font-label text-label uppercase tracking-wider text-neutral-500">Langkah <span id="stepDisplayNum" class="text-primary-950 font-bold">1</span> dari 5</span>
+      <span class="font-caption text-caption font-bold text-primary-950" id="stepName">1. Kontak &amp; Pelanggan</span>
+    </div>
+    <div class="h-1.5 rounded-full bg-neutral-100 overflow-hidden">
+      <div id="stepProgressBar" class="h-full bg-primary-950 rounded-full transition-all duration-300" style="width: 20%"></div>
+    </div>
+  </section>
+
+  <!-- STEP 1: KONTAK & PELANGGAN -->
+  <section id="step1" class="flex flex-col gap-3.5 mt-3.5">
+    <div class="ios-card p-4 shadow-2xs bg-white border border-neutral-200/80 flex flex-col gap-3.5">
+      <div>
+        <h2 class="font-headline text-headline text-primary-950 font-bold">Data Kontak Pelanggan</h2>
+        <p class="font-caption text-caption text-neutral-500 mt-0.5">Digunakan teknisi untuk konfirmasi kedatangan dan update status pengerjaan.</p>
+      </div>
+
+      <div class="flex items-start gap-2.5 p-2.5 rounded-xl bg-neutral-50 border border-neutral-200/80">
+        <i class="ph-fill ph-check-circle text-primary-950 text-lg shrink-0 mt-0.5"></i>
+        <p class="font-caption text-caption text-neutral-600 leading-tight">
+          Terisi otomatis dari profil akun <span class="font-bold text-primary-950">Rob Kusuma</span>.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <label class="block">
+          <span class="font-label text-label uppercase tracking-wider text-secondary block mb-1">Nama Lengkap</span>
+          <input id="cName" value="Rob Kusuma" class="w-full h-11 px-3.5 bg-surface border border-primary-200 rounded-xl font-body text-body text-on-surface outline-none focus:border-primary-900 transition-colors"/>
+        </label>
+
+        <label class="block">
+          <span class="font-label text-label uppercase tracking-wider text-secondary block mb-1">Nomor WhatsApp Aktif</span>
+          <div class="flex items-center gap-2 h-11 px-3.5 bg-surface border border-primary-200 rounded-xl focus-within:border-primary-900 transition-colors">
+            <span class="font-body-semibold text-caption text-secondary">+62</span>
+            <input id="cPhone" value="812-8899-7700" type="tel" class="flex-1 min-w-0 bg-transparent font-body text-body text-on-surface outline-none"/>
+          </div>
+        </label>
+
+        <label class="block">
+          <span class="font-label text-label uppercase tracking-wider text-secondary block mb-1">Email Konfirmasi</span>
+          <input id="cEmail" value="rob.kusuma@gmail.com" type="email" class="w-full h-11 px-3.5 bg-surface border border-primary-200 rounded-xl font-body text-body text-on-surface outline-none focus:border-primary-900 transition-colors"/>
+        </label>
+
+        <label class="block">
+          <span class="font-label text-label uppercase tracking-wider text-secondary block mb-1">Kota Domisili</span>
+          <input id="cCity" value="Tangerang Selatan" class="w-full h-11 px-3.5 bg-surface border border-primary-200 rounded-xl font-body text-body text-on-surface outline-none focus:border-primary-900 transition-colors"/>
+        </label>
+
+        <label class="block">
+          <span class="font-label text-label uppercase tracking-wider text-secondary block mb-1">Sumber Referral <span class="normal-case text-secondary font-normal">(Opsional)</span></span>
+          <input id="cRef" placeholder="Instagram / Rekomendasi Teman" class="w-full h-11 px-3.5 bg-surface border border-primary-200 rounded-xl font-body text-body text-on-surface outline-none focus:border-primary-900 transition-colors"/>
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 2: IDENTIFIKASI KENDARAAN -->
+  <section id="step2" class="hidden flex flex-col gap-3.5 mt-3.5">
+    <div class="ios-card p-4 shadow-sm flex flex-col gap-3.5">
+      <div>
+        <h2 class="font-headline text-headline text-on-surface">Pilih Kendaraan Servis</h2>
+        <p class="font-caption text-caption text-secondary mt-0.5">Layanan dan durasi kerja disesuaikan dengan jenis unit kendaraan Anda.</p>
+      </div>
+
+      <!-- Segmented Type Selector -->
+      <div class="ios-segmented p-1 flex gap-1">
+        <button onclick="setVehicleType('motor', this)" id="btnTypeMotor" class="v-type flex-1 py-2 rounded-lg font-body-semibold text-caption bg-surface-card text-on-surface shadow-sm flex items-center justify-center gap-1.5">
+          <i class="ph-fill ph-motorcycle text-lg"></i>Sepeda Motor
+        </button>
+        <button onclick="setVehicleType('car', this)" id="btnTypeCar" class="v-type flex-1 py-2 rounded-lg font-body-semibold text-caption text-secondary flex items-center justify-center gap-1.5">
+          <i class="ph ph-car text-lg"></i>Mobil
+        </button>
+      </div>
+
+      <!-- Active Vehicle Card -->
+      <div class="ios-card p-3.5 border border-accent-300 bg-accent-50/40 flex items-center justify-between">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="w-12 h-12 rounded-xl bg-primary-900 text-white flex items-center justify-center shrink-0 shadow-sm" id="vehIcon">
+            <i class="ph-fill ph-motorcycle text-2xl text-accent-text"></i>
+          </div>
+          <div class="min-w-0">
+            <h3 class="font-headline text-caption text-on-surface font-bold truncate" id="vehName">Yamaha NMAX 155 Connected</h3>
+            <p class="font-caption text-caption text-secondary mt-0.5" id="vehPlat">B 1234 XYZ · Hitam Doff</p>
+            <span class="inline-flex items-center gap-1 mt-1 font-micro text-micro text-accent-text font-bold">
+              <i class="ph-fill ph-check-circle"></i>Unit Terdaftar di Garasi
+            </span>
+          </div>
+        </div>
+        <button onclick="nineToast('Buka daftar garasi saya','arrows-left-right')" class="px-2.5 py-1.5 rounded-lg bg-surface-card border border-primary-200 font-micro text-micro font-bold text-primary-800 shadow-sm active:bg-primary-50">
+          Ganti
+        </button>
+      </div>
+
+      <!-- EV Indicator Toggle (From README_FITUR_MALL_DAN_GARAGE.md) -->
+      <div class="p-3.5 rounded-xl border border-primary-200 bg-surface flex items-center justify-between">
+        <div>
+          <span class="font-body-semibold text-caption text-on-surface block">Kendaraan Listrik (EV)</span>
+          <span class="font-caption text-caption text-secondary">Prosedur safety kelistrikan tegangan tinggi</span>
+        </div>
+        <label class="relative inline-flex items-center cursor-pointer shrink-0">
+          <input type="checkbox" id="evToggle" class="sr-only peer" onchange="toggleEv(this.checked)"/>
+          <span class="w-11 h-6 bg-primary-200 peer-checked:bg-accent-pressed rounded-full block relative after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-card after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-5"></span>
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 3: LAYANAN & PRODUK RETROFIT -->
+  <section id="step3" class="hidden flex flex-col gap-3.5 mt-3.5">
+    <div class="ios-card p-4 shadow-sm flex flex-col gap-3">
+      <div>
+        <h2 class="font-headline text-headline text-on-surface">Pilih Layanan Servis</h2>
+        <p class="font-caption text-caption text-secondary mt-0.5">Bisa memilih lebih dari satu layanan pengerjaan pit teknisi.</p>
+      </div>
+
+      <!-- Services List -->
+      <div class="flex flex-col gap-2 mt-1" id="servicesList">
+        <!-- Service 1 -->
+        <div onclick="toggleService(0)" id="svc-0" class="svc-card p-3 rounded-xl border-2 border-accent-pressed bg-accent-50/40 flex items-center justify-between cursor-pointer transition-all">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <span class="w-6 h-6 rounded-md bg-accent-pressed text-white flex items-center justify-center shrink-0 shadow-xs" id="svc-check-0">
+              <i class="ph-bold ph-check text-xs"></i>
+            </span>
+            <div class="min-w-0">
+              <span class="font-body-semibold text-caption text-on-surface block truncate">Retrofit Biled Matrix E9 Pro</span>
+              <span class="font-caption text-caption text-secondary">Durasi ± 120 menit · Termasuk leveling</span>
+            </div>
+          </div>
+          <span class="font-body-semibold text-caption font-mono text-on-surface shrink-0 ml-2">Rp 250.000</span>
+        </div>
+
+        <!-- Service 2 -->
+        <div onclick="toggleService(1)" id="svc-1" class="svc-card p-3 rounded-xl border-2 border-accent-pressed bg-accent-50/40 flex items-center justify-between cursor-pointer transition-all">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <span class="w-6 h-6 rounded-md bg-accent-pressed text-white flex items-center justify-center shrink-0 shadow-xs" id="svc-check-1">
+              <i class="ph-bold ph-check text-xs"></i>
+            </span>
+            <div class="min-w-0">
+              <span class="font-body-semibold text-caption text-on-surface block truncate">Kalibrasi Beam Digital (Luxmeter)</span>
+              <span class="font-caption text-caption text-secondary">Durasi ± 30 menit · Standar RHD Dishub</span>
+            </div>
+          </div>
+          <span class="font-body-semibold text-caption font-mono text-on-surface shrink-0 ml-2">Rp 75.000</span>
+        </div>
+
+        <!-- Service 3 -->
+        <div onclick="toggleService(2)" id="svc-2" class="svc-card p-3 rounded-xl border-2 border-primary-200 bg-surface flex items-center justify-between cursor-pointer transition-all">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <span class="w-6 h-6 rounded-md border-2 border-primary-200 text-transparent flex items-center justify-center shrink-0" id="svc-check-2">
+              <i class="ph-bold ph-check text-xs"></i>
+            </span>
+            <div class="min-w-0">
+              <span class="font-body-semibold text-caption text-on-surface block truncate">Pemasangan Relay Harness 40A HD</span>
+              <span class="font-caption text-caption text-secondary">Durasi ± 25 menit · Jalur aki direct sekring</span>
+            </div>
+          </div>
+          <span class="font-body-semibold text-caption font-mono text-on-surface shrink-0 ml-2">Rp 85.000</span>
+        </div>
+
+        <!-- Service 4 -->
+        <div onclick="toggleService(3)" id="svc-3" class="svc-card p-3 rounded-xl border-2 border-primary-200 bg-surface flex items-center justify-between cursor-pointer transition-all">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <span class="w-6 h-6 rounded-md border-2 border-primary-200 text-transparent flex items-center justify-center shrink-0" id="svc-check-3">
+              <i class="ph-bold ph-check text-xs"></i>
+            </span>
+            <div class="min-w-0">
+              <span class="font-body-semibold text-caption text-on-surface block truncate">Ganti Oli Motul 10W-40 + Filter</span>
+              <span class="font-caption text-caption text-secondary">Durasi ± 20 menit · Free cek tekanan ban</span>
+            </div>
+          </div>
+          <span class="font-body-semibold text-caption font-mono text-on-surface shrink-0 ml-2">Rp 95.000</span>
+        </div>
+      </div>
+
+      <!-- Voucher Promo Code -->
+      <div class="mt-2 flex gap-2">
+        <input id="voucherCode" placeholder="Kode Voucher (cth: GARAGE20K)" class="flex-1 h-11 px-3.5 bg-surface border border-primary-200 rounded-xl font-body text-caption uppercase outline-none focus:border-primary-900 transition-colors"/>
+        <button onclick="applyVoucher()" class="px-4 h-11 rounded-xl bg-primary-100 font-body-semibold text-caption text-primary-900 active:bg-primary-200 transition-colors">
+          Gunakan
+        </button>
+      </div>
+
+      <!-- Live Total Summary Card -->
+      <div class="p-3.5 rounded-xl bg-primary-50/80 border border-primary-100 flex items-center justify-between">
+        <div>
+          <span class="font-body-semibold text-caption text-on-surface block">Subtotal Biaya Layanan</span>
+          <span class="font-caption text-caption text-secondary" id="totalDurationLabel">Estimasi durasi: 150 menit</span>
+        </div>
+        <span class="font-headline text-price text-primary-900 font-bold" id="step3Total">Rp 325.000</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 4: CABANG & SLOT WAKTU -->
+  <section id="step4" class="hidden flex flex-col gap-3.5 mt-3.5">
+    <div class="ios-card p-4 shadow-sm flex flex-col gap-3.5">
+      <div>
+        <h2 class="font-headline text-headline text-on-surface">Cabang & Jadwal Kedatangan</h2>
+        <p class="font-caption text-caption text-secondary mt-0.5">Pilih bengkel Nine Garage terdekat dan slot jam kedatangan.</p>
+      </div>
+
+      <!-- Branch Selection -->
+      <div class="flex flex-col gap-2">
+        <!-- Branch 1: Arcadia -->
+        <div onclick="selectBranch('arcadia', this)" class="branch-card p-3.5 rounded-xl border-2 border-accent-pressed bg-accent-50/40 flex items-start gap-3 cursor-pointer">
+          <span class="w-5 h-5 rounded-full bg-accent-pressed text-white flex items-center justify-center shrink-0 mt-0.5">
+            <i class="ph-bold ph-check text-[10px]"></i>
+          </span>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <span class="font-body-semibold text-caption text-on-surface font-bold">Nine Garage Arcadia BSD</span>
+              <span class="px-2 py-0.5 rounded-full bg-accent-subtle text-accent-text font-micro text-micro font-bold">2 Pit Retrofit Siap</span>
+            </div>
+            <p class="font-caption text-caption text-secondary mt-0.5">Jl. Boulevard Arcadia Blok G No. 8, Cisauk · 09:00 - 18:00</p>
+          </div>
+        </div>
+
+        <!-- Branch 2: Jelambar -->
+        <div onclick="selectBranch('jelambar', this)" class="branch-card p-3.5 rounded-xl border-2 border-primary-200 bg-surface flex items-start gap-3 cursor-pointer">
+          <span class="w-5 h-5 rounded-full border-2 border-primary-200 text-transparent flex items-center justify-center shrink-0 mt-0.5">
+            <i class="ph-bold ph-check text-[10px]"></i>
+          </span>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between">
+              <span class="font-body-semibold text-caption text-on-surface font-bold">Nine Garage Jelambar</span>
+              <span class="px-2 py-0.5 rounded-full bg-primary-100 text-primary-700 font-micro text-micro font-bold">1 Pit Retrofit</span>
+            </div>
+            <p class="font-caption text-caption text-secondary mt-0.5">Jl. Jelambar Barat No. 22, Jakarta Barat · 09:00 - 18:00</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Date Carousel / Strip -->
+      <div class="mt-1">
+        <span class="font-label text-label uppercase tracking-wider text-secondary block mb-2">Pilih Tanggal Kedatangan</span>
+        <div class="grid grid-cols-5 gap-1.5">
+          <button onclick="selectDate(this, 'Jum, 10 Okt')" class="date-chip p-2 rounded-xl bg-surface-card border border-primary-200 text-center active:scale-95 transition-all">
+            <span class="font-micro text-micro text-secondary block uppercase">Jum</span>
+            <span class="font-headline text-headline text-on-surface block font-bold">10</span>
+            <span class="font-micro text-[10px] text-accent-text block">5 Slot</span>
+          </button>
+          <button onclick="selectDate(this, 'Sab, 11 Okt')" class="date-chip p-2 rounded-xl border-2 border-primary-900 bg-primary-900 text-white text-center shadow-sm">
+            <span class="font-micro text-micro text-accent-400 block uppercase font-bold">Hari Ini</span>
+            <span class="font-headline text-headline text-white block font-bold">11</span>
+            <span class="font-micro text-[10px] text-white/90 block">Pit Siap</span>
+          </button>
+          <button onclick="selectDate(this, 'Min, 12 Okt')" class="date-chip p-2 rounded-xl bg-surface-card border border-primary-200 text-center active:scale-95 transition-all">
+            <span class="font-micro text-micro text-secondary block uppercase">Min</span>
+            <span class="font-headline text-headline text-on-surface block font-bold">12</span>
+            <span class="font-micro text-[10px] text-accent-text block">4 Slot</span>
+          </button>
+          <button onclick="selectDate(this, 'Sen, 13 Okt')" class="date-chip p-2 rounded-xl bg-surface-card border border-primary-200 text-center active:scale-95 transition-all">
+            <span class="font-micro text-micro text-secondary block uppercase">Sen</span>
+            <span class="font-headline text-headline text-on-surface block font-bold">13</span>
+            <span class="font-micro text-[10px] text-accent-text block">6 Slot</span>
+          </button>
+          <button onclick="selectDate(this, 'Sel, 14 Okt')" class="date-chip p-2 rounded-xl bg-surface-card border border-primary-200 text-center active:scale-95 transition-all">
+            <span class="font-micro text-micro text-secondary block uppercase">Sel</span>
+            <span class="font-headline text-headline text-on-surface block font-bold">14</span>
+            <span class="font-micro text-[10px] text-accent-text block">7 Slot</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Time Slot Grid (30-Minute Interval Capacity Engine) -->
+      <div class="mt-1">
+        <div class="flex items-center justify-between mb-2">
+          <span class="font-label text-label uppercase tracking-wider text-secondary">Slot Jam Mulai</span>
+          <span class="font-caption text-caption text-secondary">Sesi Pagi (09:00 - 13:00)</span>
+        </div>
+        <div class="grid grid-cols-3 gap-2">
+          <div class="p-2.5 rounded-xl bg-primary-100 opacity-40 text-center">
+            <span class="font-body-semibold text-caption line-through text-secondary block">09:00</span>
+            <span class="font-micro text-micro text-danger-text uppercase font-bold">Penuh</span>
+          </div>
+          <div class="p-2.5 rounded-xl bg-primary-100 opacity-40 text-center">
+            <span class="font-body-semibold text-caption line-through text-secondary block">09:30</span>
+            <span class="font-micro text-micro text-danger-text uppercase font-bold">Penuh</span>
+          </div>
+          <button onclick="selectSlot(this, '10:00')" class="slot-chip p-2.5 rounded-xl border border-primary-200 bg-surface text-center active:scale-95 transition-all">
+            <span class="font-body-semibold text-caption text-on-surface block">10:00</span>
+            <span class="font-micro text-micro text-accent-text uppercase font-bold">Tersedia</span>
+          </button>
+          <button onclick="selectSlot(this, '10:30')" class="slot-chip p-2.5 rounded-xl border-2 border-accent-pressed bg-accent-subtle text-center shadow-xs">
+            <span class="font-body-semibold text-caption text-accent-text block font-bold">10:30</span>
+            <span class="font-micro text-micro px-1 rounded-full bg-accent-pressed text-white uppercase font-bold">Pit 02</span>
+          </button>
+          <button onclick="selectSlot(this, '11:00')" class="slot-chip p-2.5 rounded-xl border border-primary-200 bg-surface text-center active:scale-95 transition-all">
+            <span class="font-body-semibold text-caption text-on-surface block">11:00</span>
+            <span class="font-micro text-micro text-accent-text uppercase font-bold">Tersedia</span>
+          </button>
+          <button onclick="selectSlot(this, '11:30')" class="slot-chip p-2.5 rounded-xl border border-primary-200 bg-surface text-center active:scale-95 transition-all">
+            <span class="font-body-semibold text-caption text-on-surface block">11:30</span>
+            <span class="font-micro text-micro text-accent-text uppercase font-bold">Tersedia</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Multi-day Rollover Alert Notice -->
+      <div class="p-3 rounded-xl bg-primary-100 flex items-start gap-2.5">
+        <i class="ph-fill ph-info text-info-text text-lg shrink-0 mt-0.5"></i>
+        <p class="font-caption text-caption text-on-surface-variant leading-tight">
+          Pengerjaan Retrofit Biled berdurasi teliti (± 2 jam). Kendaraan dapat ditunggu di Customer Lounge ber-AC atau ditinggal di bengkel.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 5: REVIEW & HOLD SLOT LOCK 180s -->
+  <section id="step5" class="hidden flex flex-col gap-3.5 mt-3.5">
+    <!-- 3-Minute Hold Countdown Banner (Redis Lock Engine) -->
+    <div class="ios-card p-3.5 bg-warning-subtle border border-warning-200 flex items-center justify-between shadow-sm">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <i class="ph-fill ph-hourglass-medium text-warning-text text-2xl shrink-0 animate-pulse"></i>
+        <div>
+          <span class="font-body-semibold text-caption text-warning-text block font-bold">Slot Teknisi Ditahan Sementara</span>
+          <span class="font-caption text-caption text-warning-text">Selesaikan konfirmasi sebelum slot dilepas</span>
+        </div>
+      </div>
+      <span class="font-headline text-display text-warning-text font-bold font-mono tracking-wider" id="holdTimer">03:00</span>
+    </div>
+
+    <!-- Review Booking Card -->
+    <div class="ios-card overflow-hidden shadow-sm">
+      <div class="px-4 py-2.5 bg-primary-50/60 border-b border-primary-100 flex items-center justify-between">
+        <span class="font-label text-label uppercase tracking-widest text-secondary">Rincian Reservasi</span>
+        <button onclick="goToStep(4)" class="font-caption text-caption font-bold text-accent-text">Ubah Jadwal</button>
+      </div>
+
+      <div class="p-4 flex flex-col gap-3">
+        <!-- Schedule -->
+        <div class="flex items-start justify-between">
+          <div>
+            <span class="font-caption text-caption text-secondary block">Jadwal Kedatangan</span>
+            <span class="font-body-semibold text-caption text-on-surface block font-bold">Sabtu, 11 Okt 2026 · 10:30 WIB</span>
+            <span class="font-caption text-caption text-secondary">Nine Garage Arcadia BSD · Pit 02</span>
+          </div>
+        </div>
+
+        <div class="h-px bg-primary-100"></div>
+
+        <!-- Vehicle -->
+        <div class="flex items-start justify-between">
+          <div>
+            <span class="font-caption text-caption text-secondary block">Unit Kendaraan</span>
+            <span class="font-body-semibold text-caption text-on-surface block font-bold">Yamaha NMAX 155 Connected</span>
+            <span class="font-caption text-caption text-secondary">B 1234 XYZ · Motor Non-EV</span>
+          </div>
+          <button onclick="goToStep(2)" class="font-caption text-caption font-bold text-accent-text">Ubah</button>
+        </div>
+
+        <div class="h-px bg-primary-100"></div>
+
+        <!-- Services -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="font-caption text-caption text-secondary">Layanan Terpilih</span>
+            <button onclick="goToStep(3)" class="font-caption text-caption font-bold text-accent-text">Ubah</button>
+          </div>
+          <div class="flex flex-col gap-1.5" id="reviewServiceItems">
+            <div class="flex items-center justify-between font-caption text-caption">
+              <span class="text-on-surface">Retrofit Biled Matrix E9 Pro</span>
+              <span class="font-mono text-on-surface">Rp 250.000</span>
+            </div>
+            <div class="flex items-center justify-between font-caption text-caption">
+              <span class="text-on-surface">Kalibrasi Beam Digital (Luxmeter)</span>
+              <span class="font-mono text-on-surface">Rp 75.000</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="h-px bg-primary-100"></div>
+
+        <!-- Warranty & Finished Estimation -->
+        <div class="p-2.5 rounded-xl bg-accent-50/50 border border-accent-200 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <i class="ph-fill ph-shield-check text-accent-text text-lg"></i>
+            <span class="font-caption text-caption text-accent-text font-medium">Garansi Kelistrikan Bengkel: 1 Tahun</span>
+          </div>
+          <span class="font-caption text-caption text-secondary">Estimasi 13:00 WIB</span>
+        </div>
+
+        <!-- Total Price -->
+        <div class="pt-2 flex items-baseline justify-between">
+          <div>
+            <span class="font-body-semibold text-body text-on-surface block">Total Estimasi Servis</span>
+            <span class="font-caption text-caption text-secondary">Pembayaran di kasir setelah pengerjaan</span>
+          </div>
+          <span class="font-headline text-display text-primary-900 font-bold font-mono" id="reviewGrandTotal">Rp 325.000</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Agreement Checkbox -->
+    <label class="flex items-start gap-2.5 px-1 cursor-pointer">
+      <input type="checkbox" checked class="w-4 h-4 mt-0.5 accent-primary-900 rounded"/>
+      <span class="font-caption text-caption text-secondary leading-tight">
+        Saya bersedia hadir 15 menit sebelum slot kedatangan dan menyetujui kebijakan garansi instalasi Nine Autogarage.
+      </span>
+    </label>
+  </section>
+
+  <!-- SUCCESS SCREEN (TICKET DISPLAY) -->
+  <section id="stepSuccess" class="hidden flex flex-col items-center text-center mt-4">
+    <!-- Success Badge -->
+    <div class="w-16 h-16 rounded-full bg-accent-pressed text-white flex items-center justify-center shadow-md animate-bounce">
+      <i class="ph-bold ph-check text-3xl"></i>
+    </div>
+
+    <h1 class="font-headline text-display text-on-surface font-bold mt-3">Booking Berhasil!</h1>
+    <p class="font-caption text-caption text-secondary mt-1 max-w-[320px]">
+      Slot pengerjaan Pit 02 telah dikunci atas nama kamu. Tunjukkan tiket ini saat tiba di bengkel.
+    </p>
+
+    <!-- Apple Wallet Style Service Ticket -->
+    <div class="w-full mt-4 ios-card overflow-hidden shadow-lg border border-primary-800 bg-primary-950 text-white relative text-left">
+      <!-- Top Perforated Header -->
+      <div class="p-4 bg-primary-900 flex items-center justify-between border-b border-white/10">
+        <div>
+          <span class="font-micro text-micro uppercase tracking-widest text-accent-400 font-bold block">Nine Garage Service Pass</span>
+          <span class="font-headline text-title text-white font-bold">TGR-8821-2026</span>
+        </div>
+        <span class="px-2.5 py-1 rounded-full bg-accent-pressed text-white font-micro text-micro uppercase font-bold tracking-wider">
+          Confirmed
+        </span>
+      </div>
+
+      <!-- Ticket Body -->
+      <div class="p-4 flex flex-col gap-3">
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <span class="font-micro text-micro text-white/60 block uppercase">Jadwal Kedatangan</span>
+            <span class="font-body-semibold text-caption text-white block">Sabtu, 11 Okt 2026</span>
+            <span class="font-caption text-caption font-mono text-accent-400">10:30 WIB</span>
+          </div>
+          <div>
+            <span class="font-micro text-micro text-white/60 block uppercase">Lokasi Bengkel</span>
+            <span class="font-body-semibold text-caption text-white block">Arcadia BSD (Pit 02)</span>
+            <span class="font-micro text-micro text-white/60">Teknisi: Mas Dimas</span>
+          </div>
+        </div>
+
+        <div class="h-px bg-white/10"></div>
+
+        <div>
+          <span class="font-micro text-micro text-white/60 block uppercase">Unit Kendaraan</span>
+          <span class="font-body-semibold text-caption text-white">Yamaha NMAX 155 (B 1234 XYZ)</span>
+        </div>
+
+        <!-- Simulated Barcode / QR Section -->
+        <div class="p-3 rounded-xl bg-white text-primary-950 flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <i class="ph ph-qr-code text-3xl text-primary-950"></i>
+            <div>
+              <span class="font-micro text-micro uppercase text-secondary font-bold block">Kode Check-in Pit</span>
+              <span class="font-mono text-caption font-bold text-primary-950">9N-CHK-8821</span>
+            </div>
+          </div>
+          <button onclick="nineToast('Kode tiket disalin','copy')" class="px-2.5 py-1.5 rounded-lg bg-primary-100 font-micro text-micro font-bold text-primary-900 active:bg-primary-200">
+            Salin Kode
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Buttons -->
+    <div class="w-full flex flex-col gap-2.5 mt-4">
+      <button onclick="openWhatsAppConfirmation()" class="ios-press w-full h-12 rounded-xl bg-accent-pressed text-white font-body-semibold text-body flex items-center justify-center gap-2 shadow-sm">
+        <i class="ph-fill ph-whatsapp-logo text-xl"></i>
+        <span>Buka WhatsApp Bot Bengkel</span>
+      </button>
+      <a href="booking-detail.html" class="ios-press w-full h-12 rounded-xl bg-surface-card border border-primary-200 text-on-surface font-body-semibold text-body flex items-center justify-center shadow-sm">
+        Lihat Detail Tiket Digital
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<!-- Bottom Fixed Action Bar -->
+<div id="bookingBottomBar" class="fixed bottom-[54px] inset-x-0 z-40 bg-surface-card/95 backdrop-blur-xl border-t border-primary-200 px-4 py-3">
+  <div class="max-w-md mx-auto flex items-center gap-2.5">
+    <button onclick="stepBack()" class="tap-44 w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center text-secondary active:bg-primary-200 transition-colors shrink-0">
+      <i class="ph ph-arrow-left text-xl"></i>
+    </button>
+    <button id="btnNext" onclick="stepNext()" class="ios-press flex-1 h-12 rounded-xl bg-primary-900 text-white font-body-semibold text-body flex items-center justify-center gap-2 shadow-sm">
+      <span>Lanjut ke Kendaraan</span>
+      <i class="ph ph-arrow-right text-base"></i>
+    </button>
+  </div>
+</div>
+
+<script src="assets/shell.js"></script>
+<script src="assets/components.js"></script>
+<script>
+  var currentStep = 1;
+  var holdSeconds = 180;
+  var holdTimerInterval = null;
+
+  var STEP_NAMES = [
+    "1. Kontak & Pelanggan",
+    "2. Identifikasi Kendaraan",
+    "3. Layanan & Retrofit",
+    "4. Cabang & Slot Waktu",
+    "5. Review & Konfirmasi"
+  ];
+
+  var SERVICES = [
+    { name: "Retrofit Biled Matrix E9 Pro", dur: 120, price: 250000, selected: true },
+    { name: "Kalibrasi Beam Digital (Luxmeter)", dur: 30, price: 75000, selected: true },
+    { name: "Pemasangan Relay Harness 40A HD", dur: 25, price: 85000, selected: false },
+    { name: "Ganti Oli Motul 10W-40 + Filter", dur: 20, price: 95000, selected: false }
+  ];
+
+  function updateStepUI() {
+    for (var i = 1; i <= 5; i++) {
+      var el = document.getElementById("step" + i);
+      if (el) el.classList.toggle("hidden", i !== currentStep);
+    }
+    document.getElementById("stepDisplayNum").textContent = currentStep;
+    document.getElementById("stepName").textContent = STEP_NAMES[currentStep - 1];
+    document.getElementById("stepProgressBar").style.width = (currentStep * 20) + "%";
+
+    var nextBtn = document.getElementById("btnNext");
+    if (currentStep === 1) nextBtn.innerHTML = '<span>Lanjut ke Kendaraan</span><i class="ph ph-arrow-right text-base"></i>';
+    else if (currentStep === 2) nextBtn.innerHTML = '<span>Lanjut ke Layanan</span><i class="ph ph-arrow-right text-base"></i>';
+    else if (currentStep === 3) nextBtn.innerHTML = '<span>Pilih Jadwal & Cabang</span><i class="ph ph-arrow-right text-base"></i>';
+    else if (currentStep === 4) nextBtn.innerHTML = '<span>Review Booking (Kunci Slot)</span><i class="ph ph-arrow-right text-base"></i>';
+    else if (currentStep === 5) {
+      nextBtn.innerHTML = '<span>Konfirmasi Booking</span><i class="ph-bold ph-check text-base"></i>';
+      startHoldTimer();
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function goToStep(n) {
+    currentStep = n;
+    updateStepUI();
+  }
+
+  function stepBack() {
+    if (currentStep === 1) history.back();
+    else goToStep(currentStep - 1);
+  }
+
+  function stepNext() {
+    if (currentStep < 5) {
+      goToStep(currentStep + 1);
+    } else {
+      // Confirm Booking
+      clearInterval(holdTimerInterval);
+      document.getElementById("step5").classList.add("hidden");
+      document.getElementById("bookingBottomBar").classList.add("hidden");
+      document.getElementById("stepSuccess").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      nineToast("Booking TGR-8821-2026 Berhasil Dikonfirmasi!", "check-circle");
+    }
+  }
+
+  function setVehicleType(type, btn) {
+    document.querySelectorAll(".v-type").forEach(function(b) {
+      b.className = "v-type flex-1 py-2 rounded-lg font-body-semibold text-caption text-secondary flex items-center justify-center gap-1.5";
+    });
+    btn.className = "v-type flex-1 py-2 rounded-lg font-body-semibold text-caption bg-surface-card text-on-surface shadow-sm flex items-center justify-center gap-1.5";
+
+    if (type === 'car') {
+      document.getElementById("vehIcon").innerHTML = '<i class="ph-fill ph-car text-2xl text-accent-text"></i>';
+      document.getElementById("vehName").textContent = "Honda CR-V 1.5 Turbo Prestige";
+      document.getElementById("vehPlat").textContent = "B 9876 NNE · Modern Steel";
+      nineToast("Kendaraan dialihkan ke Mobil", "car");
+    } else {
+      document.getElementById("vehIcon").innerHTML = '<i class="ph-fill ph-motorcycle text-2xl text-accent-text"></i>';
+      document.getElementById("vehName").textContent = "Yamaha NMAX 155 Connected";
+      document.getElementById("vehPlat").textContent = "B 1234 XYZ · Hitam Doff";
+      nineToast("Kendaraan dialihkan ke Motor", "motorcycle");
+    }
+  }
+
+  function toggleEv(checked) {
+    nineToast(checked ? "Mode Kendaraan Listrik (EV) Aktif" : "Mode Motor Bensin (ICE)", "lightning");
+  }
+
+  function toggleService(idx) {
+    SERVICES[idx].selected = !SERVICES[idx].selected;
+    var card = document.getElementById("svc-" + idx);
+    var check = document.getElementById("svc-check-" + idx);
+
+    if (SERVICES[idx].selected) {
+      card.className = "svc-card p-3 rounded-xl border-2 border-accent-pressed bg-accent-50/40 flex items-center justify-between cursor-pointer transition-all";
+      check.className = "w-6 h-6 rounded-md bg-accent-pressed text-white flex items-center justify-center shrink-0 shadow-xs";
+    } else {
+      card.className = "svc-card p-3 rounded-xl border-2 border-primary-200 bg-surface flex items-center justify-between cursor-pointer transition-all";
+      check.className = "w-6 h-6 rounded-md border-2 border-primary-200 text-transparent flex items-center justify-center shrink-0";
+    }
+    recalculateTotal();
+  }
+
+  function recalculateTotal() {
+    var tot = 0, dur = 0;
+    SERVICES.forEach(function(s) {
+      if (s.selected) {
+        tot += s.price;
+        dur += s.dur;
+      }
+    });
+    var formatted = "Rp " + tot.toLocaleString("id-ID");
+    document.getElementById("step3Total").textContent = formatted;
+    document.getElementById("reviewGrandTotal").textContent = formatted;
+    document.getElementById("totalDurationLabel").textContent = "Estimasi durasi: " + dur + " menit";
+  }
+
+  function applyVoucher() {
+    var code = document.getElementById("voucherCode").value.trim().toUpperCase();
+    if (code === "GARAGE20K" || code === "GARAGE50K") {
+      nineToast("Voucher " + code + " berhasil diterapkan (-Rp 20.000)", "ticket");
+    } else {
+      nineToast("Kode voucher tidak valid atau kedaluwarsa", "warning");
+    }
+  }
+
+  function selectBranch(branch, el) {
+    document.querySelectorAll(".branch-card").forEach(function(b) {
+      b.className = "branch-card p-3.5 rounded-xl border-2 border-primary-200 bg-surface flex items-start gap-3 cursor-pointer";
+      b.firstElementChild.className = "w-5 h-5 rounded-full border-2 border-primary-200 text-transparent flex items-center justify-center shrink-0 mt-0.5";
+    });
+    el.className = "branch-card p-3.5 rounded-xl border-2 border-accent-pressed bg-accent-50/40 flex items-start gap-3 cursor-pointer";
+    el.firstElementChild.className = "w-5 h-5 rounded-full bg-accent-pressed text-white flex items-center justify-center shrink-0 mt-0.5";
+    nineToast(branch === 'arcadia' ? "Cabang Arcadia BSD dipilih" : "Cabang Jelambar dipilih", "map-pin");
+  }
+
+  function selectDate(btn, label) {
+    document.querySelectorAll(".date-chip").forEach(function(d) {
+      d.className = "date-chip p-2 rounded-xl bg-surface-card border border-primary-200 text-center active:scale-95 transition-all";
+      d.children[0].className = "font-micro text-micro text-secondary block uppercase";
+      d.children[1].className = "font-headline text-headline text-on-surface block font-bold";
+    });
+    btn.className = "date-chip p-2 rounded-xl border-2 border-primary-900 bg-primary-900 text-white text-center shadow-sm";
+    btn.children[0].className = "font-micro text-micro text-accent-400 block uppercase font-bold";
+    btn.children[1].className = "font-headline text-headline text-white block font-bold";
+    nineToast("Tanggal: " + label, "calendar");
+  }
+
+  function selectSlot(btn, time) {
+    document.querySelectorAll(".slot-chip").forEach(function(s) {
+      s.className = "slot-chip p-2.5 rounded-xl border border-primary-200 bg-surface text-center active:scale-95 transition-all";
+      s.children[0].className = "font-body-semibold text-caption text-on-surface block";
+    });
+    btn.className = "slot-chip p-2.5 rounded-xl border-2 border-accent-pressed bg-accent-subtle text-center shadow-xs";
+    btn.children[0].className = "font-body-semibold text-caption text-accent-text block font-bold";
+    nineToast("Slot kedatangan: " + time + " WIB (Pit 02)", "clock");
+  }
+
+  function startHoldTimer() {
+    clearInterval(holdTimerInterval);
+    holdSeconds = 180;
+    var timerEl = document.getElementById("holdTimer");
+
+    holdTimerInterval = setInterval(function() {
+      holdSeconds--;
+      if (holdSeconds <= 0) {
+        clearInterval(holdTimerInterval);
+        alert("Waktu penahanan slot habis (180 detik). Silakan pilih slot jam kembali.");
+        goToStep(4);
+        return;
+      }
+      var mins = Math.floor(holdSeconds / 60);
+      var secs = holdSeconds % 60;
+      timerEl.textContent = (mins < 10 ? "0" + mins : mins) + ":" + (secs < 10 ? "0" + secs : secs);
+    }, 1000);
+  }
+
+  function openWhatsAppConfirmation() {
+    nineToast("Membuka pesan konfirmasi WhatsApp Bot...", "whatsapp-logo");
+    setTimeout(function() {
+      window.open("https://wa.me/6281288997700?text=Halo%20Nine%20Garage,%20saya%20sudah%20booking%20tiket%20TGR-8821-2026%20untuk%20servis%20di%20Arcadia%20BSD.", "_blank");
+    }, 600);
+  }
+
+  updateStepUI();
+</script>
+</body>
+</html>

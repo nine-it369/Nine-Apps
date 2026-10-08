@@ -1,0 +1,160 @@
+/**
+ * Nine Apps - Reusable Modular UI Components
+ * Architecture Clean Code following Apple Human Interface Guidelines (HIG)
+ * and SonarQube Maintainability Standards.
+ */
+(function (window, document) {
+  'use strict';
+
+  var NineComponents = {};
+
+  /**
+   * Generates a unified Apple HIG Status Pill.
+   * Eliminates disparate custom badge styles (Anti-AI Slop).
+   * @param {'online'|'syncing'|'offline'} status - Device connection state
+   * @param {string} label - Display badge label
+   * @returns {string} HTML string for status badge
+   */
+  NineComponents.renderStatusBadge = function (status, label) {
+    var dotColor = 'bg-emerald-500';
+    var pulse = '';
+    var textClass = 'text-primary-950';
+
+    if (status === 'syncing') {
+      dotColor = 'bg-amber-500';
+      pulse = 'animate-pulse';
+    } else if (status === 'offline') {
+      dotColor = 'bg-neutral-400';
+      textClass = 'text-neutral-500';
+    }
+
+    return (
+      '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-neutral-100 border border-neutral-200/80 ' +
+      textClass +
+      ' font-micro text-[10px] font-bold uppercase tracking-wider shrink-0">' +
+      '<span class="w-2 h-2 rounded-full ' +
+      dotColor +
+      ' ' +
+      pulse +
+      '"></span>' +
+      (label || (status === 'online' ? 'Terhubung' : status === 'syncing' ? 'Sinkronisasi' : 'Terputus')) +
+      '</span>'
+    );
+  };
+
+  /**
+   * Generates a reusable Telemetry Metric card cell.
+   * @param {string} title - Uppercase metric title
+   * @param {string} value - Main telemetric data
+   * @param {string} [sub] - Optional secondary note
+   * @returns {string} HTML string
+   */
+  NineComponents.renderTelemetryCell = function (title, value, sub) {
+    return (
+      '<div class="flex flex-col items-center justify-center p-2 rounded-xl bg-neutral-50 border border-neutral-100 text-center">' +
+      '<span class="font-bold text-[10px] text-neutral-400 uppercase tracking-wider block">' + title + '</span>' +
+      '<span class="font-bold text-xs text-primary-950 mt-0.5 block">' + value + '</span>' +
+      (sub ? '<span class="font-micro text-[9px] text-neutral-400 block mt-0.5">' + sub + '</span>' : '') +
+      '</div>'
+    );
+  };
+
+  /**
+   * Global Vehicles state repository for multi-vehicle garage switcher.
+   */
+  NineComponents.vehicles = [
+    { id: 'v1', name: 'Yamaha NMAX 155', type: 'Motor', plate: 'B 1234 XYZ', active: true, accessories: 3 },
+    { id: 'v2', name: 'Toyota Fortuner GR', type: 'Mobil', plate: 'B 9876 ABC', active: false, accessories: 2 },
+    { id: 'v3', name: 'Honda PCX 160', type: 'Motor', plate: 'B 5544 KMN', active: false, accessories: 1 }
+  ];
+
+  /**
+   * Opens the reusable Vehicle Switcher Bottom Sheet.
+   */
+  NineComponents.openVehicleSheet = function (onSelectCallback) {
+    var sheet = document.getElementById('nine-vehicle-sheet');
+    if (!sheet) {
+      var html =
+        '<div id="nine-vehicle-sheet" class="fixed inset-0 z-[80] bg-black/40 backdrop-blur-xs flex items-end justify-center">' +
+        '<div class="w-full max-w-md bg-white rounded-t-3xl p-5 pb-8 shadow-2xl translate-y-full transition-transform duration-300" id="nine-vehicle-body">' +
+        '<div data-sheet-handle class="ios-sheet-handle"></div>' +
+        '<div class="flex items-center justify-between mb-1">' +
+        '<h3 class="font-headline text-lg font-bold text-primary-950">Pilih Kendaraan Garasi</h3>' +
+        '<button type="button" onclick="window.nineComponents.closeVehicleSheet()" class="text-xs font-bold text-neutral-400 hover:text-neutral-900">Tutup</button>' +
+        '</div>' +
+        '<p class="text-xs text-neutral-500 mb-4">Ganti unit aktif untuk melihat data telemetri & aksesori terpasang</p>' +
+        '<div class="space-y-2.5" id="nine-vehicle-list"></div>' +
+        '</div></div>';
+      document.body.insertAdjacentHTML('beforeend', html);
+      sheet = document.getElementById('nine-vehicle-sheet');
+      sheet.addEventListener('click', function (e) {
+        if (e.target === sheet) NineComponents.closeVehicleSheet();
+      });
+    }
+
+    var list = document.getElementById('nine-vehicle-list');
+    if (list) {
+      list.innerHTML = NineComponents.vehicles.map(function (v) {
+        var isCur = v.active;
+        var icon = v.type === 'Mobil' ? 'ph-car' : 'ph-motorcycle';
+        return (
+          '<button type="button" onclick="window.nineComponents.selectVehicle(\'' + v.id + '\')" class="w-full p-3.5 rounded-2xl border ' +
+          (isCur ? 'border-primary-950 bg-neutral-50' : 'border-neutral-200 bg-white hover:bg-neutral-50/50') +
+          ' flex items-center justify-between text-left ios-press transition-all">' +
+          '<div class="flex items-center gap-3 min-w-0">' +
+          '<div class="w-10 h-10 rounded-xl bg-neutral-100 flex items-center justify-center text-primary-950 shrink-0">' +
+          '<i class="ph-bold ' + icon + ' text-xl"></i></div>' +
+          '<div class="min-w-0">' +
+          '<div class="flex items-center gap-1.5">' +
+          '<span class="font-bold text-xs text-primary-950 truncate">' + v.name + '</span>' +
+          '<span class="px-1.5 py-0.5 rounded bg-neutral-100 text-[9px] font-bold text-neutral-600 uppercase font-mono">' + v.type + '</span>' +
+          '</div>' +
+          '<span class="text-[11px] text-neutral-500 font-mono block mt-0.5">' + v.plate + ' · ' + v.accessories + ' Aksesori</span>' +
+          '</div></div>' +
+          (isCur
+            ? '<i class="ph-fill ph-check-circle text-primary-950 text-xl shrink-0"></i>'
+            : '<span class="w-5 h-5 rounded-full border border-neutral-300 shrink-0"></span>') +
+          '</button>'
+        );
+      }).join('');
+    }
+
+    NineComponents._onSelectVehicle = onSelectCallback;
+    sheet.classList.remove('hidden');
+    requestAnimationFrame(function () {
+      var body = document.getElementById('nine-vehicle-body');
+      if (body) body.classList.remove('translate-y-full');
+    });
+  };
+
+  /**
+   * Closes vehicle bottom sheet.
+   */
+  NineComponents.closeVehicleSheet = function () {
+    var b = document.getElementById('nine-vehicle-body');
+    var s = document.getElementById('nine-vehicle-sheet');
+    if (b) b.classList.add('translate-y-full');
+    setTimeout(function () {
+      if (s) s.classList.add('hidden');
+    }, 280);
+  };
+
+  /**
+   * Selects an active vehicle.
+   */
+  NineComponents.selectVehicle = function (id) {
+    NineComponents.vehicles.forEach(function (v) {
+      v.active = v.id === id;
+    });
+    var selected = NineComponents.vehicles.find(function (v) { return v.id === id; });
+    NineComponents.closeVehicleSheet();
+    if (window.nineToast && selected) {
+      window.nineToast('Kendaraan aktif: ' + selected.name, 'motorcycle');
+    }
+    if (typeof NineComponents._onSelectVehicle === 'function') {
+      NineComponents._onSelectVehicle(selected);
+    }
+  };
+
+  window.nineComponents = NineComponents;
+})(window, document);

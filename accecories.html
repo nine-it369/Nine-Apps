@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Aksesori Terhubung — Nine Autogarage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/config.js"></script>
+  <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/base.css"/>
+  <style>
+    @keyframes pairPulse { 0% { transform: scale(.7); opacity: .9; } 100% { transform: scale(1.6); opacity: 0; } }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    .pair-ring { animation: pairPulse 2s cubic-bezier(0, 0, 0.2, 1) infinite; }
+  </style>
+</head>
+<body data-tab="aksesori" class="bg-surface font-body text-body text-on-surface antialiased selection:bg-accent-subtle selection:text-accent-text" data-search="Cari perangkat terhubung…">
+<main class="max-w-md mx-auto min-h-screen pt-16 pb-28 bg-surface text-on-surface flex flex-col relative">
+
+  <!-- HEADER SECTION (Apple HIG Clean Bar + Primary Green Add Button) -->
+  <section class="px-4 pt-3 pb-2 flex flex-col gap-3">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="font-headline text-xl font-black tracking-tight text-primary-950">Aksesori Terhubung</h1>
+        <p class="text-xs text-neutral-500 mt-0.5">Kelola &amp; pantau 5 unit modul telemetri IoT kendaraan</p>
+      </div>
+      <!-- Primary Green Add Button -->
+      <button onclick="openAdd()" class="tap-44 h-10 px-4 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs ios-press active:scale-95 transition-all">
+        <i class="ph-bold ph-plus text-base"></i>
+        <span>Tambah</span>
+      </button>
+    </div>
+
+    <!-- VEHICLE SELECTOR PILL -->
+    <button onclick="window.nineToast('Buka pemilih kendaraan', 'motorcycle')" class="tap-v w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-white border border-neutral-200/80 shadow-2xs text-left ios-press hover:bg-neutral-50/80 transition-all">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="w-7 h-7 rounded-lg bg-neutral-100 flex items-center justify-center text-neutral-700 shrink-0">
+          <i class="ph-bold ph-motorcycle text-base"></i>
+        </div>
+        <span class="font-bold text-xs text-primary-950 truncate">Yamaha NMAX · B 1234 XYZ</span>
+      </div>
+      <i class="ph-bold ph-caret-down text-neutral-400 text-xs shrink-0"></i>
+    </button>
+
+    <!-- TELEMETRY IOT STATUS HUB (CLEAN APPLE HIG - TANPA TAG PELANGI AI SLOP) -->
+    <div class="ios-card p-3.5 bg-white border border-neutral-200/90 shadow-2xs flex flex-col gap-3">
+      <!-- Status Top Header: Gateway Connection & Live Ping -->
+      <div class="flex items-center justify-between pb-2.5 border-b border-neutral-100">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+          <span class="font-label text-[10.5px] uppercase tracking-wider font-extrabold text-primary-950">Gateway IoT 4G Aktif</span>
+        </div>
+        <div class="flex items-center gap-1.5 font-mono text-[10px] text-neutral-500 bg-neutral-50 px-2 py-0.5 rounded-full border border-neutral-200/60">
+          <i class="ph-bold ph-wifi-high text-emerald-600"></i>
+          <span>Ping 14ms · BTS Jakarta</span>
+        </div>
+      </div>
+
+      <!-- Segmented Connection Health (Clean Apple HIG Bar) -->
+      <div>
+        <div class="flex items-center justify-between text-[11px] mb-1.5">
+          <span class="font-caption text-neutral-500">Kesehatan Konektivitas Unit:</span>
+          <span class="font-bold font-mono text-primary-950"><span>3 Terhubung</span> · <span class="text-neutral-500">1 Sync</span> · <span class="text-neutral-400">1 Offline</span></span>
+        </div>
+        <div class="h-1.5 rounded-full bg-neutral-100 overflow-hidden flex">
+          <div class="h-full bg-emerald-500" style="width: 60%" title="3 Online"></div>
+          <div class="h-full bg-amber-400" style="width: 20%" title="1 Menghubungkan"></div>
+          <div class="h-full bg-neutral-300" style="width: 20%" title="1 Terputus"></div>
+        </div>
+      </div>
+
+      <!-- Interactive Status Filter Pills (Clean Apple HIG - Seragam & Rapi) -->
+      <div class="grid grid-cols-4 gap-1.5 pt-1" id="statusFilterGroup">
+        <!-- 1. Semua -->
+        <button type="button" onclick="filterByStatus('all', this)" class="st-filter-btn active py-1.5 px-2 rounded-xl bg-primary-950 text-white font-bold text-[11px] flex items-center justify-center gap-1 transition-all shadow-xs">
+          <span>Semua</span>
+          <span class="font-mono text-[10px] opacity-80">(5)</span>
+        </button>
+
+        <!-- 2. Terhubung -->
+        <button type="button" onclick="filterByStatus('online', this)" class="st-filter-btn py-1.5 px-2 rounded-xl bg-neutral-100 text-neutral-600 hover:bg-neutral-200/70 font-bold text-[11px] flex items-center justify-center gap-1 transition-all">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+          <span>Online</span>
+          <span class="font-mono text-[10px] text-neutral-500">(3)</span>
+        </button>
+
+        <!-- 3. Sync -->
+        <button type="button" onclick="filterByStatus('syncing', this)" class="st-filter-btn py-1.5 px-2 rounded-xl bg-neutral-100 text-neutral-600 hover:bg-neutral-200/70 font-bold text-[11px] flex items-center justify-center gap-1 transition-all">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+          <span>Sync</span>
+          <span class="font-mono text-[10px] text-neutral-500">(1)</span>
+        </button>
+
+        <!-- 4. Offline -->
+        <button type="button" onclick="filterByStatus('offline', this)" class="st-filter-btn py-1.5 px-2 rounded-xl bg-neutral-100 text-neutral-600 hover:bg-neutral-200/70 font-bold text-[11px] flex items-center justify-center gap-1 transition-all">
+          <span class="w-1.5 h-1.5 rounded-full bg-neutral-400"></span>
+          <span>Putus</span>
+          <span class="font-mono text-[10px] text-neutral-500">(1)</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORY SEGMENTED CONTROL FILTERS (Apple HIG Inset) -->
+  <div class="px-4 py-1.5">
+    <div class="ios-segmented w-full p-1 bg-neutral-200/70 rounded-xl flex items-center" id="segFilters">
+      <button class="ios-segmented-btn active" data-filter="all">Semua Tipe</button>
+      <button class="ios-segmented-btn" data-filter="gps">GPS Tracker</button>
+      <button class="ios-segmented-btn" data-filter="dashcam">Dashcam</button>
+      <button class="ios-segmented-btn" data-filter="light">Lampu &amp; Biled</button>
+    </div>
+  </div>
+
+  <!-- DEVICE CARDS LIST (Vertical Feed Apple HIG) -->
+  <div class="px-4 flex flex-col gap-3.5 mt-1 pb-4" id="deviceList">
+
+    <!-- CARD 1: GPS Tracker 4G IoT (Online & Live Mockup Map Enlarged) -->
+    <article class="device ios-card p-4 flex flex-col gap-3 group transition-all" data-cat="gps" data-status="online">
+      <!-- Card Top: Device Info & Enhanced Online Status Pill -->
+      <div class="flex items-start justify-between gap-3">
+        <a href="device-gps.html" class="flex items-center gap-3 min-w-0 flex-1">
+          <div class="w-11 h-11 rounded-xl bg-neutral-100 border border-neutral-200/60 text-primary-950 flex items-center justify-center shrink-0">
+            <i class="ph-bold ph-navigation-arrow text-xl"></i>
+          </div>
+          <div class="min-w-0">
+            <h2 class="font-headline font-bold text-sm text-primary-950 truncate">Nine GPS Tracker 4G IoT</h2>
+            <div class="flex items-center gap-1.5 text-xs text-neutral-500 mt-0.5">
+              <i class="ph-bold ph-motorcycle text-xs shrink-0"></i>
+              <span class="truncate">Yamaha NMAX · B 1234 XYZ</span>
+            </div>
+          </div>
+        </a>
+        <!-- Clean HIG Status Pill -->
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-neutral-100 border border-neutral-200/80 text-primary-950 font-micro text-[10px] font-bold uppercase tracking-wider shrink-0">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          Terhubung · 4G
+        </span>
+      </div>
+
+      <!-- Live Location Info: Clean Apple HIG (Gambar Peta / SVG Dihapus Sesuai Permintaan) -->
+      <a href="device-gps.html" class="p-3 rounded-xl bg-neutral-50 border border-neutral-200/60 flex items-center justify-between hover:bg-neutral-100/70 transition-colors">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-8 h-8 rounded-lg bg-white border border-neutral-200/80 text-emerald-600 flex items-center justify-center shrink-0 shadow-2xs">
+            <i class="ph-bold ph-map-pin text-base"></i>
+          </div>
+          <div class="min-w-0">
+            <span class="font-headline font-bold text-xs text-primary-950 block truncate">Jl. Jenderal Sudirman No. 45, Jakarta</span>
+            <span class="font-caption text-[11px] text-neutral-500 block truncate">Update 2 dtk lalu · Akurasi ±2m · 14 Satelit</span>
+          </div>
+        </div>
+        <span class="font-mono text-[10px] font-bold text-primary-950 bg-white border border-neutral-200/80 px-2 py-0.5 rounded-full shrink-0 shadow-2xs">Live</span>
+      </a>
+
+      <!-- Telemetry Gauge Grid -->
+      <div class="grid grid-cols-3 gap-2 p-2.5 rounded-xl bg-neutral-50 border border-neutral-100 text-center">
+        <div>
+          <span class="font-bold text-[10px] text-neutral-400 uppercase tracking-wider block">SINYAL 4G</span>
+          <span class="font-bold text-xs text-primary-950 mt-0.5 block">−68 dBm (4/4 Bar)</span>
+        </div>
+        <div>
+          <span class="font-bold text-[10px] text-neutral-400 uppercase tracking-wider block">BATERAI / AKI</span>
+          <span class="font-bold text-xs text-emerald-700 mt-0.5 block flex items-center justify-center gap-1">
+            <i class="ph-bold ph-battery-charging text-emerald-600"></i>
+            <span>98% · 13.8V</span>
+          </span>
+        </div>
+        <div>
+          <span class="font-bold text-[10px] text-neutral-400 uppercase tracking-wider block">KECEPATAN</span>
+          <span class="font-bold text-xs text-primary-950 mt-0.5 block">42 km/j</span>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="grid grid-cols-2 gap-2 pt-0.5">
+        <a href="device-gps.html" class="h-10 rounded-xl bg-primary-950 hover:bg-black text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-xs ios-press active:scale-95 transition-all">
+          <i class="ph-bold ph-map-pin text-sm"></i>
+          <span>Buka Live GPS</span>
+        </a>
+        <button onclick="window.nineToast('Tautan lokasi GPS disalin!', 'copy')" class="h-10 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-primary-950 font-bold text-xs flex items-center justify-center gap-1.5 ios-press active:scale-95 transition-all">
+          <i class="ph-bold ph-share-network text-sm"></i>
+          <span>Bagikan Lokasi</span>
+        </button>
+      </div>
+    </article>
+
+    <!-- CARD 2: Nine Biled Projector E9 Pro (Online & Interactive Lens) -->
+    <article class="device ios-card p-4 flex flex-col gap-3 group transition-all" data-cat="light" data-status="online">
+      <div class="flex items-start justify-between gap-3">
+        <a href="device-lampu.html" class="flex items-center gap-3 min-w-0 flex-1">
+          <div class="w-11 h-11 rounded-xl bg-amber-50 border border-amber-200/60 text-amber-700 flex items-center justify-center shrink-0">
+            <i class="ph-bold ph-lightbulb text-xl"></i>
+          </div>
+          <div class="min-w-0">
+            <h2 class="font-headline font-bold text-sm text-primary-950 truncate">Nine Biled Projector E9 Pro</h2>
+            <span class="text-xs text-neutral-500">Smart Controller BLE · 65W High Beam</span>
+          </div>
+        </a>
+        <!-- Native Toggle Switch -->
+        <label class="relative inline-flex items-center cursor-pointer shrink-0">
+          <input type="checkbox" checked class="sr-only peer" onchange="window.nineToast(this.checked?'Lampu Biled Dinyalakan':'Lampu Biled Dimatikan','lightbulb')"/>
+          <div class="w-11 h-6 bg-neutral-300 peer-checked:bg-accent-600 rounded-full transition-colors after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-5 shadow-xs"></div>
+        </label>
+      </div>
+
+      <!-- Reactive Lens Preview Chamber -->
+      <div class="relative rounded-2xl overflow-hidden bg-primary-950 h-28 flex items-center justify-center shadow-2xs">
+        <div id="acGlow" class="absolute inset-0 transition-all duration-300 pointer-events-none" style="background:radial-gradient(circle at 50% 40%,#38BDF8 0%,rgba(56,189,248,.25) 45%,transparent 72%)"></div>
+        <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-accent-500/90 backdrop-blur-md font-micro text-[9px] font-black text-white uppercase tracking-wider flex items-center gap-1 shadow-xs">
+          <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>TERHUBUNG · BLE
+        </span>
+        <span class="absolute top-2.5 right-2.5 font-micro text-[9px] font-bold text-neutral-300 uppercase tracking-wider bg-black/40 backdrop-blur-md px-2 py-0.5 rounded-full">65W TURBO</span>
+        <div id="acLens" class="relative w-12 h-12 rounded-full bg-neutral-900 border-2 border-neutral-700 flex items-center justify-center transition-all duration-300 shadow-[0_0_24px_rgba(56,189,248,.6)]">
+          <div class="w-6 h-6 rounded-full bg-white flex items-center justify-center shadow-inner">
+            <i class="ph-bold ph-sun text-sm text-neutral-900"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between px-0.5">
+        <span class="font-bold text-[11px] uppercase tracking-wider text-neutral-500">WARNA SOROT AKTIF</span>
+        <span id="acColorName" class="font-bold text-xs text-primary-950">Ice Blue (6000K)</span>
+      </div>
+
+      <!-- 5 Color Swatches -->
+      <div class="flex items-center justify-between px-2 py-1 rounded-xl bg-neutral-50 border border-neutral-100">
+        <button onclick="acPick(event,'#F59E0B','rgba(245,158,11,.3)','3000K Golden Amber')" aria-label="Amber" class="ac-dot tap-44 w-8 h-8 shrink-0 flex items-center justify-center">
+          <span class="ac-swatch block w-5 h-5 rounded-full border border-neutral-300 transition-all" style="background:#F59E0B"></span>
+        </button>
+        <button onclick="acPick(event,'#FDE68A','rgba(253,230,138,.3)','4300K All-Weather Warm')" aria-label="Warm White" class="ac-dot tap-44 w-8 h-8 shrink-0 flex items-center justify-center">
+          <span class="ac-swatch block w-5 h-5 rounded-full border border-neutral-300 transition-all" style="background:#FDE68A"></span>
+        </button>
+        <button onclick="acPick(event,'#F8FAFC','rgba(248,250,252,.3)','5500K Pure White')" aria-label="White" class="ac-dot tap-44 w-8 h-8 shrink-0 flex items-center justify-center">
+          <span class="ac-swatch block w-5 h-5 rounded-full border border-neutral-300 transition-all" style="background:#F8FAFC"></span>
+        </button>
+        <button onclick="acPick(event,'#38BDF8','rgba(56,189,248,.35)','6000K Ice Blue')" aria-label="Ice Blue" class="ac-dot tap-44 w-8 h-8 shrink-0 flex items-center justify-center">
+          <span class="ac-swatch block w-6 h-6 rounded-full border-2 border-primary-900 transition-all scale-110 shadow-sm" style="background:#38BDF8"></span>
+        </button>
+        <button onclick="acPick(event,'#22C55E','rgba(34,197,94,.3)','Laser Green Aux')" aria-label="Green" class="ac-dot tap-44 w-8 h-8 shrink-0 flex items-center justify-center">
+          <span class="ac-swatch block w-5 h-5 rounded-full border border-neutral-300 transition-all" style="background:#22C55E"></span>
+        </button>
+      </div>
+
+      <!-- Action: Primary Brand Green Button -->
+      <a href="device-lampu.html" class="h-10 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-xs ios-press active:scale-95 transition-all">
+        <i class="ph-bold ph-sliders-horizontal text-sm"></i>
+        <span>Buka Kontrol Lengkap Lampu</span>
+      </a>
+    </article>
+
+    <!-- CARD 3: Nine Cam Pro Dual 4K Matrix (Online with Storage Warning) -->
+    <article class="device ios-card p-4 flex flex-col gap-3 group transition-all" data-cat="dashcam" data-status="online">
+      <div class="flex items-start justify-between gap-3">
+        <a href="device-dashcam.html" class="flex items-center gap-3 min-w-0 flex-1">
+          <div class="w-11 h-11 rounded-xl bg-neutral-100 text-primary-950 flex items-center justify-center shrink-0">
+            <i class="ph-bold ph-video-camera text-xl"></i>
+          </div>
+          <div class="min-w-0">
+            <h2 class="font-headline font-bold text-sm text-primary-950 truncate">Nine Cam Pro 4K Dual Matrix</h2>
+            <div class="flex items-center gap-1.5 text-xs text-neutral-500 mt-0.5">
+              <i class="ph-bold ph-car text-xs shrink-0"></i>
+              <span class="truncate">Toyota Fortuner · B 9876 ABC</span>
+            </div>
+          </div>
+        </a>
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-neutral-100 border border-neutral-200/80 text-primary-950 font-micro text-[10px] font-bold uppercase tracking-wider shrink-0">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          Terhubung · WiFi
+        </span>
+      </div>
+
+      <!-- Road Snapshot with Dashcam Live HUD -->
+      <a href="device-dashcam.html" class="relative block rounded-2xl overflow-hidden bg-neutral-900 aspect-video shadow-xs group-hover:opacity-95 transition-all">
+        <img src="dashcam.jpg" alt="Dashcam road" class="w-full h-full object-cover"/>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
+        <div class="absolute top-2.5 left-2.5 flex items-center px-2 py-0.5 rounded-md bg-danger-600 shadow-xs">
+          <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse mr-1"></span>
+          <span class="font-micro text-[8.5px] font-black text-white uppercase">REC · 4K UHD</span>
+        </div>
+        <span class="absolute top-2.5 right-2.5 font-micro text-[9px] font-bold text-white uppercase bg-black/60 backdrop-blur-md px-2 py-0.5 rounded-full">30 FPS · HDR Night</span>
+        <span class="absolute bottom-2 left-2.5 font-mono text-[9px] text-white/90">08/10/2026 · 17:42 WIB</span>
+        <span class="absolute bottom-2 right-2.5 font-mono text-[9px] font-bold text-white/90">48 KM/J · GPS Locked</span>
+      </a>
+
+      <!-- Storage info bar (Clean Apple HIG) -->
+      <div class="p-3 rounded-xl bg-neutral-50 border border-neutral-200/80 flex items-start gap-2.5">
+        <i class="ph-bold ph-hard-drive text-neutral-600 text-lg shrink-0 mt-0.5"></i>
+        <div class="min-w-0 flex-1">
+          <span class="font-bold text-xs text-primary-950 block">Penyimpanan MicroSD Normal</span>
+          <p class="text-[11px] text-neutral-500 leading-snug">96 / 128 GB terpakai. Rekaman lama ditimpa otomatis (Loop Recording Aktif).</p>
+        </div>
+      </div>
+      <div class="h-2 rounded-full bg-neutral-100 overflow-hidden -mt-1">
+        <div class="h-full bg-primary-950 rounded-full" style="width: 75%"></div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-2 pt-0.5">
+        <a href="device-dashcam.html" class="flex-1 h-10 rounded-xl bg-primary-950 hover:bg-black text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-xs ios-press active:scale-95 transition-all">
+          <i class="ph-bold ph-images text-sm"></i>
+          <span>Galeri Rekaman</span>
+        </a>
+        <button onclick="window.nineToast('Foto snapshot dashcam disimpan', 'camera')" class="w-10 h-10 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-primary-950 flex items-center justify-center ios-press active:scale-95 transition-all" title="Foto Snapshot">
+          <i class="ph-bold ph-camera text-base"></i>
+        </button>
+        <button onclick="window.nineToast('Klip darurat 60 dtk diunduh', 'download-simple')" class="w-10 h-10 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-primary-950 flex items-center justify-center ios-press active:scale-95 transition-all" title="Unduh Klip">
+          <i class="ph-bold ph-download-simple text-base"></i>
+        </button>
+      </div>
+    </article>
+
+    <!-- CARD 4: Nine GPS Tracker Cadangan (Menghubungkan) -->
+    <article class="device ios-card p-4 flex flex-col gap-3 group transition-all" data-cat="gps" data-status="syncing">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0 flex-1">
+          <div class="w-11 h-11 rounded-xl bg-neutral-100 border border-neutral-200/60 text-primary-950 flex items-center justify-center shrink-0">
+            <i class="ph-bold ph-broadcast text-xl animate-pulse"></i>
+          </div>
+          <div class="min-w-0">
+            <h2 class="font-headline font-bold text-sm text-primary-950 truncate">Nine GPS Tracker Cadangan</h2>
+            <span class="text-xs text-neutral-500">IMEI: 8642-9912-3001</span>
+          </div>
+        </div>
+        <!-- Status Pill (Clean Apple HIG) -->
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-neutral-100 border border-neutral-200/80 text-primary-950 font-micro text-[10px] font-bold uppercase tracking-wider shrink-0">
+          <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+          Sinkronisasi
+        </span>
+      </div>
+
+      <div class="flex items-center gap-2 text-xs text-neutral-600 bg-neutral-50 p-3 rounded-xl border border-neutral-200/80">
+        <div class="flex-1 h-2 rounded-full bg-neutral-200 overflow-hidden">
+          <div class="h-full w-2/3 bg-primary-950 rounded-full animate-pulse"></div>
+        </div>
+        <span class="font-bold text-[10px] text-neutral-700 uppercase tracking-wider shrink-0 flex items-center gap-1">
+          <i class="ph-bold ph-arrows-clockwise animate-spin"></i>
+          <span>Mencari BTS 4G…</span>
+        </span>
+      </div>
+
+      <button onclick="window.nineToast('Mencoba sinkronisasi ulang sinyal BTS…', 'arrows-clockwise')" class="h-10 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-primary-950 font-bold text-xs flex items-center justify-center gap-1.5 ios-press active:scale-95 transition-all">
+        <i class="ph-bold ph-arrows-clockwise text-sm"></i>
+        <span>Sinkronisasi Ulang Sekarang</span>
+      </button>
+    </article>
+
+    <!-- CARD 5: Nine Biled Foglamp 3.0 Inch Aux (Terputus / Reconnect Action) -->
+    <article class="device ios-card p-4 flex flex-col gap-3 group transition-all" data-cat="light" data-status="offline">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0 flex-1">
+          <div class="w-11 h-11 rounded-xl bg-neutral-100 border border-neutral-200/60 text-neutral-500 flex items-center justify-center shrink-0">
+            <i class="ph-bold ph-cloud-fog text-xl"></i>
+          </div>
+          <div class="min-w-0">
+            <h2 class="font-headline font-bold text-sm text-primary-950 truncate">Nine Biled Foglamp 3.0 Inch Aux</h2>
+            <div class="flex items-center gap-1.5 text-xs text-neutral-500 mt-0.5">
+              <span>Yamaha NMAX · Lampu Kabut Tambahan</span>
+            </div>
+          </div>
+        </div>
+        <!-- Status Pill (Clean Apple HIG) -->
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-neutral-100 border border-neutral-200/80 text-neutral-500 font-micro text-[10px] font-bold uppercase tracking-wider shrink-0">
+          <span class="w-2 h-2 rounded-full bg-neutral-400"></span>
+          Terputus
+        </span>
+      </div>
+
+      <div class="p-3 rounded-xl bg-neutral-50 border border-neutral-200/80 flex items-start gap-2.5">
+        <i class="ph-bold ph-warning-circle text-neutral-500 text-lg shrink-0 mt-0.5"></i>
+        <p class="text-xs text-neutral-600 leading-snug">
+          Terputus sejak 14:20 WIB (2 jam lalu) · Terakhir terlihat di Jl. Jenderal Sudirman. Pastikan modul mendapat daya aki 12V.
+        </p>
+      </div>
+
+      <!-- Action: Primary Reconnect Button -->
+      <button id="btnRecon" onclick="reconnectDevice(this)" class="h-10 rounded-xl bg-primary-950 hover:bg-black text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-xs ios-press active:scale-95 transition-all">
+        <i class="ph-bold ph-plugs text-sm recon-icon"></i>
+        <span class="recon-text">Sambungkan Ulang</span>
+      </button>
+    </article>
+
+  </div>
+
+</main>
+
+<!-- ADD DEVICE MULTI-STEP SHEET (Apple HIG Inset Modal) -->
+<div id="addFlow" class="hidden fixed inset-0 z-[80] bg-black/40 backdrop-blur-xs flex items-end justify-center">
+  <div class="w-full max-w-md bg-white rounded-t-3xl max-h-[92vh] flex flex-col shadow-2xl translate-y-full transition-transform duration-300" id="addFlowBody">
+    <!-- Handle -->
+    <div data-sheet-handle class="ios-sheet-handle shrink-0"></div>
+
+    <!-- Header Modal -->
+    <div class="px-5 pb-3 border-b border-neutral-100 flex items-center justify-between shrink-0">
+      <button onclick="addBack()" class="text-xs font-semibold text-neutral-500">Kembali</button>
+      <div class="text-center">
+        <h3 class="font-headline text-base font-bold text-primary-950">Tambah Aksesori Baru</h3>
+        <span class="text-[11px] text-neutral-400 font-bold uppercase tracking-wider" id="addStep">Langkah 1 dari 3</span>
+      </div>
+      <button onclick="addClose()" class="text-xs font-bold text-primary-950">Batal</button>
+    </div>
+
+    <!-- Body Steps Container -->
+    <div class="p-5 overflow-y-auto flex-1">
+
+      <!-- Step 1: Pilih Jenis Alat (3 Selectable Cards) -->
+      <section id="s1" class="space-y-3">
+        <p class="text-xs text-neutral-500 mb-2">Pilih kategori perangkat Nine yang akan disambungkan:</p>
+
+        <div onclick="pickKind('gps', this)" class="kind-card p-4 rounded-2xl border-2 border-accent-500 bg-accent-50/50 cursor-pointer flex items-center gap-3.5 ios-press">
+          <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0">
+            <i class="ph-bold ph-navigation-arrow text-2xl"></i>
+          </div>
+          <div class="min-w-0 flex-1">
+            <span class="font-headline font-bold text-sm text-primary-950 block">GPS Tracker IoT</span>
+            <span class="text-xs text-neutral-500">Pelacakan rute real-time, geofence &amp; anti-maling</span>
+          </div>
+          <i class="ph-bold ph-check-circle text-accent-600 text-xl check-icon"></i>
+        </div>
+
+        <div onclick="pickKind('dashcam', this)" class="kind-card p-4 rounded-2xl border border-neutral-200 bg-white cursor-pointer flex items-center gap-3.5 ios-press">
+          <div class="w-12 h-12 rounded-xl bg-neutral-100 text-primary-950 flex items-center justify-center shrink-0">
+            <i class="ph-bold ph-video-camera text-2xl"></i>
+          </div>
+          <div class="min-w-0 flex-1">
+            <span class="font-headline font-bold text-sm text-primary-950 block">Dashcam 4K Dual</span>
+            <span class="text-xs text-neutral-500">Kamera depan-belakang, WiFi direct &amp; mode parkir</span>
+          </div>
+          <i class="ph-bold ph-circle text-neutral-300 text-xl check-icon"></i>
+        </div>
+
+        <div onclick="pickKind('light', this)" class="kind-card p-4 rounded-2xl border border-neutral-200 bg-white cursor-pointer flex items-center gap-3.5 ios-press">
+          <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+            <i class="ph-bold ph-lightbulb text-2xl"></i>
+          </div>
+          <div class="min-w-0 flex-1">
+            <span class="font-headline font-bold text-sm text-primary-950 block">Lampu Projector Biled</span>
+            <span class="text-xs text-neutral-500">Pengatur suhu warna CCT &amp; kecerahan via BLE</span>
+          </div>
+          <i class="ph-bold ph-circle text-neutral-300 text-xl check-icon"></i>
+        </div>
+      </section>
+
+      <!-- Step 2: Informasi Alat -->
+      <section id="s2" class="hidden space-y-4">
+        <div>
+          <label class="font-bold text-[11px] uppercase tracking-wider text-neutral-500 block mb-1.5">NAMA ALAT</label>
+          <input id="addName" value="GPS NMAX Depan" placeholder="Contoh: GPS NMAX, Dashcam Depan" class="w-full h-11 px-3.5 rounded-xl border border-neutral-300 bg-neutral-50 text-sm font-semibold text-primary-950 outline-none focus:border-accent-600 focus:bg-white"/>
+        </div>
+
+        <div>
+          <label class="font-bold text-[11px] uppercase tracking-wider text-neutral-500 block mb-1.5">DIPASANG DI KENDARAAN</label>
+          <select class="w-full h-11 px-3.5 rounded-xl border border-neutral-300 bg-neutral-50 text-sm font-semibold text-primary-950 outline-none focus:border-accent-600">
+            <option>Yamaha NMAX · B 1234 XYZ</option>
+            <option>Toyota Fortuner · B 9876 ABC</option>
+            <option>+ Tambah Kendaraan Baru</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="font-bold text-[11px] uppercase tracking-wider text-neutral-500 block mb-1.5">KODE / SERIAL IMEI <span class="text-neutral-400 font-normal">(OPSIONAL)</span></label>
+          <input placeholder="Contoh: 864299120003" class="w-full h-11 px-3.5 rounded-xl border border-neutral-300 bg-neutral-50 text-sm font-semibold text-primary-950 outline-none focus:border-accent-600 focus:bg-white"/>
+          <p class="text-[11px] text-neutral-400 mt-1">Dapat ditemukan pada stiker barcode kardus kemasan resmi Nine.</p>
+        </div>
+      </section>
+
+      <!-- Step 3: Hubungkan (Animasi Pairing Pulsa Phone-to-Vehicle) -->
+      <section id="s3" class="hidden flex flex-col items-center text-center py-4">
+        <div class="relative w-full h-44 flex items-center justify-center">
+          <!-- Pulse wave rings -->
+          <span class="pair-ring absolute w-36 h-36 rounded-full border-2 border-accent-500/30"></span>
+          <span class="pair-ring absolute w-28 h-28 rounded-full border-2 border-accent-500/50" style="animation-delay:.4s"></span>
+          <span class="pair-ring absolute w-20 h-20 rounded-full border-2 border-accent-500/70" style="animation-delay:.8s"></span>
+
+          <!-- Animated Icons Row -->
+          <div class="relative z-10 flex items-center gap-9">
+            <div class="pair-icon-phone w-14 h-14 rounded-2xl bg-neutral-100 border border-neutral-200 flex items-center justify-center text-primary-950 shadow-sm">
+              <i class="ph-bold ph-device-mobile text-2xl"></i>
+            </div>
+
+            <!-- Success Checkmark -->
+            <div id="pairSuccessCircle" class="hidden w-16 h-16 rounded-full bg-accent-600 text-white flex items-center justify-center shadow-md">
+              <svg viewBox="0 0 24 24" class="w-8 h-8" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 13l4 4L19 7" style="stroke-dasharray:30;stroke-dashoffset:30;animation:draw .5s .1s ease forwards"/>
+              </svg>
+            </div>
+
+            <div class="pair-icon-car w-14 h-14 rounded-2xl bg-neutral-100 border border-neutral-200 flex items-center justify-center text-primary-950 shadow-sm">
+              <i class="ph-bold ph-motorcycle text-2xl"></i>
+            </div>
+          </div>
+        </div>
+
+        <h3 id="pairTitle" class="font-headline text-lg font-bold text-primary-950">Dekatkan ponsel ke kendaraan</h3>
+        <p id="pairSub" class="text-xs text-neutral-500 mt-1 max-w-[280px]">Pastikan perangkat menyala dan Bluetooth aktif dalam radius 5 meter.</p>
+        <p id="pairStatus" class="font-bold text-xs text-amber-700 mt-4">Mencari sinyal perangkat…</p>
+
+        <div id="pairActions" class="hidden w-full flex-col gap-2 mt-6">
+          <button onclick="finishPair()" class="w-full h-11 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-bold text-xs uppercase tracking-wider shadow-sm ios-press active:scale-95 transition-all">
+            Lihat Aksesori
+          </button>
+          <button onclick="addClose();window.nineToast('Kamera pemindai QR diaktifkan','qr-code')" class="w-full h-10 text-xs font-bold text-accent-700">
+            Hubungkan dengan scan QR / masukkan kode
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Modal Footer Action -->
+    <div class="px-5 py-3 border-t border-neutral-100 bg-white shrink-0">
+      <button id="addNextBtn" onclick="addNext()" class="w-full h-12 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-bold text-xs uppercase tracking-wider shadow-sm ios-press active:scale-95 transition-all">
+        Lanjutkan
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/shell.js"></script>
+<script src="assets/components.js"></script>
+<script>
+  // Segmented control category filter logic
+  document.querySelectorAll(".ios-segmented-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      document.querySelectorAll(".ios-segmented-btn").forEach(function (b) { b.classList.remove("active"); });
+      btn.classList.add("active");
+      var filter = btn.dataset.filter;
+      document.querySelectorAll(".device").forEach(function (card) {
+        var catMatch = filter === "all" || card.dataset.cat === filter;
+        var statusMatch = currentStatusFilter === "all" || card.dataset.status === currentStatusFilter;
+        card.classList.toggle("hidden", !(catMatch && statusMatch));
+      });
+    });
+  });
+
+  // Status Filter Hub Logic (Clean Apple HIG - Uniform Styling)
+  var currentStatusFilter = 'all';
+  function filterByStatus(status, btn) {
+    currentStatusFilter = status;
+    document.querySelectorAll(".st-filter-btn").forEach(function (b) {
+      b.className = "st-filter-btn py-1.5 px-2 rounded-xl bg-neutral-100 text-neutral-600 hover:bg-neutral-200/70 font-bold text-[11px] flex items-center justify-center gap-1 transition-all";
+    });
+    btn.className = "st-filter-btn active py-1.5 px-2 rounded-xl bg-primary-950 text-white font-bold text-[11px] flex items-center justify-center gap-1 transition-all shadow-xs";
+
+    var catBtn = document.querySelector(".ios-segmented-btn.active");
+    var catFilter = catBtn ? catBtn.dataset.filter : "all";
+
+    document.querySelectorAll(".device").forEach(function (card) {
+      var catMatch = catFilter === "all" || card.dataset.cat === catFilter;
+      var statusMatch = status === "all" || card.dataset.status === status;
+      card.classList.toggle("hidden", !(catMatch && statusMatch));
+    });
+  }
+
+  // Reactive color swatch selection for biled
+  function acPick(e, hex, rgba, name) {
+    e.preventDefault(); e.stopPropagation();
+    document.getElementById("acGlow").style.background =
+      "radial-gradient(circle at 50% 40%," + hex + " 0%," + rgba + " 45%,transparent 72%)";
+    document.getElementById("acLens").style.boxShadow = "0 0 24px " + hex;
+    document.getElementById("acColorName").textContent = name;
+
+    document.querySelectorAll(".ac-swatch").forEach(function (sw) {
+      sw.className = "ac-swatch block w-5 h-5 rounded-full border border-neutral-300 transition-all";
+    });
+    var picked = e.currentTarget.querySelector(".ac-swatch");
+    if (picked) {
+      picked.className = "ac-swatch block w-6 h-6 rounded-full border-2 border-primary-900 transition-all scale-110 shadow-sm";
+    }
+    window.nineToast("Suhu warna diubah ke " + name, "sun");
+  }
+
+  // Device reconnection simulation
+  function reconnectDevice(btn) {
+    var txt = btn.querySelector(".recon-text");
+    var ico = btn.querySelector(".recon-icon");
+    txt.textContent = "Mencari BLE…";
+    ico.className = "ph-bold ph-spinner animate-spin text-sm";
+    btn.disabled = true;
+
+    setTimeout(function () {
+      txt.textContent = "Berhasil Terhubung";
+      ico.className = "ph-bold ph-check text-sm text-white";
+      btn.classList.replace("bg-neutral-800", "bg-accent-600");
+      window.nineToast("Foglamp 3.0 Inch terhubung kembali", "check-circle");
+    }, 1800);
+  }
+
+  // Add Device 3-step modal
+  var addFlow = document.getElementById("addFlow");
+  var addFlowBody = document.getElementById("addFlowBody");
+  var curStep = 1;
+
+  function openAdd() {
+    addFlow.classList.remove("hidden");
+    requestAnimationFrame(function () {
+      addFlowBody.classList.remove("translate-y-full");
+    });
+    setStep(1);
+  }
+
+  function addClose() {
+    addFlowBody.classList.add("translate-y-full");
+    setTimeout(function () {
+      addFlow.classList.add("hidden");
+    }, 280);
+  }
+
+  addFlow.addEventListener("click", function (e) {
+    if (e.target === addFlow) addClose();
+  });
+
+  function setStep(n) {
+    curStep = n;
+    document.getElementById("addStep").textContent = "Langkah " + n + " dari 3";
+    ["s1", "s2", "s3"].forEach(function (id, idx) {
+      document.getElementById(id).classList.toggle("hidden", idx + 1 !== n);
+    });
+    var nextBtn = document.getElementById("addNextBtn");
+    nextBtn.classList.toggle("hidden", n === 3);
+    nextBtn.textContent = n === 1 ? "Lanjutkan" : "Mulai Pasangkan";
+  }
+
+  function addBack() {
+    if (curStep === 1) addClose();
+    else setStep(curStep - 1);
+  }
+
+  function addNext() {
+    if (curStep === 1) setStep(2);
+    else if (curStep === 2) {
+      setStep(3);
+      runPairingSimulation();
+    }
+  }
+
+  function pickKind(kind, el) {
+    document.querySelectorAll(".kind-card").forEach(function (c) {
+      c.className = "kind-card p-4 rounded-2xl border border-neutral-200 bg-white cursor-pointer flex items-center gap-3.5 ios-press";
+      var icon = c.querySelector(".check-icon");
+      if (icon) icon.className = "ph-bold ph-circle text-neutral-300 text-xl check-icon";
+    });
+    el.className = "kind-card p-4 rounded-2xl border-2 border-accent-500 bg-accent-50/50 cursor-pointer flex items-center gap-3.5 ios-press";
+    var icon = el.querySelector(".check-icon");
+    if (icon) icon.className = "ph-bold ph-check-circle text-accent-600 text-xl check-icon";
+  }
+
+  function runPairingSimulation() {
+    var st = document.getElementById("pairStatus");
+    st.textContent = "Mencari perangkat terdekat…";
+    st.className = "font-bold text-xs text-amber-700 mt-4";
+
+    setTimeout(function () {
+      st.textContent = "Perangkat ditemukan: Nine IoT Module";
+    }, 1400);
+
+    setTimeout(function () {
+      st.textContent = "Mengotentikasi & menghubungkan…";
+    }, 2600);
+
+    setTimeout(function () {
+      document.querySelectorAll(".pair-ring").forEach(function (r) { r.style.display = "none"; });
+      document.querySelectorAll(".pair-icon-phone, .pair-icon-car").forEach(function (i) { i.style.display = "none"; });
+      document.getElementById("pairSuccessCircle").classList.remove("hidden");
+      document.getElementById("pairTitle").textContent = "Berhasil Terhubung!";
+      document.getElementById("pairSub").textContent = "Aksesori baru telah diverifikasi & terpasang ke Yamaha NMAX.";
+      st.textContent = "Status: Online · Bluetooth & 4G Aktif";
+      st.className = "font-bold text-xs text-emerald-700 mt-4";
+      document.getElementById("pairActions").classList.remove("hidden");
+      document.getElementById("pairActions").classList.add("flex");
+    }, 3800);
+  }
+
+  function finishPair() {
+    addClose();
+    window.nineToast("Aksesori baru siap digunakan!", "check-circle");
+  }
+
+  // Auto-launch pairing sheet if query param action=add
+  if (new URLSearchParams(window.location.search).get("action") === "add") {
+    setTimeout(openAdd, 350);
+  }
+</script>
+</body>
+</html>

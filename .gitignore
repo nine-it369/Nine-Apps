@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# OS and Temp Files
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test & Build
+dist/
+.output/
+.shots/
+.shots*
+*.test*
+

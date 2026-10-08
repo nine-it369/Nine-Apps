@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Detail GPS — Nine Autogarage</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=Plus+Jakarta+Sans:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/config.js"></script>
+  <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/base.css"/>
+</head>
+<body data-tab="aksesori" data-search="off" data-title="Nine GPS Tracker 4G" class="bg-surface font-body text-body text-on-surface antialiased">
+<main class="max-w-md mx-auto min-h-screen pt-16 pb-24 bg-surface text-on-surface flex flex-col relative">
+
+  <!-- Header Card: Vehicle & Status -->
+  <section class="px-4 pt-3 pb-1 flex items-center justify-between">
+    <div>
+      <div class="flex items-center gap-1.5">
+        <h1 class="font-headline text-base font-bold text-primary-950">Yamaha NMAX 155</h1>
+        <span class="px-1.5 py-0.2 rounded bg-primary-100 font-micro text-[8px] font-bold text-primary-700 uppercase">MOTOR</span>
+      </div>
+      <p class="text-xs text-neutral-500">Plat: B 1234 XYZ · IMEI: 8642-9912-0003</p>
+    </div>
+    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent-50 border border-accent-200 text-accent-800 font-micro text-[10px] font-black uppercase tracking-wider shadow-2xs">
+      <span class="w-2 h-2 rounded-full bg-accent-500 animate-pulse"></span>
+      TERHUBUNG · 4G LTE
+    </span>
+  </section>
+
+  <!-- Segmented Tabs (5 Tabs per Brief 4.3) -->
+  <div class="px-4 py-2">
+    <div class="ios-segmented w-full p-1 bg-neutral-200/70 rounded-xl flex items-center" id="gpsTabs">
+      <button class="ios-segmented-btn active" onclick="switchGpsTab('live', this)">Live</button>
+      <button class="ios-segmented-btn" onclick="switchGpsTab('rute', this)">Rute</button>
+      <button class="ios-segmented-btn" onclick="switchGpsTab('geofence', this)">Geofence</button>
+      <button class="ios-segmented-btn" onclick="switchGpsTab('perawatan', this)">Perawatan</button>
+      <button class="ios-segmented-btn" onclick="switchGpsTab('pengaturan', this)">Setting</button>
+    </div>
+  </div>
+
+  <!-- TAB 1: LIVE TELEMETRI -->
+  <div id="tab-live" class="space-y-3 pt-1">
+    <!-- Map Canvas (OpenStreetMap style vector) -->
+    <div class="px-4">
+      <div class="relative h-64 rounded-2xl overflow-hidden bg-map-land border border-neutral-200 shadow-xs">
+        <svg class="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice" viewBox="0 0 358 260">
+          <path d="M-10,30 Q70,14 130,52 T250,20 L280,-10 L-10,-10 Z" fill="#DCECD7"/>
+          <path d="M250,120 Q310,105 360,140 L360,310 L226,310 Z" fill="#DCECD7"/>
+          <path d="M140,-10 C166,60 152,140 176,310" fill="none" stroke="#BFDBFE" stroke-width="16"/>
+          <g fill="#E3DED4">
+            <rect x="18" y="34" width="52" height="40" rx="3"/><rect x="86" y="20" width="44" height="52" rx="3"/>
+            <rect x="210" y="30" width="58" height="36" rx="3"/><rect x="292" y="52" width="48" height="44" rx="3"/>
+          </g>
+          <g stroke="#ffffff" fill="none">
+            <path d="M-20,140 L378,86" stroke-width="7"/><path d="M92,-10 L126,310" stroke-width="6"/>
+          </g>
+          <path d="M-10,110 C90,110 190,102 368,102" stroke="#FDBA74" stroke-width="8"/>
+          <!-- Polyline route trail -->
+          <path d="M60,180 L130,120 L210,115 L260,105" fill="none" stroke="#3B82F6" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="60" cy="180" r="4" fill="#ffffff" stroke="#3B82F6" stroke-width="2"/>
+          <!-- Active vehicle pulsing pin -->
+          <circle cx="260" cy="105" r="20" fill="#22C55E" opacity="0.25" class="animate-ping"/>
+          <circle cx="260" cy="105" r="10" fill="#22C55E" opacity="0.35"/>
+          <circle cx="260" cy="105" r="5" fill="#16A34A" stroke="#ffffff" stroke-width="1.5"/>
+          <text x="36" y="125" font-size="7.5" fill="#8a8378" font-style="italic">Jl. Jenderal Sudirman</text>
+        </svg>
+
+        <!-- 3D GPS Pin Mockup Overlay (Enlarged per Home design) -->
+        <div class="absolute top-[68px] left-[236px] w-14 h-14 pointer-events-none drop-shadow-[0_8px_18px_rgba(34,197,94,0.65)] flex items-center justify-center">
+          <img src="gps.webp" alt="GPS Pin" class="w-full h-full object-contain filter drop-shadow scale-110"/>
+        </div>
+
+        <button onclick="window.nineToast('Posisi peta dikunci ke kendaraan', 'crosshair')" class="tap-44 absolute bottom-3 right-3 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-primary-950 ios-press">
+          <i class="ph-bold ph-crosshair text-lg"></i>
+        </button>
+        <span class="absolute bottom-1.5 left-2.5 font-caption text-[7.5px] text-neutral-500">© OpenStreetMap contributors</span>
+      </div>
+    </div>
+
+    <!-- Telemetry Status Card -->
+    <section class="px-4">
+      <div class="ios-card p-4 space-y-3">
+        <div>
+          <span class="text-[10px] text-neutral-400 font-bold uppercase tracking-wider block">LOKASI TERAKHIR</span>
+          <p class="font-bold text-xs text-primary-950 mt-0.5">Jl. Jenderal Sudirman No. 45, RT 02/05, Jakarta Pusat</p>
+          <span class="text-[11px] text-neutral-400">Pembaruan 2 detik lalu via 4G LTE</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 pt-2 border-t border-neutral-100">
+          <div class="p-2.5 rounded-xl bg-neutral-50 border border-neutral-100">
+            <span class="text-[10px] text-neutral-400 font-bold uppercase block">KECEPATAN</span>
+            <div class="font-display text-xl font-black text-primary-950 mt-0.5">42 <span class="text-xs text-neutral-500 font-normal">km/j</span></div>
+          </div>
+          <div class="p-2.5 rounded-xl bg-neutral-50 border border-neutral-100">
+            <span class="text-[10px] text-neutral-400 font-bold uppercase block">STATUS MESIN</span>
+            <div class="font-bold text-sm text-accent-700 mt-1 flex items-center gap-1.5">
+              KONTAK ON
+            </div>
+          </div>
+          <div class="p-2.5 rounded-xl bg-neutral-50 border border-neutral-100">
+            <span class="text-[10px] text-neutral-400 font-bold uppercase block">BATERAI &amp; AKI</span>
+            <div class="font-bold text-xs text-primary-950 mt-1">98% · 13.8 Volt</div>
+          </div>
+          <div class="p-2.5 rounded-xl bg-neutral-50 border border-neutral-100">
+            <span class="text-[10px] text-neutral-400 font-bold uppercase block">SINYAL GPS &amp; 4G</span>
+            <div class="font-bold text-xs text-primary-950 mt-1">−68 dBm (Sangat Baik)</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <button onclick="window.nineToast('Tautan lokasi disalin!', 'link')" class="h-10 rounded-xl bg-neutral-100 text-primary-950 font-bold text-xs flex items-center justify-center gap-1.5 ios-press">
+            <i class="ph-bold ph-share-network text-sm"></i>Bagikan Lokasi
+          </button>
+          <button onclick="window.nineToast('Membuka rute di Google Maps…', 'navigation-arrow')" class="h-10 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-xs ios-press active:scale-95 transition-all">
+            <i class="ph-bold ph-navigation-arrow text-sm"></i>Navigasi
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- TAB 2: RUTE PERJALANAN (7 Hari & Riwayat) -->
+  <div id="tab-rute" class="hidden space-y-3.5 px-4 pt-1">
+    <!-- Horizontal 7-Day Date Picker -->
+    <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
+      <button class="day-btn tap-44 w-12 py-2 rounded-xl bg-white border border-neutral-200 text-center shrink-0">
+        <span class="text-[10px] text-neutral-400 block">Sen</span><b class="text-xs text-primary-950">05</b>
+      </button>
+      <button class="day-btn tap-44 w-12 py-2 rounded-xl bg-white border border-neutral-200 text-center shrink-0">
+        <span class="text-[10px] text-neutral-400 block">Sel</span><b class="text-xs text-primary-950">06</b>
+      </button>
+      <button class="day-btn tap-44 w-12 py-2 rounded-xl bg-white border border-neutral-200 text-center shrink-0">
+        <span class="text-[10px] text-neutral-400 block">Rab</span><b class="text-xs text-primary-950">07</b>
+      </button>
+      <button class="day-btn tap-44 w-12 py-2 rounded-xl bg-white border border-neutral-200 text-center shrink-0">
+        <span class="text-[10px] text-neutral-400 block">Kam</span><b class="text-xs text-primary-950">08</b>
+      </button>
+      <button class="day-btn tap-44 w-12 py-2 rounded-xl bg-primary-950 text-white text-center shrink-0 shadow-xs">
+        <span class="text-[10px] text-neutral-300 block">Jum</span><b class="text-xs text-white">09</b>
+      </button>
+      <button class="day-btn tap-44 w-12 py-2 rounded-xl bg-white border border-neutral-200 text-center shrink-0">
+        <span class="text-[10px] text-neutral-400 block">Sab</span><b class="text-xs text-primary-950">10</b>
+      </button>
+      <button class="day-btn tap-44 w-12 py-2 rounded-xl bg-white border border-neutral-200 text-center shrink-0">
+        <span class="text-[10px] text-neutral-400 block">Min</span><b class="text-xs text-primary-950">11</b>
+      </button>
+    </div>
+
+    <!-- Trip Daily Summary -->
+    <div class="ios-card p-4 space-y-3">
+      <div class="flex items-center justify-between">
+        <span class="font-bold text-xs text-primary-950">Ringkasan Hari Ini (Jumat, 9 Okt)</span>
+        <button onclick="window.nineToast('Memutar ulang riwayat rute (Playback)…', 'play')" class="text-xs font-bold text-accent-700 flex items-center gap-1">
+          <i class="ph-bold ph-play"></i>Putar Ulang
+        </button>
+      </div>
+
+      <div class="grid grid-cols-3 gap-2 p-2.5 rounded-xl bg-neutral-50 text-center">
+        <div>
+          <span class="text-[10px] text-neutral-400 font-bold uppercase block">TOTAL JARAK</span>
+          <span class="font-bold text-xs text-primary-950">38.4 km</span>
+        </div>
+        <div>
+          <span class="text-[10px] text-neutral-400 font-bold uppercase block">DURASI</span>
+          <span class="font-bold text-xs text-primary-950">1j 18m</span>
+        </div>
+        <div>
+          <span class="text-[10px] text-neutral-400 font-bold uppercase block">TOP SPEED</span>
+          <span class="font-bold text-xs text-primary-950">78 km/j</span>
+        </div>
+      </div>
+
+      <!-- Trip logs -->
+      <div class="space-y-2 pt-1 border-t border-neutral-100 text-xs">
+        <div class="p-2.5 rounded-xl bg-white border border-neutral-100 flex items-center justify-between">
+          <div>
+            <span class="font-bold text-primary-950 block">Perjalanan 1 · 14.15 - 15.02</span>
+            <span class="text-[11px] text-neutral-500">Nine Garage Arcadia → Sudirman (22 km)</span>
+          </div>
+          <span class="font-bold text-accent-700">47 menit</span>
+        </div>
+        <div class="p-2.5 rounded-xl bg-white border border-neutral-100 flex items-center justify-between">
+          <div>
+            <span class="font-bold text-primary-950 block">Perjalanan 2 · 09.20 - 09.51</span>
+            <span class="text-[11px] text-neutral-500">Rumah → Nine Garage Arcadia (16.4 km)</span>
+          </div>
+          <span class="font-bold text-accent-700">31 menit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: GEOFENCE (Zona Aman) -->
+  <div id="tab-geofence" class="hidden space-y-3.5 px-4 pt-1">
+    <div class="flex items-center justify-between">
+      <div>
+        <h3 class="font-bold text-xs uppercase tracking-wider text-neutral-500">ZONA AMAN (GEOFENCE)</h3>
+        <p class="text-xs text-neutral-500">Notifikasi otomatis saat kendaraan keluar/masuk zona.</p>
+      </div>
+      <button onclick="window.nineToast('Buka peta untuk membuat zona baru', 'plus')" class="h-8 px-3 rounded-full bg-accent-500 text-white font-bold text-xs flex items-center gap-1 shadow-2xs ios-press">
+        <i class="ph-bold ph-plus"></i>Tambah
+      </button>
+    </div>
+
+    <!-- Zones list -->
+    <div class="space-y-2.5">
+      <div class="ios-card p-3.5 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-blue-50 text-info flex items-center justify-center font-bold">
+            <i class="ph-bold ph-house text-xl"></i>
+          </div>
+          <div>
+            <span class="font-bold text-xs text-primary-950 block">Zona Rumah (Radius 200m)</span>
+            <span class="text-[11px] text-neutral-500">Arcadia Residence · Notif Keluar &amp; Masuk</span>
+          </div>
+        </div>
+        <input type="checkbox" checked class="w-5 h-5 rounded-md accent-accent-500"/>
+      </div>
+
+      <div class="ios-card p-3.5 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-neutral-100 text-neutral-700 flex items-center justify-center font-bold">
+            <i class="ph-bold ph-buildings text-xl"></i>
+          </div>
+          <div>
+            <span class="font-bold text-xs text-primary-950 block">Zona Kantor (Radius 300m)</span>
+            <span class="text-[11px] text-neutral-500">Sudirman Tower · Notif Keluar</span>
+          </div>
+        </div>
+        <input type="checkbox" checked class="w-5 h-5 rounded-md accent-accent-500"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4: PERAWATAN LENGKAP & RESET KM -->
+  <div id="tab-perawatan" class="hidden space-y-3.5 px-4 pt-1">
+    <div class="ios-card p-4 space-y-3">
+      <div class="flex items-baseline justify-between pb-2 border-b border-neutral-100">
+        <div>
+          <span class="text-[10px] text-neutral-400 font-bold uppercase tracking-wider block">ODOMETER VIRTUAL</span>
+          <span class="font-display text-2xl font-black text-primary-950">12.480 km</span>
+        </div>
+        <button onclick="window.nineToast('Interval penggantian disimpan', 'check')" class="text-xs font-bold text-accent-700">Atur Interval</button>
+      </div>
+
+      <!-- Parts items with Reset KM Action -->
+      <div class="space-y-3">
+        <!-- Oli Mesin -->
+        <div class="p-3 rounded-xl bg-neutral-50 border border-neutral-100 space-y-1.5">
+          <div class="flex justify-between text-xs">
+            <span class="font-bold text-primary-950">Oli Mesin Matic 10W-40</span>
+            <span class="font-bold text-warning-text">1.800 / 2.000 km (90%)</span>
+          </div>
+          <div class="h-2 rounded-full bg-neutral-200 overflow-hidden">
+            <div class="h-full bg-warning-500 rounded-full" style="width: 90%"></div>
+          </div>
+          <div class="flex items-center justify-between pt-1">
+            <span class="text-[11px] text-neutral-400">Tersisa 200 km lagi</span>
+            <button onclick="resetMaintenance('Oli Mesin')" class="px-2.5 py-1 rounded-lg bg-white border border-neutral-200 text-xs font-bold text-primary-950 ios-press">
+              Tandai Sudah Diganti
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Udara -->
+        <div class="p-3 rounded-xl bg-neutral-50 border border-neutral-100 space-y-1.5">
+          <div class="flex justify-between text-xs">
+            <span class="font-bold text-primary-950">Filter Udara</span>
+            <span class="font-bold text-accent-700">4.200 / 10.000 km (42%)</span>
+          </div>
+          <div class="h-2 rounded-full bg-neutral-200 overflow-hidden">
+            <div class="h-full bg-accent-500 rounded-full" style="width: 42%"></div>
+          </div>
+          <div class="flex items-center justify-between pt-1">
+            <span class="text-[11px] text-neutral-400">Kondisi sangat baik</span>
+            <button onclick="resetMaintenance('Filter Udara')" class="px-2.5 py-1 rounded-lg bg-white border border-neutral-200 text-xs font-bold text-primary-950 ios-press">
+              Tandai Sudah Diganti
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 5: PENGATURAN GPS -->
+  <div id="tab-pengaturan" class="hidden space-y-3.5 px-4 pt-1">
+    <div class="ios-card divide-y divide-neutral-100 overflow-hidden">
+      <div class="p-3.5 flex items-center justify-between">
+        <div>
+          <span class="font-bold text-xs text-primary-950 block">Peringatan Mesin Nyala</span>
+          <span class="text-[11px] text-neutral-500">Notif saat kontak motor ON tanpa izin</span>
+        </div>
+        <input type="checkbox" checked class="w-5 h-5 rounded-md accent-accent-500"/>
+      </div>
+
+      <div class="p-3.5 flex items-center justify-between">
+        <div>
+          <span class="font-bold text-xs text-primary-950 block">Peringatan Getaran &amp; Derek</span>
+          <span class="text-[11px] text-neutral-500">Sensor g-force aktif saat posisi parkir</span>
+        </div>
+        <input type="checkbox" checked class="w-5 h-5 rounded-md accent-accent-500"/>
+      </div>
+
+      <div class="p-3.5 flex items-center justify-between">
+        <div>
+          <span class="font-bold text-xs text-primary-950 block">Alarm Batas Kecepatan</span>
+          <span class="text-[11px] text-neutral-500">Batas maksimal: 80 km/j</span>
+        </div>
+        <input type="checkbox" checked class="w-5 h-5 rounded-md accent-accent-500"/>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script src="assets/shell.js"></script>
+<script>
+  function switchGpsTab(tabId, btn) {
+    document.querySelectorAll(".ios-segmented-btn").forEach(function (b) { b.classList.remove("active"); });
+    btn.classList.add("active");
+    ["live", "rute", "geofence", "perawatan", "pengaturan"].forEach(function (t) {
+      var el = document.getElementById("tab-" + t);
+      if (el) el.classList.toggle("hidden", t !== tabId);
+    });
+  }
+
+  function resetMaintenance(name) {
+    window.nineToast("Hitungan km " + name + " berhasil direset ke 0 km", "check-circle");
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Keranjang Belanja — Nine Autogarage</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=Plus+Jakarta+Sans:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/config.js"></script>
+  <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/base.css"/>
+</head>
+<body data-tab="mall" data-search="off" data-title="Keranjang Belanja" class="bg-surface font-body text-body text-on-surface antialiased">
+<main class="max-w-md mx-auto min-h-screen pt-16 pb-32 bg-surface text-on-surface flex flex-col relative">
+
+  <!-- Free Shipping Milestone Progress Bar (Per Frontend-Mall CartSummaryPane.vue) -->
+  <div class="px-4 pt-3 pb-1">
+    <div class="p-3 rounded-2xl bg-accent-50 border border-accent-200">
+      <div class="flex items-center justify-between text-xs mb-1.5">
+        <span class="font-bold text-accent-800 flex items-center gap-1.5">
+          <i class="ph-bold ph-truck text-sm text-accent-600"></i>Bebas Ongkir J&amp;T Express
+        </span>
+        <span class="font-bold text-[11px] text-accent-700">Tercapai!</span>
+      </div>
+      <div class="h-2 rounded-full bg-accent-200/60 overflow-hidden">
+        <div class="h-full bg-accent-500 rounded-full" style="width: 100%"></div>
+      </div>
+      <p class="text-[11px] text-accent-700 mt-1.5 leading-snug">
+        Pesanan kamu memenuhi syarat promo bebas ongkir ke seluruh Indonesia.
+      </p>
+    </div>
+  </div>
+
+  <!-- Select All & Delete Action Row -->
+  <div class="px-4 py-2 flex items-center justify-between">
+    <label class="flex items-center gap-2.5 cursor-pointer select-none">
+      <input type="checkbox" id="checkAll" checked onchange="toggleSelectAll(this)" class="w-5 h-5 rounded-md text-primary-950 focus:ring-accent-500 accent-primary-950"/>
+      <span class="font-bold text-xs text-primary-950">Pilih Semua (2 item)</span>
+    </label>
+    <button onclick="deleteSelected()" class="text-xs font-bold text-neutral-400 hover:text-danger-500 ios-press">
+      Hapus Terpilih
+    </button>
+  </div>
+
+  <!-- Warehouse Group Badge -->
+  <div class="px-4 pt-1 pb-1">
+    <div class="flex items-center gap-1.5 text-xs text-neutral-500">
+      <i class="ph-bold ph-warehouse text-sm text-neutral-700"></i>
+      <span class="font-bold text-primary-950">Dikirim dari Gudang Jakarta Barat</span>
+    </div>
+  </div>
+
+  <!-- Cart Items List (Matching CartItemVariantCard.vue from Frontend-Mall) -->
+  <div class="px-4 flex flex-col gap-3 mt-1" id="cartList">
+    <!-- Rendered via JS -->
+  </div>
+
+  <!-- Voucher Coupon Shortcut -->
+  <div class="px-4 mt-4">
+    <button onclick="window.nineToast('Kupon NINEFEST diskon Rp 50.000 otomatis aktif', 'ticket')" class="w-full p-3.5 rounded-2xl bg-white border border-neutral-200/80 shadow-2xs flex items-center justify-between text-left ios-press">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-accent-50 text-accent-700 flex items-center justify-center font-bold">
+          <i class="ph-bold ph-ticket text-lg"></i>
+        </div>
+        <div>
+          <span class="font-bold text-xs text-primary-950 block">Kupon Promo Nine Autogarage</span>
+          <span class="text-[11px] text-accent-700">1 kupon diskon hemat Rp 50.000 digunakan</span>
+        </div>
+      </div>
+      <i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>
+    </button>
+  </div>
+
+</main>
+
+<!-- FIXED BOTTOM CHECKOUT BAR (Per STYLE_GUIDE_mall.md §4.3) -->
+<div class="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-t border-neutral-200/80 shadow-2xl pb-safe">
+  <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between gap-3">
+    <div>
+      <span class="text-[10px] text-neutral-400 font-bold uppercase tracking-wider block">TOTAL PEMBAYARAN</span>
+      <span class="font-price text-lg font-black text-primary-950" id="cartTotal">Rp 2.749.000</span>
+    </div>
+    <a href="checkout.html" class="h-12 px-6 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-xs ios-press active:scale-95 transition-all">
+      Lanjut ke Bayar<i class="ph-bold ph-arrow-right text-sm"></i>
+    </a>
+  </div>
+</div>
+
+<!-- Bottom Sheet: Ubah Varian dari Keranjang -->
+<div id="changeVariantSheet" class="hidden fixed inset-0 z-[70] bg-black/40 backdrop-blur-xs flex items-end justify-center">
+  <div class="w-full max-w-md bg-white rounded-t-3xl p-5 pb-8 shadow-2xl translate-y-full transition-transform duration-300" id="changeVariantBody">
+    <div data-sheet-handle class="ios-sheet-handle"></div>
+    <h3 class="font-headline text-lg font-bold text-primary-950 text-center">Ubah Varian Produk</h3>
+    <p class="text-xs text-secondary text-center mt-1">Pilih konfigurasi baru tanpa menghapus item dari keranjang.</p>
+
+    <div class="mt-4 space-y-3">
+      <div>
+        <label class="font-bold text-[11px] uppercase tracking-wider text-neutral-500 block mb-1.5">PILIH VARIAN LENSA</label>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="saveVariant('Blue Lens 6000K · 3.0\"', this)" class="v-btn py-2.5 rounded-xl border-2 border-accent-500 bg-accent-50 font-bold text-xs text-accent-800">Blue Lens 6000K</button>
+          <button onclick="saveVariant('Clear Lens 5500K · 3.0\"', this)" class="v-btn py-2.5 rounded-xl border border-neutral-200 bg-neutral-50 font-semibold text-xs text-neutral-700">Clear Lens 5500K</button>
+        </div>
+      </div>
+    </div>
+
+    <button onclick="closeVariantModal()" class="mt-5 w-full h-12 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-bold text-xs uppercase tracking-wider shadow-xs ios-press active:scale-95 transition-all">
+      Simpan Perubahan
+    </button>
+  </div>
+</div>
+
+<script src="assets/shell.js"></script>
+<script>
+  var CART = [
+    {
+      id: 1,
+      name: "Biled Matrix E9 Pro 3.0\" Dual Core",
+      variant: "Blue Lens 6000K · 3.0 Inch",
+      price: 1299000,
+      qty: 1,
+      stock: 12,
+      checked: true,
+      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAlxOCBstxA_JC65izhiTBAHGrnP5cqtWZTpt8zayL0ghLJoLyv2urJ3wP2xEtTbbMeoeyXNR1bcfGoVws3eOryncQoa-ZM3xFEqzFo_OzvB5FKG7OuEHMWKs5bfm5y6OnJleyo9WR8W58WJpZDPW_y4d-VLOK5CFuFhV_9gTN3sIZlaakHIxDOwErnqktJNAqgah1A_7VeZLzdSpC1oWlyX_BfOtbkXk4smJYkx8VE"
+    },
+    {
+      id: 2,
+      name: "Mini Laser D2 Dual Color 30W Waterproof",
+      variant: "Kuning-Putih · High Low Beam",
+      price: 320000,
+      qty: 2,
+      stock: 5,
+      checked: true,
+      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAZv-hI1ymx6Td3Oj_1xdafgyVLhfo7ZLwfHY1-wGEyeDLysJoDWRWnXb8Q3hVNchdMKTYifogAQpyKhBDW2lMYWbEiwC1Qj7fKP34LuKjZSPtZgvj1dCPBo-1OkQF-xXVWPXLYHDOWe1ds-42dDOQeq_sPadoxAvayfTmIXoz52uaAySW1jPJ8z-latNS5xgW6cAidCmUJEpAWPW33i-ZyZv0ax6CJ_1iy9QOFT0ZN"
+    },
+    {
+      id: 3,
+      name: "Twin Snail Horn 118dB Waterproof 12V",
+      variant: "High-Low Dual Tone Set",
+      price: 145000,
+      qty: 1,
+      stock: 20,
+      checked: false,
+      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAnUAn4tZgbMiVIZvn7OnFJdR6jVnOsgiu0Av9UJ8tPVtoFtTalp7-CzGddTNsm3v2bFJsqcEhF2ZsykD2V-a7VrK_iJmXF71pBk9xKLSqIyS3CZZqApsihel8DlVfZlAluCVAfHkCm7SD9QOR2id8z8cuv9O6od9iaNPR1bOgidZKpuPo3mNbbIvwgFurBuQ8lSAy6f9CT-l6JBDOpK73sb-9A-hp2jU4GyWdHfLr4"
+    }
+  ];
+
+  function formatRp(val) {
+    return "Rp " + val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  function renderCart() {
+    var total = 0;
+    var checkedCount = 0;
+
+    var html = CART.map(function (it, idx) {
+      if (it.checked) {
+        total += it.price * it.qty;
+        checkedCount++;
+      }
+      return '<div class="ios-card p-3.5 flex flex-col gap-2.5">' +
+        '<div class="flex items-start gap-3">' +
+        '<input type="checkbox" ' + (it.checked ? "checked" : "") + ' onchange="toggleItem(' + idx + ', this)" class="w-5 h-5 rounded-md text-primary-950 focus:ring-accent-500 accent-primary-950 mt-1 shrink-0"/>' +
+        '<div class="w-16 h-16 rounded-xl bg-neutral-100 overflow-hidden shrink-0 border border-neutral-100">' +
+        '<img src="' + it.img + '" alt="' + it.name + '" class="w-full h-full object-cover"/>' +
+        '</div>' +
+        '<div class="min-w-0 flex-1">' +
+        '<h3 class="font-bold text-xs text-primary-950 leading-snug line-clamp-2">' + it.name + '</h3>' +
+        <!-- Clickable Variant Pill -->
+        '<button onclick="openVariantModal(' + idx + ')" class="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-lg bg-neutral-100 hover:bg-neutral-200 text-[11px] font-semibold text-neutral-700 border border-neutral-200/80 transition-colors">' +
+        '<span class="truncate max-w-[160px]">' + it.variant + '</span>' +
+        '<i class="ph-bold ph-caret-down text-[10px] text-neutral-400"></i>' +
+        '</button>' +
+        '</div>' +
+        '</div>' +
+
+        '<div class="flex items-center justify-between pt-2 border-t border-neutral-100">' +
+        '<span class="font-price text-sm font-black text-primary-950">' + formatRp(it.price * it.qty) + '</span>' +
+        '<div class="flex items-center gap-2">' +
+        '<button onclick="deleteItem(' + idx + ')" class="tap-44 w-8 h-8 rounded-lg flex items-center justify-center text-neutral-400 hover:text-danger-500 ios-press"><i class="ph-bold ph-trash text-base"></i></button>' +
+        '<div class="flex items-center rounded-xl border border-neutral-200 bg-neutral-50 h-8 px-1">' +
+        '<button onclick="stepQty(' + idx + ', -1)" class="w-7 h-7 flex items-center justify-center text-primary-950 font-bold active:bg-neutral-200"><i class="ph-bold ph-minus text-[10px]"></i></button>' +
+        '<span class="w-6 text-center font-bold text-xs text-primary-950">' + it.qty + '</span>' +
+        '<button onclick="stepQty(' + idx + ', 1)" class="w-7 h-7 flex items-center justify-center text-primary-950 font-bold active:bg-neutral-200"><i class="ph-bold ph-plus text-[10px]"></i></button>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
+    }).join("");
+
+    document.getElementById("cartList").innerHTML = html;
+    document.getElementById("cartTotal").textContent = formatRp(total);
+    document.getElementById("checkAll").checked = checkedCount === CART.length && CART.length > 0;
+    nineCartSet(CART.length);
+  }
+
+  function toggleItem(idx, el) {
+    CART[idx].checked = el.checked;
+    renderCart();
+  }
+
+  function toggleSelectAll(el) {
+    CART.forEach(function (it) { it.checked = el.checked; });
+    renderCart();
+  }
+
+  function stepQty(idx, d) {
+    CART[idx].qty = Math.max(1, Math.min(CART[idx].stock, CART[idx].qty + d));
+    renderCart();
+  }
+
+  function deleteItem(idx) {
+    CART.splice(idx, 1);
+    renderCart();
+    window.nineToast("Item dihapus dari keranjang", "trash");
+  }
+
+  function deleteSelected() {
+    CART = CART.filter(function (it) { return !it.checked; });
+    renderCart();
+    window.nineToast("Item terpilih berhasil dihapus", "trash");
+  }
+
+  var editingIdx = 0;
+  var changeVariantSheet = document.getElementById("changeVariantSheet");
+  var changeVariantBody = document.getElementById("changeVariantBody");
+
+  function openVariantModal(idx) {
+    editingIdx = idx;
+    changeVariantSheet.classList.remove("hidden");
+    requestAnimationFrame(function () {
+      changeVariantBody.classList.remove("translate-y-full");
+    });
+  }
+
+  function closeVariantModal() {
+    changeVariantBody.classList.add("translate-y-full");
+    setTimeout(function () {
+      changeVariantSheet.classList.add("hidden");
+    }, 280);
+  }
+
+  function saveVariant(vName, btn) {
+    CART[editingIdx].variant = vName;
+    renderCart();
+    closeVariantModal();
+    window.nineToast("Varian berhasil diperbarui", "check-circle");
+  }
+
+  renderCart();
+</script>
+</body>
+</html>
