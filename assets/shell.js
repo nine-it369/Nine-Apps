@@ -55,15 +55,15 @@
   header += "</div></header>";
 
   var nav =
-    '<nav class="fixed bottom-3 inset-x-3 z-50 max-w-[430px] mx-auto pb-safe pointer-events-none">' +
-    '<div class="h-[66px] px-3 rounded-[28px] bg-white/92 backdrop-blur-3xl border border-white/90 shadow-[0_12px_40px_rgba(0,0,0,0.09)] flex items-center justify-around pointer-events-auto">' +
+    '<nav class="fixed bottom-0 inset-x-0 z-50 w-full bg-white/95 backdrop-blur-2xl border-t border-neutral-200/80 shadow-[0_-2px_12px_rgba(0,0,0,0.03)] pb-safe">' +
+    '<div class="max-w-md mx-auto h-[60px] px-2 flex items-center justify-around">' +
     TABS.map(function (t) {
       var on = t.key === current;
-      var idleClass = "flex flex-col items-center justify-center gap-1 flex-1 min-h-[50px] text-neutral-400 hover:text-neutral-600 active:scale-95 transition-all";
-      var onClass = "flex flex-col items-center justify-center gap-1 flex-1 min-h-[50px] text-primary-950 font-bold active:scale-95 transition-all";
+      var idleClass = "flex flex-col items-center justify-center gap-0.5 flex-1 min-h-[48px] text-neutral-400 hover:text-neutral-600 active:scale-95 transition-all";
+      var onClass = "flex flex-col items-center justify-center gap-0.5 flex-1 min-h-[48px] text-primary-950 font-bold active:scale-95 transition-all";
       return '<a href="' + t.href + '" data-tab="' + t.key + '" class="' + (on ? onClass : idleClass) + '">' +
-        '<i class="' + (on ? "ph-fill text-primary-950 text-[25px] scale-105" : "ph text-neutral-400 text-[23px]") + ' ph-' + t.icon + ' transition-transform"></i>' +
-        '<span class="text-[11px] leading-tight tracking-tight ' + (on ? "text-primary-950 font-bold" : "text-neutral-400 font-medium") + '">' + t.label + "</span>" +
+        '<i class="' + (on ? "ph-fill text-primary-950 text-[23px] scale-105" : "ph text-neutral-400 text-[22px]") + ' ph-' + t.icon + ' transition-transform"></i>' +
+        '<span class="text-[10.5px] leading-tight tracking-tight ' + (on ? "text-primary-950 font-bold" : "text-neutral-400 font-medium") + '">' + t.label + "</span>" +
         '</a>';
     }).join("") +
     "</div></nav>";

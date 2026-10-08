@@ -47,79 +47,22 @@
       <i class="ph-bold ph-caret-down text-neutral-400 text-xs shrink-0"></i>
     </button>
 
-    <!-- TELEMETRY IOT STATUS HUB (CLEAN APPLE HIG - TANPA TAG PELANGI AI SLOP) -->
-    <div class="ios-card p-3.5 bg-white border border-neutral-200/90 shadow-2xs flex flex-col gap-3">
-      <!-- Status Top Header: Gateway Connection & Live Ping -->
-      <div class="flex items-center justify-between pb-2.5 border-b border-neutral-100">
-        <div class="flex items-center gap-2">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-          <span class="font-label text-[10.5px] uppercase tracking-wider font-extrabold text-primary-950">Gateway IoT 4G Aktif</span>
-        </div>
-        <div class="flex items-center gap-1.5 font-mono text-[10px] text-neutral-500 bg-neutral-50 px-2 py-0.5 rounded-full border border-neutral-200/60">
-          <i class="ph-bold ph-wifi-high text-emerald-600"></i>
-          <span>Ping 14ms · BTS Jakarta</span>
-        </div>
-      </div>
-
-      <!-- Segmented Connection Health (Clean Apple HIG Bar) -->
-      <div>
-        <div class="flex items-center justify-between text-[11px] mb-1.5">
-          <span class="font-caption text-neutral-500">Kesehatan Konektivitas Unit:</span>
-          <span class="font-bold font-mono text-primary-950"><span>3 Terhubung</span> · <span class="text-neutral-500">1 Sync</span> · <span class="text-neutral-400">1 Offline</span></span>
-        </div>
-        <div class="h-1.5 rounded-full bg-neutral-100 overflow-hidden flex">
-          <div class="h-full bg-emerald-500" style="width: 60%" title="3 Online"></div>
-          <div class="h-full bg-amber-400" style="width: 20%" title="1 Menghubungkan"></div>
-          <div class="h-full bg-neutral-300" style="width: 20%" title="1 Terputus"></div>
-        </div>
-      </div>
-
-      <!-- Interactive Status Filter Pills (Clean Apple HIG - Seragam & Rapi) -->
-      <div class="grid grid-cols-4 gap-1.5 pt-1" id="statusFilterGroup">
-        <!-- 1. Semua -->
-        <button type="button" onclick="filterByStatus('all', this)" class="st-filter-btn active py-1.5 px-2 rounded-xl bg-primary-950 text-white font-bold text-[11px] flex items-center justify-center gap-1 transition-all shadow-xs">
-          <span>Semua</span>
-          <span class="font-mono text-[10px] opacity-80">(5)</span>
-        </button>
-
-        <!-- 2. Terhubung -->
-        <button type="button" onclick="filterByStatus('online', this)" class="st-filter-btn py-1.5 px-2 rounded-xl bg-neutral-100 text-neutral-600 hover:bg-neutral-200/70 font-bold text-[11px] flex items-center justify-center gap-1 transition-all">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-          <span>Online</span>
-          <span class="font-mono text-[10px] text-neutral-500">(3)</span>
-        </button>
-
-        <!-- 3. Sync -->
-        <button type="button" onclick="filterByStatus('syncing', this)" class="st-filter-btn py-1.5 px-2 rounded-xl bg-neutral-100 text-neutral-600 hover:bg-neutral-200/70 font-bold text-[11px] flex items-center justify-center gap-1 transition-all">
-          <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
-          <span>Sync</span>
-          <span class="font-mono text-[10px] text-neutral-500">(1)</span>
-        </button>
-
-        <!-- 4. Offline -->
-        <button type="button" onclick="filterByStatus('offline', this)" class="st-filter-btn py-1.5 px-2 rounded-xl bg-neutral-100 text-neutral-600 hover:bg-neutral-200/70 font-bold text-[11px] flex items-center justify-center gap-1 transition-all">
-          <span class="w-1.5 h-1.5 rounded-full bg-neutral-400"></span>
-          <span>Putus</span>
-          <span class="font-mono text-[10px] text-neutral-500">(1)</span>
-        </button>
-      </div>
-    </div>
   </section>
 
   <!-- CATEGORY SEGMENTED CONTROL FILTERS (Apple HIG Inset) -->
-  <div class="px-4 py-1.5">
-    <div class="ios-segmented w-full p-1 bg-neutral-200/70 rounded-xl flex items-center" id="segFilters">
-      <button class="ios-segmented-btn active" data-filter="all">Semua Tipe</button>
-      <button class="ios-segmented-btn" data-filter="gps">GPS Tracker</button>
-      <button class="ios-segmented-btn" data-filter="dashcam">Dashcam</button>
-      <button class="ios-segmented-btn" data-filter="light">Lampu &amp; Biled</button>
+  <div class="px-4 py-2">
+    <div class="ios-segmented w-full p-1 bg-neutral-200/80 rounded-2xl flex items-center shadow-2xs" id="segFilters">
+      <button class="ios-segmented-btn active" data-filter="all">Semua (5)</button>
+      <button class="ios-segmented-btn" data-filter="gps">GPS (2)</button>
+      <button class="ios-segmented-btn" data-filter="light">Lampu (2)</button>
+      <button class="ios-segmented-btn" data-filter="dashcam">Dashcam (1)</button>
     </div>
   </div>
 
   <!-- DEVICE CARDS LIST (Vertical Feed Apple HIG) -->
   <div class="px-4 flex flex-col gap-3.5 mt-1 pb-4" id="deviceList">
 
-    <!-- CARD 1: GPS Tracker 4G IoT (Online & Live Mockup Map Enlarged) -->
+    <!-- CARD 1: GPS Tracker 4G IoT (Online & Preview Lokasi Sedang Dimana) -->
     <article class="device ios-card p-4 flex flex-col gap-3 group transition-all" data-cat="gps" data-status="online">
       <!-- Card Top: Device Info & Enhanced Online Status Pill -->
       <div class="flex items-start justify-between gap-3">
@@ -142,19 +85,51 @@
         </span>
       </div>
 
-      <!-- Live Location Info: Clean Apple HIG (Gambar Peta / SVG Dihapus Sesuai Permintaan) -->
-      <a href="device-gps.html" class="p-3 rounded-xl bg-neutral-50 border border-neutral-200/60 flex items-center justify-between hover:bg-neutral-100/70 transition-colors">
-        <div class="flex items-center gap-2.5 min-w-0">
-          <div class="w-8 h-8 rounded-lg bg-white border border-neutral-200/80 text-emerald-600 flex items-center justify-center shrink-0 shadow-2xs">
-            <i class="ph-bold ph-map-pin text-base"></i>
+      <!-- Live Location Preview: "Sedang Dimana" (Apple Maps Style Vector Preview - Tanpa Gambar GPS) -->
+      <div class="relative rounded-2xl overflow-hidden bg-[#1e293b] border border-neutral-200/70 shadow-2xs group cursor-pointer" onclick="openGpsPreviewModal()">
+        <!-- Vector Map Canvas -->
+        <div class="h-32 w-full relative overflow-hidden">
+          <svg class="w-full h-full" viewBox="0 0 380 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="380" height="130" fill="#1e293b"/>
+            <!-- Roads Grid -->
+            <path d="M-10,35 L400,35" stroke="#334155" stroke-width="12" stroke-linecap="round"/>
+            <path d="M-10,95 L400,95" stroke="#334155" stroke-width="14" stroke-linecap="round"/>
+            <path d="M110,-10 L110,140" stroke="#334155" stroke-width="10" stroke-linecap="round"/>
+            <path d="M260,-10 L260,140" stroke="#334155" stroke-width="12" stroke-linecap="round"/>
+            <!-- Road Markings -->
+            <path d="M-10,95 L400,95" stroke="#f59e0b" stroke-width="2" stroke-dasharray="8 6" opacity="0.8"/>
+            <path d="M-10,35 L400,35" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.4"/>
+            <!-- Route Trail -->
+            <path d="M110,95 L200,95 L260,95 L260,40" fill="none" stroke="#38bdf8" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Vehicle Live Pulse Marker (Clean Vector - Tanpa Gambar PNG) -->
+            <circle cx="260" cy="40" r="22" fill="#22c55e" opacity="0.25" class="animate-ping" style="animation-duration: 2s;"/>
+            <circle cx="260" cy="40" r="12" fill="#22c55e" opacity="0.4"/>
+            <circle cx="260" cy="40" r="6" fill="#22c55e" stroke="#ffffff" stroke-width="2"/>
+          </svg>
+
+          <!-- Top Status Pills -->
+          <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10 text-white font-micro text-[10px] font-bold">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>Sedang Berjalan · 42 km/j</span>
           </div>
-          <div class="min-w-0">
-            <span class="font-headline font-bold text-xs text-primary-950 block truncate">Jl. Jenderal Sudirman No. 45, Jakarta</span>
-            <span class="font-caption text-[11px] text-neutral-500 block truncate">Update 2 dtk lalu · Akurasi ±2m · 14 Satelit</span>
+
+          <button type="button" onclick="event.stopPropagation(); openGpsPreviewModal();" class="absolute top-2.5 right-2.5 bg-white/95 hover:bg-white text-primary-950 font-bold text-[10px] px-2.5 py-1 rounded-full shadow-xs flex items-center gap-1 active:scale-95 transition-all">
+            <i class="ph-bold ph-eye text-xs"></i>
+            <span>Preview Lokasi</span>
+          </button>
+
+          <!-- Bottom Live Address Banner -->
+          <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-2.5 pt-4 text-white">
+            <div class="flex items-center justify-between text-xs">
+              <div class="min-w-0 pr-2">
+                <span class="font-bold text-white block truncate text-[11.5px]">Jl. Jenderal Sudirman No. 45, Jakarta Pusat</span>
+                <span class="text-[10px] text-neutral-300 block truncate font-mono mt-0.5">Sahid Sudirman Center · Akurasi ±2m · 14 Satelit</span>
+              </div>
+              <span class="font-mono text-[9px] bg-emerald-500/90 text-white px-2 py-0.5 rounded-full font-bold uppercase shrink-0">Live GPS</span>
+            </div>
           </div>
         </div>
-        <span class="font-mono text-[10px] font-bold text-primary-950 bg-white border border-neutral-200/80 px-2 py-0.5 rounded-full shrink-0 shadow-2xs">Live</span>
-      </a>
+      </div>
 
       <!-- Telemetry Gauge Grid -->
       <div class="grid grid-cols-3 gap-2 p-2.5 rounded-xl bg-neutral-50 border border-neutral-100 text-center">
@@ -179,16 +154,16 @@
       <div class="grid grid-cols-2 gap-2 pt-0.5">
         <a href="device-gps.html" class="h-10 rounded-xl bg-primary-950 hover:bg-black text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-xs ios-press active:scale-95 transition-all">
           <i class="ph-bold ph-map-pin text-sm"></i>
-          <span>Buka Live GPS</span>
+          <span>Buka Peta Penuh</span>
         </a>
-        <button onclick="window.nineToast('Tautan lokasi GPS disalin!', 'copy')" class="h-10 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-primary-950 font-bold text-xs flex items-center justify-center gap-1.5 ios-press active:scale-95 transition-all">
-          <i class="ph-bold ph-share-network text-sm"></i>
-          <span>Bagikan Lokasi</span>
+        <button onclick="openGpsPreviewModal()" class="h-10 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-primary-950 font-bold text-xs flex items-center justify-center gap-1.5 ios-press active:scale-95 transition-all">
+          <i class="ph-bold ph-navigation-arrow text-sm"></i>
+          <span>Lihat Preview</span>
         </button>
       </div>
     </article>
 
-    <!-- CARD 2: Nine Biled Projector E9 Pro (Online & Interactive Lens) -->
+    <!-- CARD 2: Nine Biled Projector E9 Pro (Online & Upgraded Color Picker) -->
     <article class="device ios-card p-4 flex flex-col gap-3 group transition-all" data-cat="light" data-status="online">
       <div class="flex items-start justify-between gap-3">
         <a href="device-lampu.html" class="flex items-center gap-3 min-w-0 flex-1">
@@ -209,7 +184,7 @@
 
       <!-- Reactive Lens Preview Chamber -->
       <div class="relative rounded-2xl overflow-hidden bg-primary-950 h-28 flex items-center justify-center shadow-2xs">
-        <div id="acGlow" class="absolute inset-0 transition-all duration-300 pointer-events-none" style="background:radial-gradient(circle at 50% 40%,#38BDF8 0%,rgba(56,189,248,.25) 45%,transparent 72%)"></div>
+        <div id="acGlow" class="absolute inset-0 transition-all duration-300 pointer-events-none" style="background:radial-gradient(circle at 50% 40%,#38BDF8 0%,rgba(56,189,248,.35) 45%,transparent 72%)"></div>
         <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-accent-500/90 backdrop-blur-md font-micro text-[9px] font-black text-white uppercase tracking-wider flex items-center gap-1 shadow-xs">
           <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>TERHUBUNG · BLE
         </span>
@@ -221,28 +196,58 @@
         </div>
       </div>
 
+      <!-- Color Picker Title & Active Mode Display -->
       <div class="flex items-center justify-between px-0.5">
-        <span class="font-bold text-[11px] uppercase tracking-wider text-neutral-500">WARNA SOROT AKTIF</span>
-        <span id="acColorName" class="font-bold text-xs text-primary-950">Ice Blue (6000K)</span>
+        <div>
+          <span class="font-bold text-[11px] uppercase tracking-wider text-neutral-500 block">TEMPERATUR WARNA SOROT</span>
+          <span id="acColorName" class="font-bold text-xs text-primary-950 block mt-0.5">6000K Ice Blue · #38BDF8</span>
+        </div>
+        <span id="acKelvinBadge" class="font-mono text-[10px] font-bold text-accent-700 bg-accent-50 border border-accent-200 px-2 py-0.5 rounded-full">6000K</span>
       </div>
 
-      <!-- 5 Color Swatches -->
-      <div class="flex items-center justify-between px-2 py-1 rounded-xl bg-neutral-50 border border-neutral-100">
-        <button onclick="acPick(event,'#F59E0B','rgba(245,158,11,.3)','3000K Golden Amber')" aria-label="Amber" class="ac-dot tap-44 w-8 h-8 shrink-0 flex items-center justify-center">
-          <span class="ac-swatch block w-5 h-5 rounded-full border border-neutral-300 transition-all" style="background:#F59E0B"></span>
+      <!-- 6 Calibrated Automotive Kelvin Swatches (Upgraded Interactive Color Picker) -->
+      <div class="grid grid-cols-6 gap-1.5 p-2 rounded-2xl bg-neutral-50 border border-neutral-200/70">
+        <!-- 3000K Amber -->
+        <button onclick="acPick(event,'#F59E0B','rgba(245,158,11,.35)','3000K Golden Amber (Hujan/Kabut)')" aria-label="3000K Amber" class="ac-dot flex flex-col items-center gap-1 p-1 rounded-xl hover:bg-white transition-all active:scale-95">
+          <span class="ac-swatch block w-6 h-6 rounded-full border border-neutral-300 shadow-2xs" style="background:#F59E0B"></span>
+          <span class="text-[9px] font-bold text-neutral-600 font-mono">3000K</span>
         </button>
-        <button onclick="acPick(event,'#FDE68A','rgba(253,230,138,.3)','4300K All-Weather Warm')" aria-label="Warm White" class="ac-dot tap-44 w-8 h-8 shrink-0 flex items-center justify-center">
-          <span class="ac-swatch block w-5 h-5 rounded-full border border-neutral-300 transition-all" style="background:#FDE68A"></span>
+        <!-- 4300K Warm -->
+        <button onclick="acPick(event,'#FDE68A','rgba(253,230,138,.35)','4300K Warm White (All-Weather)')" aria-label="4300K Warm" class="ac-dot flex flex-col items-center gap-1 p-1 rounded-xl hover:bg-white transition-all active:scale-95">
+          <span class="ac-swatch block w-6 h-6 rounded-full border border-neutral-300 shadow-2xs" style="background:#FDE68A"></span>
+          <span class="text-[9px] font-bold text-neutral-600 font-mono">4300K</span>
         </button>
-        <button onclick="acPick(event,'#F8FAFC','rgba(248,250,252,.3)','5500K Pure White')" aria-label="White" class="ac-dot tap-44 w-8 h-8 shrink-0 flex items-center justify-center">
-          <span class="ac-swatch block w-5 h-5 rounded-full border border-neutral-300 transition-all" style="background:#F8FAFC"></span>
+        <!-- 5500K Pure White -->
+        <button onclick="acPick(event,'#FFFFFF','rgba(255,255,255,.4)','5500K Pure White (OEM High)')" aria-label="5500K White" class="ac-dot flex flex-col items-center gap-1 p-1 rounded-xl hover:bg-white transition-all active:scale-95">
+          <span class="ac-swatch block w-6 h-6 rounded-full border border-neutral-300 shadow-2xs" style="background:#FFFFFF"></span>
+          <span class="text-[9px] font-bold text-neutral-600 font-mono">5500K</span>
         </button>
-        <button onclick="acPick(event,'#38BDF8','rgba(56,189,248,.35)','6000K Ice Blue')" aria-label="Ice Blue" class="ac-dot tap-44 w-8 h-8 shrink-0 flex items-center justify-center">
-          <span class="ac-swatch block w-6 h-6 rounded-full border-2 border-primary-900 transition-all scale-110 shadow-sm" style="background:#38BDF8"></span>
+        <!-- 6000K Ice Blue (Active Default) -->
+        <button onclick="acPick(event,'#38BDF8','rgba(56,189,248,.4)','6000K Ice Blue (Crystal Clear)')" aria-label="6000K Ice Blue" class="ac-dot flex flex-col items-center gap-1 p-1 rounded-xl bg-white shadow-2xs transition-all active:scale-95">
+          <span class="ac-swatch block w-6 h-6 rounded-full border-2 border-primary-950 shadow-xs ring-2 ring-sky-300" style="background:#38BDF8"></span>
+          <span class="text-[9px] font-bold text-primary-950 font-mono">6000K</span>
         </button>
-        <button onclick="acPick(event,'#22C55E','rgba(34,197,94,.3)','Laser Green Aux')" aria-label="Green" class="ac-dot tap-44 w-8 h-8 shrink-0 flex items-center justify-center">
-          <span class="ac-swatch block w-5 h-5 rounded-full border border-neutral-300 transition-all" style="background:#22C55E"></span>
+        <!-- Laser Green Aux -->
+        <button onclick="acPick(event,'#22C55E','rgba(34,197,94,.35)','Laser Green Matrix (Aux Beam)')" aria-label="Laser Green" class="ac-dot flex flex-col items-center gap-1 p-1 rounded-xl hover:bg-white transition-all active:scale-95">
+          <span class="ac-swatch block w-6 h-6 rounded-full border border-neutral-300 shadow-2xs" style="background:#22C55E"></span>
+          <span class="text-[9px] font-bold text-neutral-600 font-mono">Laser</span>
         </button>
+        <!-- Devil Red 650nm -->
+        <button onclick="acPick(event,'#EF4444','rgba(239,68,68,.35)','Devil Red 650nm (Aggressive Ring)')" aria-label="Devil Red" class="ac-dot flex flex-col items-center gap-1 p-1 rounded-xl hover:bg-white transition-all active:scale-95">
+          <span class="ac-swatch block w-6 h-6 rounded-full border border-neutral-300 shadow-2xs" style="background:#EF4444"></span>
+          <span class="text-[9px] font-bold text-neutral-600 font-mono">Devil</span>
+        </button>
+      </div>
+
+      <!-- Brightness / Dimmer Slider -->
+      <div class="p-2.5 rounded-xl bg-neutral-50 border border-neutral-100 flex flex-col gap-1.5">
+        <div class="flex items-center justify-between text-xs font-bold text-neutral-700">
+          <span class="flex items-center gap-1.5 text-[11px] text-neutral-500 uppercase tracking-wider">
+            <i class="ph-bold ph-sun-dim text-sm text-amber-500"></i>Kecerahan Sorot
+          </span>
+          <span id="acBrightLabel" class="font-mono text-primary-950 text-xs">80% (52 Watt)</span>
+        </div>
+        <input type="range" min="20" max="100" value="80" oninput="setBiledQuickBrightness(this.value)" class="w-full h-1.5 bg-neutral-200 rounded-lg appearance-none cursor-pointer accent-accent-600"/>
       </div>
 
       <!-- Action: Primary Brand Green Button -->
@@ -519,9 +524,159 @@
   </div>
 </div>
 
+<!-- GPS REAL-TIME PREVIEW MODAL (Apple HIG Bottom Sheet) -->
+<div id="gpsPreviewModal" class="hidden fixed inset-0 z-[85] bg-black/50 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4">
+  <div id="gpsPreviewSheet" class="w-full max-w-lg bg-white rounded-t-3xl sm:rounded-3xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden translate-y-full transition-transform duration-300">
+    <!-- Handle -->
+    <div class="w-12 h-1.5 bg-neutral-300 rounded-full mx-auto my-3 shrink-0"></div>
+
+    <!-- Header -->
+    <div class="px-5 pb-3 border-b border-neutral-100 flex items-center justify-between shrink-0">
+      <div>
+        <h3 class="font-headline text-base font-bold text-primary-950 flex items-center gap-2">
+          <span>Sedang Dimana — Live GPS</span>
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-micro text-[10px] font-bold">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            LIVE
+          </span>
+        </h3>
+        <p class="text-xs text-neutral-500">Yamaha NMAX · B 1234 XYZ</p>
+      </div>
+      <button onclick="closeGpsPreviewModal()" class="w-8 h-8 rounded-full bg-neutral-100 text-neutral-500 hover:text-primary-950 flex items-center justify-center transition-colors">
+        <i class="ph-bold ph-x text-base"></i>
+      </button>
+    </div>
+
+    <!-- Modal Content -->
+    <div class="p-5 overflow-y-auto flex-1 space-y-4">
+      <!-- High Resolution Vector Map Preview Canvas -->
+      <div class="relative rounded-2xl overflow-hidden bg-[#1e293b] border border-neutral-200 shadow-inner h-56">
+        <svg class="w-full h-full" viewBox="0 0 460 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="460" height="220" fill="#1e293b"/>
+          <!-- Grid Blocks -->
+          <rect x="20" y="20" width="100" height="50" rx="6" fill="#334155" opacity="0.3"/>
+          <rect x="140" y="20" width="130" height="50" rx="6" fill="#334155" opacity="0.3"/>
+          <rect x="290" y="20" width="150" height="50" rx="6" fill="#334155" opacity="0.3"/>
+          <rect x="20" y="90" width="100" height="110" rx="6" fill="#334155" opacity="0.3"/>
+          <rect x="290" y="90" width="150" height="110" rx="6" fill="#334155" opacity="0.3"/>
+          <!-- Roads -->
+          <path d="M-10,80 L480,80" stroke="#475569" stroke-width="22" stroke-linecap="round"/>
+          <path d="M130,-10 L130,230" stroke="#475569" stroke-width="18" stroke-linecap="round"/>
+          <path d="M280,-10 L280,230" stroke="#475569" stroke-width="20" stroke-linecap="round"/>
+          <!-- Road Stripes -->
+          <path d="M-10,80 L480,80" stroke="#f59e0b" stroke-width="2" stroke-dasharray="10 8" opacity="0.8"/>
+          <!-- Route Trace -->
+          <path d="M130,170 L130,80 L280,80 L280,30" fill="none" stroke="#38bdf8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Road Names -->
+          <text x="15" y="76" font-size="9" fill="#94a3b8" font-family="system-ui" font-weight="bold">Jl. K.H. Mas Mansyur</text>
+          <text x="290" y="74" font-size="10" fill="#f8fafc" font-family="system-ui" font-weight="bold">Jl. Jenderal Sudirman</text>
+          <text x="140" y="160" font-size="8.5" fill="#94a3b8" font-family="system-ui">Karet Tengsin</text>
+          <!-- Current Vehicle Radar Ping -->
+          <circle cx="280" cy="30" r="32" fill="#22c55e" opacity="0.2" class="animate-ping" style="animation-duration: 2s;"/>
+          <circle cx="280" cy="30" r="16" fill="#22c55e" opacity="0.35"/>
+          <circle cx="280" cy="30" r="8" fill="#22c55e" stroke="#ffffff" stroke-width="2.5"/>
+        </svg>
+
+        <!-- Speed & Accuracy Pill Floating on Map -->
+        <div class="absolute top-3 left-3 flex items-center gap-2 bg-black/75 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 text-white font-mono text-[11px] font-bold shadow-md">
+          <i class="ph-bold ph-gauge text-emerald-400 text-sm"></i>
+          <span>42 km/j · Bergerak</span>
+        </div>
+
+        <div class="absolute top-3 right-3 bg-black/75 backdrop-blur-md px-2.5 py-1.5 rounded-full border border-white/10 text-white font-mono text-[10px] flex items-center gap-1 shadow-md">
+          <i class="ph-bold ph-crosshair text-sky-400"></i>
+          <span>Akurasi ±2 meter</span>
+        </div>
+
+        <!-- Coordinates overlay at bottom -->
+        <div class="absolute bottom-2.5 inset-x-3 bg-black/80 backdrop-blur-md rounded-xl p-2.5 border border-white/10 flex items-center justify-between text-white text-xs">
+          <div class="min-w-0 pr-2">
+            <span class="font-bold text-white block text-xs truncate">Sahid Sudirman Center</span>
+            <span class="font-mono text-[10px] text-neutral-300 block truncate mt-0.5">−6.214620, 106.818450</span>
+          </div>
+          <span class="font-mono text-[10px] px-2 py-0.5 rounded-md bg-emerald-500 text-white font-bold shrink-0">14 Satelit</span>
+        </div>
+      </div>
+
+      <!-- Detail Alamat & Status Kendaraan -->
+      <div class="p-3.5 rounded-2xl bg-neutral-50 border border-neutral-200/80 space-y-2">
+        <div class="flex items-start gap-2.5">
+          <i class="ph-bold ph-map-pin text-rose-500 text-lg shrink-0 mt-0.5"></i>
+          <div>
+            <span class="font-bold text-xs text-primary-950 block">Jl. Jenderal Sudirman No. 45</span>
+            <p class="text-xs text-neutral-500 leading-relaxed mt-0.5">Karet Sudirman, Tanah Abang, Jakarta Pusat, DKI Jakarta 10220</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Telemetry Info Tiles -->
+      <div class="grid grid-cols-3 gap-2">
+        <div class="p-3 rounded-xl bg-neutral-50 border border-neutral-200/80 text-center">
+          <span class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider block">KONTAK</span>
+          <span class="text-xs font-bold text-emerald-700 block mt-1">ON (Mesin Aktif)</span>
+        </div>
+        <div class="p-3 rounded-xl bg-neutral-50 border border-neutral-200/80 text-center">
+          <span class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider block">DAYA AKI</span>
+          <span class="text-xs font-bold text-primary-950 block mt-1">13.8V · 98%</span>
+        </div>
+        <div class="p-3 rounded-xl bg-neutral-50 border border-neutral-200/80 text-center">
+          <span class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider block">JARAK HARI INI</span>
+          <span class="text-xs font-bold text-primary-950 block mt-1">18.4 km</span>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="space-y-2 pt-1">
+        <a href="device-gps.html" class="w-full h-11 rounded-xl bg-primary-950 hover:bg-black text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs ios-press active:scale-95 transition-all">
+          <i class="ph-bold ph-compass text-base"></i>
+          <span>Buka Navigasi &amp; Peta Penuh</span>
+        </a>
+        <div class="grid grid-cols-2 gap-2">
+          <a href="https://www.google.com/maps?q=-6.21462,106.81845" target="_blank" rel="noopener" class="h-10 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-primary-950 font-bold text-xs flex items-center justify-center gap-1.5 ios-press active:scale-95 transition-all">
+            <i class="ph-bold ph-arrow-square-out text-sm"></i>
+            <span>Google Maps</span>
+          </a>
+          <button onclick="window.nineToast('Koordinat GPS disalin ke clipboard', 'share-network');" class="h-10 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-primary-950 font-bold text-xs flex items-center justify-center gap-1.5 ios-press active:scale-95 transition-all">
+            <i class="ph-bold ph-share-network text-sm"></i>
+            <span>Bagikan Titik</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="assets/shell.js"></script>
 <script src="assets/components.js"></script>
 <script>
+  // GPS Preview Modal controls
+  function openGpsPreviewModal() {
+    var modal = document.getElementById("gpsPreviewModal");
+    var sheet = document.getElementById("gpsPreviewSheet");
+    if (!modal || !sheet) return;
+    modal.classList.remove("hidden");
+    requestAnimationFrame(function () {
+      sheet.classList.remove("translate-y-full");
+    });
+  }
+
+  function closeGpsPreviewModal() {
+    var modal = document.getElementById("gpsPreviewModal");
+    var sheet = document.getElementById("gpsPreviewSheet");
+    if (!modal || !sheet) return;
+    sheet.classList.add("translate-y-full");
+    setTimeout(function () {
+      modal.classList.add("hidden");
+    }, 280);
+  }
+
+  var gpsModalEl = document.getElementById("gpsPreviewModal");
+  if (gpsModalEl) {
+    gpsModalEl.addEventListener("click", function (e) {
+      if (e.target === gpsModalEl) closeGpsPreviewModal();
+    });
+  }
+
   // Segmented control category filter logic
   document.querySelectorAll(".ios-segmented-btn").forEach(function (btn) {
     btn.addEventListener("click", function () {
@@ -530,47 +685,57 @@
       var filter = btn.dataset.filter;
       document.querySelectorAll(".device").forEach(function (card) {
         var catMatch = filter === "all" || card.dataset.cat === filter;
-        var statusMatch = currentStatusFilter === "all" || card.dataset.status === currentStatusFilter;
-        card.classList.toggle("hidden", !(catMatch && statusMatch));
+        card.classList.toggle("hidden", !catMatch);
       });
     });
   });
 
-  // Status Filter Hub Logic (Clean Apple HIG - Uniform Styling)
-  var currentStatusFilter = 'all';
-  function filterByStatus(status, btn) {
-    currentStatusFilter = status;
-    document.querySelectorAll(".st-filter-btn").forEach(function (b) {
-      b.className = "st-filter-btn py-1.5 px-2 rounded-xl bg-neutral-100 text-neutral-600 hover:bg-neutral-200/70 font-bold text-[11px] flex items-center justify-center gap-1 transition-all";
-    });
-    btn.className = "st-filter-btn active py-1.5 px-2 rounded-xl bg-primary-950 text-white font-bold text-[11px] flex items-center justify-center gap-1 transition-all shadow-xs";
-
-    var catBtn = document.querySelector(".ios-segmented-btn.active");
-    var catFilter = catBtn ? catBtn.dataset.filter : "all";
-
-    document.querySelectorAll(".device").forEach(function (card) {
-      var catMatch = catFilter === "all" || card.dataset.cat === catFilter;
-      var statusMatch = status === "all" || card.dataset.status === status;
-      card.classList.toggle("hidden", !(catMatch && statusMatch));
-    });
-  }
-
-  // Reactive color swatch selection for biled
+  // Upgraded Reactive color swatch selection for biled
   function acPick(e, hex, rgba, name) {
     e.preventDefault(); e.stopPropagation();
-    document.getElementById("acGlow").style.background =
-      "radial-gradient(circle at 50% 40%," + hex + " 0%," + rgba + " 45%,transparent 72%)";
-    document.getElementById("acLens").style.boxShadow = "0 0 24px " + hex;
-    document.getElementById("acColorName").textContent = name;
+    var glow = document.getElementById("acGlow");
+    var lens = document.getElementById("acLens");
+    var label = document.getElementById("acColorName");
+    var badge = document.getElementById("acKelvinBadge");
 
-    document.querySelectorAll(".ac-swatch").forEach(function (sw) {
-      sw.className = "ac-swatch block w-5 h-5 rounded-full border border-neutral-300 transition-all";
+    if (glow) glow.style.background = "radial-gradient(circle at 50% 40%," + hex + " 0%," + rgba + " 45%,transparent 72%)";
+    if (lens) {
+      lens.style.boxShadow = "0 0 24px " + hex;
+      lens.style.borderColor = hex;
+    }
+    if (label) label.textContent = name;
+    if (badge) {
+      var match = name.match(/^[0-9]+K|[A-Za-z]+/);
+      badge.textContent = match ? match[0] : name.split(" ")[0];
+      badge.style.color = hex === '#FFFFFF' ? '#0f172a' : hex;
+    }
+
+    document.querySelectorAll(".ac-dot").forEach(function (dot) {
+      dot.classList.remove("bg-white", "shadow-2xs");
+      var sw = dot.querySelector(".ac-swatch");
+      if (sw) {
+        sw.className = "ac-swatch block w-6 h-6 rounded-full border border-neutral-300 shadow-2xs";
+      }
     });
-    var picked = e.currentTarget.querySelector(".ac-swatch");
-    if (picked) {
-      picked.className = "ac-swatch block w-6 h-6 rounded-full border-2 border-primary-900 transition-all scale-110 shadow-sm";
+
+    var targetDot = e.currentTarget;
+    if (targetDot) {
+      targetDot.classList.add("bg-white", "shadow-2xs");
+      var sw = targetDot.querySelector(".ac-swatch");
+      if (sw) {
+        sw.className = "ac-swatch block w-6 h-6 rounded-full border-2 border-primary-950 shadow-xs ring-2 ring-primary-900/30 scale-110";
+      }
     }
     window.nineToast("Suhu warna diubah ke " + name, "sun");
+  }
+
+  // Quick Brightness Dimmer Slider
+  function setBiledQuickBrightness(val) {
+    var label = document.getElementById("acBrightLabel");
+    var glow = document.getElementById("acGlow");
+    var watts = Math.round(val * 0.65);
+    if (label) label.textContent = val + "% (" + watts + " Watt)";
+    if (glow) glow.style.opacity = (val / 100).toString();
   }
 
   // Device reconnection simulation
