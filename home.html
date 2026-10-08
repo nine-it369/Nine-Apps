@@ -58,8 +58,8 @@
 <body data-tab="beranda" data-header="transparent" data-search="Cari aksesori di Mall…" class="font-body text-body text-on-surface antialiased selection:bg-accent-subtle selection:text-accent-text">
 
 <main id="homeCanvas" class="w-full min-h-screen pt-16 pb-32 text-on-surface flex flex-col relative overflow-x-hidden bg-[#fafafa]">
-  <!-- Clean Automotive Light Header Block: Hanya sampai di atas bagian Aksesori Terhubung (Clean Light Tone, Tanpa Gradient) -->
-  <div class="absolute top-0 inset-x-0 h-[126px] bg-[#f2f4f7] border-b border-neutral-200/60 z-0 pointer-events-none"></div>
+  <!-- Gradient Automotive Light Header: Dari atas memudar halus sampai ke tengah komponen Aksesori Terhubung -->
+  <div class="absolute top-0 inset-x-0 h-[310px] bg-gradient-to-b from-[#e8edf5] via-[#f1f4f8] to-transparent pointer-events-none z-0"></div>
 
   <div class="max-w-md mx-auto w-full px-4 flex flex-col relative z-10">
 
@@ -337,12 +337,12 @@
       </div>
     </section>
 
-    <!-- SECTION 2: 3 AKSI CEPAT (STANDALONE AWALNYA - TANPA CONTAINER PEMBUNGKUS) -->
-    <section class="mt-4" id="sectionActions">
-      <!-- 3 Standalone Action Buttons: Awalnya tidak ada container yang menyelimuti ketiganya -->
-      <div class="grid grid-cols-3 gap-2 relative z-10" id="actionButtonsRow">
+    <!-- SECTION 2: 3 AKSI CEPAT (STANDALONE AWALNYA DENGAN SPACING & UNITED BORDER KETIKA TERPILIH) -->
+    <section class="mt-5" id="sectionActions">
+      <!-- 3 Standalone Action Buttons: Bersih & berjarak teratur (gap-2.5) -->
+      <div class="grid grid-cols-3 gap-2.5 relative z-10" id="actionButtonsRow">
         <!-- 1. Bagikan Lokasi -->
-        <button type="button" onclick="toggleAction('share')" id="act-btn-share" class="action-btn h-[78px] p-2 rounded-2xl bg-white shadow-2xs transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 border-0 text-neutral-700 relative">
+        <button type="button" onclick="toggleAction('share')" id="act-btn-share" class="action-btn h-[80px] p-2.5 rounded-2xl bg-white border border-neutral-200/80 shadow-2xs transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 text-neutral-700 relative">
           <div class="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-primary-950 transition-colors" id="act-icon-share">
             <i class="ph-bold ph-share-network text-lg"></i>
           </div>
@@ -350,8 +350,8 @@
         </button>
 
         <!-- 2. Booking Servis (Badge 1) -->
-        <button type="button" onclick="toggleAction('booking')" id="act-btn-booking" class="action-btn h-[78px] p-2 rounded-2xl bg-white shadow-2xs transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 border-0 text-neutral-700 relative">
-          <span class="absolute top-1.5 right-2 min-w-[17px] h-[17px] px-1 rounded-full bg-accent-600 text-white font-mono text-[10px] font-bold flex items-center justify-center shadow-xs leading-none">1</span>
+        <button type="button" onclick="toggleAction('booking')" id="act-btn-booking" class="action-btn h-[80px] p-2.5 rounded-2xl bg-white border border-neutral-200/80 shadow-2xs transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 text-neutral-700 relative">
+          <span class="absolute top-2 right-2 min-w-[17px] h-[17px] px-1 rounded-full bg-accent-600 text-white font-mono text-[10px] font-bold flex items-center justify-center shadow-xs leading-none">1</span>
           <div class="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-primary-950 transition-colors" id="act-icon-booking">
             <i class="ph-bold ph-calendar-check text-lg"></i>
           </div>
@@ -359,8 +359,8 @@
         </button>
 
         <!-- 3. List Order (Badge 1) -->
-        <button type="button" onclick="toggleAction('order')" id="act-btn-order" class="action-btn h-[78px] p-2 rounded-2xl bg-white shadow-2xs transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 border-0 text-neutral-700 relative">
-          <span class="absolute top-1.5 right-2 min-w-[17px] h-[17px] px-1 rounded-full bg-accent-600 text-white font-mono text-[10px] font-bold flex items-center justify-center shadow-xs leading-none">1</span>
+        <button type="button" onclick="toggleAction('order')" id="act-btn-order" class="action-btn h-[80px] p-2.5 rounded-2xl bg-white border border-neutral-200/80 shadow-2xs transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 text-neutral-700 relative">
+          <span class="absolute top-2 right-2 min-w-[17px] h-[17px] px-1 rounded-full bg-accent-600 text-white font-mono text-[10px] font-bold flex items-center justify-center shadow-xs leading-none">1</span>
           <div class="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-primary-950 transition-colors" id="act-icon-order">
             <i class="ph-bold ph-clipboard-text text-lg"></i>
           </div>
@@ -368,8 +368,10 @@
         </button>
       </div>
 
-      <!-- CONTAINER LIST YANG MENYELIMUTI HANYA KETIKA DIKLIK, TANPA ADA BORDER -->
-      <div id="actionExpandContainer" class="hidden mt-2.5 rounded-2xl bg-white shadow-sm p-4 border-0 transition-all">
+      <!-- CONTAINER LIST YANG MENYELIMUTI KETIKA DIKLIK, DENGAN BORDER YANG MENYATU KE IKON TERPILIH -->
+      <div id="actionExpandContainer" class="hidden relative mt-3 rounded-2xl bg-white border-2 border-neutral-300 shadow-2xs p-4 transition-all">
+        <!-- Connector notch: Menyatu dengan border tombol aktif di atasnya -->
+        <div id="actionIndicatorNotch" class="absolute -top-[9px] w-4 h-4 bg-white border-t-2 border-l-2 border-neutral-300 rotate-45 transition-all duration-300 z-10" style="left: calc(16.67% - 8px);"></div>
         
         <!-- Panel 1: Bagikan Lokasi -->
         <div id="expand-share" class="expand-content hidden flex flex-col gap-3">
@@ -882,11 +884,12 @@
     }
   }, { passive: true });
 
-  // 3-Action Toggle Switcher: Standalone buttons initially, container only when clicked, zero border
+  // 3-Action Toggle Switcher: Standalone buttons initially, united border container on click
   var currentActiveAction = null; // Awalnya tidak ada container yang menyelimuti
 
   function updateActionButtonsUI(activeType) {
     var container = document.getElementById("actionExpandContainer");
+    var notch = document.getElementById("actionIndicatorNotch");
     var btnShare = document.getElementById("act-btn-share");
     var btnBooking = document.getElementById("act-btn-booking");
     var btnOrder = document.getElementById("act-btn-order");
@@ -903,11 +906,17 @@
     var icons = { share: iconShare, booking: iconBooking, order: iconOrder };
     var panels = { share: sharePanel, booking: bookingPanel, order: orderPanel };
 
+    var notchPositions = {
+      share: "calc(16.67% - 8px)",
+      booking: "calc(50% - 8px)",
+      order: "calc(83.33% - 8px)"
+    };
+
     if (!activeType) {
       if (container) container.classList.add("hidden");
       Object.keys(btns).forEach(function(k) {
         if (btns[k]) {
-          btns[k].className = "action-btn h-[78px] p-2 rounded-2xl bg-white shadow-2xs transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 border-0 text-neutral-700 relative";
+          btns[k].className = "action-btn h-[80px] p-2.5 rounded-2xl bg-white border border-neutral-200/80 shadow-2xs transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 text-neutral-700 relative";
         }
         if (icons[k]) {
           icons[k].className = "w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-primary-950 transition-colors";
@@ -918,19 +927,22 @@
     }
 
     if (container) container.classList.remove("hidden");
+    if (notch && notchPositions[activeType]) {
+      notch.style.left = notchPositions[activeType];
+    }
 
     Object.keys(btns).forEach(function(k) {
       if (k === activeType) {
         if (btns[k]) {
-          btns[k].className = "action-btn h-[78px] p-2 rounded-2xl bg-white shadow-sm transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 border-0 text-primary-950 font-bold relative z-20";
+          btns[k].className = "action-btn h-[80px] p-2.5 rounded-2xl bg-white border-2 border-neutral-300 shadow-2xs transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 text-primary-950 font-bold relative z-20";
         }
         if (icons[k]) {
-          icons[k].className = "w-10 h-10 rounded-full bg-accent-50 text-accent-700 flex items-center justify-center transition-colors";
+          icons[k].className = "w-10 h-10 rounded-full bg-neutral-100 text-primary-950 flex items-center justify-center transition-colors";
         }
         if (panels[k]) panels[k].classList.remove("hidden");
       } else {
         if (btns[k]) {
-          btns[k].className = "action-btn h-[78px] p-2 rounded-2xl bg-neutral-100/60 shadow-none transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 border-0 text-neutral-400 relative";
+          btns[k].className = "action-btn h-[80px] p-2.5 rounded-2xl bg-neutral-100/70 border border-neutral-200/60 shadow-none transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 text-neutral-400 relative";
         }
         if (icons[k]) {
           icons[k].className = "w-10 h-10 rounded-full bg-neutral-200/50 flex items-center justify-center text-neutral-400 transition-colors";

@@ -36,14 +36,10 @@
     </div>
   </section>
 
-  <!-- 5-Step Progress Stepper (Clean Apple HIG) -->
-  <section class="mt-3.5 ios-card p-3 shadow-2xs bg-white border border-neutral-200/80">
-    <div class="flex items-center justify-between mb-1.5">
-      <span class="font-label text-label uppercase tracking-wider text-neutral-500">Langkah <span id="stepDisplayNum" class="text-primary-950 font-bold">1</span> dari 5</span>
-      <span class="font-caption text-caption font-bold text-primary-950" id="stepName">1. Kontak &amp; Pelanggan</span>
-    </div>
-    <div class="h-1.5 rounded-full bg-neutral-100 overflow-hidden">
-      <div id="stepProgressBar" class="h-full bg-primary-950 rounded-full transition-all duration-300" style="width: 20%"></div>
+  <!-- 5-Step Interactive Stepper (Mirrors D:\Garage Website\Frontend\app\components\booking\BookingStepper.vue) -->
+  <section class="mt-3.5 ios-card p-3.5 shadow-2xs bg-white border border-neutral-200/80">
+    <div class="flex items-start justify-between relative" id="bookingStepperContainer">
+      <!-- 5 Steps with connecting lines & indicators rendered dynamically -->
     </div>
   </section>
 
@@ -537,12 +533,12 @@
   var holdSeconds = 180;
   var holdTimerInterval = null;
 
-  var STEP_NAMES = [
-    "1. Kontak & Pelanggan",
-    "2. Identifikasi Kendaraan",
-    "3. Layanan & Retrofit",
-    "4. Cabang & Slot Waktu",
-    "5. Review & Konfirmasi"
+  var STEP_ITEMS = [
+    { title: "Kontak & Alamat", icon: "ph-user" },
+    { title: "Kendaraan", icon: "ph-car" },
+    { title: "Layanan", icon: "ph-wrench" },
+    { title: "Jadwal", icon: "ph-calendar" },
+    { title: "Review", icon: "ph-check-circle" }
   ];
 
   var SERVICES = [
@@ -552,14 +548,71 @@
     { name: "Ganti Oli Motul 10W-40 + Filter", dur: 20, price: 95000, selected: false }
   ];
 
+  function renderBookingStepper() {
+    var container = document.getElementById("bookingStepperContainer");
+    if (!container) return;
+    
+    var html = '';
+    STEP_ITEMS.forEach(function(item, idx) {
+      var stepNum = idx + 1;
+      var isActive = stepNum === currentStep;
+      var isPassed = stepNum < currentStep;
+      
+      var circleClass = "";
+      var iconContent = "";
+      
+      if (isActive) {
+        circleClass = "bg-primary-950 text-white ring-4 ring-primary-950/20";
+        iconContent = '<span class="font-bold text-xs">' + stepNum + '</span>';
+      } else if (isPassed) {
+        circleClass = "bg-primary-950 text-white cursor-pointer hover:opacity-90";
+        iconContent = '<i class="ph-bold ph-check text-xs"></i>';
+      } else {
+        circleClass = "bg-white text-neutral-400 border border-neutral-200 cursor-not-allowed";
+        iconContent = '<span class="font-medium text-xs">' + stepNum + '</span>';
+      }
+      
+      var titleClass = isActive 
+        ? "text-primary-950 font-bold" 
+        : (isPassed ? "text-primary-950 font-medium" : "text-neutral-400 font-normal");
+        
+      var connectorClass = isPassed ? "bg-primary-950" : "bg-neutral-200";
+
+      html += '<div class="flex-1 flex flex-col items-center relative text-center group cursor-pointer" onclick="handleStepClick(' + stepNum + ')">';
+      
+      // Connector line
+      if (idx < STEP_ITEMS.length - 1) {
+        html += '<div class="absolute top-4 left-1/2 w-full h-[2px] -translate-y-1/2 -z-0 ' + connectorClass + '"></div>';
+      }
+      
+      // Circle indicator
+      html += '<div class="relative z-10 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ' + circleClass + '">';
+      html += iconContent;
+      html += '</div>';
+      
+      // Label
+      html += '<span class="mt-1.5 text-[10px] leading-tight block truncate max-w-[64px] transition-colors ' + titleClass + '">' + item.title + '</span>';
+      
+      html += '</div>';
+    });
+    
+    container.innerHTML = html;
+  }
+
+  function handleStepClick(stepNum) {
+    if (stepNum <= currentStep) {
+      goToStep(stepNum);
+    } else if (stepNum === currentStep + 1) {
+      goToStep(stepNum);
+    }
+  }
+
   function updateStepUI() {
     for (var i = 1; i <= 5; i++) {
       var el = document.getElementById("step" + i);
       if (el) el.classList.toggle("hidden", i !== currentStep);
     }
-    document.getElementById("stepDisplayNum").textContent = currentStep;
-    document.getElementById("stepName").textContent = STEP_NAMES[currentStep - 1];
-    document.getElementById("stepProgressBar").style.width = (currentStep * 20) + "%";
+    renderBookingStepper();
 
     var nextBtn = document.getElementById("btnNext");
     if (currentStep === 1) nextBtn.innerHTML = '<span>Lanjut ke Kendaraan</span><i class="ph ph-arrow-right text-base"></i>';
@@ -710,9 +763,10 @@
   }
 
   function openWhatsAppConfirmation() {
-    nineToast("Membuka pesan konfirmasi WhatsApp Bot...", "whatsapp-logo");
+    nineToast("Membuka WhatsApp Bot Nine Garage...", "whatsapp-logo");
+    var text = encodeURIComponent("Halo nine bot, saya ingin meminta detail booking untuk kode : TGR-8821-2026");
     setTimeout(function() {
-      window.open("https://wa.me/6281288997700?text=Halo%20Nine%20Garage,%20saya%20sudah%20booking%20tiket%20TGR-8821-2026%20untuk%20servis%20di%20Arcadia%20BSD.", "_blank");
+      window.open("https://wa.me/6281288997700?text=" + text, "_blank");
     }, 600);
   }
 

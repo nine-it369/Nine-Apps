@@ -16,19 +16,27 @@
 <body data-tab="mall" class="bg-surface font-body text-body text-on-surface antialiased" data-search="Cari biled, lampu tembak, klakson…">
 <main class="max-w-md mx-auto min-h-screen pt-16 pb-28 bg-surface text-on-surface flex flex-col relative">
 
-  <!-- Warehouse & Official Store Bar -->
+  <!-- Warehouse & Official Store Bar (Per D:\Frontend-Mall\app\components\home\HomeWarehouseSelector.vue) -->
   <div class="px-4 pt-3 pb-2 flex items-center justify-between gap-2">
-    <button onclick="openWarehouseSheet()" class="tap-v flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-neutral-200/80 shadow-2xs ios-press">
-      <i class="ph-bold ph-warehouse text-primary-900 text-sm"></i>
-      <span class="font-bold text-xs text-primary-950" id="currentWarehouse">Gudang: Jakarta Barat</span>
-      <i class="ph-bold ph-caret-down text-neutral-400 text-xs"></i>
-    </button>
-    <div class="flex items-center gap-1.5">
-      <a href="orders.html" class="tap-44 h-8 px-2.5 rounded-full bg-white border border-neutral-200/80 shadow-2xs flex items-center gap-1 text-xs font-bold text-primary-950 ios-press" aria-label="Pesanan Saya">
+    <div class="flex-1 flex items-center justify-between gap-2 rounded-2xl bg-white border border-neutral-200/80 px-3.5 py-2 shadow-2xs">
+      <div class="flex items-center gap-2 min-w-0">
+        <i class="ph-bold ph-map-pin text-accent-600 text-sm shrink-0"></i>
+        <div class="min-w-0 flex items-center gap-1.5 flex-wrap">
+          <span class="text-[10px] font-semibold text-neutral-500 uppercase tracking-wider">Dikirim dari:</span>
+          <span class="text-xs font-bold text-primary-950 truncate" id="currentWarehouse">Jakarta Barat</span>
+        </div>
+      </div>
+      <button onclick="openWarehouseSheet()" type="button" class="inline-flex items-center gap-1.5 rounded-xl bg-neutral-100/80 hover:bg-neutral-100 border border-neutral-200/60 px-2.5 py-1 text-[11px] font-bold text-primary-950 transition-all shadow-2xs active:scale-95 shrink-0">
+        <i class="ph-bold ph-arrows-left-right text-xs text-neutral-600"></i>
+        <span>Ganti Gudang</span>
+      </button>
+    </div>
+    <div class="flex items-center gap-1.5 shrink-0">
+      <a href="orders.html" class="tap-44 h-9 px-2.5 rounded-2xl bg-white border border-neutral-200/80 shadow-2xs flex items-center gap-1 text-xs font-bold text-primary-950 ios-press" aria-label="Pesanan Saya">
         <i class="ph-bold ph-package text-sm text-neutral-600"></i>
         <span>Pesanan</span>
       </a>
-      <a href="keranjang.html" class="tap-44 h-8 w-8 rounded-full bg-white border border-neutral-200/80 shadow-2xs flex items-center justify-center text-primary-950 relative ios-press" aria-label="Keranjang">
+      <a href="keranjang.html" class="tap-44 h-9 w-9 rounded-2xl bg-white border border-neutral-200/80 shadow-2xs flex items-center justify-center text-primary-950 relative ios-press" aria-label="Keranjang">
         <i class="ph-bold ph-shopping-bag text-base"></i>
         <span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-danger-500 text-white font-micro text-[9px] font-black flex items-center justify-center">2</span>
       </a>
@@ -131,7 +139,18 @@
         </span>
       </div>
 
-      <div class="flex items-center justify-between pt-3.5 mt-1 border-t border-neutral-100">
+      <!-- Quota & Scarcity Meter per PromoPackages.vue -->
+      <div class="mt-3">
+        <div class="flex justify-between font-micro text-[10px] mb-1">
+          <span class="text-neutral-700 font-bold">Tersisa 4 paket</span>
+          <span class="text-neutral-400">80% kuota terpakai</span>
+        </div>
+        <div class="w-full h-1.5 bg-neutral-100 rounded-full overflow-hidden">
+          <div class="h-full bg-primary-950 rounded-full" style="width: 80%"></div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between pt-3.5 mt-3 border-t border-neutral-100">
         <div>
           <span class="text-[10px] text-neutral-400 font-bold uppercase tracking-wider block">HARGA BUNDLING</span>
           <span class="font-price text-lg font-black text-primary-950">Rp 2.100.000</span>
@@ -361,7 +380,7 @@
   });
 
   function setWarehouse(city, desc) {
-    document.getElementById("currentWarehouse").textContent = "Gudang: " + city;
+    document.getElementById("currentWarehouse").textContent = city;
     closeWarehouseSheet();
     window.nineToast("Gudang diubah ke " + city + " (" + desc + ")", "warehouse");
   }

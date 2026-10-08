@@ -156,5 +156,71 @@
     }
   };
 
+  /**
+   * Generates interactive 5-Step Stepper HTML.
+   * Directly mirrors D:\Garage Website\Frontend\app\components\booking\BookingStepper.vue
+   */
+  NineComponents.bookingStepItems = [
+    { title: "Kontak & Alamat", icon: "ph-user" },
+    { title: "Kendaraan", icon: "ph-car" },
+    { title: "Layanan", icon: "ph-wrench" },
+    { title: "Jadwal", icon: "ph-calendar" },
+    { title: "Review", icon: "ph-check-circle" }
+  ];
+
+  NineComponents.renderBookingStepper = function (currentStep, onStepClickFnName) {
+    var fnName = onStepClickFnName || "goToStep";
+    return NineComponents.bookingStepItems.map(function (item, idx) {
+      var stepNum = idx + 1;
+      var isActive = stepNum === currentStep;
+      var isPassed = stepNum < currentStep;
+
+      var circleClass = isActive
+        ? "bg-primary-950 text-white ring-4 ring-primary-950/20"
+        : (isPassed
+            ? "bg-primary-950 text-white cursor-pointer hover:opacity-90"
+            : "bg-white text-neutral-400 border border-neutral-200 cursor-not-allowed");
+
+      var iconContent = isPassed
+        ? '<i class="ph-bold ph-check text-xs"></i>'
+        : '<span class="' + (isActive ? 'font-bold' : 'font-medium') + ' text-xs">' + stepNum + '</span>';
+
+      var titleClass = isActive
+        ? "text-primary-950 font-bold"
+        : (isPassed ? "text-primary-950 font-medium" : "text-neutral-400 font-normal");
+
+      var connectorClass = isPassed ? "bg-primary-950" : "bg-neutral-200";
+
+      return (
+        '<div class="flex-1 flex flex-col items-center relative text-center group cursor-pointer" onclick="' + fnName + '(' + stepNum + ')">' +
+        (idx < NineComponents.bookingStepItems.length - 1
+          ? '<div class="absolute top-4 left-1/2 w-full h-[2px] -translate-y-1/2 -z-0 ' + connectorClass + '"></div>'
+          : '') +
+        '<div class="relative z-10 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ' + circleClass + '">' +
+        iconContent +
+        '</div>' +
+        '<span class="mt-1.5 text-[10px] leading-tight block truncate max-w-[64px] transition-colors ' + titleClass + '">' + item.title + '</span>' +
+        '</div>'
+      );
+    }).join("");
+  };
+
+  /**
+   * Scarcity metric helper for promo bundling items.
+   * Directly mirrors D:\Frontend-Mall\app\components\home\PromoPackages.vue
+   */
+  NineComponents.getScarcityDetails = function (quota, soldCount) {
+    var q = quota || 100;
+    var s = soldCount || 0;
+    var remaining = Math.max(0, q - s);
+    var pct = Math.min(100, Math.round((s / q) * 100) || 0);
+    return {
+      quota: q,
+      soldCount: s,
+      remainingCount: remaining,
+      percentage: pct
+    };
+  };
+
   window.nineComponents = NineComponents;
 })(window, document);
