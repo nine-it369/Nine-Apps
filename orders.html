@@ -4,7 +4,8 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
   <title>Pesanan Saya — Nine Autogarage</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=Plus+Jakarta+Sans:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
@@ -30,7 +31,7 @@
   <!-- Segmented Tabs (Horizontal Scrollable) -->
   <div class="px-4 py-2 overflow-x-auto no-scrollbar">
     <div class="flex items-center gap-1.5 w-max">
-      <button onclick="switchTab(this,'menunggu')" class="order-tab tap-44 h-9 px-3.5 rounded-full bg-primary-950 text-white font-bold text-xs shadow-xs">
+      <button onclick="switchTab(this,'menunggu')" class="order-tab tap-44 h-9 px-3.5 rounded-full bg-accent-600 text-white font-bold text-xs shadow-xs">
         Menunggu Bayar
       </button>
       <button onclick="switchTab(this,'diproses')" class="order-tab tap-44 h-9 px-3.5 rounded-full bg-white border border-neutral-200/80 text-neutral-600 font-semibold text-xs">
@@ -194,7 +195,7 @@
     document.querySelectorAll(".order-tab").forEach(function (b) {
       b.className = "order-tab tap-44 h-9 px-3.5 rounded-full bg-white border border-neutral-200/80 text-neutral-600 font-semibold text-xs";
     });
-    btn.className = "order-tab tap-44 h-9 px-3.5 rounded-full bg-primary-950 text-white font-bold text-xs shadow-xs";
+    btn.className = "order-tab tap-44 h-9 px-3.5 rounded-full bg-accent-600 text-white font-bold text-xs shadow-xs";
     renderOrders(key);
   }
 

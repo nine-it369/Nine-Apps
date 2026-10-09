@@ -1,14 +1,14 @@
 /* Apple Human Interface Guidelines (HIG) + Nine Mall Design System */
 @import url('https://fonts.cdnfonts.com/css/sf-pro-display');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap');
 @import url('./components.css');
 
-html, body {
+html,
+body {
   width: 100%;
   margin: 0;
   padding: 0;
   background-color: #f8f8fa;
-  font-family: 'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-family: 'SF Pro Display', 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -23,7 +23,12 @@ body {
 }
 
 /* Touch Action & Native Feel */
-a, button, [role="button"], input, select, textarea {
+a,
+button,
+[role="button"],
+input,
+select,
+textarea {
   touch-action: manipulation;
 }
 
@@ -37,6 +42,7 @@ a, button, [role="button"], input, select, textarea {
 .tap-v {
   position: relative;
 }
+
 .tap-v::after {
   content: "";
   position: absolute;
@@ -56,6 +62,7 @@ a, button, [role="button"], input, select, textarea {
   align-items: center;
   justify-content: center;
 }
+
 .tap-44::after {
   content: "";
   position: absolute;
@@ -71,19 +78,21 @@ a, button, [role="button"], input, select, textarea {
 
 /* Apple HIG Tactile Micro-Interactions */
 .ios-press {
-  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s ease;
-}
-.ios-press:active {
-  transform: scale(0.975);
-  opacity: 0.82;
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s ease, box-shadow 0.15s ease;
 }
 
-/* Apple HIG Inset Grouped Card */
+.ios-press:active {
+  transform: scale(0.975);
+  opacity: 0.85;
+}
+
+/* Apple HIG Inset Grouped Card with Soft Shadow */
 .ios-card {
   background: #ffffff;
   border-radius: 20px;
-  border: 1px solid rgba(228, 228, 231, 0.8);
+  border: 1px solid rgba(228, 228, 231, 0.85);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03), 0 4px 14px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Apple HIG Segmented Control */
@@ -93,6 +102,7 @@ a, button, [role="button"], input, select, textarea {
   border-radius: 12px;
   display: flex;
 }
+
 .ios-segmented-btn {
   flex: 1;
   padding: 6px 12px;
@@ -103,6 +113,7 @@ a, button, [role="button"], input, select, textarea {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   color: #71717a;
 }
+
 .ios-segmented-btn.active {
   background: #ffffff;
   color: #18181b;
@@ -123,6 +134,7 @@ a, button, [role="button"], input, select, textarea {
 .pt-safe {
   padding-top: max(env(safe-area-inset-top, 0px), 12px);
 }
+
 .pb-safe {
   padding-bottom: max(env(safe-area-inset-bottom, 0px), 12px);
 }
@@ -131,12 +143,15 @@ a, button, [role="button"], input, select, textarea {
 *::-webkit-scrollbar {
   display: none;
 }
+
 * {
   scrollbar-width: none;
 }
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -147,6 +162,7 @@ a, button, [role="button"], input, select, textarea {
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
 }
+
 .snap-card {
   scroll-snap-align: center;
 }
@@ -159,13 +175,39 @@ a, button, [role="button"], input, select, textarea {
 }
 
 /* Chips Hit Area Enhancement */
-.seg, .cat, .pick, .vchip, .temp, .mode, .tb, .f, .filt, .dur,
-.chip, .dt, .slot, .evt, .br {
+.seg,
+.cat,
+.pick,
+.vchip,
+.temp,
+.mode,
+.tb,
+.f,
+.filt,
+.dur,
+.chip,
+.dt,
+.slot,
+.evt,
+.br {
   position: relative;
 }
-.seg::after, .cat::after, .pick::after, .vchip::after, .temp::after, .mode::after,
-.tb::after, .f::after, .filt::after, .dur::after, .chip::after, .dt::after,
-.slot::after, .evt::after, .br::after {
+
+.seg::after,
+.cat::after,
+.pick::after,
+.vchip::after,
+.temp::after,
+.mode::after,
+.tb::after,
+.f::after,
+.filt::after,
+.dur::after,
+.chip::after,
+.dt::after,
+.slot::after,
+.evt::after,
+.br::after {
   content: "";
   position: absolute;
   left: 0;
@@ -174,4 +216,69 @@ a, button, [role="button"], input, select, textarea {
   height: 44px;
   transform: translateY(-50%);
   pointer-events: none;
+}
+
+/* ==========================================================================
+   Elegant Apple HIG Icon Squircles (Consistent App Bar Style)
+   ========================================================================== */
+.icon-squircle,
+.icon-squircle-amber,
+.icon-squircle-emerald,
+.icon-squircle-blue,
+.icon-squircle-indigo,
+.icon-squircle-violet,
+.icon-squircle-rose,
+.icon-squircle-cyan,
+.icon-squircle-orange {
+  background-color: #f4f4f5;
+  color: #18181b;
+  border: 1px solid rgba(228, 228, 231, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.icon-squircle:hover,
+.icon-squircle-amber:hover,
+.icon-squircle-emerald:hover,
+.icon-squircle-blue:hover,
+.icon-squircle-indigo:hover,
+.icon-squircle-violet:hover,
+.icon-squircle-rose:hover,
+.icon-squircle-cyan:hover,
+.icon-squircle-orange:hover {
+  background-color: #e4e4e7;
+  color: #09090b;
+}
+
+/* Loyalty & Gamification Badges */
+.badge-koin {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(234, 88, 12, 0.12));
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: #b45309;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.badge-promo-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.5rem;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  font-size: 0.625rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1;
 }

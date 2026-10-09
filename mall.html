@@ -4,7 +4,8 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
   <title>Mall — Nine Autogarage</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=Plus+Jakarta+Sans:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
@@ -274,24 +275,24 @@
 <script src="assets/shell.js"></script>
 <script src="assets/components.js"></script>
 <script>
-  // Categories Array per D:\Frontend-Mall
+  // Categories Array per D:\Frontend-Mall with Elegant Squircles
   var CATEGORIES = [
-    { name: "Biled Projector", icon: "aperture", slug: "biled" },
-    { name: "Lampu Utama", icon: "lightbulb", slug: "headlight" },
-    { name: "Lampu Tembak", icon: "flashlight", slug: "miniprojie" },
-    { name: "Biled Foglamp", icon: "cloud-fog", slug: "foglamp" },
-    { name: "DRL & Senja", icon: "sun", slug: "drl" },
-    { name: "Sein & Rem", icon: "arrow-bend-down-right", slug: "signal" },
-    { name: "Klakson Dual", icon: "speaker-high", slug: "horn" },
-    { name: "Relay Harness", icon: "lightning", slug: "relay" }
+    { name: "Biled Projector", icon: "aperture", slug: "biled", squircle: "icon-squircle" },
+    { name: "Lampu Utama", icon: "lightbulb", slug: "headlight", squircle: "icon-squircle" },
+    { name: "Lampu Tembak", icon: "flashlight", slug: "miniprojie", squircle: "icon-squircle" },
+    { name: "Biled Foglamp", icon: "cloud-fog", slug: "foglamp", squircle: "icon-squircle" },
+    { name: "DRL & Senja", icon: "sun", slug: "drl", squircle: "icon-squircle" },
+    { name: "Sein & Rem", icon: "arrow-bend-down-right", slug: "signal", squircle: "icon-squircle" },
+    { name: "Klakson Dual", icon: "speaker-high", slug: "horn", squircle: "icon-squircle" },
+    { name: "Relay Harness", icon: "lightning", slug: "relay", squircle: "icon-squircle" }
   ];
 
   document.getElementById("catsGrid").innerHTML = CATEGORIES.map(function (c) {
-    return '<a href="catalog.html?category=' + c.slug + '" class="group flex flex-col items-center gap-1.5 p-2 rounded-2xl bg-white border border-neutral-100 shadow-2xs hover:border-primary-900 transition-all text-center ios-press">' +
-      '<div class="w-12 h-12 rounded-xl bg-neutral-50 border border-neutral-100 flex items-center justify-center text-primary-900 group-hover:scale-105 transition-transform">' +
+    return '<a href="catalog.html?category=' + c.slug + '" class="group flex flex-col items-center gap-2 p-2.5 rounded-2xl bg-white border border-neutral-200/80 shadow-2xs hover:border-accent-600 hover:shadow-xs transition-all text-center ios-press">' +
+      '<div class="w-12 h-12 rounded-2xl ' + c.squircle + ' flex items-center justify-center group-hover:scale-110 transition-transform shadow-2xs">' +
       '<i class="ph-bold ph-' + c.icon + ' text-xl"></i>' +
       '</div>' +
-      '<span class="text-[10px] font-bold text-primary-950 line-clamp-2 leading-tight">' + c.name + '</span>' +
+      '<span class="text-[10.5px] font-bold text-primary-950 line-clamp-2 leading-tight">' + c.name + '</span>' +
       '</a>';
   }).join("");
 
@@ -306,34 +307,35 @@
   };
 
   var PRODUCTS = [
-    { title: "Biled Matrix E9 Pro 3.0\"", price: "Rp 1.299.000", original: "Rp 1.650.000", discount: 21, rating: "4.9", sold: "1,4rb", img: "biled9", type: "BILED" },
-    { title: "Mini Laser D2 Dual Color 30W", price: "Rp 320.000", original: "", discount: 0, rating: "4.9", sold: "2,1rb", img: "laser", type: "LAMPU TEMBAK" },
-    { title: "Twin Snail Horn 118dB Waterproof", price: "Rp 145.000", original: "Rp 190.000", discount: 23, rating: "4.8", sold: "940", img: "horn", type: "KLAKSON" },
-    { title: "Relay Harness Set 40A Tembaga", price: "Rp 125.000", original: "", discount: 0, rating: "5.0", sold: "3,2rb", img: "relay", type: "RELAY" },
-    { title: "Nine GPS Tracker IoT 4G", price: "Rp 550.000", original: "Rp 699.000", discount: 21, rating: "4.8", sold: "620", img: "gps", type: "GPS" },
-    { title: "Nine Dashcam 4K Dual Front+Rear", price: "Rp 1.150.000", original: "", discount: 0, rating: "4.9", sold: "410", img: "dashcam", type: "DASHCAM" }
+    { title: "Biled Matrix E9 Pro 3.0\"", price: "Rp 1.299.000", original: "Rp 1.650.000", discount: 21, cashback: "+12.990 Koin", rating: "4.9", sold: "1,4rb", img: "biled9", type: "BILED" },
+    { title: "Mini Laser D2 Dual Color 30W", price: "Rp 320.000", original: "", discount: 0, cashback: "+3.200 Koin", rating: "4.9", sold: "2,1rb", img: "laser", type: "LAMPU TEMBAK" },
+    { title: "Twin Snail Horn 118dB Waterproof", price: "Rp 145.000", original: "Rp 190.000", discount: 23, cashback: "+1.450 Koin", rating: "4.8", sold: "940", img: "horn", type: "KLAKSON" },
+    { title: "Relay Harness Set 40A Tembaga", price: "Rp 125.000", original: "", discount: 0, cashback: "+1.250 Koin", rating: "5.0", sold: "3,2rb", img: "relay", type: "RELAY" },
+    { title: "Nine GPS Tracker IoT 4G", price: "Rp 550.000", original: "Rp 699.000", discount: 21, cashback: "+5.500 Koin", rating: "4.8", sold: "620", img: "gps", type: "GPS" },
+    { title: "Nine Dashcam 4K Dual Front+Rear", price: "Rp 1.150.000", original: "", discount: 0, cashback: "+11.500 Koin", rating: "4.9", sold: "410", img: "dashcam", type: "DASHCAM" }
   ];
 
   document.getElementById("productsGrid").innerHTML = PRODUCTS.map(function (p) {
-    return '<div class="ios-card p-3 flex flex-col justify-between group">' +
+    return '<div class="ios-card p-3 flex flex-col justify-between group hover:border-neutral-300 transition-all">' +
       '<a href="product-detail.html" class="block">' +
       '<div class="relative w-full aspect-square rounded-xl overflow-hidden bg-neutral-100 mb-2">' +
       '<img src="' + IMGS[p.img] + '" alt="' + p.title + '" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>' +
-      (p.discount > 0 ? '<span class="absolute top-2 left-2 rounded-lg bg-accent-100 text-accent-700 border border-accent-200 px-2 py-0.5 text-[10px] font-bold uppercase shadow-2xs">-' + p.discount + '%</span>' : '') +
-      '<span class="absolute top-2 right-2 rounded-md bg-white/85 backdrop-blur-xs px-1.5 py-0.5 font-micro text-[8px] font-bold text-primary-900 uppercase">' + p.type + '</span>' +
+      (p.discount > 0 ? '<span class="absolute top-2 left-2 rounded-lg bg-rose-500 text-white font-black text-[9.5px] px-2 py-0.5 uppercase shadow-xs">-' + p.discount + '%</span>' : '') +
+      '<span class="absolute top-2 right-2 rounded-md bg-white/90 backdrop-blur-xs px-1.5 py-0.5 font-micro text-[8px] font-bold text-primary-950 uppercase">' + p.type + '</span>' +
       '</div>' +
       '<div class="flex items-center gap-1 mb-1">' +
       '<i class="ph-fill ph-star text-amber-400 text-xs"></i><span class="text-xs font-bold text-primary-950">' + p.rating + '</span>' +
       '<span class="text-[10px] text-neutral-400">(' + p.sold + ')</span>' +
       '</div>' +
       '<h3 class="font-bold text-xs text-primary-950 line-clamp-2 leading-tight">' + p.title + '</h3>' +
+      (p.cashback ? '<div class="mt-1"><span class="badge-koin text-[9.5px]">🪙 ' + p.cashback + '</span></div>' : '') +
       '</a>' +
       '<div class="mt-2 pt-2 border-t border-neutral-100 flex items-center justify-between">' +
       '<div>' +
       '<span class="font-price text-sm font-black text-primary-950 block">' + p.price + '</span>' +
       (p.original ? '<span class="text-[10px] text-neutral-400 line-through">' + p.original + '</span>' : '') +
       '</div>' +
-      '<button onclick="addCart(\'' + p.title + '\')" aria-label="Tambah ke Keranjang" class="tap-44 w-8 h-8 rounded-xl bg-primary-100 hover:bg-primary-950 hover:text-white text-primary-950 flex items-center justify-center transition-colors ios-press">' +
+      '<button onclick="addCart(\'' + p.title + '\')" aria-label="Tambah ke Keranjang" class="tap-44 w-8 h-8 rounded-xl bg-accent-600 hover:bg-accent-700 text-white flex items-center justify-center transition-all shadow-xs active:scale-95 ios-press">' +
       '<i class="ph-bold ph-plus text-sm"></i>' +
       '</button>' +
       '</div>' +

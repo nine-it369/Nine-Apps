@@ -20,11 +20,12 @@
   min-height: 44px;
   touch-action: manipulation;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.25);
   border: 1px solid transparent;
 }
 .btn-primary:hover {
   background-color: #15803d;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35);
 }
 .btn-primary:active {
   transform: scale(0.98);
@@ -165,6 +166,7 @@
   border-radius: 1.25rem;
   border: 1px solid rgba(228, 228, 231, 0.85);
   overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 .ios-list-group > :not([hidden]) ~ :not([hidden]) {
   border-top: 1px solid #f4f4f5;
@@ -188,16 +190,41 @@
   background-color: #f4f4f5;
 }
 
-.ios-list-icon {
+.ios-list-icon,
+.ios-list-icon-blue,
+.ios-list-icon-amber,
+.ios-list-icon-emerald,
+.ios-list-icon-indigo,
+.ios-list-icon-purple,
+.ios-list-icon-rose,
+.ios-list-icon-red,
+.ios-list-icon-slate,
+.ios-list-icon-cyan {
   width: 2.25rem;
   height: 2.25rem;
   border-radius: 0.75rem;
   background-color: #f4f4f5;
   color: #18181b;
+  border: 1px solid rgba(228, 228, 231, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.ios-list-row:hover .ios-list-icon,
+.ios-list-row:hover .ios-list-icon-blue,
+.ios-list-row:hover .ios-list-icon-amber,
+.ios-list-row:hover .ios-list-icon-emerald,
+.ios-list-row:hover .ios-list-icon-indigo,
+.ios-list-row:hover .ios-list-icon-purple,
+.ios-list-row:hover .ios-list-icon-rose,
+.ios-list-row:hover .ios-list-icon-red,
+.ios-list-row:hover .ios-list-icon-slate,
+.ios-list-row:hover .ios-list-icon-cyan {
+  background-color: #e4e4e7;
+  color: #09090b;
 }
 
 /* 6. APPLE HIG TOGGLE SWITCH (iOS Green) */

@@ -4,7 +4,8 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
   <title>Biled Matrix E9 Pro 3.0" — Nine Autogarage</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=Plus+Jakarta+Sans:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
@@ -13,7 +14,7 @@
   <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/base.css"/>
 </head>
-<body data-tab="mall" data-search="off" data-title="Detail Produk" class="bg-surface font-body text-body text-on-surface antialiased">
+<body data-tab="mall" data-search="off" data-title="Detail Produk" data-shell="detail" data-notab="true" class="bg-surface font-body text-body text-on-surface antialiased">
 <main class="max-w-md mx-auto min-h-screen pt-16 pb-28 bg-surface text-on-surface flex flex-col relative">
 
   <!-- Image Gallery Hero -->
@@ -53,11 +54,12 @@
       Biled Matrix E9 Pro 3.0" Dual Core Laser
     </h1>
 
-    <!-- Price Block -->
-    <div class="flex items-baseline gap-2.5 mt-2">
+    <!-- Price Block & Cashback Badge -->
+    <div class="flex items-baseline gap-2.5 mt-2 flex-wrap">
       <span class="font-price text-2xl font-black text-primary-950" id="displayPrice">Rp 1.299.000</span>
       <span class="text-xs text-neutral-400 font-bold line-through">Rp 1.650.000</span>
       <span class="px-2 py-0.5 rounded bg-red-50 text-danger-text font-bold text-[10px]">Hemat Rp 351.000</span>
+      <span class="badge-koin text-[10px] ml-auto">🪙 +12.990 Koin</span>
     </div>
 
     <!-- Rating & Stock Info -->
