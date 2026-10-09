@@ -57,9 +57,9 @@
 </head>
 <body data-tab="beranda" data-header="transparent" data-search="Cari aksesori di Mall…" class="font-body text-body text-on-surface antialiased selection:bg-accent-subtle selection:text-accent-text">
 
-<main id="homeCanvas" class="w-full min-h-screen pt-16 pb-32 text-on-surface flex flex-col relative overflow-x-hidden bg-[#fafafa]">
-  <!-- Gradient Automotive Light Header: Memudar halus dan menyatu sampai ke bawah aksi cepat -->
-  <div class="absolute top-0 inset-x-0 h-[620px] bg-gradient-to-b from-[#e8edf5] via-[#f2f5f9] to-[#fafafa] pointer-events-none z-0"></div>
+<main id="homeCanvas" class="w-full min-h-screen pt-16 pb-32 text-on-surface flex flex-col relative overflow-x-hidden bg-white">
+  <!-- Gradient Automotive Light Header: Memudar halus ke putih murni di bawah aksesori terhubung agar menyatu sempurna -->
+  <div class="absolute top-0 inset-x-0 h-[640px] bg-gradient-to-b from-[#eef2f6] via-[#f8fafc] to-white pointer-events-none z-0"></div>
 
   <div class="max-w-md mx-auto w-full px-4 flex flex-col relative z-10">
 
@@ -272,7 +272,7 @@
           <div class="p-3.5 flex items-center justify-between gap-3 flex-1 bg-transparent text-primary-950">
             <div class="min-w-0 flex-1">
               <h3 class="font-headline text-base font-bold text-primary-950 truncate">Nine Cam Pro 4K Dual</h3>
-              <p class="font-caption text-xs text-neutral-500 truncate mt-0.5">Toyota Fortuner · B 9876 ABC</p>
+              <p class="font-caption text-xs text-neutral-500 truncate mt-0.5">Yamaha NMAX · B 1234 XYZ</p>
               <a href="device-dashcam.html" class="inline-flex items-center gap-1.5 font-body-semibold text-xs text-accent-700 font-bold mt-1.5 hover:underline transition-colors">
                 <span>Lihat Feed Live &amp; Rekaman</span><i class="ph-bold ph-arrow-right text-xs"></i>
               </a>
@@ -1057,13 +1057,7 @@
       }
     }
 
-    // Update vehicle name pill immediately
-    var vehPillName = document.getElementById("currentVehName");
-    var vehPillType = document.getElementById("currentVehType");
-    if (vehPillName && VEHICLE_PRESETS[index]) {
-      vehPillName.textContent = VEHICLE_PRESETS[index].name;
-      vehPillType.textContent = VEHICLE_PRESETS[index].type;
-    }
+    // Vehicle remains unchanged per user requirement (only changed via openVehicleSheet)
 
     // Update indicator dots
     for (var d = 0; d < dots.length; d++) {
