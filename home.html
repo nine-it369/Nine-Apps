@@ -43,13 +43,13 @@
     .hero-card.active {
       transform: scale(1.0) !important;
       opacity: 1 !important;
-      box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(228, 228, 231, 0.9);
+      box-shadow: none !important;
       z-index: 20;
     }
     .hero-card.inactive {
       transform: scale(0.95) !important;
       opacity: 0.68 !important;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      box-shadow: none !important;
       z-index: 10;
       cursor: pointer;
     }
@@ -123,7 +123,7 @@
       <div id="deck" class="w-[calc(100%+2rem)] -mx-4 px-4 overflow-x-auto snap-x-carousel flex items-center gap-3 py-3 scroll-smooth no-scrollbar">
 
         <!-- CARD 0: Nine GPS Tracker 4G IoT (Enlarged Mockup 250px & Truly Transparent Container) -->
-        <div onclick="deckGoTo(0)" id="card-0" class="hero-card active snap-card shrink-0 w-[364px] sm:w-[382px] h-[364px] rounded-[26px] bg-transparent border border-neutral-200/90 overflow-hidden flex flex-col group relative shadow-xs">
+        <div onclick="deckGoTo(0)" id="card-0" class="hero-card active snap-card shrink-0 w-[364px] sm:w-[382px] h-[364px] rounded-[26px] bg-transparent border border-neutral-200/90 overflow-hidden flex flex-col group relative">
           <!-- Visual Area (250px): Enlarged Live Navigation Map & Mockup -->
           <div class="relative h-[250px] bg-[#1e293b] overflow-hidden shrink-0">
             <svg class="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice" viewBox="0 0 372 250">
@@ -193,7 +193,7 @@
         </div>
 
         <!-- CARD 1: Nine Biled Projector Matrix E9 Pro (Enlarged Mockup 250px & Truly Transparent Container) -->
-        <div onclick="deckGoTo(1)" id="card-1" class="hero-card inactive snap-card shrink-0 w-[364px] sm:w-[382px] h-[364px] rounded-[26px] bg-transparent border border-neutral-200/90 overflow-hidden flex flex-col group relative shadow-xs">
+        <div onclick="deckGoTo(1)" id="card-1" class="hero-card inactive snap-card shrink-0 w-[364px] sm:w-[382px] h-[364px] rounded-[26px] bg-transparent border border-neutral-200/90 overflow-hidden flex flex-col group relative">
           <!-- Visual Area (250px): Optical Headlight Chamber -->
           <div class="relative h-[250px] bg-[#121214] overflow-hidden shrink-0 flex flex-col items-center justify-center">
             <!-- Dynamic Optical Beam Glow -->
@@ -251,7 +251,7 @@
         </div>
 
         <!-- CARD 2: Nine Cam Pro 4K Dual Matrix (Enlarged Mockup 250px & Truly Transparent Container) -->
-        <div onclick="deckGoTo(2)" id="card-2" class="hero-card inactive snap-card shrink-0 w-[364px] sm:w-[382px] h-[364px] rounded-[26px] bg-transparent border border-neutral-200/90 overflow-hidden flex flex-col group relative shadow-xs">
+        <div onclick="deckGoTo(2)" id="card-2" class="hero-card inactive snap-card shrink-0 w-[364px] sm:w-[382px] h-[364px] rounded-[26px] bg-transparent border border-neutral-200/90 overflow-hidden flex flex-col group relative">
           <!-- Visual Area (250px): Dashcam Footage -->
           <div class="relative h-[250px] bg-neutral-900 overflow-hidden shrink-0">
             <img src="dashcam.jpg" alt="Rekaman dashcam 4K di jalan tol" class="w-full h-full object-cover"/>
@@ -288,7 +288,7 @@
         </div>
 
         <!-- CARD 3: Tambah Aksesori Baru (Clean Inset dengan Border Garis Putus-Putus & Primary Button Hijau) -->
-        <div onclick="deckGoTo(3)" id="card-3" class="hero-card inactive snap-card shrink-0 w-[364px] sm:w-[382px] h-[364px] rounded-[26px] bg-transparent border border-dashed border-neutral-300 hover:border-neutral-400 flex flex-col items-center justify-center p-6 text-center group cursor-pointer shadow-xs transition-all">
+        <div onclick="deckGoTo(3)" id="card-3" class="hero-card inactive snap-card shrink-0 w-[364px] sm:w-[382px] h-[364px] rounded-[26px] bg-transparent border border-dashed border-neutral-300 hover:border-neutral-400 flex flex-col items-center justify-center p-6 text-center group cursor-pointer transition-all">
           <!-- Plain Gray Plus Icon Container -->
           <div class="w-16 h-16 rounded-full bg-neutral-100 border border-neutral-200/80 text-neutral-500 flex items-center justify-center group-hover:bg-neutral-200 group-hover:text-neutral-700 transition-all shadow-2xs">
             <i class="ph-bold ph-plus text-2xl"></i>
