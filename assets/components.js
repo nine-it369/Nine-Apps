@@ -176,9 +176,9 @@
       var isPassed = stepNum < currentStep;
 
       var circleClass = isActive
-        ? "bg-primary-950 text-white ring-4 ring-primary-950/20"
+        ? "bg-accent-600 text-white ring-4 ring-accent-600/25"
         : (isPassed
-            ? "bg-primary-950 text-white cursor-pointer hover:opacity-90"
+            ? "bg-accent-600 text-white cursor-pointer hover:opacity-90"
             : "bg-white text-neutral-400 border border-neutral-200 cursor-not-allowed");
 
       var iconContent = isPassed
@@ -186,10 +186,10 @@
         : '<span class="' + (isActive ? 'font-bold' : 'font-medium') + ' text-xs">' + stepNum + '</span>';
 
       var titleClass = isActive
-        ? "text-primary-950 font-bold"
+        ? "text-accent-700 font-bold"
         : (isPassed ? "text-primary-950 font-medium" : "text-neutral-400 font-normal");
 
-      var connectorClass = isPassed ? "bg-primary-950" : "bg-neutral-200";
+      var connectorClass = isPassed ? "bg-accent-600" : "bg-neutral-200";
 
       return (
         '<div class="flex-1 flex flex-col items-center relative text-center group cursor-pointer" onclick="' + fnName + '(' + stepNum + ')">' +
@@ -206,8 +206,53 @@
   };
 
   /**
+   * Helper to render standardized Apple HIG Primary and Secondary buttons.
+   */
+  NineComponents.renderButton = function (opts) {
+    var variant = opts.variant || 'primary';
+    var cls = variant === 'primary' ? 'btn-primary' : (variant === 'outline' ? 'btn-outline' : (variant === 'danger' ? 'btn-danger' : 'btn-secondary'));
+    var extraClass = opts.class ? ' ' + opts.class : '';
+    var iconHtml = opts.icon ? '<i class="ph-bold ph-' + opts.icon + ' text-base"></i>' : '';
+    var onclickAttr = opts.onclick ? ' onclick="' + opts.onclick + '"' : '';
+    var idAttr = opts.id ? ' id="' + opts.id + '"' : '';
+    var typeAttr = ' type="' + (opts.type || 'button') + '"';
+
+    return (
+      '<button' + typeAttr + idAttr + onclickAttr + ' class="' + cls + extraClass + '">' +
+      iconHtml +
+      '<span>' + (opts.text || '') + '</span>' +
+      '</button>'
+    );
+  };
+
+  /**
+   * Helper to render Apple HIG Inset Grouped list row.
+   */
+  NineComponents.renderListRow = function (opts) {
+    var tag = opts.href ? 'a' : 'div';
+    var hrefAttr = opts.href ? ' href="' + opts.href + '"' : '';
+    var onclickAttr = opts.onclick ? ' onclick="' + opts.onclick + '"' : '';
+    var iconClass = opts.iconClass || 'ph-bold';
+    
+    return (
+      '<' + tag + hrefAttr + onclickAttr + ' class="ios-list-row">' +
+      '<div class="flex items-center gap-3 min-w-0">' +
+      (opts.icon ? '<div class="ios-list-icon"><i class="' + iconClass + ' ph-' + opts.icon + ' text-lg"></i></div>' : '') +
+      '<div class="min-w-0">' +
+      '<span class="font-body-semibold text-caption text-primary-950 block truncate font-bold">' + opts.title + '</span>' +
+      (opts.subtitle ? '<span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">' + opts.subtitle + '</span>' : '') +
+      '</div></div>' +
+      '<div class="flex items-center gap-2 shrink-0">' +
+      (opts.badge ? '<span class="px-2 py-0.5 rounded-full bg-neutral-100 border border-neutral-200/80 text-primary-950 font-micro text-micro font-bold uppercase tracking-wider">' + opts.badge + '</span>' : '') +
+      (opts.rightText ? '<span class="text-xs text-neutral-400 font-medium">' + opts.rightText + '</span>' : '') +
+      (opts.noChevron ? '' : '<i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>') +
+      '</div></' + tag + '>'
+    );
+  };
+
+  /**
    * Scarcity metric helper for promo bundling items.
-   * Directly mirrors D:\Frontend-Mall\app\components\home\PromoPackages.vue
+   * Directly mirrors D:\\Frontend-Mall\\app\\components\\home\\PromoPackages.vue
    */
   NineComponents.getScarcityDetails = function (quota, soldCount) {
     var q = quota || 100;

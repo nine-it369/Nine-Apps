@@ -14,19 +14,20 @@
   <script src="assets/config.js"></script>
   <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/base.css"/>
+  <link rel="stylesheet" href="assets/components.css"/>
 </head>
 <body data-tab="akun" class="bg-surface font-body text-body text-on-surface flex flex-col antialiased selection:bg-accent-subtle selection:text-accent-text" data-search="off" data-title="Akun Pengguna">
 
-<main class="w-full max-w-md mx-auto pt-16 pb-32 min-h-screen px-4.5 flex flex-col gap-5">
+<main class="w-full max-w-md mx-auto pt-16 pb-32 min-h-screen px-4 space-y-6">
 
-  <!-- Profile Header Card (Apple Inset Card with Generous Spacing) -->
-  <section class="mt-2 rounded-3xl p-5 bg-white border border-neutral-200/80 shadow-2xs flex items-center justify-between gap-3.5">
-    <div class="flex items-center gap-4 min-w-0">
+  <!-- 1. Profile Header Card (Apple Inset Card with Generous Spacing) -->
+  <section class="ios-card p-4.5 flex items-center justify-between gap-4 mt-2">
+    <div class="flex items-center gap-3.5 min-w-0">
       <div class="relative shrink-0">
-        <div class="w-16 h-16 rounded-full bg-neutral-950 text-white flex items-center justify-center font-headline text-xl font-black shadow-xs">
+        <div class="w-15 h-15 rounded-full bg-primary-950 text-white flex items-center justify-center font-headline text-xl font-black shadow-xs">
           RK
         </div>
-        <div class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-white flex items-center justify-center shadow-2xs">
+        <div class="absolute -bottom-0.5 -right-0.5 w-6 h-6 rounded-full bg-white flex items-center justify-center shadow-xs">
           <div class="w-5 h-5 rounded-full bg-accent-600 flex items-center justify-center text-white">
             <i class="ph-bold ph-seal-check text-xs"></i>
           </div>
@@ -35,272 +36,274 @@
       <div class="min-w-0">
         <div class="flex items-center gap-2 flex-wrap">
           <h2 class="font-headline text-base text-primary-950 font-bold truncate">Rob Kusuma</h2>
-          <span class="px-2 py-0.5 rounded-full bg-neutral-100 border border-neutral-200/80 text-primary-950 font-micro text-[10px] font-bold uppercase tracking-wider">
+          <span class="px-2 py-0.5 rounded-full bg-neutral-100 border border-neutral-200 text-primary-950 font-micro text-[10px] font-bold uppercase tracking-wider">
             Platinum
           </span>
         </div>
-        <p class="font-micro text-xs text-neutral-500 font-mono mt-0.5">ID: 9N-88219 · +62 812-8899-7700</p>
+        <p class="font-mono text-xs text-neutral-500 mt-0.5">ID: 9N-88219 · +62 812-8899-7700</p>
         <span class="inline-flex items-center gap-1.5 mt-1 font-micro text-[11px] text-accent-700 font-bold">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>Autogarage Pass Active
+          <span class="w-2 h-2 rounded-full bg-accent-600 animate-pulse"></span>Autogarage Pass Active
         </span>
       </div>
     </div>
-    <button onclick="nineToast('Buka formulir edit profil','pencil-simple')" class="tap-44 w-10 h-10 rounded-full bg-neutral-100 hover:bg-neutral-200/80 flex items-center justify-center text-primary-950 active:scale-95 transition-all shrink-0 shadow-2xs" aria-label="Edit Profil">
+    <button type="button" onclick="nineToast('Buka formulir edit profil','pencil-simple')" class="tap-44 w-10 h-10 rounded-full bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center text-primary-950 active:scale-95 transition-all shrink-0" aria-label="Edit Profil">
       <i class="ph-bold ph-pencil-simple text-base"></i>
     </button>
   </section>
 
-  <!-- Dual Loyalty Balance Cards (Nine Koin & Garage Points - Clean Apple HIG) -->
-  <section class="grid grid-cols-2 gap-3.5">
+  <!-- 2. Dual Loyalty Balance Cards (Nine Koin & Garage Points) -->
+  <section class="grid grid-cols-2 gap-3">
     <!-- Nine Koin (Mall) -->
-    <a href="orders.html" class="p-4.5 shadow-2xs bg-white border border-neutral-200/80 rounded-3xl flex flex-col justify-between active:scale-[0.98] transition-all group">
+    <a href="orders.html" class="ios-card p-4 flex flex-col justify-between active:scale-[0.98] transition-all group">
       <div class="flex items-center justify-between">
-        <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-          <i class="ph-bold ph-coins text-xl"></i>
+        <div class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+          <i class="ph-bold ph-coins text-lg"></i>
         </div>
-        <span class="font-micro text-[10px] uppercase tracking-wider text-neutral-500 font-bold">Nine Koin</span>
+        <span class="font-micro text-[10px] uppercase tracking-wider text-neutral-400 font-bold">Nine Koin</span>
       </div>
-      <div class="mt-3.5">
+      <div class="my-3">
         <span class="font-headline text-2xl font-bold font-mono text-primary-950">1.250</span>
         <span class="font-caption text-xs text-neutral-500 block mt-0.5">Setara Rp 12.500</span>
       </div>
-      <span class="mt-3 py-2 px-3 rounded-xl bg-neutral-50 group-hover:bg-neutral-100 border border-neutral-200/60 text-primary-950 font-micro text-xs font-bold flex items-center justify-between transition-colors">
+      <span class="py-1.5 px-2.5 rounded-xl bg-neutral-100 group-hover:bg-neutral-200/80 text-primary-950 font-micro text-xs font-bold flex items-center justify-between transition-colors">
         <span>Tukar Koin</span>
         <i class="ph-bold ph-caret-right text-neutral-400"></i>
       </span>
     </a>
 
     <!-- Garage Points (Bengkel) -->
-    <a href="service-history.html" class="p-4.5 shadow-2xs bg-white border border-neutral-200/80 rounded-3xl flex flex-col justify-between active:scale-[0.98] transition-all group">
+    <a href="service-history.html" class="ios-card p-4 flex flex-col justify-between active:scale-[0.98] transition-all group">
       <div class="flex items-center justify-between">
-        <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-          <i class="ph-bold ph-medal text-xl"></i>
+        <div class="w-8 h-8 rounded-xl bg-accent-50 text-accent-700 flex items-center justify-center">
+          <i class="ph-bold ph-medal text-lg"></i>
         </div>
-        <span class="font-micro text-[10px] uppercase tracking-wider text-neutral-500 font-bold">Garage Points</span>
+        <span class="font-micro text-[10px] uppercase tracking-wider text-neutral-400 font-bold">Garage Points</span>
       </div>
-      <div class="mt-3.5">
+      <div class="my-3">
         <span class="font-headline text-2xl font-bold font-mono text-primary-950">340</span>
         <span class="font-caption text-xs text-neutral-500 block mt-0.5">Tier Master Bengkel</span>
       </div>
-      <span class="mt-3 py-2 px-3 rounded-xl bg-neutral-50 group-hover:bg-neutral-100 border border-neutral-200/60 text-primary-950 font-micro text-xs font-bold flex items-center justify-between transition-colors">
+      <span class="py-1.5 px-2.5 rounded-xl bg-neutral-100 group-hover:bg-neutral-200/80 text-primary-950 font-micro text-xs font-bold flex items-center justify-between transition-colors">
         <span>Klaim Hadiah</span>
         <i class="ph-bold ph-caret-right text-neutral-400"></i>
       </span>
     </a>
   </section>
 
-  <!-- Active Vehicle & Accessories Inset Card -->
-  <section class="overflow-hidden shadow-2xs bg-white border border-neutral-200/80 rounded-3xl">
-    <div class="px-5 py-3 bg-neutral-50/80 border-b border-neutral-200/60 flex items-center justify-between">
-      <span class="font-label text-micro uppercase tracking-widest text-neutral-500 font-bold">Kendaraan Terdaftar</span>
-      <button onclick="nineToast('Buka formulir tambah kendaraan garasi','plus-circle')" class="font-caption text-xs font-bold text-accent-700 hover:text-accent-800 flex items-center gap-1">
+  <!-- 3. Active Vehicle & Accessories Inset Card -->
+  <section class="ios-card overflow-hidden">
+    <div class="px-4 py-3 bg-neutral-50/80 border-b border-neutral-200/70 flex items-center justify-between">
+      <span class="ios-section-header mb-0">Kendaraan Terdaftar</span>
+      <button type="button" onclick="nineToast('Buka formulir tambah kendaraan garasi','plus-circle')" class="text-xs font-bold text-accent-700 hover:text-accent-800 flex items-center gap-1">
         <i class="ph-bold ph-plus"></i>Tambah Unit
       </button>
     </div>
     
-    <div class="p-5 flex items-center justify-between gap-3">
+    <div class="p-4 flex items-center justify-between gap-3">
       <div class="flex items-center gap-3.5 min-w-0">
-        <div class="w-13 h-13 rounded-2xl bg-neutral-950 text-white flex items-center justify-center shrink-0 shadow-2xs">
-          <i class="ph-bold ph-motorcycle text-2xl"></i>
+        <div class="w-12 h-12 rounded-xl bg-primary-950 text-white flex items-center justify-center shrink-0 shadow-2xs">
+          <i class="ph-bold ph-motorcycle text-xl"></i>
         </div>
         <div class="min-w-0">
           <div class="flex items-center gap-2">
             <h3 class="font-body-semibold text-sm text-primary-950 font-bold truncate">Yamaha NMAX 155</h3>
-            <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
+            <span class="w-2 h-2 rounded-full bg-accent-600 shrink-0"></span>
           </div>
           <p class="font-mono text-xs text-neutral-500 mt-0.5">B 1234 XYZ · Hitam Doff (Non-EV)</p>
           <span class="font-micro text-xs text-accent-700 font-bold mt-1 block">3 Aksesori Terhubung Aktif</span>
         </div>
       </div>
-      <a href="accecories.html" class="px-3.5 py-2 rounded-xl bg-neutral-100 hover:bg-neutral-200/80 font-micro text-xs font-bold text-primary-950 transition-colors shrink-0 shadow-2xs">
+      <a href="accecories.html" class="px-3.5 py-2 rounded-xl bg-neutral-100 hover:bg-neutral-200 font-micro text-xs font-bold text-primary-950 transition-colors shrink-0">
         Kelola
       </a>
     </div>
 
-    <div class="border-t border-neutral-100 px-5 py-3.5 bg-neutral-50/60 flex items-center justify-between">
-      <div class="flex items-center gap-2.5">
+    <div class="border-t border-neutral-100 px-4 py-3 bg-neutral-50/50 flex items-center justify-between">
+      <div class="flex items-center gap-2">
         <i class="ph-bold ph-share-network text-accent-700 text-base"></i>
-        <span class="font-caption text-xs text-neutral-700 font-medium">1 Tautan Berbagi Lokasi GPS Aktif</span>
+        <span class="text-xs text-neutral-600 font-medium">1 Tautan Berbagi Lokasi GPS Aktif</span>
       </div>
-      <a href="device-gps.html" class="font-micro text-xs text-primary-950 font-bold underline hover:text-accent-700">
+      <a href="device-gps.html" class="text-xs text-primary-950 font-bold underline hover:text-accent-700">
         Lihat Peta
       </a>
     </div>
   </section>
 
-  <!-- Group 1: Belanja di Mall -->
+  <!-- 4. Group 1: Belanja di Mall -->
   <section>
-    <span class="font-label text-micro uppercase tracking-widest text-neutral-500 font-bold block px-1 mb-2">Belanja &amp; E-Commerce (Nine Mall)</span>
-    <div class="overflow-hidden shadow-2xs divide-y divide-neutral-100 bg-white border border-neutral-200/80 rounded-3xl">
-      <a href="orders.html" class="px-5 py-4 flex items-center gap-3.5 active:bg-neutral-50 transition-colors">
-        <div class="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center text-primary-950 shrink-0">
-          <i class="ph-bold ph-receipt text-lg"></i>
+    <span class="ios-section-header">Belanja &amp; E-Commerce (Nine Mall)</span>
+    <div class="ios-list-group">
+      <a href="orders.html" class="ios-list-row">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="ios-list-icon"><i class="ph-bold ph-receipt text-lg"></i></div>
+          <div class="min-w-0">
+            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Pesanan Saya</span>
+            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">1 Pesanan sedang dikirim J&amp;T Express</span>
+          </div>
         </div>
-        <div class="flex-1 min-w-0">
-          <span class="font-body-semibold text-xs text-primary-950 font-bold block">Pesanan Saya</span>
-          <span class="font-caption text-xs text-neutral-500">1 Pesanan sedang dikirim J&amp;T Express</span>
+        <div class="flex items-center gap-2 shrink-0">
+          <span class="px-2 py-0.5 rounded-full bg-neutral-100 border border-neutral-200 text-primary-950 font-micro text-[10px] font-bold">Dikirim</span>
+          <i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>
         </div>
-        <span class="px-2.5 py-0.5 rounded-full bg-neutral-100 border border-neutral-200/80 text-primary-950 font-micro text-[10px] font-bold mr-1">
-          Dikirim
-        </span>
-        <i class="ph-bold ph-caret-right text-neutral-400 text-base"></i>
       </a>
 
-      <a href="checkout.html" class="px-5 py-4 flex items-center gap-3.5 active:bg-neutral-50 transition-colors">
-        <div class="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center text-primary-950 shrink-0">
-          <i class="ph-bold ph-map-pin text-lg"></i>
+      <a href="checkout.html" class="ios-list-row">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="ios-list-icon"><i class="ph-bold ph-map-pin text-lg"></i></div>
+          <div class="min-w-0">
+            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Buku Alamat Pengiriman</span>
+            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">Arcadia Residence, Cisauk</span>
+          </div>
         </div>
-        <div class="flex-1 min-w-0">
-          <span class="font-body-semibold text-xs text-primary-950 font-bold block">Buku Alamat Pengiriman</span>
-          <span class="font-caption text-xs text-neutral-500">Arcadia Residence, Cisauk</span>
-        </div>
-        <i class="ph-bold ph-caret-right text-neutral-400 text-base"></i>
+        <i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>
       </a>
 
-      <div onclick="nineToast('Program Afiliasi 4%: Saldo Rp 480.000','coins')" class="px-5 py-4 flex items-center gap-3.5 active:bg-neutral-50 transition-colors cursor-pointer">
-        <div class="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center text-primary-950 shrink-0">
-          <i class="ph-bold ph-handshake text-lg"></i>
+      <div onclick="nineToast('Program Afiliasi 4%: Saldo Rp 480.000','coins')" class="ios-list-row">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="ios-list-icon"><i class="ph-bold ph-handshake text-lg"></i></div>
+          <div class="min-w-0">
+            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Program Afiliasi Mitra (4%)</span>
+            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">Komisi aktif: Rp 480.000</span>
+          </div>
         </div>
-        <div class="flex-1 min-w-0">
-          <span class="font-body-semibold text-xs text-primary-950 font-bold block">Program Afiliasi Mitra (4%)</span>
-          <span class="font-caption text-xs text-neutral-500">Komisi aktif: Rp 480.000</span>
-        </div>
-        <i class="ph-bold ph-caret-right text-neutral-400 text-base"></i>
+        <i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>
       </div>
     </div>
   </section>
 
-  <!-- Group 2: Bengkel & Layanan Workshop -->
+  <!-- 5. Group 2: Bengkel & Layanan Workshop -->
   <section>
-    <span class="font-label text-micro uppercase tracking-widest text-neutral-500 font-bold block px-1 mb-2">Bengkel &amp; Servis (Nine Garage)</span>
-    <div class="overflow-hidden shadow-2xs divide-y divide-neutral-100 bg-white border border-neutral-200/80 rounded-3xl">
-      <a href="service-history.html" class="px-5 py-4 flex items-center gap-3.5 active:bg-neutral-50 transition-colors">
-        <div class="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center text-primary-950 shrink-0">
-          <i class="ph-bold ph-clock-counter-clockwise text-lg"></i>
+    <span class="ios-section-header">Bengkel &amp; Servis (Nine Garage)</span>
+    <div class="ios-list-group">
+      <a href="service-history.html" class="ios-list-row">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="ios-list-icon"><i class="ph-bold ph-clock-counter-clockwise text-lg"></i></div>
+          <div class="min-w-0">
+            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Riwayat Servis &amp; Retrofit</span>
+            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">11 Total Pengerjaan di Bengkel</span>
+          </div>
         </div>
-        <div class="flex-1 min-w-0">
-          <span class="font-body-semibold text-xs text-primary-950 font-bold block">Riwayat Servis &amp; Retrofit</span>
-          <span class="font-caption text-xs text-neutral-500">11 Total Pengerjaan di Bengkel</span>
-        </div>
-        <i class="ph-bold ph-caret-right text-neutral-400 text-base"></i>
+        <i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>
       </a>
 
-      <a href="booking-detail.html" class="px-5 py-4 flex items-center gap-3.5 active:bg-neutral-50 transition-colors">
-        <div class="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center text-primary-950 shrink-0">
-          <i class="ph-bold ph-calendar-check text-lg"></i>
+      <a href="booking-detail.html" class="ios-list-row">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="ios-list-icon"><i class="ph-bold ph-calendar-check text-lg"></i></div>
+          <div class="min-w-0">
+            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Tiket Servis Aktif</span>
+            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">Sabtu, 11 Okt · Arcadia BSD (Pit 02)</span>
+          </div>
         </div>
-        <div class="flex-1 min-w-0">
-          <span class="font-body-semibold text-xs text-primary-950 font-bold block">Tiket Servis Aktif</span>
-          <span class="font-caption text-xs text-neutral-500">Sabtu, 11 Okt · Arcadia BSD (Pit 02)</span>
+        <div class="flex items-center gap-2 shrink-0">
+          <span class="px-2 py-0.5 rounded-full bg-accent-50 border border-accent-200 text-accent-700 font-micro text-[10px] font-bold">Pit 02</span>
+          <i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>
         </div>
-        <span class="px-2.5 py-0.5 rounded-full bg-neutral-100 border border-neutral-200/80 text-primary-950 font-micro text-[10px] font-bold mr-1">
-          Pit 02
-        </span>
-        <i class="ph-bold ph-caret-right text-neutral-400 text-base"></i>
       </a>
 
-      <div onclick="nineToast('Kode Referral Kamu: NINE-ROB88 (+50 Pts)','gift')" class="px-5 py-4 flex items-center gap-3.5 active:bg-neutral-50 transition-colors cursor-pointer">
-        <div class="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center text-primary-950 shrink-0">
-          <i class="ph-bold ph-user-plus text-lg"></i>
+      <div onclick="nineToast('Kode Referral Kamu: NINE-ROB88 (+50 Pts)','gift')" class="ios-list-row">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="ios-list-icon"><i class="ph-bold ph-user-plus text-lg"></i></div>
+          <div class="min-w-0">
+            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Referral Teman (+50 Pts)</span>
+            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">Bagikan kode dan dapatkan poin garasi</span>
+          </div>
         </div>
-        <div class="flex-1 min-w-0">
-          <span class="font-body-semibold text-xs text-primary-950 font-bold block">Referral Teman (+50 Pts)</span>
-          <span class="font-caption text-xs text-neutral-500">Bagikan kode dan dapatkan poin garasi</span>
-        </div>
-        <i class="ph-bold ph-caret-right text-neutral-400 text-base"></i>
+        <i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>
       </div>
     </div>
   </section>
 
-  <!-- Group 3: Pengaturan Apple HIG (Settings) -->
+  <!-- 6. Group 3: Pengaturan Apple HIG (Settings) -->
   <section>
-    <span class="font-label text-micro uppercase tracking-widest text-neutral-500 font-bold block px-1 mb-2">Pengaturan Aplikasi</span>
-    <div class="overflow-hidden shadow-2xs divide-y divide-neutral-100 bg-white border border-neutral-200/80 rounded-3xl">
+    <span class="ios-section-header">Pengaturan Aplikasi</span>
+    <div class="ios-list-group">
       
       <!-- Setting 1: Notifikasi Real-time Push Toggle -->
-      <div class="px-5 py-4 flex items-center justify-between gap-3.5">
-        <div class="flex items-center gap-3.5 min-w-0">
-          <div class="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center text-primary-950 shrink-0">
-            <i class="ph-bold ph-bell-simple text-lg"></i>
-          </div>
+      <div class="ios-list-row cursor-default">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="ios-list-icon"><i class="ph-bold ph-bell-simple text-lg"></i></div>
           <div class="min-w-0">
-            <span class="font-body-semibold text-xs text-primary-950 font-bold block">Notifikasi Real-time</span>
-            <span class="font-caption text-xs text-neutral-500">Update status servis & pesanan kurir</span>
+            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Notifikasi Real-time</span>
+            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">Update status servis &amp; pesanan kurir</span>
           </div>
         </div>
-        <label class="relative inline-flex items-center cursor-pointer shrink-0">
-          <input type="checkbox" checked class="sr-only peer" onchange="window.nineToast(this.checked?'Notifikasi diaktifkan':'Notifikasi dinonaktifkan','bell-simple')"/>
-          <div class="w-11 h-6 bg-neutral-200 peer-checked:bg-primary-950 rounded-full transition-colors after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-5 shadow-xs"></div>
+        <label class="ios-toggle">
+          <input type="checkbox" checked onchange="window.nineToast(this.checked?'Notifikasi diaktifkan':'Notifikasi dinonaktifkan','bell-simple')"/>
+          <span class="ios-toggle-track">
+            <span class="ios-toggle-thumb"></span>
+          </span>
         </label>
       </div>
 
       <!-- Setting 2: Kunci Aplikasi / Biometrik Face ID -->
-      <div class="px-5 py-4 flex items-center justify-between gap-3.5">
-        <div class="flex items-center gap-3.5 min-w-0">
-          <div class="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center text-primary-950 shrink-0">
-            <i class="ph-bold ph-fingerprint text-lg"></i>
-          </div>
+      <div class="ios-list-row cursor-default">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="ios-list-icon"><i class="ph-bold ph-fingerprint text-lg"></i></div>
           <div class="min-w-0">
-            <span class="font-body-semibold text-xs text-primary-950 font-bold block">Biometrik & Face ID</span>
-            <span class="font-caption text-xs text-neutral-500">Kunci aplikasi saat tidak aktif</span>
+            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Biometrik &amp; Face ID</span>
+            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">Kunci aplikasi saat tidak aktif</span>
           </div>
         </div>
-        <label class="relative inline-flex items-center cursor-pointer shrink-0">
-          <input type="checkbox" checked class="sr-only peer" onchange="window.nineToast(this.checked?'Face ID diaktifkan':'Face ID dinonaktifkan','fingerprint')"/>
-          <div class="w-11 h-6 bg-neutral-200 peer-checked:bg-primary-950 rounded-full transition-colors after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-5 shadow-xs"></div>
+        <label class="ios-toggle">
+          <input type="checkbox" checked onchange="window.nineToast(this.checked?'Face ID diaktifkan':'Face ID dinonaktifkan','fingerprint')"/>
+          <span class="ios-toggle-track">
+            <span class="ios-toggle-thumb"></span>
+          </span>
         </label>
       </div>
 
       <!-- Setting 3: Keamanan & Kata Sandi -->
-      <div onclick="nineToast('Pengaturan keamanan & sandi dibuka','lock-key')" class="px-5 py-4 flex items-center gap-3.5 active:bg-neutral-50 transition-colors cursor-pointer">
-        <div class="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center text-primary-950 shrink-0">
-          <i class="ph-bold ph-shield-check text-lg"></i>
+      <div onclick="nineToast('Pengaturan keamanan & sandi dibuka','lock-key')" class="ios-list-row">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="ios-list-icon"><i class="ph-bold ph-shield-check text-lg"></i></div>
+          <div class="min-w-0">
+            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Keamanan &amp; Sandi Akun</span>
+            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">2FA WhatsApp &amp; autentikasi login</span>
+          </div>
         </div>
-        <div class="flex-1 min-w-0">
-          <span class="font-body-semibold text-xs text-primary-950 font-bold block">Keamanan & Sandi Akun</span>
-          <span class="font-caption text-xs text-neutral-500">2FA WhatsApp & autentikasi login</span>
-        </div>
-        <i class="ph-bold ph-caret-right text-neutral-400 text-base"></i>
+        <i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>
       </div>
 
       <!-- Setting 4: Bahasa & Wilayah -->
-      <div onclick="nineToast('Bahasa default: Indonesia (ID)','globe')" class="px-5 py-4 flex items-center gap-3.5 active:bg-neutral-50 transition-colors cursor-pointer">
-        <div class="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center text-primary-950 shrink-0">
-          <i class="ph-bold ph-globe text-lg"></i>
+      <div onclick="nineToast('Bahasa default: Indonesia (ID)','globe')" class="ios-list-row">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="ios-list-icon"><i class="ph-bold ph-globe text-lg"></i></div>
+          <div class="min-w-0">
+            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Bahasa &amp; Wilayah</span>
+            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">Indonesia (WIB)</span>
+          </div>
         </div>
-        <div class="flex-1 min-w-0">
-          <span class="font-body-semibold text-xs text-primary-950 font-bold block">Bahasa & Wilayah</span>
-          <span class="font-caption text-xs text-neutral-500">Indonesia (WIB)</span>
+        <div class="flex items-center gap-2 shrink-0">
+          <span class="text-xs text-neutral-400 font-bold font-mono">ID</span>
+          <i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>
         </div>
-        <span class="text-xs text-neutral-400 font-bold mr-1 font-mono">ID</span>
-        <i class="ph-bold ph-caret-right text-neutral-400 text-base"></i>
       </div>
 
       <!-- Setting 5: Pusat Bantuan & CS -->
-      <div onclick="window.nineOpenHelp()" class="px-5 py-4 flex items-center gap-3.5 active:bg-neutral-50 transition-colors cursor-pointer">
-        <div class="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center text-primary-950 shrink-0">
-          <i class="ph-bold ph-headset text-lg"></i>
+      <div onclick="window.nineOpenHelp()" class="ios-list-row">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="ios-list-icon"><i class="ph-bold ph-headset text-lg"></i></div>
+          <div class="min-w-0">
+            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Pusat Bantuan &amp; CS</span>
+            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">WhatsApp hotline resmi bengkel Nine</span>
+          </div>
         </div>
-        <div class="flex-1 min-w-0">
-          <span class="font-body-semibold text-xs text-primary-950 font-bold block">Pusat Bantuan & CS</span>
-          <span class="font-caption text-xs text-neutral-500">WhatsApp hotline resmi bengkel Nine</span>
-        </div>
-        <i class="ph-bold ph-caret-right text-neutral-400 text-base"></i>
+        <i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>
       </div>
 
     </div>
   </section>
 
-  <!-- Logout Button -->
+  <!-- 7. Logout Button -->
   <section class="pt-2">
-    <a href="auth.html" class="ios-press w-full h-12 rounded-2xl bg-neutral-100 hover:bg-neutral-200/80 text-rose-600 font-bold text-xs flex items-center justify-center gap-2 transition-colors shadow-2xs">
+    <a href="auth.html" class="btn-danger w-full">
       <i class="ph-bold ph-sign-out text-lg"></i>
       <span>Keluar dari Akun</span>
     </a>
 
     <!-- Footer App Details -->
     <div class="mt-8 flex flex-col items-center text-center pb-6">
-      <div class="w-7 h-7 rounded-xl bg-neutral-950 text-white flex items-center justify-center font-headline text-xs font-bold mb-2 shadow-2xs">
+      <div class="w-7 h-7 rounded-xl bg-primary-950 text-white flex items-center justify-center font-headline text-xs font-bold mb-2 shadow-2xs">
         9
       </div>
       <p class="font-micro text-micro text-neutral-500 uppercase tracking-widest font-bold">Nine Autogarage Ecosystem</p>
@@ -312,8 +315,5 @@
 
 <script src="assets/shell.js"></script>
 <script src="assets/components.js"></script>
-<script>
-  // Profile interactive handlers
-</script>
 </body>
 </html>

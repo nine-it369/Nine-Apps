@@ -1,6 +1,7 @@
 /* Apple Human Interface Guidelines (HIG) + Nine Mall Design System */
 @import url('https://fonts.cdnfonts.com/css/sf-pro-display');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap');
+@import url('./components.css');
 
 html, body {
   width: 100%;
