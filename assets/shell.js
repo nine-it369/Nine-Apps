@@ -60,10 +60,10 @@
     TABS.map(function (t) {
       var on = t.key === current;
       var idleClass = "flex flex-col items-center justify-center gap-0.5 flex-1 min-h-[48px] text-neutral-400 hover:text-neutral-600 active:scale-95 transition-all";
-      var onClass = "flex flex-col items-center justify-center gap-0.5 flex-1 min-h-[48px] text-primary-950 font-bold active:scale-95 transition-all";
+      var onClass = "flex flex-col items-center justify-center gap-0.5 flex-1 min-h-[48px] text-accent-600 font-bold active:scale-95 transition-all";
       return '<a href="' + t.href + '" data-tab="' + t.key + '" class="' + (on ? onClass : idleClass) + '">' +
-        '<i class="' + (on ? "ph-fill text-primary-950 text-[23px] scale-105" : "ph text-neutral-400 text-[22px]") + ' ph-' + t.icon + ' transition-transform"></i>' +
-        '<span class="text-[10.5px] leading-tight tracking-tight ' + (on ? "text-primary-950 font-bold" : "text-neutral-400 font-medium") + '">' + t.label + "</span>" +
+        '<i class="' + (on ? "ph-fill text-accent-600 text-[23px] scale-105" : "ph text-neutral-400 text-[22px]") + ' ph-' + t.icon + ' transition-transform"></i>' +
+        '<span class="text-[10.5px] leading-tight tracking-tight ' + (on ? "text-accent-600 font-bold" : "text-neutral-400 font-medium") + '">' + t.label + "</span>" +
         '</a>';
     }).join("") +
     "</div></nav>";

@@ -36,28 +36,50 @@
       </button>
     </div>
 
-    <!-- VEHICLE SELECTOR PILL -->
-    <button onclick="window.nineToast('Buka pemilih kendaraan', 'motorcycle')" class="tap-v w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-white border border-neutral-200/80 shadow-2xs text-left ios-press hover:bg-neutral-50/80 transition-all">
-      <div class="flex items-center gap-2.5 min-w-0">
-        <div class="w-7 h-7 rounded-lg bg-neutral-100 flex items-center justify-center text-neutral-700 shrink-0">
-          <i class="ph-bold ph-motorcycle text-base"></i>
+    <!-- VEHICLE SELECTOR & INLINE FILTER BAR (Sejajar sesuai instruksi) -->
+    <div class="flex items-center gap-2 relative">
+      <!-- Vehicle Selector Pill (Flex 1) -->
+      <button onclick="window.nineToast('Buka pemilih kendaraan', 'motorcycle')" class="tap-v flex-1 min-w-0 flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-white border border-neutral-200/80 shadow-2xs text-left ios-press hover:bg-neutral-50/80 transition-all">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-7 h-7 rounded-lg bg-neutral-100 flex items-center justify-center text-neutral-700 shrink-0">
+            <i class="ph-bold ph-motorcycle text-base"></i>
+          </div>
+          <span class="font-bold text-xs text-primary-950 truncate">Yamaha NMAX · B 1234 XYZ</span>
         </div>
-        <span class="font-bold text-xs text-primary-950 truncate">Yamaha NMAX · B 1234 XYZ</span>
+        <i class="ph-bold ph-caret-down text-neutral-400 text-xs shrink-0"></i>
+      </button>
+
+      <!-- Filter Button Sejajar (Menggantikan Segmented Control) -->
+      <div class="relative shrink-0">
+        <button type="button" onclick="toggleDeviceFilterMenu(event)" id="filterMenuBtn" class="h-11 px-3 rounded-xl bg-white border border-neutral-200/80 shadow-2xs flex items-center gap-1.5 text-primary-950 hover:bg-neutral-50 active:scale-95 transition-all">
+          <i class="ph-bold ph-funnel text-sm text-neutral-600"></i>
+          <span class="text-xs font-bold" id="currentFilterLabel">Semua</span>
+          <i class="ph-bold ph-caret-down text-[10px] text-neutral-400"></i>
+        </button>
+
+        <!-- Dropdown Popover Filter (Apple HIG Clean Popover) -->
+        <div id="deviceFilterMenu" class="hidden absolute right-0 top-12 z-50 w-52 bg-white rounded-2xl border border-neutral-200/80 shadow-xl p-1.5 flex flex-col gap-1 transition-all">
+          <button onclick="applyDeviceFilter('all', 'Semua')" class="filter-opt flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-primary-950 bg-neutral-100 transition-all">
+            <span class="flex items-center gap-2"><i class="ph-bold ph-squares-four text-sm text-neutral-500"></i>Semua Aksesori</span>
+            <span class="text-[11px] font-mono font-bold text-neutral-400">5</span>
+          </button>
+          <button onclick="applyDeviceFilter('gps', 'GPS (2)')" class="filter-opt flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-neutral-700 hover:bg-neutral-50 transition-all">
+            <span class="flex items-center gap-2"><i class="ph-bold ph-navigation-arrow text-sm text-neutral-500"></i>GPS Tracker</span>
+            <span class="text-[11px] font-mono text-neutral-400">2</span>
+          </button>
+          <button onclick="applyDeviceFilter('light', 'Lampu (2)')" class="filter-opt flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-neutral-700 hover:bg-neutral-50 transition-all">
+            <span class="flex items-center gap-2"><i class="ph-bold ph-lightbulb text-sm text-neutral-500"></i>Lampu Biled</span>
+            <span class="text-[11px] font-mono text-neutral-400">2</span>
+          </button>
+          <button onclick="applyDeviceFilter('dashcam', 'Dashcam (1)')" class="filter-opt flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-neutral-700 hover:bg-neutral-50 transition-all">
+            <span class="flex items-center gap-2"><i class="ph-bold ph-video-camera text-sm text-neutral-500"></i>Dashcam 4K</span>
+            <span class="text-[11px] font-mono text-neutral-400">1</span>
+          </button>
+        </div>
       </div>
-      <i class="ph-bold ph-caret-down text-neutral-400 text-xs shrink-0"></i>
-    </button>
+    </div>
 
   </section>
-
-  <!-- CATEGORY SEGMENTED CONTROL FILTERS (Apple HIG Inset) -->
-  <div class="px-4 py-2">
-    <div class="ios-segmented w-full p-1 bg-neutral-200/80 rounded-2xl flex items-center shadow-2xs" id="segFilters">
-      <button class="ios-segmented-btn active" data-filter="all">Semua (5)</button>
-      <button class="ios-segmented-btn" data-filter="gps">GPS (2)</button>
-      <button class="ios-segmented-btn" data-filter="light">Lampu (2)</button>
-      <button class="ios-segmented-btn" data-filter="dashcam">Dashcam (1)</button>
-    </div>
-  </div>
 
   <!-- DEVICE CARDS LIST (Vertical Feed Apple HIG) -->
   <div class="px-4 flex flex-col gap-3.5 mt-1 pb-4" id="deviceList">
@@ -182,72 +204,96 @@
         </label>
       </div>
 
-      <!-- Reactive Lens Preview Chamber -->
-      <div class="relative rounded-2xl overflow-hidden bg-primary-950 h-28 flex items-center justify-center shadow-2xs">
-        <div id="acGlow" class="absolute inset-0 transition-all duration-300 pointer-events-none" style="background:radial-gradient(circle at 50% 40%,#38BDF8 0%,rgba(56,189,248,.35) 45%,transparent 72%)"></div>
+      <!-- Reactive Lens Preview Chamber with Automotive Cutoff Line Simulation -->
+      <div class="relative rounded-2xl overflow-hidden bg-primary-950 h-32 flex items-center justify-center shadow-inner">
+        <!-- Optical Beam Glow -->
+        <div id="acGlow" class="absolute inset-0 transition-all duration-300 pointer-events-none" style="background:radial-gradient(circle at 50% 45%,#38BDF8 0%,rgba(56,189,248,.35) 45%,transparent 74%)"></div>
+        
+        <!-- Automotive Projector Cutoff Line (Garis batas potong sorot lampu) -->
+        <div class="absolute inset-x-0 top-[54%] border-b border-white/20 pointer-events-none"></div>
+
         <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-accent-500/90 backdrop-blur-md font-micro text-[9px] font-black text-white uppercase tracking-wider flex items-center gap-1 shadow-xs">
           <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>TERHUBUNG · BLE
         </span>
-        <span class="absolute top-2.5 right-2.5 font-micro text-[9px] font-bold text-neutral-300 uppercase tracking-wider bg-black/40 backdrop-blur-md px-2 py-0.5 rounded-full">65W TURBO</span>
-        <div id="acLens" class="relative w-12 h-12 rounded-full bg-neutral-900 border-2 border-neutral-700 flex items-center justify-center transition-all duration-300 shadow-[0_0_24px_rgba(56,189,248,.6)]">
-          <div class="w-6 h-6 rounded-full bg-white flex items-center justify-center shadow-inner">
-            <i class="ph-bold ph-sun text-sm text-neutral-900"></i>
+        <span class="absolute top-2.5 right-2.5 font-micro text-[9px] font-bold text-neutral-300 uppercase tracking-wider bg-black/50 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/10">65W TURBO</span>
+        
+        <!-- Central Optical Convex Lens -->
+        <div id="acLens" class="relative w-14 h-14 rounded-full bg-neutral-900 border-2 border-neutral-700 flex items-center justify-center transition-all duration-300 shadow-[0_0_28px_rgba(56,189,248,.65)]">
+          <div class="w-7 h-7 rounded-full bg-white flex items-center justify-center shadow-inner">
+            <i class="ph-bold ph-sun text-base text-neutral-900"></i>
           </div>
         </div>
+
+        <span class="absolute bottom-2 left-2.5 font-mono text-[9px] text-neutral-300 bg-black/40 backdrop-blur-xs px-2 py-0.5 rounded-md">Cutoff Horizon: 15° Kick</span>
+        <span class="absolute bottom-2 right-2.5 font-mono text-[9px] text-neutral-300 bg-black/40 backdrop-blur-xs px-2 py-0.5 rounded-md font-bold" id="acLuxLabel">4.800 Lumens</span>
       </div>
 
-      <!-- Color Picker Title & Active Mode Display -->
-      <div class="flex items-center justify-between px-0.5">
-        <div>
-          <span class="font-bold text-[11px] uppercase tracking-wider text-neutral-500 block">TEMPERATUR WARNA SOROT</span>
-          <span id="acColorName" class="font-bold text-xs text-primary-950 block mt-0.5">6000K Ice Blue · #38BDF8</span>
+      <!-- Color Picker Title & Continuous Spectrum Bar -->
+      <div class="space-y-2 p-3 rounded-2xl bg-neutral-50 border border-neutral-200/80">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="font-bold text-[10px] uppercase tracking-wider text-neutral-500 block">TEMPERATUR WARNA SOROT (CCT)</span>
+            <span id="acColorName" class="font-bold text-xs text-primary-950 block mt-0.5">6000K Ice Blue · #38BDF8</span>
+          </div>
+          <span id="acKelvinBadge" class="font-mono text-xs font-bold text-accent-700 bg-white border border-neutral-200/80 px-2.5 py-0.5 rounded-full shadow-2xs">6000K</span>
         </div>
-        <span id="acKelvinBadge" class="font-mono text-[10px] font-bold text-accent-700 bg-accent-50 border border-accent-200 px-2 py-0.5 rounded-full">6000K</span>
-      </div>
 
-      <!-- 6 Calibrated Automotive Kelvin Swatches (Upgraded Interactive Color Picker) -->
-      <div class="grid grid-cols-6 gap-1.5 p-2 rounded-2xl bg-neutral-50 border border-neutral-200/70">
-        <!-- 3000K Amber -->
-        <button onclick="acPick(event,'#F59E0B','rgba(245,158,11,.35)','3000K Golden Amber (Hujan/Kabut)')" aria-label="3000K Amber" class="ac-dot flex flex-col items-center gap-1 p-1 rounded-xl hover:bg-white transition-all active:scale-95">
-          <span class="ac-swatch block w-6 h-6 rounded-full border border-neutral-300 shadow-2xs" style="background:#F59E0B"></span>
-          <span class="text-[9px] font-bold text-neutral-600 font-mono">3000K</span>
-        </button>
-        <!-- 4300K Warm -->
-        <button onclick="acPick(event,'#FDE68A','rgba(253,230,138,.35)','4300K Warm White (All-Weather)')" aria-label="4300K Warm" class="ac-dot flex flex-col items-center gap-1 p-1 rounded-xl hover:bg-white transition-all active:scale-95">
-          <span class="ac-swatch block w-6 h-6 rounded-full border border-neutral-300 shadow-2xs" style="background:#FDE68A"></span>
-          <span class="text-[9px] font-bold text-neutral-600 font-mono">4300K</span>
-        </button>
-        <!-- 5500K Pure White -->
-        <button onclick="acPick(event,'#FFFFFF','rgba(255,255,255,.4)','5500K Pure White (OEM High)')" aria-label="5500K White" class="ac-dot flex flex-col items-center gap-1 p-1 rounded-xl hover:bg-white transition-all active:scale-95">
-          <span class="ac-swatch block w-6 h-6 rounded-full border border-neutral-300 shadow-2xs" style="background:#FFFFFF"></span>
-          <span class="text-[9px] font-bold text-neutral-600 font-mono">5500K</span>
-        </button>
-        <!-- 6000K Ice Blue (Active Default) -->
-        <button onclick="acPick(event,'#38BDF8','rgba(56,189,248,.4)','6000K Ice Blue (Crystal Clear)')" aria-label="6000K Ice Blue" class="ac-dot flex flex-col items-center gap-1 p-1 rounded-xl bg-white shadow-2xs transition-all active:scale-95">
-          <span class="ac-swatch block w-6 h-6 rounded-full border-2 border-primary-950 shadow-xs ring-2 ring-sky-300" style="background:#38BDF8"></span>
-          <span class="text-[9px] font-bold text-primary-950 font-mono">6000K</span>
-        </button>
-        <!-- Laser Green Aux -->
-        <button onclick="acPick(event,'#22C55E','rgba(34,197,94,.35)','Laser Green Matrix (Aux Beam)')" aria-label="Laser Green" class="ac-dot flex flex-col items-center gap-1 p-1 rounded-xl hover:bg-white transition-all active:scale-95">
-          <span class="ac-swatch block w-6 h-6 rounded-full border border-neutral-300 shadow-2xs" style="background:#22C55E"></span>
-          <span class="text-[9px] font-bold text-neutral-600 font-mono">Laser</span>
-        </button>
-        <!-- Devil Red 650nm -->
-        <button onclick="acPick(event,'#EF4444','rgba(239,68,68,.35)','Devil Red 650nm (Aggressive Ring)')" aria-label="Devil Red" class="ac-dot flex flex-col items-center gap-1 p-1 rounded-xl hover:bg-white transition-all active:scale-95">
-          <span class="ac-swatch block w-6 h-6 rounded-full border border-neutral-300 shadow-2xs" style="background:#EF4444"></span>
-          <span class="text-[9px] font-bold text-neutral-600 font-mono">Devil</span>
-        </button>
+        <!-- Continuous Kelvin Spectrum Slider -->
+        <div class="pt-1">
+          <input type="range" id="acKelvinSlider" min="3000" max="8000" step="100" value="6000" oninput="onKelvinSliderChange(this.value)" class="w-full h-2.5 rounded-lg appearance-none cursor-pointer" style="background: linear-gradient(to right, #F59E0B 0%, #FDE68A 25%, #FFFFFF 50%, #38BDF8 75%, #818CF8 100%);"/>
+          <div class="flex justify-between text-[9px] font-mono text-neutral-400 font-bold mt-1">
+            <span>3000K (Amber)</span>
+            <span>4300K</span>
+            <span>5500K</span>
+            <span>6000K</span>
+            <span>8000K (Blue)</span>
+          </div>
+        </div>
+
+        <!-- 6 Calibrated Automotive Preset Swatches -->
+        <div class="grid grid-cols-6 gap-1.5 pt-1 border-t border-neutral-200/60 mt-2">
+          <!-- 3000K Amber -->
+          <button onclick="acPick(event,'#F59E0B','rgba(245,158,11,.35)','3000K Golden Amber (Hujan/Kabut)',3000)" aria-label="3000K Amber" class="ac-dot flex flex-col items-center gap-1 p-1 rounded-xl hover:bg-white transition-all active:scale-95">
+            <span class="ac-swatch block w-6 h-6 rounded-full border border-neutral-300 shadow-2xs" style="background:#F59E0B"></span>
+            <span class="text-[9px] font-bold text-neutral-600 font-mono">3000K</span>
+          </button>
+          <!-- 4300K Warm -->
+          <button onclick="acPick(event,'#FDE68A','rgba(253,230,138,.35)','4300K Warm White (All-Weather)',4300)" aria-label="4300K Warm" class="ac-dot flex flex-col items-center gap-1 p-1 rounded-xl hover:bg-white transition-all active:scale-95">
+            <span class="ac-swatch block w-6 h-6 rounded-full border border-neutral-300 shadow-2xs" style="background:#FDE68A"></span>
+            <span class="text-[9px] font-bold text-neutral-600 font-mono">4300K</span>
+          </button>
+          <!-- 5500K Pure White -->
+          <button onclick="acPick(event,'#FFFFFF','rgba(255,255,255,.4)','5500K Pure White (OEM High)',5500)" aria-label="5500K White" class="ac-dot flex flex-col items-center gap-1 p-1 rounded-xl hover:bg-white transition-all active:scale-95">
+            <span class="ac-swatch block w-6 h-6 rounded-full border border-neutral-300 shadow-2xs" style="background:#FFFFFF"></span>
+            <span class="text-[9px] font-bold text-neutral-600 font-mono">5500K</span>
+          </button>
+          <!-- 6000K Ice Blue (Active Default) -->
+          <button onclick="acPick(event,'#38BDF8','rgba(56,189,248,.4)','6000K Ice Blue (Crystal Clear)',6000)" aria-label="6000K Ice Blue" class="ac-dot flex flex-col items-center gap-1 p-1 rounded-xl bg-white shadow-2xs transition-all active:scale-95">
+            <span class="ac-swatch block w-6 h-6 rounded-full border-2 border-primary-950 shadow-xs ring-2 ring-primary-950/20" style="background:#38BDF8"></span>
+            <span class="text-[9px] font-bold text-primary-950 font-mono">6000K</span>
+          </button>
+          <!-- Laser Green Aux -->
+          <button onclick="acPick(event,'#22C55E','rgba(34,197,94,.35)','Laser Green Matrix (Aux Beam)',5200)" aria-label="Laser Green" class="ac-dot flex flex-col items-center gap-1 p-1 rounded-xl hover:bg-white transition-all active:scale-95">
+            <span class="ac-swatch block w-6 h-6 rounded-full border border-neutral-300 shadow-2xs" style="background:#22C55E"></span>
+            <span class="text-[9px] font-bold text-neutral-600 font-mono">Laser</span>
+          </button>
+          <!-- Devil Red 650nm -->
+          <button onclick="acPick(event,'#EF4444','rgba(239,68,68,.35)','Devil Red 650nm (Demon Eye Ring)',2000)" aria-label="Devil Red" class="ac-dot flex flex-col items-center gap-1 p-1 rounded-xl hover:bg-white transition-all active:scale-95">
+            <span class="ac-swatch block w-6 h-6 rounded-full border border-neutral-300 shadow-2xs" style="background:#EF4444"></span>
+            <span class="text-[9px] font-bold text-neutral-600 font-mono">Devil</span>
+          </button>
+        </div>
       </div>
 
       <!-- Brightness / Dimmer Slider -->
-      <div class="p-2.5 rounded-xl bg-neutral-50 border border-neutral-100 flex flex-col gap-1.5">
+      <div class="p-3 rounded-2xl bg-neutral-50 border border-neutral-200/80 flex flex-col gap-1.5">
         <div class="flex items-center justify-between text-xs font-bold text-neutral-700">
           <span class="flex items-center gap-1.5 text-[11px] text-neutral-500 uppercase tracking-wider">
-            <i class="ph-bold ph-sun-dim text-sm text-amber-500"></i>Kecerahan Sorot
+            <i class="ph-bold ph-sun-dim text-sm text-amber-500"></i>Kecerahan Sorot Biled
           </span>
-          <span id="acBrightLabel" class="font-mono text-primary-950 text-xs">80% (52 Watt)</span>
+          <span id="acBrightLabel" class="font-mono text-primary-950 text-xs font-bold">80% (52 Watt · 3.840 lm)</span>
         </div>
-        <input type="range" min="20" max="100" value="80" oninput="setBiledQuickBrightness(this.value)" class="w-full h-1.5 bg-neutral-200 rounded-lg appearance-none cursor-pointer accent-accent-600"/>
+        <input type="range" min="20" max="100" value="80" oninput="setBiledQuickBrightness(this.value)" class="w-full h-2 bg-neutral-200 rounded-lg appearance-none cursor-pointer accent-accent-600"/>
       </div>
 
       <!-- Action: Primary Brand Green Button -->
@@ -677,30 +723,88 @@
     });
   }
 
-  // Segmented control category filter logic
-  document.querySelectorAll(".ios-segmented-btn").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      document.querySelectorAll(".ios-segmented-btn").forEach(function (b) { b.classList.remove("active"); });
-      btn.classList.add("active");
-      var filter = btn.dataset.filter;
-      document.querySelectorAll(".device").forEach(function (card) {
-        var catMatch = filter === "all" || card.dataset.cat === filter;
-        card.classList.toggle("hidden", !catMatch);
-      });
+  // Inline Device Filter Dropdown Logic (Sejajar dengan Kendaraan)
+  function toggleDeviceFilterMenu(e) {
+    if (e) e.stopPropagation();
+    var menu = document.getElementById("deviceFilterMenu");
+    if (!menu) return;
+    menu.classList.toggle("hidden");
+  }
+
+  function applyDeviceFilter(cat, label) {
+    var menu = document.getElementById("deviceFilterMenu");
+    var labelEl = document.getElementById("currentFilterLabel");
+    if (labelEl) labelEl.textContent = label;
+    if (menu) menu.classList.add("hidden");
+
+    document.querySelectorAll(".device").forEach(function (card) {
+      var catMatch = cat === "all" || card.dataset.cat === cat;
+      card.classList.toggle("hidden", !catMatch);
     });
+
+    document.querySelectorAll(".filter-opt").forEach(function (btn) {
+      var isTarget = btn.getAttribute("onclick").indexOf("'" + cat + "'") !== -1;
+      btn.className = isTarget
+        ? "filter-opt flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-primary-950 bg-neutral-100 transition-all"
+        : "filter-opt flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-neutral-700 hover:bg-neutral-50 transition-all";
+    });
+
+    window.nineToast("Menampilkan filter: " + label, "funnel");
+  }
+
+  document.addEventListener("click", function (e) {
+    var menu = document.getElementById("deviceFilterMenu");
+    var btn = document.getElementById("filterMenuBtn");
+    if (menu && !menu.classList.contains("hidden") && !menu.contains(e.target) && !btn.contains(e.target)) {
+      menu.classList.add("hidden");
+    }
   });
 
-  // Upgraded Reactive color swatch selection for biled
-  function acPick(e, hex, rgba, name) {
-    e.preventDefault(); e.stopPropagation();
+  // Upgraded Continuous Kelvin Spectrum Slider Change
+  function onKelvinSliderChange(kelvin) {
+    kelvin = parseInt(kelvin, 10);
+    var hex, rgba, name;
+    if (kelvin <= 3500) {
+      hex = '#F59E0B'; rgba = 'rgba(245,158,11,.35)'; name = kelvin + 'K Golden Amber';
+    } else if (kelvin <= 4800) {
+      hex = '#FDE68A'; rgba = 'rgba(253,230,138,.35)'; name = kelvin + 'K Warm White';
+    } else if (kelvin <= 5800) {
+      hex = '#FFFFFF'; rgba = 'rgba(255,255,255,.4)'; name = kelvin + 'K Pure White';
+    } else if (kelvin <= 6800) {
+      hex = '#38BDF8'; rgba = 'rgba(56,189,248,.4)'; name = kelvin + 'K Ice Blue';
+    } else {
+      hex = '#818CF8'; rgba = 'rgba(129,140,248,.35)'; name = kelvin + 'K Deep Blue';
+    }
+
     var glow = document.getElementById("acGlow");
     var lens = document.getElementById("acLens");
     var label = document.getElementById("acColorName");
     var badge = document.getElementById("acKelvinBadge");
 
-    if (glow) glow.style.background = "radial-gradient(circle at 50% 40%," + hex + " 0%," + rgba + " 45%,transparent 72%)";
+    if (glow) glow.style.background = "radial-gradient(circle at 50% 45%," + hex + " 0%," + rgba + " 45%,transparent 74%)";
     if (lens) {
-      lens.style.boxShadow = "0 0 24px " + hex;
+      lens.style.boxShadow = "0 0 28px " + hex;
+      lens.style.borderColor = hex;
+    }
+    if (label) label.textContent = name + " · " + hex;
+    if (badge) {
+      badge.textContent = kelvin + "K";
+      badge.style.color = hex === '#FFFFFF' ? '#0f172a' : hex;
+    }
+  }
+
+  // Upgraded Reactive color swatch selection for biled
+  function acPick(e, hex, rgba, name, kelvin) {
+    e.preventDefault(); e.stopPropagation();
+    var glow = document.getElementById("acGlow");
+    var lens = document.getElementById("acLens");
+    var label = document.getElementById("acColorName");
+    var badge = document.getElementById("acKelvinBadge");
+    var slider = document.getElementById("acKelvinSlider");
+
+    if (glow) glow.style.background = "radial-gradient(circle at 50% 45%," + hex + " 0%," + rgba + " 45%,transparent 74%)";
+    if (lens) {
+      lens.style.boxShadow = "0 0 28px " + hex;
       lens.style.borderColor = hex;
     }
     if (label) label.textContent = name;
@@ -708,6 +812,9 @@
       var match = name.match(/^[0-9]+K|[A-Za-z]+/);
       badge.textContent = match ? match[0] : name.split(" ")[0];
       badge.style.color = hex === '#FFFFFF' ? '#0f172a' : hex;
+    }
+    if (slider && kelvin) {
+      slider.value = kelvin;
     }
 
     document.querySelectorAll(".ac-dot").forEach(function (dot) {
@@ -723,7 +830,7 @@
       targetDot.classList.add("bg-white", "shadow-2xs");
       var sw = targetDot.querySelector(".ac-swatch");
       if (sw) {
-        sw.className = "ac-swatch block w-6 h-6 rounded-full border-2 border-primary-950 shadow-xs ring-2 ring-primary-900/30 scale-110";
+        sw.className = "ac-swatch block w-6 h-6 rounded-full border-2 border-primary-950 shadow-xs ring-2 ring-primary-950/20 scale-110";
       }
     }
     window.nineToast("Suhu warna diubah ke " + name, "sun");
@@ -733,8 +840,11 @@
   function setBiledQuickBrightness(val) {
     var label = document.getElementById("acBrightLabel");
     var glow = document.getElementById("acGlow");
+    var lux = document.getElementById("acLuxLabel");
     var watts = Math.round(val * 0.65);
-    if (label) label.textContent = val + "% (" + watts + " Watt)";
+    var lumens = Math.round(val * 48);
+    if (label) label.textContent = val + "% (" + watts + " Watt · " + lumens.toLocaleString('id-ID') + " lm)";
+    if (lux) lux.textContent = lumens.toLocaleString('id-ID') + " Lumens";
     if (glow) glow.style.opacity = (val / 100).toString();
   }
 

@@ -185,12 +185,12 @@
 </main>
 
 <!-- FLOATING CART BAR (Per STYLE_GUIDE_mall.md §4.3) -->
-<div class="fixed bottom-[54px] inset-x-0 z-40 px-4 pointer-events-none">
+<div class="fixed bottom-[68px] inset-x-0 z-40 px-4 pointer-events-none">
   <div class="max-w-md mx-auto pointer-events-auto bg-white/95 backdrop-blur-xl border border-neutral-200/80 shadow-xl rounded-2xl p-3 flex items-center justify-between">
     <div class="flex items-center gap-2.5 pl-1">
-      <div class="relative w-10 h-10 rounded-xl bg-primary-100 flex items-center justify-center text-primary-950">
+      <div class="relative w-10 h-10 rounded-xl bg-neutral-100 flex items-center justify-center text-primary-950">
         <i class="ph-bold ph-shopping-bag text-xl"></i>
-        <span class="absolute -top-1 -right-1 min-w-[17px] h-[17px] px-1 rounded-full bg-accent-500 text-white font-micro text-[10px] font-bold flex items-center justify-center shadow-xs" data-cart-badge>2</span>
+        <span class="absolute -top-1 -right-1 min-w-[17px] h-[17px] px-1 rounded-full bg-accent-600 text-white font-micro text-[10px] font-bold flex items-center justify-center shadow-xs" data-cart-badge>2</span>
       </div>
       <div>
         <span class="text-[10px] text-neutral-500 font-medium block">Total (2 item terpilih)</span>
@@ -211,7 +211,7 @@
     <p class="text-xs text-secondary text-center mt-1">Stok &amp; estimasi ongkir dihitung dari gudang yang kamu pilih.</p>
 
     <div class="mt-4 space-y-2.5">
-      <button onclick="setWarehouse('Jakarta Barat', 'DKI Jakarta · Hub Utama')" class="w-full p-3.5 rounded-2xl border-2 border-accent-500 bg-accent-50/50 flex items-center justify-between text-left ios-press">
+      <button onclick="setWarehouse('Jakarta Barat', 'DKI Jakarta · Hub Utama')" class="w-full p-3.5 rounded-2xl border-2 border-primary-950 bg-white shadow-2xs flex items-center justify-between text-left ios-press">
         <div>
           <span class="font-bold text-sm text-primary-950 block">Gudang Jakarta Barat</span>
           <span class="text-xs text-neutral-500">DKI Jakarta · Hub Utama (Stok Lengkap 100%)</span>
@@ -219,7 +219,7 @@
         <i class="ph-bold ph-check-circle text-accent-600 text-xl"></i>
       </button>
 
-      <button onclick="setWarehouse('Surabaya', 'Jawa Timur · Hub Timur')" class="w-full p-3.5 rounded-2xl border border-neutral-200 bg-white flex items-center justify-between text-left ios-press">
+      <button onclick="setWarehouse('Surabaya', 'Jawa Timur · Hub Timur')" class="w-full p-3.5 rounded-2xl border border-neutral-200/80 bg-white flex items-center justify-between text-left ios-press">
         <div>
           <span class="font-bold text-sm text-primary-950 block">Gudang Surabaya</span>
           <span class="text-xs text-neutral-500">Jawa Timur · Pengiriman Cepat Area Timur</span>
@@ -227,7 +227,7 @@
         <span class="w-5 h-5 rounded-full border border-neutral-300"></span>
       </button>
 
-      <button onclick="setWarehouse('Medan', 'Sumatera Utara · Hub Barat')" class="w-full p-3.5 rounded-2xl border border-neutral-200 bg-white flex items-center justify-between text-left ios-press">
+      <button onclick="setWarehouse('Medan', 'Sumatera Utara · Hub Barat')" class="w-full p-3.5 rounded-2xl border border-neutral-200/80 bg-white flex items-center justify-between text-left ios-press">
         <div>
           <span class="font-bold text-sm text-primary-950 block">Gudang Medan</span>
           <span class="text-xs text-neutral-500">Sumatera Utara · Hemat Ongkir Pulau Sumatera</span>
@@ -251,7 +251,7 @@
       <div>
         <label class="font-bold text-[11px] uppercase tracking-wider text-neutral-500 block mb-1.5">WARNA LENSA BILED</label>
         <div class="grid grid-cols-2 gap-2">
-          <button class="py-2.5 rounded-xl border-2 border-accent-500 bg-accent-50 font-bold text-xs text-accent-800">Blue Lens 6000K</button>
+          <button class="py-2.5 rounded-xl border-2 border-primary-950 bg-primary-950 text-white font-bold text-xs shadow-2xs">Blue Lens 6000K</button>
           <button class="py-2.5 rounded-xl border border-neutral-200 bg-neutral-50 font-semibold text-xs text-neutral-700">Clear Lens 5500K</button>
         </div>
       </div>
@@ -259,7 +259,7 @@
       <div>
         <label class="font-bold text-[11px] uppercase tracking-wider text-neutral-500 block mb-1.5">MODEL SHROUD</label>
         <div class="grid grid-cols-2 gap-2">
-          <button class="py-2.5 rounded-xl border-2 border-accent-500 bg-accent-50 font-bold text-xs text-accent-800">BMW Sport White</button>
+          <button class="py-2.5 rounded-xl border-2 border-primary-950 bg-primary-950 text-white font-bold text-xs shadow-2xs">BMW Sport White</button>
           <button class="py-2.5 rounded-xl border border-neutral-200 bg-neutral-50 font-semibold text-xs text-neutral-700">Dual Ring Crystal</button>
         </div>
       </div>

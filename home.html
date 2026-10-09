@@ -58,8 +58,8 @@
 <body data-tab="beranda" data-header="transparent" data-search="Cari aksesori di Mall…" class="font-body text-body text-on-surface antialiased selection:bg-accent-subtle selection:text-accent-text">
 
 <main id="homeCanvas" class="w-full min-h-screen pt-16 pb-32 text-on-surface flex flex-col relative overflow-x-hidden bg-[#fafafa]">
-  <!-- Gradient Automotive Light Header: Dari atas memudar halus sampai ke tengah komponen Aksesori Terhubung -->
-  <div class="absolute top-0 inset-x-0 h-[310px] bg-gradient-to-b from-[#e8edf5] via-[#f1f4f8] to-transparent pointer-events-none z-0"></div>
+  <!-- Gradient Automotive Light Header: Memudar halus dan menyatu sampai ke bawah aksi cepat -->
+  <div class="absolute top-0 inset-x-0 h-[620px] bg-gradient-to-b from-[#e8edf5] via-[#f2f5f9] to-[#fafafa] pointer-events-none z-0"></div>
 
   <div class="max-w-md mx-auto w-full px-4 flex flex-col relative z-10">
 
@@ -337,8 +337,8 @@
     <section class="mt-5" id="sectionActions">
       <!-- 3 Standalone Action Buttons: Bersih & berjarak teratur (gap-2.5) -->
       <div class="grid grid-cols-3 gap-2.5 relative z-10" id="actionButtonsRow">
-        <!-- 1. Bagikan Lokasi (Selected by Default with Neutral Gray Border) -->
-        <button type="button" onclick="toggleAction('share')" id="act-btn-share" class="action-btn h-[80px] p-2.5 rounded-2xl bg-white border-2 border-neutral-300 shadow-2xs transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 text-neutral-800 font-bold relative z-20">
+        <!-- 1. Bagikan Lokasi (Selected by Default with Thinner Neutral Gray Border) -->
+        <button type="button" onclick="toggleAction('share')" id="act-btn-share" class="action-btn h-[80px] p-2.5 rounded-2xl bg-white border border-neutral-300 shadow-2xs transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 text-neutral-800 font-bold relative z-20">
           <div class="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-800 transition-colors" id="act-icon-share">
             <i class="ph-bold ph-share-network text-lg"></i>
           </div>
@@ -364,10 +364,10 @@
         </button>
       </div>
 
-      <!-- CONTAINER LIST YANG MENYELIMUTI KETIKA DIKLIK, DENGAN BORDER YANG MENYATU KE IKON TERPILIH -->
-      <div id="actionExpandContainer" class="relative mt-3 rounded-2xl bg-white border-2 border-neutral-300 shadow-2xs p-4 transition-all">
-        <!-- Connector notch: Menyatu dengan border tombol aktif di atasnya -->
-        <div id="actionIndicatorNotch" class="absolute -top-[9px] w-4 h-4 bg-white border-t-2 border-l-2 border-neutral-300 rotate-45 transition-all duration-300 z-10" style="left: calc(16.67% - 8px);"></div>
+      <!-- CONTAINER LIST YANG MENYELIMUTI KETIKA DIKLIK, DENGAN BORDER TIPIS YANG MENYATU KE IKON TERPILIH -->
+      <div id="actionExpandContainer" class="relative mt-3 rounded-2xl bg-white border border-neutral-300 shadow-2xs p-4 transition-all">
+        <!-- Connector notch: Menyatu dengan border tipis tombol aktif di atasnya -->
+        <div id="actionIndicatorNotch" class="absolute -top-[9px] w-4 h-4 bg-white border-t border-l border-neutral-300 rotate-45 transition-all duration-300 z-10" style="left: calc(16.67% - 8px);"></div>
         
         <!-- Panel 1: Bagikan Lokasi (Active by Default) -->
         <div id="expand-share" class="expand-content flex flex-col gap-3">
@@ -413,7 +413,7 @@
             <div class="min-w-0 flex-1">
               <div class="flex items-center justify-between gap-1">
                 <h4 class="font-headline text-xs font-bold text-primary-950 truncate">Retrofit Biled E9 Pro</h4>
-                <span class="font-micro text-[9px] font-bold text-accent-700 bg-accent-50 px-1.5 py-0.2 rounded">Pit 02</span>
+                <span class="font-micro text-[9px] font-bold text-primary-950 bg-neutral-100 border border-neutral-200/80 px-1.5 py-0.2 rounded">Pit 02</span>
               </div>
               <p class="font-caption text-[11px] text-neutral-500 truncate mt-0.5">10:30 WIB · Flagship Arcadia BSD</p>
               <p class="font-caption text-[11px] text-neutral-600 mt-1 flex items-center gap-1">
@@ -456,7 +456,7 @@
             <div class="min-w-0 flex-1">
               <div class="flex items-center justify-between gap-1">
                 <h4 class="font-headline text-xs font-bold text-primary-950 truncate">Biled Matrix E3 Blue Lens</h4>
-                <span class="font-micro text-[9px] font-bold text-blue-700 bg-blue-50 px-1.5 py-0.2 rounded">Dikirim</span>
+                <span class="font-micro text-[9px] font-bold text-primary-950 bg-neutral-100 border border-neutral-200/80 px-1.5 py-0.2 rounded">Dikirim</span>
               </div>
               <p class="font-mono text-[10px] text-neutral-400 mt-0.5">J&amp;T: JT88921094 · Rp 1.450.000</p>
               <p class="font-caption text-[11px] text-neutral-600 mt-1 truncate">Paket tiba di DC Jakarta Barat — Siap diantar</p>
@@ -544,7 +544,151 @@
       </div>
     </section>
 
-    <!-- SECTION: HIGHLIGHT PRODUK PILIHAN DARI MALL -->
+    <!-- SECTION 2.6: STATUS PERAWATAN BERKALA (CLEAN APPLE HIG - TANPA CONTAINER PASTEL) -->
+    <section class="mt-5">
+      <div class="ios-card p-4 shadow-2xs bg-white border border-neutral-200/80 rounded-2xl">
+        <!-- Header Section -->
+        <div class="flex items-center justify-between pb-3.5 border-b border-neutral-100">
+          <div>
+            <span class="font-label text-label uppercase tracking-widest text-primary-950 font-black block">Status Perawatan Berkala</span>
+            <div class="flex items-baseline gap-1.5 mt-0.5">
+              <span class="font-headline text-lg font-bold text-primary-950 font-mono">12.480 km</span>
+              <span class="font-caption text-caption text-neutral-500">Odometer Terkini</span>
+            </div>
+          </div>
+          <!-- Clean HIG neutral badge with live pulse indicator (NO tacky pastel box) -->
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-neutral-100 border border-neutral-200/80 text-primary-950 font-micro text-[10px] font-bold uppercase tracking-wider">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            +32 km Hari Ini
+          </span>
+        </div>
+
+        <!-- 6 Diagnostic Telemetry Boxes (Clean Neutral Apple HIG Surfaces) -->
+        <div class="flex overflow-x-auto gap-2.5 pb-2 pt-3 scroll-smooth no-scrollbar snap-x px-0.5">
+          <!-- Box 1: Oli Mesin -->
+          <div class="w-[152px] shrink-0 snap-start p-3 rounded-2xl bg-neutral-50 border border-neutral-200/70 flex flex-col justify-between min-h-[105px]">
+            <div class="flex items-center justify-between">
+              <div class="w-7 h-7 rounded-lg bg-neutral-900 text-white flex items-center justify-center">
+                <i class="ph-bold ph-drop text-sm"></i>
+              </div>
+              <button type="button" onclick="resetMaintenanceItem('oli', 'Oli Mesin')" title="Reset Siklus Baru" class="text-neutral-400 hover:text-primary-950 active:scale-90 p-1 flex items-center justify-center transition-colors">
+                <i class="ph-bold ph-arrow-counter-clockwise text-base"></i>
+              </button>
+            </div>
+            <div class="mt-2">
+              <div class="flex items-baseline gap-1">
+                <span class="font-headline text-base font-bold font-mono text-primary-950">1.800</span>
+                <span class="text-[10px] text-neutral-500 font-mono">/ 2.000 km</span>
+              </div>
+              <span class="font-caption text-[11px] text-neutral-500 block truncate mt-0.5 font-medium">Oli Motul 10W-40</span>
+            </div>
+          </div>
+
+          <!-- Box 2: Filter Udara -->
+          <div class="w-[152px] shrink-0 snap-start p-3 rounded-2xl bg-neutral-50 border border-neutral-200/70 flex flex-col justify-between min-h-[105px]">
+            <div class="flex items-center justify-between">
+              <div class="w-7 h-7 rounded-lg bg-neutral-100 text-primary-950 flex items-center justify-center">
+                <i class="ph-bold ph-wind text-sm"></i>
+              </div>
+              <button type="button" onclick="resetMaintenanceItem('filter', 'Filter Udara')" title="Reset Siklus Baru" class="text-neutral-400 hover:text-primary-950 active:scale-90 p-1 flex items-center justify-center transition-colors">
+                <i class="ph-bold ph-arrow-counter-clockwise text-base"></i>
+              </button>
+            </div>
+            <div class="mt-2">
+              <div class="flex items-baseline gap-1">
+                <span class="font-headline text-base font-bold font-mono text-primary-950">4.200</span>
+                <span class="text-[10px] text-neutral-500 font-mono">/ 10.000 km</span>
+              </div>
+              <span class="font-caption text-[11px] text-neutral-500 block truncate mt-0.5 font-medium">Filter Dual Flow</span>
+            </div>
+          </div>
+
+          <!-- Box 3: Kampas Rem -->
+          <div class="w-[152px] shrink-0 snap-start p-3 rounded-2xl bg-neutral-50 border border-neutral-200/70 flex flex-col justify-between min-h-[105px]">
+            <div class="flex items-center justify-between">
+              <div class="w-7 h-7 rounded-lg bg-neutral-900 text-white flex items-center justify-center">
+                <i class="ph-bold ph-disc text-sm"></i>
+              </div>
+              <button type="button" onclick="resetMaintenanceItem('rem', 'Kampas Rem')" title="Reset Siklus Baru" class="text-neutral-400 hover:text-primary-950 active:scale-90 p-1 flex items-center justify-center transition-colors">
+                <i class="ph-bold ph-arrow-counter-clockwise text-base"></i>
+              </button>
+            </div>
+            <div class="mt-2">
+              <div class="flex items-baseline gap-1">
+                <span class="font-headline text-base font-bold font-mono text-primary-950">18.500</span>
+                <span class="text-[10px] text-neutral-500 font-mono">/ 20.000 km</span>
+              </div>
+              <span class="font-caption text-[11px] text-neutral-500 block truncate mt-0.5 font-medium">Kampas Rem Bendix</span>
+            </div>
+          </div>
+
+          <!-- Box 4: Aki / Voltase -->
+          <div class="w-[152px] shrink-0 snap-start p-3 rounded-2xl bg-neutral-50 border border-neutral-200/70 flex flex-col justify-between min-h-[105px]">
+            <div class="flex items-center justify-between">
+              <div class="w-7 h-7 rounded-lg bg-neutral-100 text-primary-950 flex items-center justify-center">
+                <i class="ph-bold ph-battery-charging text-sm"></i>
+              </div>
+              <button type="button" onclick="resetMaintenanceItem('aki', 'Aki Kendaraan')" title="Reset Siklus Baru" class="text-neutral-400 hover:text-primary-950 active:scale-90 p-1 flex items-center justify-center transition-colors">
+                <i class="ph-bold ph-arrow-counter-clockwise text-base"></i>
+              </button>
+            </div>
+            <div class="mt-2">
+              <div class="flex items-baseline gap-1">
+                <span class="font-headline text-base font-bold font-mono text-primary-950">12.6</span>
+                <span class="text-[10px] text-neutral-500 font-mono">/ 12.8 V</span>
+              </div>
+              <span class="font-caption text-[11px] text-neutral-500 block truncate mt-0.5 font-medium">Aki Kering Yuasa</span>
+            </div>
+          </div>
+
+          <!-- Box 5: Minyak Rem -->
+          <div class="w-[152px] shrink-0 snap-start p-3 rounded-2xl bg-neutral-50 border border-neutral-200/70 flex flex-col justify-between min-h-[105px]">
+            <div class="flex items-center justify-between">
+              <div class="w-7 h-7 rounded-lg bg-neutral-100 text-primary-950 flex items-center justify-center">
+                <i class="ph-bold ph-flask text-sm"></i>
+              </div>
+              <button type="button" onclick="resetMaintenanceItem('minyak', 'Minyak Rem')" title="Reset Siklus Baru" class="text-neutral-400 hover:text-primary-950 active:scale-90 p-1 flex items-center justify-center transition-colors">
+                <i class="ph-bold ph-arrow-counter-clockwise text-base"></i>
+              </button>
+            </div>
+            <div class="mt-2">
+              <div class="flex items-baseline gap-1">
+                <span class="font-headline text-base font-bold font-mono text-primary-950">8.000</span>
+                <span class="text-[10px] text-neutral-500 font-mono">/ 10.000 km</span>
+              </div>
+              <span class="font-caption text-[11px] text-neutral-500 block truncate mt-0.5 font-medium">Minyak Rem DOT 4</span>
+            </div>
+          </div>
+
+          <!-- Box 6: Busi Pengapian -->
+          <div class="w-[152px] shrink-0 snap-start p-3 rounded-2xl bg-neutral-50 border border-neutral-200/70 flex flex-col justify-between min-h-[105px]">
+            <div class="flex items-center justify-between">
+              <div class="w-7 h-7 rounded-lg bg-neutral-100 text-primary-950 flex items-center justify-center">
+                <i class="ph-bold ph-lightning text-sm"></i>
+              </div>
+              <button type="button" onclick="resetMaintenanceItem('busi', 'Busi Iridium')" title="Reset Siklus Baru" class="text-neutral-400 hover:text-primary-950 active:scale-90 p-1 flex items-center justify-center transition-colors">
+                <i class="ph-bold ph-arrow-counter-clockwise text-base"></i>
+              </button>
+            </div>
+            <div class="mt-2">
+              <div class="flex items-baseline gap-1">
+                <span class="font-headline text-base font-bold font-mono text-primary-950">9.200</span>
+                <span class="text-[10px] text-neutral-500 font-mono">/ 12.000 km</span>
+              </div>
+              <span class="font-caption text-[11px] text-neutral-500 block truncate mt-0.5 font-medium">Busi Laser Iridium</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Direct CTA Button -->
+        <button type="button" onclick="openAddPerawatanSheet()" class="mt-3.5 w-full h-11 rounded-xl bg-primary-950 hover:bg-black text-white font-body-semibold text-xs font-bold flex items-center justify-center gap-2 shadow-xs active:scale-[0.98] transition-all">
+          <i class="ph-bold ph-plus-circle text-base"></i>
+          <span>Tambah Status Perawatan</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- SECTION 2.7: HIGHLIGHT PRODUK PILIHAN DARI MALL -->
     <section class="mt-5">
       <div class="flex items-center justify-between mb-2.5 px-1">
         <div>
@@ -559,12 +703,12 @@
       <!-- 2-Column Product Grid (Clean Apple HIG Automotive Cards) -->
       <div class="grid grid-cols-2 gap-3" id="homeMallHighlightGrid">
         <!-- Card 1: Biled Matrix E9 Pro -->
-        <div class="ios-card p-3 flex flex-col justify-between group bg-white border border-neutral-200/80 shadow-2xs">
+        <div class="ios-card p-3 flex flex-col justify-between group bg-white border border-neutral-200/80 shadow-2xs rounded-2xl">
           <a href="mall.html" class="block">
             <div class="relative w-full aspect-square rounded-xl overflow-hidden bg-neutral-100 mb-2">
               <img src="lampu.jpg" alt="Biled Matrix E9 Pro" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
-              <span class="absolute top-2 left-2 rounded-lg bg-accent-100 text-accent-700 border border-accent-200 px-1.5 py-0.5 text-[9.5px] font-bold uppercase shadow-2xs">−21%</span>
-              <span class="absolute top-2 right-2 rounded-md bg-white/85 backdrop-blur-xs px-1.5 py-0.5 font-micro text-[8px] font-bold text-primary-900 uppercase">BILED</span>
+              <span class="absolute top-2 left-2 rounded-lg bg-neutral-900/90 text-white px-1.5 py-0.5 text-[9.5px] font-bold uppercase shadow-2xs">−21%</span>
+              <span class="absolute top-2 right-2 rounded-md bg-white/90 backdrop-blur-xs px-1.5 py-0.5 font-micro text-[8px] font-bold text-primary-950 uppercase">BILED</span>
             </div>
             <div class="flex items-center gap-1 mb-1">
               <i class="ph-fill ph-star text-amber-400 text-xs"></i><span class="text-xs font-bold text-primary-950">4.9</span>
@@ -577,18 +721,18 @@
               <span class="font-price text-xs font-black text-primary-950 block">Rp 1.299.000</span>
               <span class="text-[10px] text-neutral-400 line-through">Rp 1.650.000</span>
             </div>
-            <button onclick="addHomeCart('Biled Matrix E9 Pro 3.0')" aria-label="Beli Biled Matrix E9 Pro" class="tap-44 w-8 h-8 rounded-xl bg-primary-100 hover:bg-primary-950 hover:text-white text-primary-950 flex items-center justify-center transition-colors ios-press">
+            <button onclick="addHomeCart('Biled Matrix E9 Pro 3.0')" aria-label="Beli Biled Matrix E9 Pro" class="tap-44 w-8 h-8 rounded-xl bg-neutral-100 hover:bg-primary-950 hover:text-white text-primary-950 flex items-center justify-center transition-colors ios-press">
               <i class="ph-bold ph-plus text-sm"></i>
             </button>
           </div>
         </div>
 
         <!-- Card 2: Mini Laser D2 -->
-        <div class="ios-card p-3 flex flex-col justify-between group bg-white border border-neutral-200/80 shadow-2xs">
+        <div class="ios-card p-3 flex flex-col justify-between group bg-white border border-neutral-200/80 shadow-2xs rounded-2xl">
           <a href="mall.html" class="block">
             <div class="relative w-full aspect-square rounded-xl overflow-hidden bg-neutral-100 mb-2">
               <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZv-hI1ymx6Td3Oj_1xdafgyVLhfo7ZLwfHY1-wGEyeDLysJoDWRWnXb8Q3hVNchdMKTYifogAQpyKhBDW2lMYWbEiwC1Qj7fKP34LuKjZSPtZgvj1dCPBo-1OkQF-xXVWPXLYHDOWe1ds-42dDOQeq_sPadoxAvayfTmIXoz52uaAySW1jPJ8z-latNS5xgW6cAidCmUJEpAWPW33i-ZyZv0ax6CJ_1iy9QOFT0ZN" alt="Mini Laser D2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
-              <span class="absolute top-2 right-2 rounded-md bg-white/85 backdrop-blur-xs px-1.5 py-0.5 font-micro text-[8px] font-bold text-primary-900 uppercase">LAMPU TEMBAK</span>
+              <span class="absolute top-2 right-2 rounded-md bg-white/90 backdrop-blur-xs px-1.5 py-0.5 font-micro text-[8px] font-bold text-primary-950 uppercase">LAMPU TEMBAK</span>
             </div>
             <div class="flex items-center gap-1 mb-1">
               <i class="ph-fill ph-star text-amber-400 text-xs"></i><span class="text-xs font-bold text-primary-950">4.9</span>
@@ -601,19 +745,19 @@
               <span class="font-price text-xs font-black text-primary-950 block">Rp 320.000</span>
               <span class="text-[10px] text-neutral-400">Garansi 12 Bln</span>
             </div>
-            <button onclick="addHomeCart('Mini Laser D2 Dual Color')" aria-label="Beli Mini Laser D2" class="tap-44 w-8 h-8 rounded-xl bg-primary-100 hover:bg-primary-950 hover:text-white text-primary-950 flex items-center justify-center transition-colors ios-press">
+            <button onclick="addHomeCart('Mini Laser D2 Dual Color')" aria-label="Beli Mini Laser D2" class="tap-44 w-8 h-8 rounded-xl bg-neutral-100 hover:bg-primary-950 hover:text-white text-primary-950 flex items-center justify-center transition-colors ios-press">
               <i class="ph-bold ph-plus text-sm"></i>
             </button>
           </div>
         </div>
 
         <!-- Card 3: Nine GPS Tracker 4G IoT -->
-        <div class="ios-card p-3 flex flex-col justify-between group bg-white border border-neutral-200/80 shadow-2xs">
+        <div class="ios-card p-3 flex flex-col justify-between group bg-white border border-neutral-200/80 shadow-2xs rounded-2xl">
           <a href="mall.html" class="block">
             <div class="relative w-full aspect-square rounded-xl overflow-hidden bg-neutral-100 mb-2">
               <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCnc8XNxiywK-knFr4oR3GLcF2XbHDi0pfFJyKrpkAh6mTP-0_d6GhErQL_ngcol8t74eBkKRlDMOuN8r_qqrym5IzpLVKzTUJvPafkc_2qW0lIXDBd4AQ5LtW3LgFi4234C4VyqFPGLVA8q5EG-jKmN3ouQ94BS4ERwVxTC9VJj7eeGJBiOb1JpH7sjunpq6jw9pkH262ZiMFp970WS_qcdcMRfwbt6HALKgfDshI" alt="Nine GPS Tracker IoT" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
-              <span class="absolute top-2 left-2 rounded-lg bg-accent-100 text-accent-700 border border-accent-200 px-1.5 py-0.5 text-[9.5px] font-bold uppercase shadow-2xs">−21%</span>
-              <span class="absolute top-2 right-2 rounded-md bg-white/85 backdrop-blur-xs px-1.5 py-0.5 font-micro text-[8px] font-bold text-primary-900 uppercase">GPS</span>
+              <span class="absolute top-2 left-2 rounded-lg bg-neutral-900/90 text-white px-1.5 py-0.5 text-[9.5px] font-bold uppercase shadow-2xs">−21%</span>
+              <span class="absolute top-2 right-2 rounded-md bg-white/90 backdrop-blur-xs px-1.5 py-0.5 font-micro text-[8px] font-bold text-primary-950 uppercase">GPS</span>
             </div>
             <div class="flex items-center gap-1 mb-1">
               <i class="ph-fill ph-star text-amber-400 text-xs"></i><span class="text-xs font-bold text-primary-950">4.8</span>
@@ -626,19 +770,19 @@
               <span class="font-price text-xs font-black text-primary-950 block">Rp 550.000</span>
               <span class="text-[10px] text-neutral-400 line-through">Rp 699.000</span>
             </div>
-            <button onclick="addHomeCart('Nine GPS Tracker IoT 4G')" aria-label="Beli Nine GPS Tracker" class="tap-44 w-8 h-8 rounded-xl bg-primary-100 hover:bg-primary-950 hover:text-white text-primary-950 flex items-center justify-center transition-colors ios-press">
+            <button onclick="addHomeCart('Nine GPS Tracker IoT 4G')" aria-label="Beli Nine GPS Tracker" class="tap-44 w-8 h-8 rounded-xl bg-neutral-100 hover:bg-primary-950 hover:text-white text-primary-950 flex items-center justify-center transition-colors ios-press">
               <i class="ph-bold ph-plus text-sm"></i>
             </button>
           </div>
         </div>
 
         <!-- Card 4: Twin Snail Horn -->
-        <div class="ios-card p-3 flex flex-col justify-between group bg-white border border-neutral-200/80 shadow-2xs">
+        <div class="ios-card p-3 flex flex-col justify-between group bg-white border border-neutral-200/80 shadow-2xs rounded-2xl">
           <a href="mall.html" class="block">
             <div class="relative w-full aspect-square rounded-xl overflow-hidden bg-neutral-100 mb-2">
               <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnUAn4tZgbMiVIZvn7OnFJdR6jVnOsgiu0Av9UJ8tPVtoFtTalp7-CzGddTNsm3v2bFJsqcEhF2ZsykD2V-a7VrK_iJmXF71pBk9xKLSqIyS3CZZqApsihel8DlVfZlAluCVAfHkCm7SD9QOR2id8z8cuv9O6od9iaNPR1bOgidZKpuPo3mNbbIvwgFurBuQ8lSAy6f9CT-l6JBDOpK73sb-9A-hp2jU4GyWdHfLr4" alt="Twin Snail Horn" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
-              <span class="absolute top-2 left-2 rounded-lg bg-accent-100 text-accent-700 border border-accent-200 px-1.5 py-0.5 text-[9.5px] font-bold uppercase shadow-2xs">−23%</span>
-              <span class="absolute top-2 right-2 rounded-md bg-white/85 backdrop-blur-xs px-1.5 py-0.5 font-micro text-[8px] font-bold text-primary-900 uppercase">KLAKSON</span>
+              <span class="absolute top-2 left-2 rounded-lg bg-neutral-900/90 text-white px-1.5 py-0.5 text-[9.5px] font-bold uppercase shadow-2xs">−23%</span>
+              <span class="absolute top-2 right-2 rounded-md bg-white/90 backdrop-blur-xs px-1.5 py-0.5 font-micro text-[8px] font-bold text-primary-950 uppercase">KLAKSON</span>
             </div>
             <div class="flex items-center gap-1 mb-1">
               <i class="ph-fill ph-star text-amber-400 text-xs"></i><span class="text-xs font-bold text-primary-950">4.8</span>
@@ -651,154 +795,11 @@
               <span class="font-price text-xs font-black text-primary-950 block">Rp 145.000</span>
               <span class="text-[10px] text-neutral-400 line-through">Rp 190.000</span>
             </div>
-            <button onclick="addHomeCart('Twin Snail Horn 118dB')" aria-label="Beli Klakson Twin Snail" class="tap-44 w-8 h-8 rounded-xl bg-primary-100 hover:bg-primary-950 hover:text-white text-primary-950 flex items-center justify-center transition-colors ios-press">
+            <button onclick="addHomeCart('Twin Snail Horn 118dB')" aria-label="Beli Klakson Twin Snail" class="tap-44 w-8 h-8 rounded-xl bg-neutral-100 hover:bg-primary-950 hover:text-white text-primary-950 flex items-center justify-center transition-colors ios-press">
               <i class="ph-bold ph-plus text-sm"></i>
             </button>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- SECTION 3: PERAWATAN BERKALA (KOTAK-KOTAK DIAGNOSTIK TANPA SLIDER PROGRESS) -->
-    <section class="mt-4">
-      <div class="ios-card p-4 shadow-sm bg-white">
-        <!-- Header Section -->
-        <div class="flex items-center justify-between pb-3.5 border-b border-neutral-100">
-          <div>
-            <span class="font-label text-label uppercase tracking-widest text-secondary font-bold block">Status Perawatan Berkala</span>
-            <div class="flex items-baseline gap-1.5 mt-0.5">
-              <span class="font-headline text-lg font-bold text-primary-950 font-mono">12.480 km</span>
-              <span class="font-caption text-caption text-secondary">Odometer Terkini</span>
-            </div>
-          </div>
-          <span class="px-2.5 py-1 rounded-full bg-accent-50 text-accent-700 font-micro text-micro font-bold uppercase tracking-wider">
-            +32 km Hari Ini
-          </span>
-        </div>
-
-        <!-- 6 Diagnostic Telemetry Boxes (Flex Horizontal Scrollable, Rapat, Naked Reset Icon) -->
-        <div class="flex overflow-x-auto gap-2.5 pb-2 pt-2 scroll-smooth no-scrollbar snap-x px-0.5 mt-2">
-          <!-- Box 1: Oli Mesin -->
-          <div class="w-[152px] shrink-0 snap-start p-3 rounded-2xl bg-neutral-50 border border-neutral-200/70 flex flex-col justify-between min-h-[105px]">
-            <div class="flex items-center justify-between">
-              <div class="w-7 h-7 rounded-lg bg-primary-900 text-white flex items-center justify-center">
-                <i class="ph-bold ph-drop text-sm"></i>
-              </div>
-              <!-- Naked Reset Icon (NO container box) -->
-              <button type="button" onclick="resetMaintenanceItem('oli', 'Oli Mesin')" title="Reset Siklus Baru" class="text-neutral-400 hover:text-primary-950 active:scale-90 p-1 flex items-center justify-center transition-colors">
-                <i class="ph-bold ph-arrow-counter-clockwise text-base"></i>
-              </button>
-            </div>
-            <div class="mt-2">
-              <div class="flex items-baseline gap-1">
-                <span class="font-headline text-base font-bold font-mono text-primary-950">1.800</span>
-                <span class="text-[10px] text-secondary font-mono">/ 2.000 km</span>
-              </div>
-              <span class="font-caption text-[11px] text-secondary block truncate mt-0.5 font-medium">Oli Motul 10W-40</span>
-            </div>
-          </div>
-
-          <!-- Box 2: Filter Udara -->
-          <div class="w-[152px] shrink-0 snap-start p-3 rounded-2xl bg-neutral-50 border border-neutral-200/70 flex flex-col justify-between min-h-[105px]">
-            <div class="flex items-center justify-between">
-              <div class="w-7 h-7 rounded-lg bg-primary-100 text-primary-950 flex items-center justify-center">
-                <i class="ph-bold ph-wind text-sm"></i>
-              </div>
-              <button type="button" onclick="resetMaintenanceItem('filter', 'Filter Udara')" title="Reset Siklus Baru" class="text-neutral-400 hover:text-primary-950 active:scale-90 p-1 flex items-center justify-center transition-colors">
-                <i class="ph-bold ph-arrow-counter-clockwise text-base"></i>
-              </button>
-            </div>
-            <div class="mt-2">
-              <div class="flex items-baseline gap-1">
-                <span class="font-headline text-base font-bold font-mono text-primary-950">4.200</span>
-                <span class="text-[10px] text-secondary font-mono">/ 10.000 km</span>
-              </div>
-              <span class="font-caption text-[11px] text-secondary block truncate mt-0.5 font-medium">Filter Dual Flow</span>
-            </div>
-          </div>
-
-          <!-- Box 3: Kampas Rem -->
-          <div class="w-[152px] shrink-0 snap-start p-3 rounded-2xl bg-neutral-50 border border-neutral-200/70 flex flex-col justify-between min-h-[105px]">
-            <div class="flex items-center justify-between">
-              <div class="w-7 h-7 rounded-lg bg-primary-900 text-white flex items-center justify-center">
-                <i class="ph-bold ph-disc text-sm"></i>
-              </div>
-              <button type="button" onclick="resetMaintenanceItem('rem', 'Kampas Rem')" title="Reset Siklus Baru" class="text-neutral-400 hover:text-primary-950 active:scale-90 p-1 flex items-center justify-center transition-colors">
-                <i class="ph-bold ph-arrow-counter-clockwise text-base"></i>
-              </button>
-            </div>
-            <div class="mt-2">
-              <div class="flex items-baseline gap-1">
-                <span class="font-headline text-base font-bold font-mono text-primary-950">18.500</span>
-                <span class="text-[10px] text-secondary font-mono">/ 20.000 km</span>
-              </div>
-              <span class="font-caption text-[11px] text-secondary block truncate mt-0.5 font-medium">Kampas Rem Bendix</span>
-            </div>
-          </div>
-
-          <!-- Box 4: Aki / Voltase -->
-          <div class="w-[152px] shrink-0 snap-start p-3 rounded-2xl bg-neutral-50 border border-neutral-200/70 flex flex-col justify-between min-h-[105px]">
-            <div class="flex items-center justify-between">
-              <div class="w-7 h-7 rounded-lg bg-primary-100 text-primary-950 flex items-center justify-center">
-                <i class="ph-bold ph-battery-charging text-sm"></i>
-              </div>
-              <button type="button" onclick="resetMaintenanceItem('aki', 'Aki Kendaraan')" title="Reset Siklus Baru" class="text-neutral-400 hover:text-primary-950 active:scale-90 p-1 flex items-center justify-center transition-colors">
-                <i class="ph-bold ph-arrow-counter-clockwise text-base"></i>
-              </button>
-            </div>
-            <div class="mt-2">
-              <div class="flex items-baseline gap-1">
-                <span class="font-headline text-base font-bold font-mono text-primary-950">12.6</span>
-                <span class="text-[10px] text-secondary font-mono">/ 12.8 V</span>
-              </div>
-              <span class="font-caption text-[11px] text-secondary block truncate mt-0.5 font-medium">Aki Kering Yuasa</span>
-            </div>
-          </div>
-
-          <!-- Box 5: Minyak Rem -->
-          <div class="w-[152px] shrink-0 snap-start p-3 rounded-2xl bg-neutral-50 border border-neutral-200/70 flex flex-col justify-between min-h-[105px]">
-            <div class="flex items-center justify-between">
-              <div class="w-7 h-7 rounded-lg bg-primary-100 text-primary-950 flex items-center justify-center">
-                <i class="ph-bold ph-flask text-sm"></i>
-              </div>
-              <button type="button" onclick="resetMaintenanceItem('minyak', 'Minyak Rem')" title="Reset Siklus Baru" class="text-neutral-400 hover:text-primary-950 active:scale-90 p-1 flex items-center justify-center transition-colors">
-                <i class="ph-bold ph-arrow-counter-clockwise text-base"></i>
-              </button>
-            </div>
-            <div class="mt-2">
-              <div class="flex items-baseline gap-1">
-                <span class="font-headline text-base font-bold font-mono text-primary-950">8.000</span>
-                <span class="text-[10px] text-secondary font-mono">/ 10.000 km</span>
-              </div>
-              <span class="font-caption text-[11px] text-secondary block truncate mt-0.5 font-medium">Minyak Rem DOT 4</span>
-            </div>
-          </div>
-
-          <!-- Box 6: Busi Pengapian -->
-          <div class="w-[152px] shrink-0 snap-start p-3 rounded-2xl bg-neutral-50 border border-neutral-200/70 flex flex-col justify-between min-h-[105px]">
-            <div class="flex items-center justify-between">
-              <div class="w-7 h-7 rounded-lg bg-primary-100 text-primary-950 flex items-center justify-center">
-                <i class="ph-bold ph-lightning text-sm"></i>
-              </div>
-              <button type="button" onclick="resetMaintenanceItem('busi', 'Busi Iridium')" title="Reset Siklus Baru" class="text-neutral-400 hover:text-primary-950 active:scale-90 p-1 flex items-center justify-center transition-colors">
-                <i class="ph-bold ph-arrow-counter-clockwise text-base"></i>
-              </button>
-            </div>
-            <div class="mt-2">
-              <div class="flex items-baseline gap-1">
-                <span class="font-headline text-base font-bold font-mono text-primary-950">9.200</span>
-                <span class="text-[10px] text-secondary font-mono">/ 12.000 km</span>
-              </div>
-              <span class="font-caption text-[11px] text-secondary block truncate mt-0.5 font-medium">Busi Laser Iridium</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Direct CTA Button -->
-        <button type="button" onclick="openAddPerawatanSheet()" class="mt-4 w-full h-12 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-body-semibold text-xs font-bold flex items-center justify-center gap-2 shadow-xs active:scale-[0.98] transition-all">
-          <i class="ph-bold ph-plus-circle text-base"></i>
-          <span>Tambah Status Perawatan</span>
-        </button>
       </div>
     </section>
 
@@ -1161,8 +1162,8 @@
     Object.keys(btns).forEach(function(k) {
       if (k === activeType) {
         if (btns[k]) {
-          // Border abu-abu netral border-2 border-neutral-300 yang menyatu dengan list di bawahnya (tanpa border hitam)
-          btns[k].className = "action-btn h-[80px] p-2.5 rounded-2xl bg-white border-2 border-neutral-300 shadow-2xs transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 text-neutral-800 font-bold relative z-20";
+          // Border tipis abu-abu netral border border-neutral-300 yang menyatu dengan list di bawahnya
+          btns[k].className = "action-btn h-[80px] p-2.5 rounded-2xl bg-white border border-neutral-300 shadow-2xs transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 text-neutral-800 font-bold relative z-20";
         }
         if (icons[k]) {
           icons[k].className = "w-10 h-10 rounded-full bg-neutral-100 text-neutral-800 flex items-center justify-center transition-colors";
