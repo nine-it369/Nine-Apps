@@ -69,9 +69,12 @@
     "</div></nav>";
 
   var bare = body.dataset.shell === "bare";
+  var noNav = body.dataset.shell === "detail" || body.dataset.shell === "nonav" || body.dataset.notab === "true";
   if (!bare) {
     body.insertAdjacentHTML("afterbegin", header);
-    body.insertAdjacentHTML("beforeend", nav);
+    if (!noNav) {
+      body.insertAdjacentHTML("beforeend", nav);
+    }
   }
 
   // Apple HIG Global Toast (Dynamic Island style notification)
