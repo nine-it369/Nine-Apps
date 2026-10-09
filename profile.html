@@ -20,35 +20,48 @@
 
 <main class="w-full max-w-md mx-auto pt-16 pb-32 min-h-screen px-4 space-y-6">
 
-  <!-- 1. Profile Header Card (Apple Inset Card with Generous Spacing) -->
-  <section class="ios-card p-4.5 flex items-center justify-between gap-4 mt-2">
-    <div class="flex items-center gap-3.5 min-w-0">
-      <div class="relative shrink-0">
-        <div class="w-15 h-15 rounded-full bg-primary-950 text-white flex items-center justify-center font-headline text-xl font-black shadow-xs">
-          RK
-        </div>
-        <div class="absolute -bottom-0.5 -right-0.5 w-6 h-6 rounded-full bg-white flex items-center justify-center shadow-xs">
-          <div class="w-5 h-5 rounded-full bg-accent-600 flex items-center justify-center text-white">
-            <i class="ph-bold ph-seal-check text-xs"></i>
+  <!-- 1. Profile Header Card (Apple Inset Card - Clean & Airy) -->
+  <section class="ios-card p-5 mt-2 flex flex-col gap-4">
+    <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3.5 min-w-0">
+        <!-- Avatar with Emerald Gradient and Verified Check -->
+        <div class="relative shrink-0">
+          <div class="w-16 h-16 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 text-white flex items-center justify-center font-headline text-2xl font-black shadow-sm ring-4 ring-emerald-50">
+            RK
+          </div>
+          <div class="absolute -bottom-0.5 -right-0.5 w-6 h-6 rounded-full bg-white flex items-center justify-center shadow-xs">
+            <div class="w-5 h-5 rounded-full bg-accent-600 flex items-center justify-center text-white">
+              <i class="ph-bold ph-seal-check text-xs"></i>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="min-w-0">
-        <div class="flex items-center gap-2 flex-wrap">
-          <h2 class="font-headline text-base text-primary-950 font-bold truncate">Rob Kusuma</h2>
-          <span class="px-2 py-0.5 rounded-full bg-neutral-100 border border-neutral-200 text-primary-950 font-micro text-[10px] font-bold uppercase tracking-wider">
-            Platinum
-          </span>
+        <!-- Name & Member Tier -->
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <h2 class="font-headline text-lg text-primary-950 font-bold truncate">Rob Kusuma</h2>
+            <span class="px-2 py-0.5 rounded-full bg-accent-50 border border-accent-200/80 text-accent-700 font-micro text-[10px] font-bold uppercase tracking-wider shrink-0">
+              Platinum
+            </span>
+          </div>
+          <p class="font-mono text-xs text-neutral-500 mt-0.5 truncate">+62 812-8899-7700</p>
+          <span class="text-[11px] font-mono text-neutral-400 block mt-0.5">ID: 9N-88219</span>
         </div>
-        <p class="font-mono text-xs text-neutral-500 mt-0.5">ID: 9N-88219 · +62 812-8899-7700</p>
-        <span class="inline-flex items-center gap-1.5 mt-1 font-micro text-[11px] text-accent-700 font-bold">
-          <span class="w-2 h-2 rounded-full bg-accent-600 animate-pulse"></span>Autogarage Pass Active
-        </span>
       </div>
+      <!-- Edit Profile Action Button -->
+      <button type="button" onclick="nineToast('Buka formulir edit profil','pencil-simple')" class="tap-44 h-9 px-3 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-primary-950 font-bold text-xs flex items-center gap-1.5 active:scale-95 transition-all shrink-0" aria-label="Edit Profil">
+        <i class="ph-bold ph-pencil-simple text-sm"></i>
+        <span>Edit</span>
+      </button>
     </div>
-    <button type="button" onclick="nineToast('Buka formulir edit profil','pencil-simple')" class="tap-44 w-10 h-10 rounded-full bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center text-primary-950 active:scale-95 transition-all shrink-0" aria-label="Edit Profil">
-      <i class="ph-bold ph-pencil-simple text-base"></i>
-    </button>
+
+    <!-- Active Membership Pass Status Strip -->
+    <div class="pt-3 border-t border-neutral-100 flex items-center justify-between text-xs">
+      <div class="flex items-center gap-2 min-w-0">
+        <span class="w-2.5 h-2.5 rounded-full bg-accent-600 animate-pulse shrink-0"></span>
+        <span class="font-medium text-neutral-700 truncate">Autogarage Pass Active</span>
+      </div>
+      <span class="font-mono text-[11px] text-accent-700 font-bold shrink-0">Berlaku s/d Des 2026</span>
+    </div>
   </section>
 
   <!-- 2. Dual Loyalty Balance Cards (Nine Koin & Garage Points) -->

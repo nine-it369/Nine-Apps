@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Nine Autogarage — Portal Aplikasi &amp; Deploy Vercel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=Plus+Jakarta+Sans:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/config.js"></script>
+  <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet"/>
+  <link rel="stylesheet" href="assets/base.css"/>
+  <link rel="stylesheet" href="assets/components.css"/>
+  <script>
+    // Automatic mobile redirection to the main app if not in portal view
+    if (!window.location.search.includes('portal=1') && window.innerWidth <= 768) {
+      window.location.replace('home.html');
+    }
+  </script>
+</head>
+<body class="bg-surface font-body text-body text-on-surface antialiased selection:bg-accent-subtle selection:text-accent-text">
+
+<main class="w-full max-w-md mx-auto min-h-screen px-4 pt-8 pb-16 space-y-6">
+
+  <!-- Header Showcase (Apple Inset Card) -->
+  <header class="ios-card-dark p-5 relative overflow-hidden">
+    <div class="relative z-10 space-y-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-accent-600 text-white flex items-center justify-center font-headline text-xl font-bold shadow-md">
+            9
+          </div>
+          <div>
+            <h1 class="font-headline text-base text-white font-bold leading-tight">Nine Autogarage</h1>
+            <span class="font-micro text-[10px] text-accent-400 uppercase tracking-widest font-bold">iOS Ecosystem Platform</span>
+          </div>
+        </div>
+        <span class="px-2.5 py-1 rounded-full bg-white/10 backdrop-blur-md text-white font-micro text-[10px] font-bold uppercase tracking-wider">
+          19 Layar
+        </span>
+      </div>
+
+      <p class="text-xs text-neutral-300 leading-relaxed">
+        Aplikasi web mobile otomotif premium berstandar <span class="font-semibold text-white">Apple Human Interface Guidelines (HIG)</span>. Siap dideploy di <span class="font-semibold text-white">Vercel</span> dengan Clean Architecture.
+      </p>
+
+      <!-- Primary Action: Launch Main App -->
+      <a href="home.html" class="btn-primary w-full shadow-sm">
+        <i class="ph-bold ph-arrow-square-out text-lg"></i>
+        <span>Buka Aplikasi Utama (Beranda)</span>
+      </a>
+
+      <div class="flex items-center justify-between pt-3 border-t border-white/10 text-neutral-400 font-micro text-[11px]">
+        <span class="inline-flex items-center gap-1.5 text-accent-400 font-bold">
+          <span class="w-2 h-2 rounded-full bg-accent-500 animate-pulse"></span>Production Ready
+        </span>
+        <span>•</span>
+        <span>Vercel Deploy Clean URL</span>
+        <span>•</span>
+        <span>Apple HIG</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Prototype Directory Groups -->
+  <div class="space-y-6" id="screenGroups">
+    <!-- Populated via JS -->
+  </div>
+
+  <!-- Footer Info -->
+  <footer class="pt-4 text-center">
+    <p class="font-micro text-micro text-neutral-500 uppercase tracking-widest font-bold">Nine Autogarage Digital Engineering</p>
+    <p class="text-xs text-neutral-400 mt-0.5">
+      Mobile PWA · Vercel Deployment Release 2026
+    </p>
+  </footer>
+
+</main>
+
+<script>
+  var GROUPS = [
+    {
+      title: "Tab Utama Aplikasi (iOS Bottom Tab Bar)",
+      items: [
+        { file: "home.html", name: "Beranda Utama", desc: "Hero Carousel, GPS Map, Projector Glow, Quick Action", icon: "house" },
+        { file: "accecories.html", name: "Aksesori Terhubung", desc: "Segmented switch, BLE device cards, pairing sheet", icon: "cpu" },
+        { file: "mall.html", name: "Nine Mall", desc: "Multi-warehouse, Flash sale countdown, 8 kategori", icon: "storefront" },
+        { file: "booking.html", name: "Booking Servis", desc: "Workshop Hub, 3-Step Wizard, pit hold timer", icon: "calendar-dots" },
+        { file: "profile.html", name: "Akun & Garasi", desc: "Profil Platinum, Nine Koin & Garage Points, Settings", icon: "user-circle" }
+      ]
+    },
+    {
+      title: "Bengkel & Layanan (Nine Garage)",
+      items: [
+        { file: "booking-detail.html", name: "Detail Tiket Booking", desc: "Apple Wallet style pass card, QR check-in pit", icon: "ticket" },
+        { file: "work-order.html", name: "Work Order (SPK Digital)", desc: "Checklist tahapan pengerjaan, kanvas tanda tangan digital", icon: "clipboard-text" },
+        { file: "service-history.html", name: "Riwayat Servis", desc: "Filter status selesai/proses, invoice PDF", icon: "clock-counter-clockwise" }
+      ]
+    },
+    {
+      title: "Detail Perangkat & Telemetri IoT",
+      items: [
+        { file: "device-gps.html", name: "Detail GPS Tracker", desc: "OSM Vector Map, Rute 7 Hari, Geofence radius", icon: "satellite-dish" },
+        { file: "device-dashcam.html", name: "Detail Dashcam 4K", desc: "Dual CH1/CH2 HUD, SOS Emergency lock, G-Sensor logs", icon: "video-camera" },
+        { file: "device-lampu.html", name: "Detail Lampu Biled", desc: "Projector lens glow HUD, 5 temperatur warna", icon: "lightbulb-filament" }
+      ]
+    },
+    {
+      title: "E-Commerce (Nine Mall)",
+      items: [
+        { file: "catalog.html", name: "Katalog & Filter", desc: "Pencarian interaktif, sheet filter kategori, 2-kolom grid", icon: "squares-four" },
+        { file: "product-detail.html", name: "Detail Produk", desc: "Galeri swipe, countdown diskon, pemilih varian watt", icon: "package" },
+        { file: "keranjang.html", name: "Keranjang Belanja", desc: "Progress gratis ongkir, multi-warehouse", icon: "basket" },
+        { file: "checkout.html", name: "Checkout & Pembayaran", desc: "J&T Express, potongan Nine Koin, QRIS Midtrans", icon: "credit-card" },
+        { file: "orders.html", name: "Pesanan Saya", desc: "5 tab status pesanan, order card informatif", icon: "receipt" },
+        { file: "order-detail.html", name: "Detail Pesanan & Retur", desc: "Timeline checkpoint J&T Express, sheet retur", icon: "truck" },
+        { file: "track.html", name: "Lacak Resi Publik", desc: "Cek resi tanpa login, visual perjalanan kurir", icon: "crosshair" }
+      ]
+    },
+    {
+      title: "Autentikasi",
+      items: [
+        { file: "auth.html", name: "Masuk / Daftar Akun", desc: "Segmented auth, 6-digit WhatsApp OTP, Google SSO", icon: "sign-in" }
+      ]
+    }
+  ];
+
+  document.getElementById("screenGroups").innerHTML = GROUPS.map(function(grp) {
+    return '<section class="space-y-2">' +
+      '<span class="ios-section-header">' + grp.title + '</span>' +
+      '<div class="ios-list-group">' +
+        grp.items.map(function(it) {
+          return '<a href="' + it.file + '" class="ios-list-row">' +
+            '<div class="ios-list-icon"><i class="ph-bold ph-' + it.icon + ' text-lg"></i></div>' +
+            '<div class="flex-1 min-w-0">' +
+              '<div class="flex items-center gap-1.5">' +
+                '<span class="font-bold text-xs text-primary-950 truncate">' + it.name + '</span>' +
+                '<span class="font-mono text-[10px] text-neutral-400">(' + it.file + ')</span>' +
+              '</div>' +
+              '<p class="text-xs text-neutral-500 truncate mt-0.5">' + it.desc + '</p>' +
+            '</div>' +
+            '<i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>' +
+          '</a>';
+        }).join("") +
+      '</div>' +
+    '</section>';
+  }).join("");
+</script>
+</body>
+</html>
