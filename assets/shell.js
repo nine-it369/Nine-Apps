@@ -21,8 +21,8 @@
 
   var isTransparentHeader = body.dataset.header === "transparent";
   var headerBgClass = isTransparentHeader
-    ? "bg-transparent border-transparent shadow-none"
-    : "bg-white/75 backdrop-blur-2xl border-b border-neutral-200/50 shadow-2xs";
+    ? "bg-transparent border-transparent"
+    : "bg-[#f5f5f7]/85 backdrop-blur-xl border-b border-black/5";
 
   var leading;
   if (body.dataset.search === "off") {
@@ -34,13 +34,13 @@
     leading = '<h1 class="flex-1 font-headline text-[17px] font-bold text-primary-950 tracking-tight truncate">' + (body.dataset.title || "Nine Autogarage") + "</h1>";
   } else {
     leading =
-      '<a href="catalog.html" aria-label="Cari aksesori di Mall" class="flex-1 min-w-0 flex items-center gap-2 h-10 px-3.5 rounded-2xl bg-white/85 hover:bg-white text-primary-950 border border-neutral-200/80 shadow-2xs backdrop-blur-md transition-all active:opacity-75">' +
+      '<a href="catalog.html" aria-label="Cari aksesori di Mall" class="flex-1 min-w-0 flex items-center gap-2 h-10 px-4 rounded-full bg-white text-primary-900 border border-black/8 transition-opacity active:opacity-70">' +
       '<i class="ph-bold ph-magnifying-glass text-[17px] text-neutral-500 shrink-0"></i>' +
       '<span class="font-body text-xs text-neutral-500 truncate">' + (body.dataset.search || "Cari aksesori di Mall…") + "</span></a>";
   }
 
   var header =
-    '<header class="fixed top-0 inset-x-0 z-50 pt-safe transition-all duration-300 ' + headerBgClass + '">' +
+    '<header class="lg:hidden fixed top-0 inset-x-0 z-50 pt-safe transition-all duration-300 ' + headerBgClass + '">' +
     '<div class="max-w-md mx-auto h-13 px-4 flex items-center gap-2">' + leading;
 
   if (body.dataset.search !== "off") {
@@ -55,7 +55,7 @@
   header += "</div></header>";
 
   var nav =
-    '<nav class="fixed bottom-0 inset-x-0 z-50 w-full bg-white/95 backdrop-blur-2xl border-t border-neutral-200/80 shadow-[0_-2px_12px_rgba(0,0,0,0.03)] pb-safe">' +
+    '<nav class="lg:hidden fixed bottom-0 inset-x-0 z-50 w-full bg-[#f5f5f7]/90 backdrop-blur-xl border-t border-black/5 pb-safe">' +
     '<div class="max-w-md mx-auto h-[60px] px-2 flex items-center justify-around">' +
     TABS.map(function (t) {
       var on = t.key === current;
@@ -68,13 +68,73 @@
     }).join("") +
     "</div></nav>";
 
+  // --- Desktop shell (lg+): nav bar replaces the bottom-nav; Mall-style footer ---
+  var year = new Date().getFullYear();
+  var fLink = "text-[14px] text-primary-600 hover:text-accent-600 transition-colors inline-block";
+
+  var deskNavLinks = TABS.map(function (t) {
+    var on = t.key === current;
+    return '<a href="' + t.href + '" class="px-4 h-8 flex items-center rounded-full text-sm transition-colors ' +
+      (on ? "bg-accent-600 text-white" : "text-primary-800 hover:text-accent-600") +
+      '">' + t.label + '</a>';
+  }).join("");
+
+  var brandMark =
+    '<a href="home.html" class="flex items-center gap-2.5 shrink-0">' +
+    '<span class="w-8 h-8 rounded-lg bg-primary-900 text-white flex items-center justify-center text-sm font-semibold">N</span>' +
+    '<span class="text-[12px] font-semibold tracking-[-0.12px] text-primary-900">Nine Autogarage</span></a>';
+
+  var desktopHeader =
+    '<header class="hidden lg:block sticky top-0 z-50 bg-[#f5f5f7]/85 backdrop-blur-xl border-b border-black/5">' +
+    '<div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between gap-6">' +
+    brandMark +
+    '<nav class="flex items-center gap-1">' + deskNavLinks + '</nav>' +
+    '<div class="flex items-center gap-1 shrink-0">' +
+    '<a href="catalog.html" aria-label="Cari produk" class="w-10 h-10 flex items-center justify-center rounded-full text-primary-800 hover:text-accent-600 transition-colors"><i class="ph-bold ph-magnifying-glass text-[19px]"></i></a>' +
+    '<a href="keranjang.html" aria-label="Keranjang" class="relative w-10 h-10 flex items-center justify-center rounded-full text-primary-800 hover:text-accent-600 transition-colors"><i class="ph-bold ph-shopping-bag text-[19px]"></i><span data-cart-badge class="absolute top-1 right-1 min-w-[17px] h-[17px] px-1 rounded-full bg-accent-600 text-white text-[10px] font-semibold flex items-center justify-center leading-none">' + badge + '</span></a>' +
+    '</div></div></header>';
+
+  var footerNav = TABS.map(function (t) {
+    return '<li><a href="' + t.href + '" class="' + fLink + '">' + t.label + '</a></li>';
+  }).join("");
+
+  var footerHelp =
+    '<li><a href="track.html" class="' + fLink + '">Lacak Pesanan</a></li>' +
+    '<li><a href="catalog.html" class="' + fLink + '">Katalog Produk</a></li>' +
+    '<li><a href="https://wa.me/6283173271177" target="_blank" rel="noopener" class="' + fLink + ' flex items-center gap-2"><i class="ph-bold ph-whatsapp-logo text-[16px]"></i>Chat CS WhatsApp</a></li>';
+
+  function socialIcon(href, icon, label) {
+    return '<a href="' + href + '" target="_blank" rel="noopener" aria-label="' + label + '" class="group flex h-10 w-10 items-center justify-center rounded-full bg-black/5 transition-colors hover:bg-accent-600"><i class="' + icon + ' text-[16px] text-primary-600 transition-colors group-hover:text-white"></i></a>';
+  }
+
+  var footer =
+    '<footer class="hidden lg:block border-t border-black/5 bg-primary-100 text-primary-800">' +
+    '<div class="max-w-6xl mx-auto px-6 py-16">' +
+    '<div class="grid grid-cols-1 gap-8 md:grid-cols-3">' +
+    '<div><a href="home.html" class="flex items-center gap-3">' +
+    '<span class="w-10 h-10 rounded-lg bg-primary-900 text-white flex items-center justify-center text-lg font-semibold">N</span>' +
+    '<span class="text-[12px] font-semibold text-primary-900">Nine Autogarage</span></a>' +
+    '<p class="mt-6 max-w-sm text-[14px] leading-relaxed text-primary-600">Aksesori, pencahayaan, dan layanan otomotif premium untuk kendaraan Anda. Booking pit, konsultasi teknis, dan pengiriman resmi ke seluruh Indonesia.</p></div>' +
+    '<div><h4 class="text-[14px] font-semibold text-primary-900">Navigasi</h4><ul class="mt-6 space-y-4">' + footerNav + '</ul></div>' +
+    '<div><h4 class="text-[14px] font-semibold text-primary-900">Bantuan</h4><ul class="mt-6 space-y-4">' + footerHelp + '</ul></div>' +
+    '</div>' +
+    '<div class="mt-16 flex flex-col items-center justify-between gap-4 border-t border-black/10 pt-8 md:flex-row">' +
+    '<p class="text-[12px] text-primary-500">© ' + year + ' PT. NINE AUTOSERIES INDONESIA</p>' +
+    '<div class="flex items-center gap-6">' +
+    socialIcon("https://wa.me/6283173271177", "ph-bold ph-whatsapp-logo", "WhatsApp") +
+    socialIcon("https://instagram.com", "ph-bold ph-instagram-logo", "Instagram") +
+    socialIcon("https://youtube.com", "ph-bold ph-youtube-logo", "YouTube") +
+    '</div></div></div></footer>';
+
   var bare = body.dataset.shell === "bare";
   var noNav = body.dataset.shell === "detail" || body.dataset.shell === "nonav" || body.dataset.notab === "true";
   if (!bare) {
+    body.insertAdjacentHTML("afterbegin", desktopHeader);
     body.insertAdjacentHTML("afterbegin", header);
     if (!noNav) {
       body.insertAdjacentHTML("beforeend", nav);
     }
+    body.insertAdjacentHTML("beforeend", footer);
   }
 
   // Apple HIG Global Toast (Dynamic Island style notification)

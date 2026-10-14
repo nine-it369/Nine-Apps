@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="fogAmber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#B45309"/>
+    </linearGradient>
+  </defs>
+  <!-- Outer Casing -->
+  <circle cx="50" cy="46" r="27" fill="#0F172A" stroke="#334155" stroke-width="2"/>
+  <!-- Inner Glass Element -->
+  <circle cx="50" cy="46" r="19" fill="url(#fogAmber)" stroke="#FDE68A" stroke-width="1.5"/>
+  <circle cx="45" cy="41" r="4" fill="#FFFFFF"/>
+  <!-- Fog Cutoff Shield line -->
+  <line x1="33" y1="46" x2="67" y2="46" stroke="#451A03" stroke-width="2" stroke-linecap="round"/>
+  <!-- Universal Mounting Bracket Ears -->
+  <rect x="15" y="42" width="6" height="8" rx="2" fill="#94A3B8"/>
+  <rect x="79" y="42" width="6" height="8" rx="2" fill="#94A3B8"/>
+  <rect x="47" y="73" width="6" height="11" rx="2" fill="#94A3B8"/>
+</svg>

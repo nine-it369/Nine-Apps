@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Work Order Digital — Nine Autogarage</title>
+  
+  <!-- Fonts & Phosphor Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS Engine & Design Tokens -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../assets/config.js"></script>
+  <link rel="stylesheet" href="../assets/base.css"/>
+  
+  <style>
+    body {
+      background-color: #fafafa;
+      color: #18181b;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+</head>
+
+<body data-tab="booking" class="min-h-screen bg-[#fafafa] flex flex-col antialiased selection:bg-accent-100 selection:text-accent-700">
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: AppHeader (Styling Ikon Bulat Sesuai Halaman Home)    -->
+  <!-- ============================================================== -->
+  <header data-component="AppHeader" class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e4e4e7] pt-safe">
+    <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between gap-2">
+      <!-- Back Button -->
+      <a href="booking.html" aria-label="Kembali ke Booking" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-caret-left text-[20px]"></i>
+      </a>
+
+      <!-- Page Title -->
+      <div class="flex-1 text-center min-w-0">
+        <h1 class="text-sm font-bold text-[#18181b] truncate">SPK #WO-2026-8821</h1>
+        <p class="text-[10px] text-[#71717a] truncate">Pit 02 · Arcadia BSD</p>
+      </div>
+
+      <!-- Quick CS Help Button -->
+      <a href="https://wa.me/6281234567890" target="_blank" aria-label="Bantuan CS" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-headset text-[20px]"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- MAIN CONTENT CONTAINER                                         -->
+  <!-- ============================================================== -->
+  <main class="w-full max-w-md mx-auto pt-20 pb-28 px-4 flex flex-col gap-4">
+
+    <!-- COMPONENT: WorkOrderSummaryCard (Detail SPK & Teknisi) -->
+    <section data-component="WorkOrderSummaryCard" class="ios-card p-4 flex flex-col gap-3">
+      <div class="flex items-center justify-between pb-2.5 border-b border-[#f4f4f5]">
+        <div>
+          <span class="text-[10px] font-bold text-[#71717a] uppercase">Surat Perintah Kerja (SPK)</span>
+          <h2 class="text-base font-bold text-[#18181b] mt-0.5">WO-2026-8821</h2>
+        </div>
+        <span class="px-2.5 py-0.5 rounded-full bg-[#f0fdf4] text-[#15803d] text-[10px] font-bold border border-[#bbf7d0]">
+          Pengerjaan Berlangsung
+        </span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3 text-xs">
+        <div>
+          <span class="text-[10px] text-[#71717a] block">Unit Kendaraan</span>
+          <strong class="text-[#18181b] block mt-0.5">Yamaha NMAX 155</strong>
+          <span class="text-[10px] text-[#71717a]">B 1234 XYZ · Hitam Doff</span>
+        </div>
+        <div>
+          <span class="text-[10px] text-[#71717a] block">Teknisi Lead</span>
+          <strong class="text-[#18181b] block mt-0.5">Andi Saputra</strong>
+          <span class="text-[10px] text-[#15803d] font-bold">Grade A Master Retrofit</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPONENT: WorkProgressBar (Milestone Pengerjaan) -->
+    <section data-component="WorkProgressBar" class="ios-card p-4 flex flex-col gap-2">
+      <div class="flex items-center justify-between text-xs font-bold">
+        <span class="text-[#18181b]">Tahapan Pengerjaan Fisik</span>
+        <span class="text-[#15803d]" id="progressLabel">5 dari 7 Selesai (71%)</span>
+      </div>
+      <div class="h-2 rounded-full bg-[#f4f4f5] overflow-hidden">
+        <div id="progressBar" class="h-full bg-[#22c55e] rounded-full transition-all duration-300" style="width: 71%;"></div>
+      </div>
+      <span class="text-[10px] text-[#71717a]">Update terakhir: 14:12 WIB · Pit 02 Nine Garage Arcadia BSD</span>
+    </section>
+
+    <!-- COMPONENT: ChecklistInspectionList (Checklist QC Digital) -->
+    <section data-component="ChecklistInspectionList" class="ios-card overflow-hidden">
+      <div class="px-4 py-2.5 bg-[#f4f4f5] border-b border-[#e4e4e7] flex items-center justify-between">
+        <span class="text-xs font-bold text-[#18181b]">Checklist QC & Instalasi</span>
+        <span class="text-[10px] text-[#71717a]">Ketuk untuk verifikasi</span>
+      </div>
+
+      <div class="divide-y divide-[#f4f4f5] text-xs" id="checklistRows">
+        <!-- Checklist items -->
+        <div onclick="toggleCheck(this)" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-[#fafafa] transition-all">
+          <div class="flex items-center gap-3">
+            <div class="w-5 h-5 rounded-md bg-[#18181b] text-white flex items-center justify-center check-box">
+              <i class="ph-bold ph-check text-xs"></i>
+            </div>
+            <span class="text-[#18181b] font-medium">1. Cek kelistrikan aki motor sebelum instalasi (12.8V)</span>
+          </div>
+          <span class="text-[10px] text-[#15803d] font-bold">Lolos</span>
+        </div>
+
+        <div onclick="toggleCheck(this)" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-[#fafafa] transition-all">
+          <div class="flex items-center gap-3">
+            <div class="w-5 h-5 rounded-md bg-[#18181b] text-white flex items-center justify-center check-box">
+              <i class="ph-bold ph-check text-xs"></i>
+            </div>
+            <span class="text-[#18181b] font-medium">2. Bongkar headlamp & pasang bracket PNP NMAX</span>
+          </div>
+          <span class="text-[10px] text-[#15803d] font-bold">Lolos</span>
+        </div>
+
+        <div onclick="toggleCheck(this)" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-[#fafafa] transition-all">
+          <div class="flex items-center gap-3">
+            <div class="w-5 h-5 rounded-md bg-[#18181b] text-white flex items-center justify-center check-box">
+              <i class="ph-bold ph-check text-xs"></i>
+            </div>
+            <span class="text-[#18181b] font-medium">3. Instalasi relay set 40A direct fuse baterai</span>
+          </div>
+          <span class="text-[10px] text-[#15803d] font-bold">Lolos</span>
+        </div>
+
+        <div onclick="toggleCheck(this)" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-[#fafafa] transition-all">
+          <div class="flex items-center gap-3">
+            <div class="w-5 h-5 rounded-md bg-[#18181b] text-white flex items-center justify-center check-box">
+              <i class="ph-bold ph-check text-xs"></i>
+            </div>
+            <span class="text-[#18181b] font-medium">4. Kalibrasi cut-off beam RHD dengan luxmeter</span>
+          </div>
+          <span class="text-[10px] text-[#15803d] font-bold">Lolos</span>
+        </div>
+
+        <div onclick="toggleCheck(this)" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-[#fafafa] transition-all">
+          <div class="flex items-center gap-3">
+            <div class="w-5 h-5 rounded-md bg-[#18181b] text-white flex items-center justify-center check-box">
+              <i class="ph-bold ph-check text-xs"></i>
+            </div>
+            <span class="text-[#18181b] font-medium">5. Tes sealing lem waterproof anti embun</span>
+          </div>
+          <span class="text-[10px] text-[#15803d] font-bold">Lolos</span>
+        </div>
+
+        <div onclick="toggleCheck(this)" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-[#fafafa] transition-all">
+          <div class="flex items-center gap-3">
+            <div class="w-5 h-5 rounded-md border border-[#e4e4e7] flex items-center justify-center check-box">
+              <i class="ph-bold ph-check text-xs hidden"></i>
+            </div>
+            <span class="text-[#71717a] font-medium">6. Uji nyala continuous 30 menit (thermal test)</span>
+          </div>
+          <span class="text-[10px] text-[#71717a] font-medium">Pending</span>
+        </div>
+
+        <div onclick="toggleCheck(this)" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-[#fafafa] transition-all">
+          <div class="flex items-center gap-3">
+            <div class="w-5 h-5 rounded-md border border-[#e4e4e7] flex items-center justify-center check-box">
+              <i class="ph-bold ph-check text-xs hidden"></i>
+            </div>
+            <span class="text-[#71717a] font-medium">7. Serah terima & tanda tangan digital pelanggan</span>
+          </div>
+          <span class="text-[10px] text-[#71717a] font-medium">Pending</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPONENT: DigitalSignaturePad (Tanda Tangan Serah Terima) -->
+    <section data-component="DigitalSignaturePad" class="ios-card p-4 flex flex-col gap-3">
+      <div>
+        <h3 class="text-xs font-bold text-[#18181b]">Tanda Tangan Digital Serah Terima</h3>
+        <p class="text-[10px] text-[#71717a] mt-0.5">Bubuhkan tanda tangan setelah memeriksa hasil beam di stall pit.</p>
+      </div>
+
+      <div class="relative w-full h-44 rounded-2xl border-2 border-dashed border-[#e4e4e7] bg-[#fafafa] overflow-hidden flex items-center justify-center">
+        <canvas id="sigCanvas" class="absolute inset-0 w-full h-full cursor-crosshair touch-none"></canvas>
+        <span id="sigPlaceholder" class="text-xs text-[#71717a] pointer-events-none flex flex-col items-center gap-1">
+          <i class="ph-bold ph-pencil-simple text-2xl"></i>
+          Goreskan tanda tangan di sini
+        </span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2 pt-1">
+        <button type="button" onclick="clearSig()" class="h-10 rounded-xl bg-[#f4f4f5] text-[#18181b] text-xs font-bold hover:bg-[#e4e4e7] transition-all">
+          Hapus Goresan
+        </button>
+        <button type="button" onclick="saveSig()" class="h-10 rounded-xl bg-[#18181b] text-white text-xs font-bold hover:bg-[#27272a] transition-all">
+          Simpan SPK
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: BottomTabBar (Apple HIG Translucent Navigation)      -->
+  <!-- ============================================================== -->
+  <nav data-component="BottomTabBar" class="fixed bottom-0 inset-x-0 z-40 bg-white/90 backdrop-blur-xl border-t border-[#e4e4e7] pb-safe">
+    <div class="max-w-md mx-auto h-16 px-2 flex items-center justify-around">
+      <a href="../home.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-house text-xl"></i>
+        <span>Beranda</span>
+      </a>
+      <a href="../iot/accecories.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-cpu text-xl"></i>
+        <span>Aksesori</span>
+      </a>
+      <a href="../mall/mall.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-storefront text-xl"></i>
+        <span>Mall</span>
+      </a>
+      <a href="booking.html" class="flex flex-col items-center gap-0.5 text-[#18181b] font-bold text-[10.5px]">
+        <i class="ph-fill ph-calendar-dots text-xl text-[#18181b]"></i>
+        <span>Booking</span>
+      </a>
+      <a href="../account/profile.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-user-circle text-xl"></i>
+        <span>Akun</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ============================================================== -->
+  <!-- JAVASCRIPT CONTROLLERS                                         -->
+  <!-- ============================================================== -->
+  <script>
+    function toggleCheck(row) {
+      var box = row.querySelector('.check-box');
+      var icon = box.querySelector('i');
+      var statusSpan = row.querySelector('span:last-child');
+      var textSpan = row.querySelector('.font-medium');
+
+      var isChecked = box.classList.contains('bg-[#18181b]');
+      if (isChecked) {
+        box.className = "w-5 h-5 rounded-md border border-[#e4e4e7] flex items-center justify-center check-box";
+        if (icon) icon.classList.add('hidden');
+        if (statusSpan) {
+          statusSpan.className = "text-[10px] text-[#71717a] font-medium";
+          statusSpan.innerText = "Pending";
+        }
+        if (textSpan) textSpan.className = "text-[#71717a] font-medium";
+      } else {
+        box.className = "w-5 h-5 rounded-md bg-[#18181b] text-white flex items-center justify-center check-box";
+        if (icon) icon.classList.remove('hidden');
+        if (statusSpan) {
+          statusSpan.className = "text-[10px] text-[#15803d] font-bold";
+          statusSpan.innerText = "Lolos";
+        }
+        if (textSpan) textSpan.className = "text-[#18181b] font-medium";
+      }
+      updateProgress();
+    }
+
+    function updateProgress() {
+      var allRows = document.querySelectorAll('#checklistRows > div');
+      var done = 0;
+      allRows.forEach(function(r) {
+        if (r.querySelector('.check-box.bg-\\[\\#18181b\\]')) done++;
+      });
+      var pct = Math.round((done / allRows.length) * 100);
+      document.getElementById('progressLabel').innerText = done + " dari " + allRows.length + " Selesai (" + pct + "%)";
+      document.getElementById('progressBar').style.width = pct + "%";
+    }
+
+    // Canvas signature pad setup
+    var canvas = document.getElementById('sigCanvas');
+    var ctx = canvas.getContext('2d');
+    var isDrawing = false;
+
+    function resizeCanvas() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+      ctx.lineWidth = 2.5;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = '#18181b';
+    }
+    window.addEventListener('resize', resizeCanvas);
+    document.addEventListener('DOMContentLoaded', resizeCanvas);
+
+    canvas.addEventListener('mousedown', function(e) {
+      isDrawing = true;
+      document.getElementById('sigPlaceholder').classList.add('hidden');
+      ctx.beginPath();
+      ctx.moveTo(e.offsetX, e.offsetY);
+    });
+    canvas.addEventListener('mousemove', function(e) {
+      if (isDrawing) {
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+      }
+    });
+    canvas.addEventListener('mouseup', function() { isDrawing = false; });
+
+    // Touch events for mobile
+    canvas.addEventListener('touchstart', function(e) {
+      isDrawing = true;
+      document.getElementById('sigPlaceholder').classList.add('hidden');
+      var rect = canvas.getBoundingClientRect();
+      var t = e.touches[0];
+      ctx.beginPath();
+      ctx.moveTo(t.clientX - rect.left, t.clientY - rect.top);
+      e.preventDefault();
+    });
+    canvas.addEventListener('touchmove', function(e) {
+      if (isDrawing) {
+        var rect = canvas.getBoundingClientRect();
+        var t = e.touches[0];
+        ctx.lineTo(t.clientX - rect.left, t.clientY - rect.top);
+        ctx.stroke();
+      }
+      e.preventDefault();
+    });
+    canvas.addEventListener('touchend', function() { isDrawing = false; });
+
+    function clearSig() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      document.getElementById('sigPlaceholder').classList.remove('hidden');
+    }
+
+    function saveSig() {
+      alert("Tanda tangan digital serah terima berhasil disimpan ke SPK #WO-2026-8821!");
+    }
+  </script>
+</body>
+</html>

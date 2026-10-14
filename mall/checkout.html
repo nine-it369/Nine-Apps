@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Checkout Pembayaran — Nine Autogarage</title>
+  
+  <!-- Fonts & Phosphor Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS Engine & Design Tokens -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../assets/config.js"></script>
+  <link rel="stylesheet" href="../assets/base.css"/>
+  
+  <style>
+    body {
+      background-color: #fafafa;
+      color: #18181b;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+</head>
+
+<body data-tab="mall" class="min-h-screen bg-[#fafafa] flex flex-col antialiased selection:bg-accent-100 selection:text-accent-700">
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: AppHeader (Styling Ikon Bulat Sesuai Halaman Home)    -->
+  <!-- ============================================================== -->
+  <header data-component="AppHeader" class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e4e4e7] pt-safe">
+    <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between gap-2">
+      <!-- Back Button -->
+      <a href="keranjang.html" aria-label="Kembali ke Keranjang" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-caret-left text-[20px]"></i>
+      </a>
+
+      <!-- Page Title -->
+      <div class="flex-1 text-center min-w-0">
+        <h1 class="text-sm font-bold text-[#18181b] truncate">Checkout Pembayaran</h1>
+        <p class="text-[10px] text-[#71717a] truncate">Gudang Jakarta Barat · Enkripsi 256-bit</p>
+      </div>
+
+      <!-- Quick CS Help Button -->
+      <a href="https://wa.me/6281234567890" target="_blank" aria-label="Bantuan CS" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-headset text-[20px]"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- MAIN CONTENT CONTAINER                                         -->
+  <!-- ============================================================== -->
+  <main class="w-full max-w-md mx-auto pt-20 pb-36 px-4 flex flex-col gap-4">
+
+    <!-- COMPONENT: DeliveryAddressCard (Alamat Pengiriman) -->
+    <section data-component="DeliveryAddressCard" class="ios-card p-4 flex flex-col gap-2">
+      <div class="flex items-center justify-between">
+        <span class="text-xs font-bold text-[#18181b] flex items-center gap-1.5">
+          <i class="ph-bold ph-map-pin text-[#15803d] text-base"></i>
+          Alamat Pengiriman
+        </span>
+        <button type="button" onclick="alert('Ubah Alamat Pengiriman')" class="text-xs font-semibold text-[#15803d]">Ubah</button>
+      </div>
+
+      <div class="text-xs">
+        <div class="flex items-center gap-2">
+          <strong class="text-[#18181b]">Rob Kusuma</strong>
+          <span class="text-[10px] font-bold text-[#15803d] bg-[#f0fdf4] px-1.5 py-0.2 rounded border border-[#bbf7d0]">Utama</span>
+          <span class="text-[#71717a]">+62 812-8899-7700</span>
+        </div>
+        <p class="text-[#71717a] mt-1 leading-snug">
+          Arcadia Residence Blok B No. 12, Jl. Daan Mogot KM 19, Batuceper, Kota Tangerang, Banten 15122
+        </p>
+      </div>
+    </section>
+
+    <!-- COMPONENT: CourierSelector (Pilihan Kurir J&T) -->
+    <section data-component="CourierSelector" class="flex flex-col gap-2">
+      <h3 class="text-xs font-bold text-[#18181b] px-0.5">Opsi Kurir Pengiriman</h3>
+
+      <div class="flex flex-col gap-2">
+        <div class="ios-card p-3.5 flex items-center justify-between border-2 border-[#18181b] bg-[#f4f4f5]">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-xl bg-[#18181b] text-white flex items-center justify-center">
+              <i class="ph-bold ph-truck text-base"></i>
+            </div>
+            <div>
+              <strong class="text-xs text-[#18181b] block">J&T Express · Reguler (EZ)</strong>
+              <span class="text-[10px] text-[#71717a]">Estimasi tiba 1 - 2 hari kerja</span>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-[#15803d]">Gratis Ongkir</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPONENT: PaymentMethodSelector (Metode Pembayaran) -->
+    <section data-component="PaymentMethodSelector" class="flex flex-col gap-2">
+      <h3 class="text-xs font-bold text-[#18181b] px-0.5">Metode Pembayaran</h3>
+
+      <div class="ios-card divide-y divide-[#f4f4f5] overflow-hidden text-xs">
+        <label class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-[#fafafa]">
+          <div class="flex items-center gap-3">
+            <div class="w-7 h-7 rounded-lg bg-[#f4f4f5] text-[#18181b] flex items-center justify-center font-bold text-[10px]">
+              BCA
+            </div>
+            <div>
+              <strong class="text-[#18181b] block">BCA Virtual Account</strong>
+              <span class="text-[10px] text-[#71717a]">Verifikasi instan otomatis 24 jam</span>
+            </div>
+          </div>
+          <input type="radio" name="paymentMethod" checked class="w-4 h-4 accent-[#18181b]"/>
+        </label>
+
+        <label class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-[#fafafa]">
+          <div class="flex items-center gap-3">
+            <div class="w-7 h-7 rounded-lg bg-[#f4f4f5] text-[#18181b] flex items-center justify-center font-bold text-[10px]">
+              QRIS
+            </div>
+            <div>
+              <strong class="text-[#18181b] block">QRIS (GoPay, OVO, ShopeePay)</strong>
+              <span class="text-[10px] text-[#71717a]">Scan via seluruh mobile banking</span>
+            </div>
+          </div>
+          <input type="radio" name="paymentMethod" class="w-4 h-4 accent-[#18181b]"/>
+        </label>
+      </div>
+    </section>
+
+    <!-- COMPONENT: OrderSummaryCard (Ringkasan Biaya) -->
+    <section data-component="OrderSummaryCard" class="ios-card p-4 flex flex-col gap-2.5 text-xs">
+      <h3 class="font-bold text-[#18181b] pb-2 border-b border-[#f4f4f5]">Ringkasan Pembayaran</h3>
+
+      <div class="flex items-center justify-between text-[#71717a]">
+        <span>Total Harga (2 barang)</span>
+        <span class="font-bold text-[#18181b]">Rp 1.444.000</span>
+      </div>
+
+      <div class="flex items-center justify-between text-[#71717a]">
+        <span>Total Ongkos Kirim (1.2 kg)</span>
+        <span class="line-through text-[#a1a1aa]">Rp 22.000</span>
+      </div>
+
+      <div class="flex items-center justify-between text-[#15803d]">
+        <span>Diskon Ongkos Kirim</span>
+        <span class="font-bold">-Rp 22.000</span>
+      </div>
+
+      <div class="flex items-center justify-between text-[#15803d]">
+        <span>Diskon Voucher NINEFEST</span>
+        <span class="font-bold">-Rp 50.000</span>
+      </div>
+
+      <div class="pt-2.5 border-t border-[#f4f4f5] flex items-center justify-between text-sm">
+        <strong class="text-[#18181b]">Total Tagihan</strong>
+        <strong class="text-[#18181b]">Rp 1.394.000</strong>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: FixedBottomPaymentBar                               -->
+  <!-- ============================================================== -->
+  <div data-component="FixedBottomPaymentBar" class="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-[#e4e4e7] pb-safe">
+    <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <div>
+        <span class="text-[10px] text-[#71717a] block">Total Bayar</span>
+        <span class="text-base font-bold text-[#18181b]">Rp 1.394.000</span>
+      </div>
+      <button type="button" onclick="processPayment()" class="h-11 px-6 rounded-full bg-[#18181b] hover:bg-[#27272a] text-white text-xs font-bold flex items-center gap-1.5 transition-all">
+        <i class="ph-bold ph-shield-check text-base text-[#22c55e]"></i>
+        <span>Bayar Pesanan</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- JAVASCRIPT CONTROLLERS                                         -->
+  <!-- ============================================================== -->
+  <script>
+    function processPayment() {
+      alert("Pesanan #NNE-88302-JKT berhasil dibuat! Mengalihkan ke halaman detail transaksi...");
+      window.location.href = "orders.html";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Nine Apps — Component System & Redesign Preview (Apple HIG × Frontend-Mall)</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS Engine -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- ============================================================== -->
+  <!-- 🎨 CORE DESIGN SYSTEM TOKENS (CSS VARIABLES)                  -->
+  <!-- Mudah dimodifikasi & di-porting ke projek web/framework lain   -->
+  <!-- ============================================================== -->
+  <style>
+    :root {
+      /* Palette: 100% Matching D:\Frontend-Mall */
+      --color-primary-950: #09090b;
+      --color-primary-900: #18181b;
+      --color-primary-800: #27272a;
+      --color-primary-700: #3f3f46;
+      --color-primary-600: #52525b;
+      --color-primary-500: #71717a;
+      --color-primary-400: #a1a1aa;
+      --color-primary-300: #d4d4d8;
+      --color-primary-200: #e4e4e7;
+      --color-primary-100: #f4f4f5;
+      --color-primary-50:  #fafafa;
+
+      /* Accent / Success: Automotive Emerald Green */
+      --color-accent-700: #15803d;
+      --color-accent-600: #16a34a;
+      --color-accent-500: #22c55e;
+      --color-accent-200: #bbf7d0;
+      --color-accent-100: #dcfce7;
+      --color-accent-50:  #f0fdf4;
+
+      /* Danger / Alert */
+      --color-danger-500: #ef4444;
+      --color-danger-50:  #fef2f2;
+
+      /* Radii: Apple Continuous Curves */
+      --radius-sheet: 28px;
+      --radius-card: 18px;
+      --radius-element: 12px;
+      --radius-pill: 9999px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
+      background-color: var(--color-primary-100);
+      color: var(--color-primary-900);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Standard Card Component */
+    .ios-card {
+      background-color: #ffffff;
+      border-radius: var(--radius-card);
+      border: 1px solid var(--color-primary-200);
+      transition: border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    }
+    .ios-card:hover {
+      border-color: var(--color-primary-300);
+    }
+    .ios-card-interactive {
+      cursor: pointer;
+      user-select: none;
+    }
+    .ios-card-interactive:active {
+      transform: scale(0.985);
+      background-color: var(--color-primary-50);
+    }
+
+    /* Standard Pill Component */
+    .ios-pill {
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--color-primary-200);
+      background-color: #ffffff;
+    }
+
+    /* Target Sentuh Standar Apple HIG (min 44×44 pt) */
+    .tap-44 {
+      min-width: 44px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Micro-Toggle Switch Component */
+    .switch-toggle {
+      width: 44px;
+      height: 24px;
+      border-radius: var(--radius-pill);
+      background-color: var(--color-primary-200);
+      position: relative;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    .switch-toggle.active {
+      background-color: var(--color-accent-500);
+    }
+    .switch-toggle::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: #ffffff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .switch-toggle.active::after {
+      transform: translateX(20px);
+    }
+
+    /* Apple HIG Bottom Sheet Modal Transitions */
+    .sheet-backdrop {
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      transition: opacity 0.25s ease;
+    }
+    .sheet-content {
+      border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Utility: Hide scrollbar */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+
+<body class="min-h-screen py-8 px-4 flex flex-col items-center">
+
+  <!-- ============================================================== -->
+  <!-- 🎛️ DESKTOP PRESENTATION BAR: Navigasi Layar                    -->
+  <!-- ============================================================== -->
+  <header class="w-full max-w-md mb-5 flex flex-col gap-2.5">
+    <div class="flex items-center justify-between">
+      <div>
+        <span class="text-[11px] font-bold uppercase tracking-wider text-[#71717a]">Sistem Komponen Modular</span>
+        <h1 class="text-xl font-bold text-[#18181b] tracking-tight">Nine Autogarage</h1>
+      </div>
+      <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#f0fdf4] text-[#15803d] border border-[#bbf7d0]">
+        Komponen Siap Pakai
+      </span>
+    </div>
+    
+    <!-- 4-Screen View Switcher -->
+    <nav class="grid grid-cols-4 p-1 rounded-2xl bg-[#e4e4e7] text-xs font-semibold text-[#71717a]" aria-label="Screen Switcher">
+      <button onclick="NineApp.Navigation.showScreen('home')" id="tab-home" class="py-2 rounded-xl bg-white text-[#18181b] shadow-xs transition-all">
+        Beranda
+      </button>
+      <button onclick="NineApp.Navigation.showScreen('garage')" id="tab-garage" class="py-2 rounded-xl hover:text-[#18181b] transition-all">
+        Garage Pit
+      </button>
+      <button onclick="NineApp.Navigation.showScreen('mall')" id="tab-mall" class="py-2 rounded-xl hover:text-[#18181b] transition-all">
+        Mall
+      </button>
+      <button onclick="NineApp.Navigation.showScreen('profile')" id="tab-profile" class="py-2 rounded-xl hover:text-[#18181b] transition-all">
+        Akun
+      </button>
+    </nav>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- 📱 MOBILE CANVAS (APPLE IOS FRAME CONTAINER)                   -->
+  <!-- ============================================================== -->
+  <main class="w-full max-w-md bg-[#fafafa] rounded-[36px] shadow-2xl border border-[#e4e4e7] overflow-hidden flex flex-col min-h-[820px] relative pb-20">
+
+    <!-- 1. COMPONENT: IOS STATUS BAR SIMULATION -->
+    <div data-component="StatusBar" class="px-6 pt-3 pb-2 flex items-center justify-between text-xs font-semibold text-[#18181b] select-none">
+      <span>09:41</span>
+      <div class="flex items-center gap-1.5">
+        <i class="ph-bold ph-cellular-signal-full text-sm"></i>
+        <i class="ph-bold ph-wifi-high text-sm"></i>
+        <i class="ph-bold ph-battery-full text-base"></i>
+      </div>
+    </div>
+
+    <!-- 2. COMPONENT: APP BAR HEADER (Phosphor Icons Bulat seperti di home.html) -->
+    <header data-component="AppHeader" class="px-4 py-2 flex items-center gap-2 border-b border-[#e4e4e7] bg-white/95 backdrop-blur-md sticky top-0 z-40">
+      <!-- Search Input Pill -->
+      <a href="catalog.html" aria-label="Cari produk" class="flex-1 min-w-0 flex items-center gap-2 h-10 px-3.5 rounded-full bg-[#f4f4f5] text-[#18181b] border border-[#e4e4e7] active:scale-[0.98] transition-all">
+        <i class="ph-bold ph-magnifying-glass text-[17px] text-[#71717a] shrink-0"></i>
+        <span class="text-xs text-[#71717a] truncate">Cari aksesori di Mall…</span>
+      </a>
+
+      <!-- CS Headset Button (Styling Bulat Putih Border Halus) -->
+      <button type="button" onclick="alert('Membuka Layanan CS & Hotline WhatsApp Nine')" aria-label="Bantuan & CS" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-headset text-[20px]"></i>
+      </button>
+
+      <!-- Cart Shopping Bag Button (Styling Bulat Putih dengan Badge Emerald) -->
+      <a href="keranjang.html" aria-label="Keranjang Belanja" class="tap-44 relative w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-shopping-bag text-[20px]"></i>
+        <span class="absolute top-1 right-1 min-w-[17px] h-[17px] px-1 rounded-full bg-[#22c55e] text-white text-[10px] font-bold flex items-center justify-center leading-none">2</span>
+      </a>
+    </header>
+
+    <!-- ============================================================== -->
+    <!-- SCREEN 1: BERANDA (Aksesori Terpasang di Motor NMAX)           -->
+    <!-- ============================================================== -->
+    <section id="screen-home" class="p-4 flex flex-col gap-4">
+      
+      <!-- COMPONENT: VEHICLE SELECTOR & KOIN PILL -->
+      <div data-component="VehicleSelector" class="flex items-center justify-between gap-2">
+        <button onclick="alert('Membuka Pemilih Kendaraan (Garasi)')" class="ios-pill h-10 px-3.5 flex items-center gap-2 active:scale-95 transition-transform">
+          <div class="w-6 h-6 rounded-full bg-[#18181b] text-white flex items-center justify-center text-xs">
+            <i class="ph-bold ph-motorcycle"></i>
+          </div>
+          <div class="flex flex-col text-left leading-none">
+            <span class="text-xs font-bold text-[#18181b]">Yamaha NMAX 155</span>
+            <span class="text-[10px] text-[#71717a] mt-0.5">B 1234 XYZ</span>
+          </div>
+          <i class="ph-bold ph-caret-down text-[#71717a] text-xs ml-1"></i>
+        </button>
+
+        <a href="profile.html" class="ios-pill h-10 px-3 flex items-center gap-1.5 active:scale-95 transition-transform" aria-label="Saldo Koin">
+          <i class="ph-fill ph-coins text-[#22c55e] text-base"></i>
+          <span class="text-xs font-bold text-[#18181b]">1.250</span>
+          <span class="text-[10.5px] text-[#71717a]">Koin</span>
+        </a>
+      </div>
+
+      <!-- COMPONENT: SECTION HEADER -->
+      <div class="flex items-center justify-between px-1">
+        <div>
+          <h2 class="text-xs font-bold text-[#18181b]">Aksesori Terpasang</h2>
+          <span class="text-[11px] text-[#71717a]">3 perangkat aktif · Ketuk untuk buka modal</span>
+        </div>
+        <a href="accecories.html" class="text-xs font-semibold text-[#15803d] hover:underline">
+          Semua Modul
+        </a>
+      </div>
+
+      <!-- COMPONENT: INSTALLED ACCESSORIES FEED -->
+      <div data-component="InstalledAccessoriesList" class="flex flex-col gap-3">
+        
+        <!-- CARD 1: GPS TRACKER 4G -->
+        <article data-component="AccessoryCard" data-device="gps" onclick="NineApp.Modal.open('modal-gps')" class="ios-card ios-card-interactive p-4 flex flex-col gap-3">
+          <div class="flex items-start justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-[#18181b] text-white flex items-center justify-center">
+                <i class="ph-bold ph-navigation-arrow text-lg"></i>
+              </div>
+              <div>
+                <h3 class="text-sm font-bold text-[#18181b]">Nine GPS Tracker IoT 4G</h3>
+                <p class="text-xs text-[#71717a]">Jl. Jenderal Sudirman · Sudirman Center</p>
+              </div>
+            </div>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#f0fdf4] text-[#15803d] text-[11px] font-semibold border border-[#bbf7d0]">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#22c55e]"></span>
+              Parkir Aman
+            </span>
+          </div>
+
+          <div class="pt-3 border-t border-[#f4f4f5] flex items-center justify-between text-xs">
+            <div class="flex items-center gap-4 text-[#71717a]">
+              <span>Aki: <strong class="text-[#18181b]">12.8V</strong></span>
+              <span>Geofence: <strong class="text-[#18181b]">20m</strong></span>
+              <span>Speed: <strong class="text-[#18181b]">0 km/j</strong></span>
+            </div>
+            <span class="text-xs font-semibold text-[#15803d] flex items-center gap-1">
+              Lihat Detail <i class="ph-bold ph-caret-right text-xs"></i>
+            </span>
+          </div>
+        </article>
+
+        <!-- CARD 2: BILED MATRIX E9 PRO -->
+        <article data-component="AccessoryCard" data-device="biled" onclick="NineApp.Modal.open('modal-biled')" class="ios-card ios-card-interactive p-4 flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-[#f4f4f5] text-[#18181b] flex items-center justify-center">
+                <i class="ph-bold ph-sun text-lg"></i>
+              </div>
+              <div>
+                <h3 class="text-sm font-bold text-[#18181b]">Biled Matrix E9 Pro 3.0"</h3>
+                <p class="text-xs text-[#71717a]">Warna Sorot: <strong class="text-[#18181b]">Ice Blue (6000K)</strong></p>
+              </div>
+            </div>
+            <!-- Toggle Switch Cepat -->
+            <div class="switch-toggle active" title="Matikan/Hidupkan Lampu" onclick="event.stopPropagation(); NineApp.Controls.toggleSwitch(this)"></div>
+          </div>
+
+          <div class="pt-3 border-t border-[#f4f4f5] flex items-center justify-between text-xs">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded-md bg-[#f4f4f5] text-[#18181b] font-semibold text-[10px]">65W TURBO</span>
+              <span class="text-[#71717a]">Garansi s/d Okt 2028</span>
+            </div>
+            <span class="text-xs font-semibold text-[#15803d] flex items-center gap-1">
+              Atur Sorot <i class="ph-bold ph-caret-right text-xs"></i>
+            </span>
+          </div>
+        </article>
+
+        <!-- CARD 3: DASHCAM 4K DUAL -->
+        <article data-component="AccessoryCard" data-device="dashcam" onclick="NineApp.Modal.open('modal-dashcam')" class="ios-card ios-card-interactive p-4 flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-[#f4f4f5] text-[#18181b] flex items-center justify-center">
+                <i class="ph-bold ph-video-camera text-lg"></i>
+              </div>
+              <div>
+                <h3 class="text-sm font-bold text-[#18181b]">Nine Cam Pro 4K Dual</h3>
+                <p class="text-xs text-[#71717a]">Parking Guard 24 Jam · Aktif</p>
+              </div>
+            </div>
+            <span class="text-xs font-semibold text-[#18181b] bg-[#f4f4f5] px-2.5 py-1 rounded-lg">
+              96 / 128 GB
+            </span>
+          </div>
+
+          <div class="pt-3 border-t border-[#f4f4f5] flex items-center justify-between text-xs">
+            <span class="text-[#71717a]">Sensor Sony Starvis 2 · Siaga</span>
+            <span class="text-xs font-semibold text-[#15803d] flex items-center gap-1">
+              Live Feed <i class="ph-bold ph-caret-right text-xs"></i>
+            </span>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- COMPONENT: 2 QUICK ACTIONS (GARAGE PIT & TRACK ORDER) -->
+      <div data-component="QuickActionGrid" class="grid grid-cols-2 gap-3 mt-1">
+        <button onclick="NineApp.Navigation.showScreen('garage')" class="ios-card p-3.5 flex flex-col justify-between h-24 hover:border-[#18181b] transition-all text-left">
+          <div class="w-8 h-8 rounded-xl bg-[#18181b] text-white flex items-center justify-center">
+            <i class="ph-bold ph-calendar-check text-base"></i>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold text-[#18181b]">Nine Garage Pit</h3>
+            <p class="text-[11px] text-[#15803d] font-semibold">2 Pit Tersedia Hari Ini</p>
+          </div>
+        </button>
+
+        <a href="orders.html" class="ios-card p-3.5 flex flex-col justify-between h-24 hover:border-[#18181b] transition-all text-left">
+          <div class="w-8 h-8 rounded-xl bg-[#f4f4f5] text-[#18181b] flex items-center justify-center">
+            <i class="ph-bold ph-package text-base"></i>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold text-[#18181b]">Pesanan Mall</h3>
+            <p class="text-[11px] text-[#71717a]">1 Dalam Pengiriman</p>
+          </div>
+        </a>
+      </div>
+
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SCREEN 2: NINE GARAGE PIT (Mengadopsi D:\Garage Website)       -->
+    <!-- ============================================================== -->
+    <section id="screen-garage" class="hidden p-4 flex flex-col gap-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-base font-bold text-[#18181b]">Nine Garage Workshop</h2>
+          <p class="text-xs text-[#71717a]">Reservasi Pit & Monitoring SPK Digital</p>
+        </div>
+        <a href="work-order.html" class="px-3 py-1.5 rounded-full bg-[#18181b] text-white text-xs font-bold flex items-center gap-1">
+          <i class="ph-bold ph-wrench text-xs"></i>
+          <span>Live SPK</span>
+        </a>
+      </div>
+
+      <!-- COMPONENT: WORKSHOP BRANCH & CAPACITY -->
+      <article data-component="WorkshopCapacityCard" class="ios-card p-4 flex flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <i class="ph-bold ph-map-pin text-[#15803d] text-base"></i>
+            <span class="text-xs font-bold text-[#18181b]">Flagship Arcadia BSD</span>
+          </div>
+          <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#f0fdf4] text-[#15803d] text-[10px] font-semibold border border-[#bbf7d0]">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#22c55e]"></span>
+            Pit Siap
+          </span>
+        </div>
+        <p class="text-xs text-[#71717a]">Jl. Boulevard Barat, Serpong · 09.00 - 18.00 WIB</p>
+        <div class="grid grid-cols-2 gap-2 pt-2 border-t border-[#f4f4f5] text-xs">
+          <div class="p-2 rounded-xl bg-[#f4f4f5]">
+            <span class="text-[10px] text-[#71717a] block">Kapasitas Teknisi</span>
+            <span class="font-bold text-[#18181b]">3 Lead Retrofitter</span>
+          </div>
+          <div class="p-2 rounded-xl bg-[#f4f4f5]">
+            <span class="text-[10px] text-[#71717a] block">Stall Tersedia</span>
+            <span class="font-bold text-[#15803d]">Stall 01 & 02 Kosong</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- COMPONENT: ACTIVE TICKET PASS (APPLE WALLET STYLE) -->
+      <article data-component="TicketPassCard" class="ios-card p-4 bg-[#18181b] text-white flex flex-col gap-3">
+        <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[#4ade80] animate-pulse"></span>
+            <span class="text-xs font-bold">Tiket Servis Terkonfirmasi</span>
+          </div>
+          <span class="text-[10px] font-mono bg-white/10 px-2 py-0.5 rounded border border-white/10">TGR-8821</span>
+        </div>
+        <div>
+          <h4 class="text-sm font-bold">Retrofit Biled Matrix E9 Pro</h4>
+          <p class="text-xs text-[#a1a1aa] mt-0.5">Yamaha NMAX 155 · B 1234 XYZ</p>
+        </div>
+        <div class="grid grid-cols-2 gap-2 text-xs text-[#a1a1aa]">
+          <div>
+            <span class="text-[10px] block">Jadwal Kedatangan</span>
+            <span class="font-bold text-white">Sabtu, 11 Okt · 10:30 WIB</span>
+          </div>
+          <div>
+            <span class="text-[10px] block">Teknisi Lead</span>
+            <span class="font-bold text-white">Dimas Pratama</span>
+          </div>
+        </div>
+        <div class="pt-2 border-t border-white/10 flex items-center justify-between">
+          <a href="booking-detail.html" class="text-xs font-bold text-[#4ade80] hover:underline">
+            Buka Pass Lengkap & QR →
+          </a>
+          <a href="work-order.html" class="px-3 py-1.5 rounded-xl bg-white text-[#18181b] text-xs font-bold hover:bg-[#f4f4f5]">
+            Pantau di Pit
+          </a>
+        </div>
+      </article>
+
+      <!-- ACTION BUTTON: BUAT RESERVASI BARU -->
+      <a href="booking.html" class="w-full py-3 rounded-2xl bg-[#18181b] text-white text-xs font-bold flex items-center justify-center gap-2 hover:bg-[#27272a] transition-all">
+        <i class="ph-bold ph-plus-circle text-base"></i>
+        <span>Buat Reservasi Baru di Pit</span>
+      </a>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SCREEN 3: MALL (Sesuai D:\Frontend-Mall ProductCard.vue)       -->
+    <!-- ============================================================== -->
+    <section id="screen-mall" class="hidden p-4 flex flex-col gap-4">
+      <div class="flex items-center gap-2">
+        <div class="flex-1 h-10 px-3.5 rounded-full bg-white border border-[#e4e4e7] flex items-center gap-2 text-xs text-[#71717a]">
+          <i class="ph-bold ph-magnifying-glass text-sm"></i>
+          <span>Cari biled, lampu tembak, klakson…</span>
+        </div>
+        <a href="keranjang.html" class="w-10 h-10 rounded-full bg-white border border-[#e4e4e7] flex items-center justify-center text-[#18181b] relative">
+          <i class="ph-bold ph-shopping-bag text-base"></i>
+          <span class="absolute top-1 right-1 w-3.5 h-3.5 rounded-full bg-[#ef4444] text-white text-[9px] font-bold flex items-center justify-center">2</span>
+        </a>
+      </div>
+
+      <!-- COMPONENT: WAREHOUSE SELECTOR BAR -->
+      <div data-component="WarehouseSelector" class="flex items-center justify-between text-xs text-[#71717a] px-1">
+        <div class="flex items-center gap-1">
+          <i class="ph-bold ph-map-pin text-[#15803d]"></i>
+          <span>Kirim dari: <strong class="text-[#18181b]">Gudang Jakarta Barat</strong></span>
+        </div>
+        <button class="font-semibold text-[#15803d] hover:underline">Ganti Gudang</button>
+      </div>
+
+      <!-- COMPONENT: PRODUCT CATALOG GRID -->
+      <div data-component="ProductGrid" class="grid grid-cols-2 gap-3">
+        <!-- Product Card 1 -->
+        <article data-component="ProductCard" class="ios-card p-3 flex flex-col gap-2 group">
+          <div class="aspect-square rounded-xl bg-[#f4f4f5] flex items-center justify-center relative overflow-hidden">
+            <img src="lampu.jpg" alt="Lampu" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+            <span class="absolute top-2 left-2 rounded-lg bg-[#ef4444] text-white px-2 py-0.5 text-[10px] font-bold">-21%</span>
+          </div>
+          <div>
+            <span class="text-[10px] font-semibold text-[#71717a] uppercase">Lampu Utama</span>
+            <h4 class="text-xs font-bold text-[#18181b] truncate">Biled Matrix E9 Pro</h4>
+            <div class="mt-1 flex items-baseline gap-1.5">
+              <span class="text-xs font-bold text-[#18181b]">Rp 1.299.000</span>
+            </div>
+            <button onclick="alert('Biled Matrix E9 Pro ditambahkan ke keranjang')" class="mt-2 w-full py-2 rounded-xl bg-[#18181b] text-white text-xs font-bold hover:bg-[#27272a] active:scale-95 transition-all">
+              + Keranjang
+            </button>
+          </div>
+        </article>
+
+        <!-- Product Card 2 -->
+        <article data-component="ProductCard" class="ios-card p-3 flex flex-col gap-2 group">
+          <div class="aspect-square rounded-xl bg-[#f4f4f5] flex items-center justify-center relative overflow-hidden">
+            <img src="dashcam.jpg" alt="Dashcam" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+            <span class="absolute top-2 left-2 rounded-lg bg-[#ef4444] text-white px-2 py-0.5 text-[10px] font-bold">-15%</span>
+          </div>
+          <div>
+            <span class="text-[10px] font-semibold text-[#71717a] uppercase">Keamanan</span>
+            <h4 class="text-xs font-bold text-[#18181b] truncate">Twin Snail Horn 118dB</h4>
+            <div class="mt-1 flex items-baseline gap-1.5">
+              <span class="text-xs font-bold text-[#18181b]">Rp 145.000</span>
+            </div>
+            <button onclick="alert('Twin Snail Horn ditambahkan ke keranjang')" class="mt-2 w-full py-2 rounded-xl bg-[#18181b] text-white text-xs font-bold hover:bg-[#27272a] active:scale-95 transition-all">
+              + Keranjang
+            </button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SCREEN 4: PROFILE & AKUN (Apple Settings Inset Grouped)       -->
+    <!-- ============================================================== -->
+    <section id="screen-profile" class="hidden p-4 flex flex-col gap-4">
+      <!-- Profile Header -->
+      <article data-component="UserProfileHeader" class="ios-card p-4 flex items-center gap-3.5">
+        <div class="w-14 h-14 rounded-full bg-[#18181b] text-white flex items-center justify-center font-bold text-lg">
+          RK
+        </div>
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center gap-2">
+            <h2 class="text-sm font-bold text-[#18181b] truncate">Rob Kusuma</h2>
+            <span class="px-2 py-0.5 rounded-full bg-[#f0fdf4] text-[#15803d] text-[10px] font-bold">Platinum</span>
+          </div>
+          <p class="text-xs text-[#71717a] mt-0.5">+62 812-8899-7700</p>
+        </div>
+      </article>
+
+      <!-- Inset Grouped Menu -->
+      <div data-component="SettingsGroup" class="ios-card overflow-hidden divide-y divide-[#f4f4f5]">
+        <a href="service-history.html" class="p-3.5 flex items-center justify-between hover:bg-[#fcfcfc] transition-colors">
+          <div class="flex items-center gap-3">
+            <i class="ph-bold ph-wrench text-[#18181b] text-lg"></i>
+            <span class="text-xs font-bold text-[#18181b]">Riwayat Servis & Odometer</span>
+          </div>
+          <i class="ph-bold ph-caret-right text-[#a1a1aa] text-xs"></i>
+        </a>
+        <a href="orders.html" class="p-3.5 flex items-center justify-between hover:bg-[#fcfcfc] transition-colors">
+          <div class="flex items-center gap-3">
+            <i class="ph-bold ph-package text-[#18181b] text-lg"></i>
+            <span class="text-xs font-bold text-[#18181b]">Daftar Pesanan Mall</span>
+          </div>
+          <i class="ph-bold ph-caret-right text-[#a1a1aa] text-xs"></i>
+        </a>
+        <a href="profile.html" class="p-3.5 flex items-center justify-between hover:bg-[#fcfcfc] transition-colors">
+          <div class="flex items-center gap-3">
+            <i class="ph-bold ph-motorcycle text-[#18181b] text-lg"></i>
+            <span class="text-xs font-bold text-[#18181b]">Garasi Kendaraan Saya</span>
+          </div>
+          <i class="ph-bold ph-caret-right text-[#a1a1aa] text-xs"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- COMPONENT: BOTTOM TAB BAR (APPLE HIG TRANSLUCENT NAV) -->
+    <nav data-component="BottomTabBar" class="absolute bottom-0 inset-x-0 h-16 bg-white/90 backdrop-blur-md border-t border-[#e4e4e7] flex items-center justify-around px-2 z-30">
+      <button onclick="NineApp.Navigation.showScreen('home')" class="flex flex-col items-center gap-0.5 text-[#18181b] font-bold text-[10.5px]">
+        <i class="ph-fill ph-house text-xl text-[#18181b]"></i>
+        <span>Beranda</span>
+      </button>
+      <button onclick="NineApp.Navigation.showScreen('garage')" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-wrench text-xl"></i>
+        <span>Garage</span>
+      </button>
+      <button onclick="NineApp.Navigation.showScreen('mall')" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-storefront text-xl"></i>
+        <span>Mall</span>
+      </button>
+      <button onclick="NineApp.Navigation.showScreen('profile')" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-user-circle text-xl"></i>
+        <span>Akun</span>
+      </button>
+    </nav>
+
+    <!-- ============================================================== -->
+    <!-- COMPONENT: APPLE HIG MODAL DETAIL SHEETS                       -->
+    <!-- ============================================================== -->
+
+    <!-- MODAL 1: DETAIL GPS TRACKER -->
+    <div data-component="SheetModal" id="modal-gps" class="hidden fixed inset-0 z-50 flex items-end justify-center sheet-backdrop" onclick="NineApp.Modal.close('modal-gps')">
+      <div class="w-full max-w-md bg-white rounded-t-[28px] p-5 pb-8 sheet-content shadow-2xl flex flex-col gap-4 border-t border-[#e4e4e7]" onclick="event.stopPropagation()">
+        <!-- Sheet Drag Handle -->
+        <div class="w-10 h-1 bg-neutral-300 rounded-full mx-auto"></div>
+        
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-[#18181b] text-white flex items-center justify-center">
+              <i class="ph-bold ph-navigation-arrow text-lg"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-[#18181b]">Nine GPS Tracker IoT 4G</h3>
+              <p class="text-xs text-[#71717a]">Yamaha NMAX 155 · B 1234 XYZ</p>
+            </div>
+          </div>
+          <button onclick="NineApp.Modal.close('modal-gps')" aria-label="Tutup" class="w-7 h-7 rounded-full bg-[#f4f4f5] text-[#71717a] flex items-center justify-center hover:bg-[#e4e4e7]">
+            <i class="ph-bold ph-x text-xs"></i>
+          </button>
+        </div>
+
+        <!-- Telemetry Inset Grid -->
+        <div class="grid grid-cols-3 gap-2 p-3 rounded-2xl bg-[#f4f4f5] text-center text-xs">
+          <div>
+            <span class="text-[10px] text-[#71717a] block">Status Aki</span>
+            <span class="font-bold text-[#18181b] mt-0.5 block">12.8V (Normal)</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-[#71717a] block">Sinyal Seluler</span>
+            <span class="font-bold text-[#15803d] mt-0.5 block">4G · 4/4 Bar</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-[#71717a] block">Koneksi Satelit</span>
+            <span class="font-bold text-[#18181b] mt-0.5 block">14 Satelit</span>
+          </div>
+        </div>
+
+        <!-- Lokasi Real-Time Address -->
+        <div class="p-3.5 rounded-2xl border border-[#e4e4e7] bg-white flex items-start gap-2.5">
+          <i class="ph-bold ph-map-pin text-[#15803d] text-base shrink-0 mt-0.5"></i>
+          <div class="min-w-0 flex-1">
+            <span class="text-xs font-bold text-[#18181b] block">Jl. Jenderal Sudirman No. 45, Jakarta Pusat</span>
+            <span class="text-[11px] text-[#71717a] block mt-0.5">Sudirman Center · Radius Geofence 20 Meter</span>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col gap-2 pt-1">
+          <a href="device-gps.html" class="w-full h-11 rounded-full bg-[#18181b] text-white text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#27272a] transition-all">
+            <i class="ph-bold ph-map-trifold text-base"></i>
+            <span>Buka Peta & Telemetri Lengkap</span>
+          </a>
+          <button onclick="alert('Tautan pelacakan GPS live 2 jam berhasil disalin!')" class="w-full h-11 rounded-full bg-[#f4f4f5] hover:bg-[#e4e4e7] text-[#18181b] text-xs font-bold flex items-center justify-center gap-1.5 transition-all">
+            <i class="ph-bold ph-share-network text-base"></i>
+            <span>Bagikan Lokasi Sementara (WhatsApp)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL 2: DETAIL BILED MATRIX E9 PRO -->
+    <div data-component="SheetModal" id="modal-biled" class="hidden fixed inset-0 z-50 flex items-end justify-center sheet-backdrop" onclick="NineApp.Modal.close('modal-biled')">
+      <div class="w-full max-w-md bg-white rounded-t-[28px] p-5 pb-8 sheet-content shadow-2xl flex flex-col gap-4 border-t border-[#e4e4e7]" onclick="event.stopPropagation()">
+        <!-- Sheet Drag Handle -->
+        <div class="w-10 h-1 bg-neutral-300 rounded-full mx-auto"></div>
+        
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-[#f4f4f5] text-[#18181b] flex items-center justify-center">
+              <i class="ph-bold ph-sun text-lg"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-[#18181b]">Biled Matrix E9 Pro 3.0"</h3>
+              <p class="text-xs text-[#71717a]">Soket Universal H4/H7 · 65W Turbo</p>
+            </div>
+          </div>
+          <button onclick="NineApp.Modal.close('modal-biled')" aria-label="Tutup" class="w-7 h-7 rounded-full bg-[#f4f4f5] text-[#71717a] flex items-center justify-center hover:bg-[#e4e4e7]">
+            <i class="ph-bold ph-x text-xs"></i>
+          </button>
+        </div>
+
+        <!-- PROJECTOR OPTICAL CHAMBER (Simulasi Realistis Sorot Sinar Lensa) -->
+        <div id="biledOpticalChamber" class="relative rounded-2xl bg-[#0d0d11] border border-neutral-800 h-36 overflow-hidden flex flex-col items-center justify-center p-3 select-none">
+          <!-- Dynamic Radial Glow Simulation -->
+          <div id="biledBeamGlow" class="absolute inset-0 transition-all duration-500 pointer-events-none"
+               style="background: radial-gradient(circle at 50% 45%, rgba(56, 189, 248, 0.45) 0%, rgba(56, 189, 248, 0.12) 40%, transparent 70%);"></div>
+
+          <!-- Cut-Off Horizon Line Simulation -->
+          <div class="absolute inset-x-0 bottom-3 h-px bg-white/20"></div>
+
+          <!-- Lens Core Ring -->
+          <div id="biledLensRing" class="relative z-10 w-20 h-20 rounded-full bg-neutral-900 border-2 border-neutral-700/80 flex items-center justify-center shadow-lg transition-all duration-300">
+            <div id="biledLensIris" class="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 shadow-inner" style="background-color: #38bdf8; box-shadow: 0 0 24px #38bdf8;">
+              <i class="ph-fill ph-sun text-neutral-950 text-xl"></i>
+            </div>
+          </div>
+
+          <!-- Real-Time Telemetry Overlay -->
+          <div class="absolute top-2.5 left-3 text-[10px] font-mono text-white/70">
+            OPTIC: MATRIX DUAL CORE
+          </div>
+          <div id="biledLuxBadge" class="absolute top-2.5 right-3 text-[10px] font-mono font-bold text-white bg-white/10 px-2 py-0.5 rounded border border-white/15">
+            65W · 8.400 LUX
+          </div>
+        </div>
+
+        <!-- 4 KELVIN SPECTRUM CARDS (Pemilih Warna Spesifikasi Otomotif) -->
+        <div class="flex flex-col gap-1.5">
+          <div class="flex items-center justify-between px-0.5">
+            <span class="text-xs font-bold text-[#18181b]">Spektrum Temperatur Cahaya</span>
+            <span id="biledActiveName" class="text-xs font-bold text-[#15803d]">6000K Ice Blue Matrix</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 pt-1" id="kelvinSelectorGrid">
+            <!-- 3000K -->
+            <button type="button" onclick="NineApp.Controls.setBeamColor('3000K', '#f59e0b', 'rgba(245, 158, 11, 0.5)', '3000K Golden Amber (Kabut)', this)" class="kelvin-card p-2.5 rounded-xl border border-[#e4e4e7] bg-white flex items-center gap-2.5 text-left hover:border-[#18181b] transition-all">
+              <span class="w-7 h-7 rounded-lg shrink-0 flex items-center justify-center shadow-xs" style="background-color: #f59e0b;">
+                <i class="ph-bold ph-drop text-xs text-neutral-950"></i>
+              </span>
+              <div class="min-w-0">
+                <span class="text-xs font-bold text-[#18181b] block leading-tight">3000K</span>
+                <span class="text-[10px] text-[#71717a] truncate block">Tembus Kabut & Hujan</span>
+              </div>
+            </button>
+
+            <!-- 4300K -->
+            <button type="button" onclick="NineApp.Controls.setBeamColor('4300K', '#fde68a', 'rgba(253, 230, 138, 0.5)', '4300K All-Weather (Aspal Basah)', this)" class="kelvin-card p-2.5 rounded-xl border border-[#e4e4e7] bg-white flex items-center gap-2.5 text-left hover:border-[#18181b] transition-all">
+              <span class="w-7 h-7 rounded-lg shrink-0 flex items-center justify-center shadow-xs" style="background-color: #fde68a;">
+                <i class="ph-bold ph-cloud-rain text-xs text-neutral-950"></i>
+              </span>
+              <div class="min-w-0">
+                <span class="text-xs font-bold text-[#18181b] block leading-tight">4300K</span>
+                <span class="text-[10px] text-[#71717a] truncate block">All-Weather Aspal Basah</span>
+              </div>
+            </button>
+
+            <!-- 5500K -->
+            <button type="button" onclick="NineApp.Controls.setBeamColor('5500K', '#ffffff', 'rgba(255, 255, 255, 0.55)', '5500K Pure Daylight (Natural)', this)" class="kelvin-card p-2.5 rounded-xl border border-[#e4e4e7] bg-white flex items-center gap-2.5 text-left hover:border-[#18181b] transition-all">
+              <span class="w-7 h-7 rounded-lg shrink-0 flex items-center justify-center shadow-xs border border-neutral-300" style="background-color: #ffffff;">
+                <i class="ph-bold ph-sun text-xs text-neutral-950"></i>
+              </span>
+              <div class="min-w-0">
+                <span class="text-xs font-bold text-[#18181b] block leading-tight">5500K</span>
+                <span class="text-[10px] text-[#71717a] truncate block">Daylight Kontras Tinggi</span>
+              </div>
+            </button>
+
+            <!-- 6000K (Default Active) -->
+            <button type="button" onclick="NineApp.Controls.setBeamColor('6000K', '#38bdf8', 'rgba(56, 189, 248, 0.55)', '6000K Ice Blue (Hyper-Matrix)', this)" class="kelvin-card p-2.5 rounded-xl border-2 border-[#18181b] bg-[#f4f4f5] flex items-center gap-2.5 text-left transition-all">
+              <span class="w-7 h-7 rounded-lg shrink-0 flex items-center justify-center shadow-xs" style="background-color: #38bdf8;">
+                <i class="ph-bold ph-lightning text-xs text-neutral-950"></i>
+              </span>
+              <div class="min-w-0">
+                <span class="text-xs font-bold text-[#18181b] block leading-tight">6000K</span>
+                <span class="text-[10px] text-[#71717a] truncate block">Ice Blue Signature</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Status Daya & Garansi -->
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div class="p-3 rounded-2xl bg-[#f4f4f5]">
+            <span class="text-[10px] text-[#71717a] block">Status Daya</span>
+            <span class="font-bold text-[#18181b] mt-0.5 block">65W Turbo Beam Aktif</span>
+          </div>
+          <div class="p-3 rounded-2xl bg-[#f4f4f5]">
+            <span class="text-[10px] text-[#71717a] block">Garansi Resmi</span>
+            <span class="font-bold text-[#15803d] mt-0.5 block">Berlaku s/d Okt 2028</span>
+          </div>
+        </div>
+
+        <!-- Action Button -->
+        <a href="device-lampu.html" class="w-full h-11 rounded-full bg-[#18181b] text-white text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#27272a] transition-all">
+          <i class="ph-bold ph-sliders-horizontal text-base"></i>
+          <span>Atur Sudut Sorot & Kalibrasi Beam</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- MODAL 3: DETAIL DASHCAM 4K DUAL -->
+    <div data-component="SheetModal" id="modal-dashcam" class="hidden fixed inset-0 z-50 flex items-end justify-center sheet-backdrop" onclick="NineApp.Modal.close('modal-dashcam')">
+      <div class="w-full max-w-md bg-white rounded-t-[28px] p-5 pb-8 sheet-content shadow-2xl flex flex-col gap-4 border-t border-[#e4e4e7]" onclick="event.stopPropagation()">
+        <!-- Sheet Drag Handle -->
+        <div class="w-10 h-1 bg-neutral-300 rounded-full mx-auto"></div>
+        
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-[#f4f4f5] text-[#18181b] flex items-center justify-center">
+              <i class="ph-bold ph-video-camera text-lg"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-[#18181b]">Nine Cam Pro 4K Dual</h3>
+              <p class="text-xs text-[#71717a]">Sensor Sony Starvis 2 · Parkir 24 Jam</p>
+            </div>
+          </div>
+          <button onclick="NineApp.Modal.close('modal-dashcam')" aria-label="Tutup" class="w-7 h-7 rounded-full bg-[#f4f4f5] text-[#71717a] flex items-center justify-center hover:bg-[#e4e4e7]">
+            <i class="ph-bold ph-x text-xs"></i>
+          </button>
+        </div>
+
+        <!-- Snapshot Preview Thumbnail -->
+        <div class="relative aspect-video rounded-2xl overflow-hidden bg-neutral-900 border border-[#e4e4e7]">
+          <img src="dashcam.jpg" alt="Snapshot Dashcam" class="w-full h-full object-cover"/>
+          <div class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/60 text-white text-[10px] font-mono">
+            LIVE · CAM DEPAN 4K
+          </div>
+        </div>
+
+        <!-- Storage & G-Sensor Status -->
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div class="p-3 rounded-2xl bg-[#f4f4f5]">
+            <span class="text-[10px] text-[#71717a] block">Memori MicroSD</span>
+            <span class="font-bold text-[#18181b] mt-0.5 block">96 GB / 128 GB</span>
+          </div>
+          <div class="p-3 rounded-2xl bg-[#f4f4f5]">
+            <span class="text-[10px] text-[#71717a] block">G-Sensor Parkir</span>
+            <span class="font-bold text-[#15803d] mt-0.5 block">Sensitivitas Tinggi</span>
+          </div>
+        </div>
+
+        <!-- Action Button -->
+        <a href="device-dashcam.html" class="w-full h-11 rounded-full bg-[#18181b] text-white text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#27272a] transition-all">
+          <i class="ph-bold ph-play-circle text-base"></i>
+          <span>Buka Galeri Klip & Live Feed Penuh</span>
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- 🧩 MODULAR JAVASCRIPT ARCHITECTURE (Clean Namespace 'NineApp') -->
+  <!-- Mudah dibaca, diuji per fungsi, dan di-porting ke projek lain   -->
+  <!-- ============================================================== -->
+  <script>
+    const NineApp = {
+      // 1. Navigation Controller (Screen Switcher)
+      Navigation: {
+        screens: ['home', 'garage', 'mall', 'profile'],
+        showScreen(name) {
+          if (!this.screens.includes(name)) return;
+          
+          this.screens.forEach(s => {
+            const screenEl = document.getElementById('screen-' + s);
+            const tabBtn = document.getElementById('tab-' + s);
+            
+            if (s === name) {
+              screenEl.classList.remove('hidden');
+              tabBtn.className = "py-2 rounded-xl bg-white text-[#18181b] shadow-xs transition-all";
+            } else {
+              screenEl.classList.add('hidden');
+              tabBtn.className = "py-2 rounded-xl hover:text-[#18181b] transition-all";
+            }
+          });
+          
+        }
+      },
+
+      // 2. Modal Controller (Apple HIG Bottom Sheet Manager)
+      Modal: {
+        open(modalId) {
+          const modal = document.getElementById(modalId);
+          if (!modal) return;
+          modal.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+        },
+
+        close(modalId) {
+          const modal = document.getElementById(modalId);
+          if (!modal) return;
+          modal.classList.add('hidden');
+          document.body.style.overflow = 'auto';
+        }
+      },
+
+      // 3. UI Control Helpers (Switches & Optical Headlight Simulation)
+      Controls: {
+        toggleSwitch(el) {
+          el.classList.toggle('active');
+        },
+
+        setBeamColor(kelvin, colorHex, glowColor, fullName, btnEl) {
+          // Reset seluruh styling kartu spektrum
+          document.querySelectorAll('.kelvin-card').forEach(c => {
+            c.className = "kelvin-card p-2.5 rounded-xl border border-[#e4e4e7] bg-white flex items-center gap-2.5 text-left hover:border-[#18181b] transition-all";
+          });
+          // Tandai kartu aktif dengan border tegas
+          btnEl.className = "kelvin-card p-2.5 rounded-xl border-2 border-[#18181b] bg-[#f4f4f5] flex items-center gap-2.5 text-left transition-all";
+
+          // Animasi Sorot Cahaya Optik (Chamber Glow)
+          const glow = document.getElementById('biledBeamGlow');
+          if (glow) {
+            glow.style.background = `radial-gradient(circle at 50% 45%, ${glowColor} 0%, rgba(0,0,0,0) 70%)`;
+          }
+
+          // Update Warna Iris Lensa Projector & Shadow Luminescence
+          const iris = document.getElementById('biledLensIris');
+          if (iris) {
+            iris.style.backgroundColor = colorHex;
+            iris.style.boxShadow = `0 0 24px ${colorHex}`;
+          }
+
+          // Update Label Teks Spektrum
+          const nameLabel = document.getElementById('biledActiveName');
+          if (nameLabel) {
+            nameLabel.innerText = fullName;
+          }
+        }
+      }
+    };
+
+    // Close modals on ESC key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('[data-component="SheetModal"]').forEach(m => {
+          m.classList.add('hidden');
+        });
+        document.body.style.overflow = 'auto';
+      }
+    });
+  </script>
+</body>
+</html>

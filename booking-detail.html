@@ -3,224 +3,188 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>Detail Booking — Nine Autogarage</title>
+  <title>Tiket Servis Pit 02 — Nine Autogarage</title>
+  
+  <!-- Fonts & Phosphor Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS Engine & Design Tokens -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/config.js"></script>
-  <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/base.css"/>
-  <link rel="stylesheet" href="assets/components.css"/>
+  
+  <style>
+    body {
+      background-color: #fafafa;
+      color: #18181b;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
 </head>
-<body data-tab="booking" data-notab="true" class="bg-surface font-body text-body text-on-surface flex flex-col antialiased selection:bg-accent-subtle selection:text-accent-text" data-search="off" data-title="Tiket Servis #TGR-8821">
 
-<main class="w-full max-w-md mx-auto pt-16 pb-32 min-h-screen px-4 flex flex-col space-y-4">
+<body data-tab="booking" class="min-h-screen bg-[#fafafa] flex flex-col antialiased selection:bg-accent-100 selection:text-accent-700">
 
-  <!-- Apple Wallet Style Pass Card (Emerald Primary Green) -->
-  <div class="mt-2 rounded-2xl overflow-hidden shadow-lg border border-emerald-500/40 bg-gradient-to-br from-[#15803d] via-[#16a34a] to-[#14532d] text-white relative">
-    
-    <!-- Top Pass Header -->
-    <div class="p-4 bg-emerald-950/35 backdrop-blur-xs flex items-center justify-between border-b border-white/15">
-      <div class="flex items-center gap-2.5">
-        <div class="w-9 h-9 rounded-xl bg-white/15 flex items-center justify-center text-white">
-          <i class="ph-bold ph-wrench text-xl"></i>
-        </div>
-        <div>
-          <span class="font-micro text-[9px] uppercase tracking-widest text-emerald-200 font-bold block">Nine Garage Pass</span>
-          <h2 class="font-headline text-base text-white font-bold tracking-tight">TGR-8821-2026</h2>
-        </div>
+  <!-- ============================================================== -->
+  <!-- COMPONENT: AppHeader (Styling Ikon Bulat Sesuai Halaman Home)    -->
+  <!-- ============================================================== -->
+  <header data-component="AppHeader" class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e4e4e7] pt-safe">
+    <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between gap-2">
+      <!-- Back Button -->
+      <a href="booking.html" aria-label="Kembali ke Booking" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-caret-left text-[20px]"></i>
+      </a>
+
+      <!-- Page Title -->
+      <div class="flex-1 text-center min-w-0">
+        <h1 class="text-sm font-bold text-[#18181b] truncate">Pass Digital #TGR-8821</h1>
+        <p class="text-[10px] text-[#71717a] truncate">Pit 02 · Arcadia BSD</p>
       </div>
-      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white font-micro text-[9px] font-bold uppercase tracking-wider border border-white/20 shadow-xs">
-        Confirmed
-      </span>
+
+      <!-- Quick CS Help Button -->
+      <a href="https://wa.me/6281234567890" target="_blank" aria-label="Bantuan CS" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-headset text-[20px]"></i>
+      </a>
     </div>
+  </header>
 
-    <!-- Pass Body -->
-    <div class="p-4 flex flex-col gap-3.5">
-      <!-- Date & Location -->
-      <div class="grid grid-cols-2 gap-2 text-xs">
-        <div>
-          <span class="text-[10px] uppercase tracking-wider text-emerald-200 block font-medium">Tanggal Kedatangan</span>
-          <span class="font-bold text-white block mt-0.5">Sabtu, 11 Okt 2026</span>
-          <span class="font-mono text-xs text-white/90 font-bold">10:30 – 13:00 WIB</span>
-        </div>
-        <div>
-          <span class="text-[10px] uppercase tracking-wider text-emerald-200 block font-medium">Alokasi Pit &amp; Lokasi</span>
-          <span class="font-bold text-white block mt-0.5">Arcadia BSD · Pit 02</span>
-          <span class="text-xs text-emerald-100/90">Teknisi: Mas Dimas</span>
-        </div>
-      </div>
+  <!-- ============================================================== -->
+  <!-- MAIN CONTENT CONTAINER                                         -->
+  <!-- ============================================================== -->
+  <main class="w-full max-w-md mx-auto pt-20 pb-28 px-4 flex flex-col gap-4">
 
-      <!-- Perforated Tear Notch Line -->
-      <div class="relative my-0.5">
-        <div class="border-b border-dashed border-white/25"></div>
-        <div class="absolute -left-6 -top-2.5 w-5 h-5 rounded-full bg-[#f8f8fa]"></div>
-        <div class="absolute -right-6 -top-2.5 w-5 h-5 rounded-full bg-[#f8f8fa]"></div>
-      </div>
-
-      <!-- Vehicle & Unit Detail -->
-      <div class="flex items-center justify-between">
-        <div>
-          <span class="text-[10px] uppercase tracking-wider text-emerald-200 block font-medium">Unit Kendaraan</span>
-          <span class="font-bold text-sm text-white block">Yamaha NMAX 155 Connected</span>
-          <span class="font-mono text-xs text-emerald-100/90">B 1234 XYZ · Hitam Doff</span>
-        </div>
-        <div class="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center text-white">
-          <i class="ph-bold ph-motorcycle text-2xl"></i>
-        </div>
-      </div>
-
-      <!-- Check-in QR Pass Section -->
-      <div class="p-3.5 rounded-xl bg-white text-primary-950 flex items-center justify-between shadow-xs">
-        <div class="flex items-center gap-3">
-          <div class="p-1 rounded-lg border border-neutral-200 bg-neutral-50">
-            <i class="ph-bold ph-qr-code text-4xl text-emerald-700"></i>
+    <!-- COMPONENT: WalletPassCard (Kartu Pass Digital dengan Tear Notch) -->
+    <section data-component="WalletPassCard" class="ios-card bg-[#18181b] text-white overflow-hidden relative shadow-lg">
+      <!-- Pass Header -->
+      <div class="p-4 bg-neutral-900 border-b border-neutral-800 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-white">
+            <i class="ph-bold ph-wrench text-lg"></i>
           </div>
           <div>
-            <span class="font-micro text-[9px] uppercase text-neutral-500 font-bold block">Pindai di Meja Pit Bengkel</span>
-            <span class="font-mono text-sm font-black text-primary-950">9N-CHK-8821</span>
+            <span class="text-[10px] text-[#a1a1aa] uppercase font-bold tracking-wider block">Nine Garage Pass</span>
+            <h2 class="text-sm font-bold text-white tracking-tight">TGR-8821-2026</h2>
           </div>
         </div>
-        <button type="button" onclick="nineToast('Kode check-in disalin','copy')" class="btn-secondary h-8 px-3 text-xs ios-press">
-          Salin
-        </button>
+        <span class="px-2.5 py-0.5 rounded-full bg-[#f0fdf4] text-[#15803d] text-[10px] font-bold border border-[#bbf7d0]">
+          CONFIRMED
+        </span>
       </div>
-    </div>
-  </div>
 
-  <!-- Service Progress Timeline (Apple HIG Inset Grouped) -->
-  <section class="ios-card p-4 shadow-2xs flex flex-col gap-3">
-    <div class="flex items-center justify-between">
-      <span class="ios-section-header mb-0">Status Pelaksanaan Servis</span>
-      <span class="text-xs font-bold text-accent-700">Sesuai Jadwal</span>
-    </div>
+      <!-- Pass Body -->
+      <div class="p-4 flex flex-col gap-3.5">
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div>
+            <span class="text-[10px] text-[#a1a1aa] block">Jadwal Kedatangan</span>
+            <strong class="text-white block mt-0.5">Sabtu, 11 Okt 2026</strong>
+            <span class="text-[10px] text-[#a1a1aa]">10:30 – 13:00 WIB</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-[#a1a1aa] block">Alokasi Pit & Lokasi</span>
+            <strong class="text-white block mt-0.5">Arcadia BSD · Pit 02</strong>
+            <span class="text-[10px] text-[#a1a1aa]">Teknisi: Mas Dimas</span>
+          </div>
+        </div>
 
-    <!-- Stepper Visual -->
-    <div class="flex items-center gap-1.5 mt-1">
-      <div class="flex-1 flex items-center">
-        <div class="w-7 h-7 rounded-full bg-accent-600 text-white flex items-center justify-center text-xs font-bold shrink-0 shadow-xs">
-          <i class="ph-bold ph-check"></i>
+        <!-- Perforated Tear Notch Line -->
+        <div class="relative my-0.5">
+          <div class="border-b border-dashed border-neutral-700"></div>
+          <div class="absolute -left-6 -top-2.5 w-5 h-5 rounded-full bg-[#fafafa]"></div>
+          <div class="absolute -right-6 -top-2.5 w-5 h-5 rounded-full bg-[#fafafa]"></div>
         </div>
-        <div class="flex-1 h-1 bg-accent-600"></div>
-      </div>
-      <div class="flex-1 flex items-center">
-        <div class="w-7 h-7 rounded-full bg-accent-600 text-white flex items-center justify-center text-xs font-bold shrink-0 shadow-xs">
-          <i class="ph-bold ph-check"></i>
-        </div>
-        <div class="flex-1 h-1 bg-accent-600"></div>
-      </div>
-      <div class="flex-1 flex items-center">
-        <div class="w-7 h-7 rounded-full bg-accent-600 text-white flex items-center justify-center text-xs font-bold shrink-0 shadow-xs ring-2 ring-accent-600/30">
-          3
-        </div>
-        <div class="flex-1 h-1 bg-neutral-200"></div>
-      </div>
-      <div class="w-7 h-7 rounded-full bg-white text-neutral-400 border border-neutral-200 flex items-center justify-center text-xs font-bold shrink-0 font-mono">
-        4
-      </div>
-    </div>
-    <div class="flex justify-between font-micro text-[10px] uppercase font-bold tracking-wider text-neutral-400">
-      <span class="text-accent-700">Booking</span>
-      <span class="text-accent-700">Check-in</span>
-      <span class="text-accent-700">Pengerjaan</span>
-      <span>Selesai</span>
-    </div>
-  </section>
 
-  <!-- Location & Route Card -->
-  <section class="ios-card p-4 shadow-2xs flex flex-col gap-3">
-    <span class="ios-section-header mb-0">Lokasi Cabang Workshop</span>
-    <div class="flex items-start gap-3">
-      <div class="w-10 h-10 rounded-xl bg-neutral-100 flex items-center justify-center text-primary-950 shrink-0">
-        <i class="ph-fill ph-map-pin text-xl text-accent-700"></i>
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-[10px] text-[#a1a1aa] block">Unit Kendaraan</span>
+            <strong class="text-sm text-white block">Yamaha NMAX 155</strong>
+            <span class="text-[10px] text-[#a1a1aa]">B 1234 XYZ · Hitam Doff</span>
+          </div>
+          <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white">
+            <i class="ph-bold ph-motorcycle text-xl"></i>
+          </div>
+        </div>
+
+        <!-- Check-in QR Code -->
+        <div class="p-3 rounded-2xl bg-white text-[#18181b] flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="p-1.5 rounded-xl border border-[#e4e4e7] bg-[#fafafa]">
+              <i class="ph-bold ph-qr-code text-3xl text-[#18181b]"></i>
+            </div>
+            <div>
+              <span class="text-[10px] text-[#71717a] block uppercase font-bold">Scan di Meja Pit</span>
+              <strong class="text-xs font-mono text-[#18181b]">9N-CHK-8821</strong>
+            </div>
+          </div>
+          <button type="button" onclick="navigator.clipboard?.writeText('9N-CHK-8821'); alert('Kode check-in 9N-CHK-8821 disalin!');" class="px-3 py-1.5 rounded-full bg-[#f4f4f5] text-xs font-bold text-[#18181b] hover:bg-[#e4e4e7] transition-all">
+            Salin
+          </button>
+        </div>
       </div>
-      <div class="flex-1 min-w-0">
-        <h4 class="font-headline text-xs font-bold text-primary-950">Nine Garage Flagship Arcadia BSD</h4>
-        <p class="text-xs text-neutral-500 mt-0.5">Jl. Boulevard Arcadia Blok G No. 8, Cisauk, Tangerang Selatan</p>
-        <span class="text-[11px] font-mono text-accent-700 font-bold mt-1 inline-block">Jam Buka: 09:00 – 18:00 WIB</span>
+    </section>
+
+    <!-- COMPONENT: ServiceProgressTimeline (Timeline Pelaksanaan) -->
+    <section data-component="ServiceProgressTimeline" class="ios-card p-4 flex flex-col gap-3">
+      <div class="flex items-center justify-between pb-2 border-b border-[#f4f4f5]">
+        <h3 class="text-xs font-bold text-[#18181b]">Status Pelaksanaan Servis</h3>
+        <span class="text-xs font-bold text-[#15803d]">Sesuai Jadwal</span>
       </div>
-    </div>
-    <div class="grid grid-cols-2 gap-2 mt-1">
-      <button onclick="nineToast('Membuka Google Maps ke Arcadia BSD...','map-pin')" class="btn-secondary h-10 text-xs font-bold flex items-center justify-center gap-1.5 ios-press">
-        <i class="ph-bold ph-arrow-square-out text-sm"></i><span>Rute Maps</span>
+
+      <div class="flex flex-col gap-3 text-xs">
+        <div class="flex items-start gap-3">
+          <div class="w-6 h-6 rounded-full bg-[#22c55e] text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">
+            <i class="ph-bold ph-check"></i>
+          </div>
+          <div>
+            <strong class="text-[#18181b] block">Reservasi Dikonfirmasi</strong>
+            <span class="text-[10px] text-[#71717a]">Slot Pit 02 berhasil dialokasikan</span>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3">
+          <div class="w-6 h-6 rounded-full bg-[#18181b] text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">
+            2
+          </div>
+          <div>
+            <strong class="text-[#18181b] block">Check-in di Bengkel</strong>
+            <span class="text-[10px] text-[#71717a]">Tunjukkan kode QR ke Service Advisor saat tiba</span>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3 opacity-60">
+          <div class="w-6 h-6 rounded-full bg-[#f4f4f5] text-[#71717a] flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">
+            3
+          </div>
+          <div>
+            <strong class="text-[#71717a] block">Pengerjaan & Kalibrasi Beam</strong>
+            <span class="text-[10px] text-[#71717a]">Pantau live work order lewat aplikasi</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPONENT: PassActionButtons (Navigasi & WhatsApp) -->
+    <section data-component="PassActionButtons" class="flex flex-col gap-2 pt-1">
+      <a href="https://maps.google.com" target="_blank" class="h-11 rounded-full bg-[#18181b] text-white text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#27272a] transition-all">
+        <i class="ph-bold ph-navigation-arrow text-base"></i>
+        <span>Buka Rute Maps ke Arcadia BSD</span>
+      </a>
+
+      <a href="work-order.html" class="h-11 rounded-full bg-white border border-[#e4e4e7] text-[#18181b] text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#f4f4f5] transition-all">
+        <i class="ph-bold ph-wrench text-base"></i>
+        <span>Lihat Live Work Order (SPK)</span>
+      </a>
+
+      <button type="button" onclick="window.open('https://wa.me/6281234567890?text=Halo%20Nine%20Garage%2C%20konfirmasi%20tiket%20TGR-8821', '_blank')" class="h-11 rounded-full bg-[#f4f4f5] text-[#18181b] text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#e4e4e7] transition-all">
+        <i class="ph-bold ph-whatsapp-logo text-base text-[#15803d]"></i>
+        <span>Hubungi CS Bengkel via WhatsApp</span>
       </button>
-      <button onclick="nineToast('Menghubungi PIC Bengkel via WA...','chat-circle')" class="btn-secondary h-10 text-xs font-bold flex items-center justify-center gap-1.5 ios-press">
-        <i class="ph-bold ph-whatsapp-logo text-sm text-emerald-600"></i><span>Chat Bengkel</span>
-      </button>
-    </div>
-  </section>
+    </section>
 
-  <!-- Selected Services Breakdown -->
-  <section class="ios-card overflow-hidden shadow-2xs">
-    <div class="px-4 py-2.5 bg-neutral-50 border-b border-neutral-100 flex items-center justify-between">
-      <span class="ios-section-header mb-0">Item Pengerjaan</span>
-      <span class="text-xs font-bold text-neutral-500 font-mono">2 Layanan</span>
-    </div>
-    <div class="divide-y divide-neutral-100">
-      <div class="p-3.5 flex items-center justify-between">
-        <div>
-          <span class="font-bold text-xs text-primary-950 block">Retrofit Biled Matrix E9 Pro</span>
-          <span class="text-xs text-neutral-500">Pemasangan lensa, leveling &amp; pengkabelan</span>
-        </div>
-        <span class="font-mono text-xs font-bold text-primary-950">Rp 250.000</span>
-      </div>
-      <div class="p-3.5 flex items-center justify-between">
-        <div>
-          <span class="font-bold text-xs text-primary-950 block">Kalibrasi Beam Digital (Luxmeter)</span>
-          <span class="text-xs text-neutral-500">Penyetelan fokus cut-off RHD</span>
-        </div>
-        <span class="font-mono text-xs font-bold text-primary-950">Rp 75.000</span>
-      </div>
-      <div class="p-3.5 bg-neutral-50/80 flex items-baseline justify-between">
-        <span class="font-bold text-xs text-primary-950">Total Estimasi</span>
-        <span class="font-headline text-base font-black font-mono text-accent-700">Rp 325.000</span>
-      </div>
-    </div>
-  </section>
+  </main>
 
-  <!-- Work Order Navigation Link -->
-  <section>
-    <a href="work-order.html" class="ios-card p-3.5 shadow-2xs flex items-center gap-3 ios-press">
-      <div class="w-10 h-10 rounded-xl bg-accent-50 text-accent-700 flex items-center justify-center shrink-0">
-        <i class="ph-fill ph-clipboard-text text-xl"></i>
-      </div>
-      <div class="flex-1 min-w-0">
-        <span class="font-bold text-xs text-primary-950 block">Surat Perintah Kerja (SPK) &amp; Tanda Tangan</span>
-        <span class="text-[11px] text-neutral-500 block mt-0.5">Lihat checklist inspeksi &amp; tanda tangan digital</span>
-      </div>
-      <i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>
-    </a>
-  </section>
-
-</main>
-
-<!-- Bottom Actions -->
-<div class="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-t border-neutral-200/80 px-4 py-3 pb-safe shadow-[0_-2px_12px_rgba(0,0,0,0.03)]">
-  <div class="max-w-md mx-auto grid grid-cols-2 gap-2.5">
-    <button onclick="nineToast('Menyimpan tiket ke Apple Wallet...','download')" class="btn-primary h-12 shadow-xs ios-press">
-      <i class="ph-bold ph-wallet text-lg"></i>
-      <span>Apple Wallet</span>
-    </button>
-    <button onclick="cancelBookingPrompt()" id="btnCancelBooking" class="btn-danger h-12 ios-press">
-      <span>Batalkan Booking</span>
-    </button>
-  </div>
-</div>
-
-<script src="assets/shell.js"></script>
-<script>
-  function cancelBookingPrompt() {
-    if (confirm("Apakah kamu yakin ingin membatalkan booking tiket #TGR-8821? Slot pit akan dikembalikan ke publik.")) {
-      var btn = document.getElementById("btnCancelBooking");
-      btn.textContent = "Dibatalkan";
-      btn.disabled = true;
-      btn.className = "btn-secondary h-12 opacity-60 cursor-not-allowed";
-      nineToast("Booking TGR-8821 telah dibatalkan", "x-circle");
-    }
-  }
-</script>
 </body>
 </html>

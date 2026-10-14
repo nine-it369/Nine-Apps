@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Keranjang Belanja — Nine Autogarage</title>
+  
+  <!-- Fonts & Phosphor Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS Engine & Design Tokens -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../assets/config.js"></script>
+  <link rel="stylesheet" href="../assets/base.css"/>
+  
+  <style>
+    body {
+      background-color: #fafafa;
+      color: #18181b;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+</head>
+
+<body data-tab="mall" class="min-h-screen bg-[#fafafa] flex flex-col antialiased selection:bg-accent-100 selection:text-accent-700">
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: AppHeader (Styling Ikon Bulat Sesuai Halaman Home)    -->
+  <!-- ============================================================== -->
+  <header data-component="AppHeader" class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e4e4e7] pt-safe">
+    <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between gap-2">
+      <!-- Back Button -->
+      <a href="mall.html" aria-label="Kembali ke Mall" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-caret-left text-[20px]"></i>
+      </a>
+
+      <!-- Page Title -->
+      <div class="flex-1 text-center min-w-0">
+        <h1 class="text-sm font-bold text-[#18181b] truncate">Keranjang Belanja</h1>
+        <p class="text-[10px] text-[#71717a] truncate">2 Item Terpilih · Gudang JKT</p>
+      </div>
+
+      <!-- Quick CS Help Button -->
+      <a href="https://wa.me/6281234567890" target="_blank" aria-label="Bantuan CS" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-headset text-[20px]"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- MAIN CONTENT CONTAINER                                         -->
+  <!-- ============================================================== -->
+  <main class="w-full max-w-md mx-auto pt-20 pb-36 px-4 flex flex-col gap-4">
+
+    <!-- COMPONENT: FreeShippingBanner -->
+    <section data-component="FreeShippingBanner" class="p-3.5 rounded-2xl bg-[#f0fdf4] border border-[#bbf7d0] flex flex-col gap-1.5 text-xs">
+      <div class="flex items-center justify-between font-bold text-[#14532d]">
+        <span class="flex items-center gap-1.5">
+          <i class="ph-bold ph-truck text-base text-[#15803d]"></i>
+          Bebas Ongkir ke Seluruh Indonesia
+        </span>
+        <span class="text-[10px] bg-[#22c55e] text-white px-2 py-0.5 rounded-full font-bold">Tercapai</span>
+      </div>
+      <div class="h-1.5 rounded-full bg-[#dcfce7] overflow-hidden">
+        <div class="h-full bg-[#22c55e] rounded-full" style="width: 100%;"></div>
+      </div>
+      <span class="text-[10px] text-[#15803d]">Pesanan kamu sudah di atas Rp 500.000. Bebas biaya kirim reguler.</span>
+    </section>
+
+    <!-- COMPONENT: CartItemList (Feed Item Keranjang) -->
+    <section data-component="CartItemList" class="flex flex-col gap-3" id="cartItemsContainer">
+
+      <!-- Item 1: Biled Matrix E9 Pro -->
+      <article data-component="CartItem" class="ios-card p-4 flex flex-col gap-3">
+        <div class="flex items-start gap-3">
+          <input type="checkbox" checked class="w-4 h-4 rounded mt-1 accent-[#18181b]"/>
+          <div class="w-16 h-16 rounded-xl bg-neutral-900 overflow-hidden shrink-0">
+            <img src="../lampu.jpg" alt="Biled E9 Pro" class="w-full h-full object-cover"/>
+          </div>
+          <div class="min-w-0 flex-1 text-xs">
+            <h3 class="font-bold text-[#18181b] truncate">Biled Matrix E9 Pro 3.0" 65W</h3>
+            <span class="text-[10px] text-[#71717a] block mt-0.5">Varian: Blue Lens 6000K (Universal)</span>
+            <span class="text-sm font-bold text-[#18181b] block mt-1.5">Rp 1.299.000</span>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-[#f4f4f5] flex items-center justify-between">
+          <button type="button" onclick="deleteItem(this)" class="text-xs text-[#ef4444] font-semibold hover:underline">
+            Hapus
+          </button>
+          <!-- Stepper -->
+          <div class="flex items-center gap-2 bg-[#f4f4f5] rounded-xl px-2 py-1">
+            <button type="button" onclick="changeQty(this, -1)" class="w-6 h-6 rounded-lg bg-white flex items-center justify-center font-bold text-xs">-</button>
+            <span class="text-xs font-bold w-4 text-center">1</span>
+            <button type="button" onclick="changeQty(this, 1)" class="w-6 h-6 rounded-lg bg-white flex items-center justify-center font-bold text-xs">+</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Item 2: Twin Snail Horn 118dB -->
+      <article data-component="CartItem" class="ios-card p-4 flex flex-col gap-3">
+        <div class="flex items-start gap-3">
+          <input type="checkbox" checked class="w-4 h-4 rounded mt-1 accent-[#18181b]"/>
+          <div class="w-16 h-16 rounded-xl bg-neutral-900 overflow-hidden shrink-0">
+            <img src="../dashcam.jpg" alt="Twin Snail Horn" class="w-full h-full object-cover"/>
+          </div>
+          <div class="min-w-0 flex-1 text-xs">
+            <h3 class="font-bold text-[#18181b] truncate">Twin Snail Horn 118dB + Relay 40A</h3>
+            <span class="text-[10px] text-[#71717a] block mt-0.5">Waterproof IP67 Pure Copper</span>
+            <span class="text-sm font-bold text-[#18181b] block mt-1.5">Rp 145.000</span>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-[#f4f4f5] flex items-center justify-between">
+          <button type="button" onclick="deleteItem(this)" class="text-xs text-[#ef4444] font-semibold hover:underline">
+            Hapus
+          </button>
+          <!-- Stepper -->
+          <div class="flex items-center gap-2 bg-[#f4f4f5] rounded-xl px-2 py-1">
+            <button type="button" onclick="changeQty(this, -1)" class="w-6 h-6 rounded-lg bg-white flex items-center justify-center font-bold text-xs">-</button>
+            <span class="text-xs font-bold w-4 text-center">1</span>
+            <button type="button" onclick="changeQty(this, 1)" class="w-6 h-6 rounded-lg bg-white flex items-center justify-center font-bold text-xs">+</button>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- COMPONENT: CouponCard -->
+    <section data-component="CouponCard" class="ios-card p-3.5 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-xl bg-[#f0fdf4] text-[#15803d] flex items-center justify-center font-bold">
+          <i class="ph-bold ph-ticket text-base"></i>
+        </div>
+        <div>
+          <span class="text-xs font-bold text-[#18181b] block">Kupon NINEFEST Digunakan</span>
+          <span class="text-[10px] text-[#15803d]">Diskon Rp 50.000 berhasil dipasang</span>
+        </div>
+      </div>
+      <i class="ph-bold ph-check-circle text-base text-[#15803d]"></i>
+    </section>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: FixedBottomCheckoutBar                              -->
+  <!-- ============================================================== -->
+  <div data-component="FixedBottomCheckoutBar" class="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-[#e4e4e7] pb-safe">
+    <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <div>
+        <span class="text-[10px] text-[#71717a] block">Total Pembayaran</span>
+        <span class="text-base font-bold text-[#18181b]" id="totalCartDisplay">Rp 1.394.000</span>
+      </div>
+      <a href="checkout.html" class="h-11 px-6 rounded-full bg-[#18181b] text-white text-xs font-bold flex items-center gap-1.5 hover:bg-[#27272a] transition-all">
+        <span>Lanjut ke Pembayaran</span>
+        <i class="ph-bold ph-caret-right text-xs"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- JAVASCRIPT CONTROLLERS                                         -->
+  <!-- ============================================================== -->
+  <script>
+    function changeQty(btn, delta) {
+      var span = btn.parentElement.querySelector('span');
+      var val = parseInt(span.innerText, 10) + delta;
+      if (val >= 1 && val <= 10) {
+        span.innerText = val;
+      }
+    }
+
+    function deleteItem(btn) {
+      var card = btn.closest('article');
+      if (card) {
+        card.remove();
+        alert("Item dihapus dari keranjang belanja.");
+      }
+    }
+  </script>
+</body>
+</html>

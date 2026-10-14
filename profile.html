@@ -3,329 +3,235 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>Akun Saya — Nine Autogarage</title>
+  <title>Akun Pengguna — Nine Autogarage</title>
+  
+  <!-- Fonts & Phosphor Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS Engine & Design Tokens -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/config.js"></script>
-  <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/base.css"/>
-  <link rel="stylesheet" href="assets/components.css"/>
+  
+  <style>
+    body {
+      background-color: #fafafa;
+      color: #18181b;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
 </head>
-<body data-tab="akun" class="bg-surface font-body text-body text-on-surface flex flex-col antialiased selection:bg-accent-subtle selection:text-accent-text" data-search="off" data-title="Akun Pengguna">
 
-<main class="w-full max-w-md mx-auto pt-16 pb-32 min-h-screen px-4 space-y-6">
+<body data-tab="profile" class="min-h-screen bg-[#fafafa] flex flex-col antialiased selection:bg-accent-100 selection:text-accent-700">
 
-  <!-- 1. Profile Header Card (Apple Inset Card - Clean & Airy) -->
-  <section class="ios-card p-5 mt-2 flex flex-col gap-4">
-    <div class="flex items-center justify-between gap-3">
-      <div class="flex items-center gap-3.5 min-w-0">
-        <!-- Avatar with Emerald Gradient and Verified Check -->
-        <div class="relative shrink-0">
-          <div class="w-16 h-16 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 text-white flex items-center justify-center font-headline text-2xl font-black shadow-sm ring-4 ring-emerald-50">
-            RK
-          </div>
-          <div class="absolute -bottom-0.5 -right-0.5 w-6 h-6 rounded-full bg-white flex items-center justify-center shadow-xs">
-            <div class="w-5 h-5 rounded-full bg-accent-600 flex items-center justify-center text-white">
-              <i class="ph-bold ph-seal-check text-xs"></i>
+  <!-- ============================================================== -->
+  <!-- COMPONENT: AppHeader (Styling Ikon Bulat Sesuai Halaman Home)    -->
+  <!-- ============================================================== -->
+  <header data-component="AppHeader" class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e4e4e7] pt-safe">
+    <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between gap-2">
+      <!-- Back Button -->
+      <a href="home.html" aria-label="Kembali ke Beranda" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-caret-left text-[20px]"></i>
+      </a>
+
+      <!-- Page Title -->
+      <div class="flex-1 text-center min-w-0">
+        <h1 class="text-sm font-bold text-[#18181b] truncate">Akun Saya</h1>
+        <p class="text-[10px] text-[#71717a] truncate">ID Member: 9N-88219</p>
+      </div>
+
+      <!-- Quick CS Help Button -->
+      <a href="https://wa.me/6281234567890" target="_blank" aria-label="Bantuan CS" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-headset text-[20px]"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- MAIN CONTENT CONTAINER                                         -->
+  <!-- ============================================================== -->
+  <main class="w-full max-w-md mx-auto pt-20 pb-28 px-4 flex flex-col gap-4">
+
+    <!-- COMPONENT: ProfileHeaderCard (Informasi Akun & Tier) -->
+    <section data-component="ProfileHeaderCard" class="ios-card p-4 flex flex-col gap-3.5">
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="relative shrink-0">
+            <div class="w-14 h-14 rounded-full bg-[#18181b] text-white flex items-center justify-center font-bold text-lg">
+              RK
+            </div>
+            <div class="absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full bg-[#22c55e] text-white flex items-center justify-center text-[10px] ring-2 ring-white">
+              <i class="ph-bold ph-seal-check"></i>
             </div>
           </div>
-        </div>
-        <!-- Name & Member Tier -->
-        <div class="min-w-0">
-          <div class="flex items-center gap-2">
-            <h2 class="font-headline text-lg text-primary-950 font-bold truncate">Rob Kusuma</h2>
-            <span class="px-2 py-0.5 rounded-full bg-accent-50 border border-accent-200/80 text-accent-700 font-micro text-[10px] font-bold uppercase tracking-wider shrink-0">
-              Platinum
-            </span>
+          <div class="min-w-0">
+            <div class="flex items-center gap-2">
+              <h2 class="text-sm font-bold text-[#18181b] truncate">Rob Kusuma</h2>
+              <span class="px-2 py-0.5 rounded-full bg-[#f4f4f5] text-[#18181b] text-[10px] font-bold">Platinum</span>
+            </div>
+            <p class="text-xs text-[#71717a] mt-0.5 truncate">+62 812-8899-7700</p>
+            <span class="text-[10px] text-[#15803d] font-semibold mt-0.5 block">Member Resmi sejak 2024</span>
           </div>
-          <p class="font-mono text-xs text-neutral-500 mt-0.5 truncate">+62 812-8899-7700</p>
-          <span class="text-[11px] font-mono text-neutral-400 block mt-0.5">ID: 9N-88219</span>
+        </div>
+
+        <button type="button" onclick="alert('Buka dialog edit profil')" class="px-3 py-1.5 rounded-full bg-[#f4f4f5] text-xs font-bold text-[#18181b] hover:bg-[#e4e4e7] transition-all shrink-0">
+          Edit
+        </button>
+      </div>
+
+      <div class="pt-3 border-t border-[#f4f4f5] flex items-center justify-between text-xs">
+        <span class="text-[#71717a] flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#22c55e]"></span>
+          Autogarage Pass Aktif
+        </span>
+        <span class="font-bold text-[#15803d]">Berlaku s/d Des 2026</span>
+      </div>
+    </section>
+
+    <!-- COMPONENT: LoyaltyBalances (Koin & Poin Garasi) -->
+    <section data-component="LoyaltyBalances" class="grid grid-cols-2 gap-3">
+      <!-- Nine Koin -->
+      <div class="ios-card p-3.5 flex flex-col justify-between h-24">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-bold text-[#71717a] uppercase">Nine Koin</span>
+          <i class="ph-fill ph-coins text-base text-[#22c55e]"></i>
+        </div>
+        <div>
+          <div class="text-xl font-bold text-[#18181b]">1.250</div>
+          <span class="text-[10px] text-[#71717a]">Setara Rp 12.500</span>
         </div>
       </div>
-      <!-- Edit Profile Action Button -->
-      <button type="button" onclick="nineToast('Buka formulir edit profil','pencil-simple')" class="tap-44 h-9 px-3 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-primary-950 font-bold text-xs flex items-center gap-1.5 active:scale-95 transition-all shrink-0" aria-label="Edit Profil">
-        <i class="ph-bold ph-pencil-simple text-sm"></i>
-        <span>Edit</span>
-      </button>
-    </div>
 
-    <!-- Active Membership Pass Status Strip -->
-    <div class="pt-3 border-t border-neutral-100 flex items-center justify-between text-xs">
-      <div class="flex items-center gap-2 min-w-0">
-        <span class="w-2.5 h-2.5 rounded-full bg-accent-600 animate-pulse shrink-0"></span>
-        <span class="font-medium text-neutral-700 truncate">Autogarage Pass Active</span>
-      </div>
-      <span class="font-mono text-[11px] text-accent-700 font-bold shrink-0">Berlaku s/d Des 2026</span>
-    </div>
-  </section>
-
-  <!-- 2. Dual Loyalty Balance Cards (Nine Koin & Garage Points) -->
-  <section class="grid grid-cols-2 gap-3">
-    <!-- Nine Koin (Mall) -->
-    <a href="orders.html" class="ios-card p-4 flex flex-col justify-between active:scale-[0.98] transition-all group">
-      <div class="flex items-center justify-between">
-        <div class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-          <i class="ph-bold ph-coins text-lg"></i>
+      <!-- Garage Points -->
+      <div class="ios-card p-3.5 flex flex-col justify-between h-24">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-bold text-[#71717a] uppercase">Poin Garasi</span>
+          <i class="ph-bold ph-medal text-base text-[#18181b]"></i>
         </div>
-        <span class="font-micro text-[10px] uppercase tracking-wider text-neutral-400 font-bold">Nine Koin</span>
-      </div>
-      <div class="my-3">
-        <span class="font-headline text-2xl font-bold font-mono text-primary-950">1.250</span>
-        <span class="font-caption text-xs text-neutral-500 block mt-0.5">Setara Rp 12.500</span>
-      </div>
-      <span class="py-1.5 px-2.5 rounded-xl bg-neutral-100 group-hover:bg-neutral-200/80 text-primary-950 font-micro text-xs font-bold flex items-center justify-between transition-colors">
-        <span>Tukar Koin</span>
-        <i class="ph-bold ph-caret-right text-neutral-400"></i>
-      </span>
-    </a>
-
-    <!-- Garage Points (Bengkel) -->
-    <a href="service-history.html" class="ios-card p-4 flex flex-col justify-between active:scale-[0.98] transition-all group">
-      <div class="flex items-center justify-between">
-        <div class="w-8 h-8 rounded-xl bg-accent-50 text-accent-700 flex items-center justify-center">
-          <i class="ph-bold ph-medal text-lg"></i>
+        <div>
+          <div class="text-xl font-bold text-[#18181b]">340 Pts</div>
+          <span class="text-[10px] text-[#15803d] font-semibold">Tier Master Pit</span>
         </div>
-        <span class="font-micro text-[10px] uppercase tracking-wider text-neutral-400 font-bold">Garage Points</span>
       </div>
-      <div class="my-3">
-        <span class="font-headline text-2xl font-bold font-mono text-primary-950">340</span>
-        <span class="font-caption text-xs text-neutral-500 block mt-0.5">Tier Master Bengkel</span>
-      </div>
-      <span class="py-1.5 px-2.5 rounded-xl bg-neutral-100 group-hover:bg-neutral-200/80 text-primary-950 font-micro text-xs font-bold flex items-center justify-between transition-colors">
-        <span>Klaim Hadiah</span>
-        <i class="ph-bold ph-caret-right text-neutral-400"></i>
-      </span>
-    </a>
-  </section>
+    </section>
 
-  <!-- 3. Active Vehicle & Accessories Inset Card -->
-  <section class="ios-card overflow-hidden">
-    <div class="px-4 py-3 bg-neutral-50/80 border-b border-neutral-200/70 flex items-center justify-between">
-      <span class="ios-section-header mb-0">Kendaraan Terdaftar</span>
-      <button type="button" onclick="nineToast('Buka formulir tambah kendaraan garasi','plus-circle')" class="text-xs font-bold text-accent-700 hover:text-accent-800 flex items-center gap-1">
-        <i class="ph-bold ph-plus"></i>Tambah Unit
-      </button>
-    </div>
-    
-    <div class="p-4 flex items-center justify-between gap-3">
-      <div class="flex items-center gap-3.5 min-w-0">
-        <div class="w-12 h-12 rounded-xl bg-primary-950 text-white flex items-center justify-center shrink-0 shadow-2xs">
-          <i class="ph-bold ph-motorcycle text-xl"></i>
+    <!-- COMPONENT: ActiveVehicleCard (Kendaraan Terhubung) -->
+    <section data-component="ActiveVehicleCard" class="ios-card p-4 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-10 h-10 rounded-2xl bg-[#18181b] text-white flex items-center justify-center shrink-0">
+          <i class="ph-bold ph-motorcycle text-lg"></i>
         </div>
         <div class="min-w-0">
           <div class="flex items-center gap-2">
-            <h3 class="font-body-semibold text-sm text-primary-950 font-bold truncate">Yamaha NMAX 155</h3>
-            <span class="w-2 h-2 rounded-full bg-accent-600 shrink-0"></span>
+            <h3 class="text-xs font-bold text-[#18181b] truncate">Yamaha NMAX 155</h3>
+            <span class="w-1.5 h-1.5 rounded-full bg-[#22c55e]"></span>
           </div>
-          <p class="font-mono text-xs text-neutral-500 mt-0.5">B 1234 XYZ · Hitam Doff (Non-EV)</p>
-          <span class="font-micro text-xs text-accent-700 font-bold mt-1 block">3 Aksesori Terhubung Aktif</span>
+          <p class="text-[11px] text-[#71717a] mt-0.5">B 1234 XYZ · 3 Aksesori Aktif</p>
         </div>
       </div>
-      <a href="accecories.html" class="px-3.5 py-2 rounded-xl bg-neutral-100 hover:bg-neutral-200 font-micro text-xs font-bold text-primary-950 transition-colors shrink-0">
+      <a href="accecories.html" class="px-3 py-1.5 rounded-full bg-[#f4f4f5] text-xs font-bold text-[#18181b] hover:bg-[#e4e4e7] transition-all shrink-0">
         Kelola
       </a>
-    </div>
+    </section>
 
-    <div class="border-t border-neutral-100 px-4 py-3 bg-neutral-50/50 flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <i class="ph-bold ph-share-network text-accent-700 text-base"></i>
-        <span class="text-xs text-neutral-600 font-medium">1 Tautan Berbagi Lokasi GPS Aktif</span>
+    <!-- COMPONENT: MenuListGroup (Menu Transaksi & Garasi) -->
+    <section data-component="MenuListGroup" class="flex flex-col gap-2">
+      <h3 class="text-xs font-bold text-[#18181b] px-0.5">Transaksi & Garasi</h3>
+
+      <div class="ios-card divide-y divide-[#f4f4f5] overflow-hidden text-xs">
+        <a href="orders.html" class="p-3.5 flex items-center justify-between hover:bg-[#fafafa] transition-all">
+          <div class="flex items-center gap-3">
+            <i class="ph-bold ph-package text-base text-[#18181b]"></i>
+            <span class="font-bold text-[#18181b]">Pesanan Mall</span>
+          </div>
+          <div class="flex items-center gap-2 text-[#71717a]">
+            <span class="text-[10px] font-semibold text-[#15803d]">1 Dikirim</span>
+            <i class="ph-bold ph-caret-right text-xs"></i>
+          </div>
+        </a>
+
+        <a href="booking-detail.html" class="p-3.5 flex items-center justify-between hover:bg-[#fafafa] transition-all">
+          <div class="flex items-center gap-3">
+            <i class="ph-bold ph-ticket text-base text-[#18181b]"></i>
+            <span class="font-bold text-[#18181b]">Tiket Servis Aktif (Pit 02)</span>
+          </div>
+          <i class="ph-bold ph-caret-right text-xs text-[#71717a]"></i>
+        </a>
+
+        <a href="service-history.html" class="p-3.5 flex items-center justify-between hover:bg-[#fafafa] transition-all">
+          <div class="flex items-center gap-3">
+            <i class="ph-bold ph-clock-counter-clockwise text-base text-[#18181b]"></i>
+            <span class="font-bold text-[#18181b]">Riwayat Pengerjaan Bengkel</span>
+          </div>
+          <i class="ph-bold ph-caret-right text-xs text-[#71717a]"></i>
+        </a>
       </div>
-      <a href="device-gps.html" class="text-xs text-primary-950 font-bold underline hover:text-accent-700">
-        Lihat Peta
+    </section>
+
+    <!-- COMPONENT: AppSettingsGroup (Pengaturan Aplikasi) -->
+    <section data-component="AppSettingsGroup" class="flex flex-col gap-2">
+      <h3 class="text-xs font-bold text-[#18181b] px-0.5">Pengaturan Aplikasi</h3>
+
+      <div class="ios-card divide-y divide-[#f4f4f5] overflow-hidden text-xs">
+        <div class="p-3.5 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <i class="ph-bold ph-bell-simple text-base text-[#18181b]"></i>
+            <span class="font-bold text-[#18181b]">Notifikasi Real-time</span>
+          </div>
+          <div class="switch-toggle active" onclick="this.classList.toggle('active')"></div>
+        </div>
+
+        <div class="p-3.5 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <i class="ph-bold ph-shield-check text-base text-[#18181b]"></i>
+            <span class="font-bold text-[#18181b]">Keamanan & Verifikasi PIN</span>
+          </div>
+          <i class="ph-bold ph-caret-right text-xs text-[#71717a]"></i>
+        </div>
+
+        <button type="button" onclick="alert('Keluar dari sesi akun')" class="p-3.5 w-full flex items-center justify-between text-left hover:bg-[#fff5f5] transition-all">
+          <div class="flex items-center gap-3 text-[#ef4444]">
+            <i class="ph-bold ph-sign-out text-base"></i>
+            <span class="font-bold">Keluar Akun</span>
+          </div>
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: BottomTabBar (Apple HIG Translucent Navigation)      -->
+  <!-- ============================================================== -->
+  <nav data-component="BottomTabBar" class="fixed bottom-0 inset-x-0 z-40 bg-white/90 backdrop-blur-xl border-t border-[#e4e4e7] pb-safe">
+    <div class="max-w-md mx-auto h-16 px-2 flex items-center justify-around">
+      <a href="home.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-house text-xl"></i>
+        <span>Beranda</span>
+      </a>
+      <a href="accecories.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-cpu text-xl"></i>
+        <span>Aksesori</span>
+      </a>
+      <a href="mall.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-storefront text-xl"></i>
+        <span>Mall</span>
+      </a>
+      <a href="booking.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-calendar-dots text-xl"></i>
+        <span>Booking</span>
+      </a>
+      <a href="profile.html" class="flex flex-col items-center gap-0.5 text-[#18181b] font-bold text-[10.5px]">
+        <i class="ph-fill ph-user-circle text-xl text-[#18181b]"></i>
+        <span>Akun</span>
       </a>
     </div>
-  </section>
+  </nav>
 
-  <!-- 4. Group 1: Belanja di Mall -->
-  <section>
-    <span class="ios-section-header">Belanja &amp; E-Commerce (Nine Mall)</span>
-    <div class="ios-list-group">
-      <a href="orders.html" class="ios-list-row">
-        <div class="flex items-center gap-3 min-w-0">
-          <div class="ios-list-icon"><i class="ph-bold ph-receipt text-lg"></i></div>
-          <div class="min-w-0">
-            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Pesanan Saya</span>
-            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">1 Pesanan sedang dikirim J&amp;T Express</span>
-          </div>
-        </div>
-        <div class="flex items-center gap-2 shrink-0">
-          <span class="px-2 py-0.5 rounded-full bg-neutral-100 border border-neutral-200 text-neutral-700 font-micro text-[10px] font-bold">Dikirim</span>
-          <i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>
-        </div>
-      </a>
-
-      <a href="checkout.html" class="ios-list-row">
-        <div class="flex items-center gap-3 min-w-0">
-          <div class="ios-list-icon"><i class="ph-bold ph-map-pin text-lg"></i></div>
-          <div class="min-w-0">
-            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Buku Alamat Pengiriman</span>
-            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">Arcadia Residence, Tangerang</span>
-          </div>
-        </div>
-        <i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>
-      </a>
-
-      <div onclick="nineToast('Program Afiliasi 4%: Saldo Rp 480.000','coins')" class="ios-list-row">
-        <div class="flex items-center gap-3 min-w-0">
-          <div class="ios-list-icon"><i class="ph-bold ph-handshake text-lg"></i></div>
-          <div class="min-w-0">
-            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Program Afiliasi Mitra (4%)</span>
-            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">Komisi aktif: Rp 480.000</span>
-          </div>
-        </div>
-        <i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5. Group 2: Bengkel & Layanan Workshop -->
-  <section>
-    <span class="ios-section-header">Bengkel &amp; Servis (Nine Garage)</span>
-    <div class="ios-list-group">
-      <a href="service-history.html" class="ios-list-row">
-        <div class="flex items-center gap-3 min-w-0">
-          <div class="ios-list-icon"><i class="ph-bold ph-clock-counter-clockwise text-lg"></i></div>
-          <div class="min-w-0">
-            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Riwayat Servis &amp; Retrofit</span>
-            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">11 Total Pengerjaan di Bengkel</span>
-          </div>
-        </div>
-        <i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>
-      </a>
-
-      <a href="booking-detail.html" class="ios-list-row">
-        <div class="flex items-center gap-3 min-w-0">
-          <div class="ios-list-icon"><i class="ph-bold ph-calendar-check text-lg"></i></div>
-          <div class="min-w-0">
-            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Tiket Servis Aktif</span>
-            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">Sabtu, 11 Okt · Arcadia BSD (Pit 02)</span>
-          </div>
-        </div>
-        <div class="flex items-center gap-2 shrink-0">
-          <span class="px-2 py-0.5 rounded-full bg-neutral-100 border border-neutral-200 text-neutral-700 font-micro text-[10px] font-bold">Pit 02</span>
-          <i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>
-        </div>
-      </a>
-
-      <div onclick="nineToast('Kode Referral Kamu: NINE-ROB88 (+50 Pts)','gift')" class="ios-list-row">
-        <div class="flex items-center gap-3 min-w-0">
-          <div class="ios-list-icon"><i class="ph-bold ph-gift text-lg"></i></div>
-          <div class="min-w-0">
-            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Referral Teman (+50 Pts)</span>
-            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">Bagikan kode dan dapatkan poin garasi</span>
-          </div>
-        </div>
-        <i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>
-      </div>
-    </div>
-  </section>
-
-  <!-- 6. Group 3: Pengaturan Apple HIG (Settings) -->
-  <section>
-    <span class="ios-section-header">Pengaturan Aplikasi</span>
-    <div class="ios-list-group">
-      
-      <!-- Setting 1: Notifikasi Real-time Push Toggle -->
-      <div class="ios-list-row cursor-default">
-        <div class="flex items-center gap-3 min-w-0">
-          <div class="ios-list-icon"><i class="ph-bold ph-bell-simple text-lg"></i></div>
-          <div class="min-w-0">
-            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Notifikasi Real-time</span>
-            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">Update status servis &amp; pesanan kurir</span>
-          </div>
-        </div>
-        <label class="ios-toggle">
-          <input type="checkbox" checked onchange="window.nineToast(this.checked?'Notifikasi diaktifkan':'Notifikasi dinonaktifkan','bell-simple')"/>
-          <span class="ios-toggle-track">
-            <span class="ios-toggle-thumb"></span>
-          </span>
-        </label>
-      </div>
-
-      <!-- Setting 2: Kunci Aplikasi / Biometrik Face ID -->
-      <div class="ios-list-row cursor-default">
-        <div class="flex items-center gap-3 min-w-0">
-          <div class="ios-list-icon"><i class="ph-bold ph-fingerprint text-lg"></i></div>
-          <div class="min-w-0">
-            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Biometrik &amp; Face ID</span>
-            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">Kunci aplikasi saat tidak aktif</span>
-          </div>
-        </div>
-        <label class="ios-toggle">
-          <input type="checkbox" checked onchange="window.nineToast(this.checked?'Face ID diaktifkan':'Face ID dinonaktifkan','fingerprint')"/>
-          <span class="ios-toggle-track">
-            <span class="ios-toggle-thumb"></span>
-          </span>
-        </label>
-      </div>
-
-      <!-- Setting 3: Keamanan & Kata Sandi -->
-      <div onclick="nineToast('Pengaturan keamanan & sandi dibuka','lock-key')" class="ios-list-row">
-        <div class="flex items-center gap-3 min-w-0">
-          <div class="ios-list-icon"><i class="ph-bold ph-shield-check text-lg"></i></div>
-          <div class="min-w-0">
-            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Keamanan &amp; Sandi Akun</span>
-            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">2FA WhatsApp &amp; autentikasi login</span>
-          </div>
-        </div>
-        <i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>
-      </div>
-
-      <!-- Setting 4: Bahasa & Wilayah -->
-      <div onclick="nineToast('Bahasa default: Indonesia (ID)','globe')" class="ios-list-row">
-        <div class="flex items-center gap-3 min-w-0">
-          <div class="ios-list-icon"><i class="ph-bold ph-globe text-lg"></i></div>
-          <div class="min-w-0">
-            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Bahasa &amp; Wilayah</span>
-            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">Indonesia (WIB)</span>
-          </div>
-        </div>
-        <div class="flex items-center gap-2 shrink-0">
-          <span class="text-xs text-neutral-400 font-bold font-mono">ID</span>
-          <i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>
-        </div>
-      </div>
-
-      <!-- Setting 5: Pusat Bantuan & CS -->
-      <div onclick="window.nineOpenHelp()" class="ios-list-row">
-        <div class="flex items-center gap-3 min-w-0">
-          <div class="ios-list-icon"><i class="ph-bold ph-headset text-lg"></i></div>
-          <div class="min-w-0">
-            <span class="font-body-semibold text-caption text-primary-950 font-bold block truncate">Pusat Bantuan &amp; CS</span>
-            <span class="font-caption text-caption text-neutral-500 block truncate mt-0.5">WhatsApp hotline resmi bengkel Nine</span>
-          </div>
-        </div>
-        <i class="ph-bold ph-caret-right text-neutral-400 text-sm"></i>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- 7. Logout Button -->
-  <section class="pt-2">
-    <a href="auth.html" class="btn-danger w-full">
-      <i class="ph-bold ph-sign-out text-lg"></i>
-      <span>Keluar dari Akun</span>
-    </a>
-
-    <!-- Footer App Details -->
-    <div class="mt-8 flex flex-col items-center text-center pb-6">
-      <div class="w-7 h-7 rounded-xl bg-primary-950 text-white flex items-center justify-center font-headline text-xs font-bold mb-2 shadow-2xs">
-        9
-      </div>
-      <p class="font-micro text-micro text-neutral-500 uppercase tracking-widest font-bold">Nine Autogarage Ecosystem</p>
-      <p class="font-caption text-[11px] text-neutral-400 mt-0.5">Versi 3.8.4 (Build 2026.10) · Apple Human Interface Guidelines</p>
-    </div>
-  </section>
-
-</main>
-
-<script src="assets/shell.js"></script>
-<script src="assets/components.js"></script>
 </body>
 </html>

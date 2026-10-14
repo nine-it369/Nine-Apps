@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Reservasi Pit Bengkel — Nine Autogarage</title>
+  
+  <!-- Fonts & Phosphor Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS Engine & Design Tokens -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../assets/config.js"></script>
+  <link rel="stylesheet" href="../assets/base.css"/>
+  
+  <style>
+    body {
+      background-color: #fafafa;
+      color: #18181b;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+</head>
+
+<body data-tab="booking" class="min-h-screen bg-[#fafafa] flex flex-col antialiased selection:bg-accent-100 selection:text-accent-700">
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: AppHeader (Styling Ikon Bulat Sesuai Halaman Home)    -->
+  <!-- ============================================================== -->
+  <header data-component="AppHeader" class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e4e4e7] pt-safe">
+    <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between gap-2">
+      <!-- Back Button -->
+      <a href="../home.html" aria-label="Kembali ke Beranda" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-caret-left text-[20px]"></i>
+      </a>
+
+      <!-- Page Title -->
+      <div class="flex-1 text-center min-w-0">
+        <h1 class="text-sm font-bold text-[#18181b] truncate">Nine Garage Workshop</h1>
+        <p class="text-[10px] text-[#71717a] truncate">Reservasi Pit & Kalibrasi Beam</p>
+      </div>
+
+      <!-- Work Order Link Button -->
+      <a href="work-order.html" aria-label="Lihat Work Order Aktif" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-wrench text-[20px]"></i>
+      </a>
+
+      <!-- Riwayat Servis Button -->
+      <a href="service-history.html" aria-label="Riwayat Servis" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-clock-counter-clockwise text-[20px]"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- MAIN CONTENT CONTAINER                                         -->
+  <!-- ============================================================== -->
+  <main class="w-full max-w-md mx-auto pt-20 pb-28 px-4 flex flex-col gap-4">
+
+    <!-- COMPONENT: ViewSwitcher (Hub Bengkel vs Formulir Reservasi) -->
+    <section data-component="ViewSwitcher" class="p-1 rounded-2xl bg-[#f4f4f5] border border-[#e4e4e7] flex items-center gap-1 text-xs font-semibold">
+      <button type="button" onclick="switchView('hub')" id="tabBtnHub" class="flex-1 py-2 rounded-xl bg-white text-[#18181b] shadow-xs transition-all flex items-center justify-center gap-1.5">
+        <i class="ph-bold ph-storefront text-sm text-[#15803d]"></i>
+        <span>Hub Layanan</span>
+      </button>
+      <button type="button" onclick="switchView('wizard')" id="tabBtnWizard" class="flex-1 py-2 rounded-xl text-[#71717a] hover:text-[#18181b] transition-all flex items-center justify-center gap-1.5">
+        <i class="ph-bold ph-calendar-plus text-sm"></i>
+        <span>Buat Reservasi</span>
+      </button>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- VIEW 1: HUB LAYANAN BENGKEL                                    -->
+    <!-- ============================================================== -->
+    <div id="viewHub" class="flex flex-col gap-4">
+
+      <!-- COMPONENT: ActiveTicketCard (Tiket Servis Terkonfirmasi) -->
+      <section data-component="ActiveTicketCard" class="ios-card p-4 bg-[#18181b] text-white flex flex-col gap-3 relative overflow-hidden">
+        <div class="flex items-center justify-between pb-3 border-b border-neutral-800">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[#22c55e] animate-pulse"></span>
+            <span class="text-xs font-bold text-[#a1a1aa] uppercase tracking-wider">Tiket Terkonfirmasi</span>
+          </div>
+          <span class="px-2.5 py-0.5 rounded-full bg-white/10 text-white text-[10px] font-bold border border-white/20">Pit 02 Siaga</span>
+        </div>
+
+        <div class="flex items-start justify-between">
+          <div>
+            <h3 class="text-sm font-bold leading-tight">Retrofit Biled Matrix E9 Pro</h3>
+            <p class="text-xs text-[#a1a1aa] mt-0.5">Yamaha NMAX 155 · B 1234 XYZ</p>
+          </div>
+          <span class="text-xs font-mono font-bold bg-white/10 px-2 py-1 rounded-lg border border-white/20">TGR-8821</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 pt-2 border-t border-neutral-800 text-xs">
+          <div>
+            <span class="text-[10px] text-[#a1a1aa] block">Jadwal Kedatangan</span>
+            <span class="font-bold text-white mt-0.5 block">Sabtu, 11 Okt · 10:30 WIB</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-[#a1a1aa] block">Lokasi & Teknisi</span>
+            <span class="font-bold text-white mt-0.5 block">Arcadia BSD · Mas Dimas</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 pt-1">
+          <a href="booking-detail.html" class="flex-1 h-10 rounded-xl bg-white text-[#18181b] text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#f4f4f5] transition-all">
+            <i class="ph-bold ph-ticket text-sm"></i>
+            <span>Buka Pass Digital</span>
+          </a>
+          <button type="button" onclick="openWhatsAppConfirmation()" class="h-10 px-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center justify-center border border-white/20 transition-all" aria-label="Hubungi WhatsApp Bengkel">
+            <i class="ph-bold ph-whatsapp-logo text-base"></i>
+          </button>
+        </div>
+      </section>
+
+      <!-- COMPONENT: PitStallAvailability (Ketersediaan Stall Real-Time) -->
+      <section data-component="PitStallAvailability" class="flex flex-col gap-2">
+        <h3 class="text-xs font-bold text-[#18181b] px-0.5">Status Ketersediaan Stall Pit</h3>
+        <div class="grid grid-cols-2 gap-3">
+          <!-- Arcadia BSD -->
+          <div class="ios-card p-3.5 flex flex-col justify-between h-28">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-[#18181b]">Arcadia BSD</span>
+              <span class="w-2 h-2 rounded-full bg-[#22c55e] animate-pulse"></span>
+            </div>
+            <div>
+              <div class="text-2xl font-bold text-[#15803d]">2 Pit</div>
+              <span class="text-[10px] text-[#71717a]">Stall 01 & 02 Kosong</span>
+            </div>
+            <span class="text-[10px] font-semibold text-[#18181b]">Buka s/d 18:00 WIB</span>
+          </div>
+
+          <!-- Jelambar -->
+          <div class="ios-card p-3.5 flex flex-col justify-between h-28">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-[#18181b]">Jelambar</span>
+              <span class="w-2 h-2 rounded-full bg-[#f59e0b]"></span>
+            </div>
+            <div>
+              <div class="text-2xl font-bold text-[#18181b]">1 Pit</div>
+              <span class="text-[10px] text-[#71717a]">Antrean 1 Kendaraan</span>
+            </div>
+            <span class="text-[10px] font-semibold text-[#18181b]">Buka s/d 17:00 WIB</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- COMPONENT: ServiceCatalogList (Katalog Servis Resmi) -->
+      <section data-component="ServiceCatalogList" class="flex flex-col gap-2">
+        <div class="flex items-center justify-between px-0.5">
+          <h3 class="text-xs font-bold text-[#18181b]">Katalog Servis & Modifikasi</h3>
+          <span class="text-[11px] text-[#71717a]">Tarif Transparan</span>
+        </div>
+
+        <div class="ios-card divide-y divide-[#f4f4f5] overflow-hidden text-xs">
+          <!-- Service 1 -->
+          <div onclick="startBookingWithService(0)" class="p-3.5 flex items-center justify-between hover:bg-[#fafafa] cursor-pointer transition-all">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="w-9 h-9 rounded-xl bg-[#f4f4f5] text-[#18181b] flex items-center justify-center shrink-0">
+                <i class="ph-bold ph-lightbulb text-base"></i>
+              </div>
+              <div class="min-w-0">
+                <span class="font-bold text-[#18181b] block truncate">Retrofit Biled Matrix E9 Pro</span>
+                <span class="text-[10px] text-[#71717a]">± 120 menit · Termasuk leveling digital</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <span class="font-bold text-[#18181b] block">Rp 250.000</span>
+              <span class="text-[10px] font-bold text-[#15803d]">Pilih Pit</span>
+            </div>
+          </div>
+
+          <!-- Service 2 -->
+          <div onclick="startBookingWithService(1)" class="p-3.5 flex items-center justify-between hover:bg-[#fafafa] cursor-pointer transition-all">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="w-9 h-9 rounded-xl bg-[#f4f4f5] text-[#18181b] flex items-center justify-center shrink-0">
+                <i class="ph-bold ph-crosshair text-base"></i>
+              </div>
+              <div class="min-w-0">
+                <span class="font-bold text-[#18181b] block truncate">Kalibrasi Beam Luxmeter</span>
+                <span class="text-[10px] text-[#71717a]">± 30 menit · Standar Dishub RHD</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <span class="font-bold text-[#18181b] block">Rp 75.000</span>
+              <span class="text-[10px] font-bold text-[#15803d]">Pilih Pit</span>
+            </div>
+          </div>
+
+          <!-- Service 3 -->
+          <div onclick="startBookingWithService(2)" class="p-3.5 flex items-center justify-between hover:bg-[#fafafa] cursor-pointer transition-all">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="w-9 h-9 rounded-xl bg-[#f4f4f5] text-[#18181b] flex items-center justify-center shrink-0">
+                <i class="ph-bold ph-lightning text-base"></i>
+              </div>
+              <div class="min-w-0">
+                <span class="font-bold text-[#18181b] block truncate">Instalasi Relay Harness 40A HD</span>
+                <span class="text-[10px] text-[#71717a]">± 25 menit · Jalur aki direct fuse</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <span class="font-bold text-[#18181b] block">Rp 85.000</span>
+              <span class="text-[10px] font-bold text-[#15803d]">Pilih Pit</span>
+            </div>
+          </div>
+
+          <!-- Service 4 -->
+          <div onclick="startBookingWithService(3)" class="p-3.5 flex items-center justify-between hover:bg-[#fafafa] cursor-pointer transition-all">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="w-9 h-9 rounded-xl bg-[#f4f4f5] text-[#18181b] flex items-center justify-center shrink-0">
+                <i class="ph-bold ph-drop text-base"></i>
+              </div>
+              <div class="min-w-0">
+                <span class="font-bold text-[#18181b] block truncate">Ganti Oli Motul 10W-40 + Filter</span>
+                <span class="text-[10px] text-[#71717a]">± 20 menit · Free cek tekanan ban</span>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <span class="font-bold text-[#18181b] block">Rp 95.000</span>
+              <span class="text-[10px] font-bold text-[#15803d]">Pilih Pit</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- VIEW 2: FORMULIR WIZARD RESERVASI                              -->
+    <!-- ============================================================== -->
+    <div id="viewWizard" class="hidden flex flex-col gap-4">
+
+      <!-- COMPONENT: WizardStepper (1. Layanan -> 2. Jadwal -> 3. Konfirmasi) -->
+      <section data-component="WizardStepper" class="flex items-center justify-between px-2 text-xs">
+        <div class="flex items-center gap-2">
+          <span id="stepBadge1" class="w-6 h-6 rounded-full bg-[#18181b] text-white flex items-center justify-center text-[10px] font-bold">1</span>
+          <span class="font-bold text-[#18181b]">Layanan</span>
+        </div>
+        <div class="flex-1 h-px bg-[#e4e4e7] mx-2"></div>
+        <div class="flex items-center gap-2">
+          <span id="stepBadge2" class="w-6 h-6 rounded-full bg-[#f4f4f5] text-[#71717a] flex items-center justify-center text-[10px] font-bold">2</span>
+          <span class="font-medium text-[#71717a]">Jadwal & Pit</span>
+        </div>
+        <div class="flex-1 h-px bg-[#e4e4e7] mx-2"></div>
+        <div class="flex items-center gap-2">
+          <span id="stepBadge3" class="w-6 h-6 rounded-full bg-[#f4f4f5] text-[#71717a] flex items-center justify-center text-[10px] font-bold">3</span>
+          <span class="font-medium text-[#71717a]">Konfirmasi</span>
+        </div>
+      </section>
+
+      <!-- STEP 1: PILIH LAYANAN -->
+      <div id="wizardStep1" class="flex flex-col gap-3">
+        <h3 class="text-xs font-bold text-[#18181b]">Pilih Layanan Pengerjaan</h3>
+        <div class="flex flex-col gap-2.5" id="wizardServicesContainer">
+          <!-- Dynamically populated or rendered -->
+        </div>
+
+        <button type="button" onclick="goToStep(2)" class="w-full h-11 rounded-full bg-[#18181b] text-white text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#27272a] transition-all mt-2">
+          <span>Lanjut ke Jadwal & Pit</span>
+          <i class="ph-bold ph-caret-right text-xs"></i>
+        </button>
+      </div>
+
+      <!-- STEP 2: PILIH CABANG & JADWAL -->
+      <div id="wizardStep2" class="hidden flex flex-col gap-4">
+        <!-- Cabang Selector -->
+        <div class="flex flex-col gap-2">
+          <h3 class="text-xs font-bold text-[#18181b]">Pilih Cabang Nine Garage</h3>
+          <div class="grid grid-cols-2 gap-2.5">
+            <button type="button" onclick="selectBranch('arcadia', this)" class="branch-btn p-3 rounded-2xl border-2 border-[#18181b] bg-[#f4f4f5] text-left transition-all">
+              <span class="text-xs font-bold text-[#18181b] block">Arcadia BSD</span>
+              <span class="text-[10px] text-[#15803d] font-bold">2 Pit Kosong</span>
+            </button>
+            <button type="button" onclick="selectBranch('jelambar', this)" class="branch-btn p-3 rounded-2xl border border-[#e4e4e7] bg-white text-left hover:border-[#18181b] transition-all">
+              <span class="text-xs font-bold text-[#18181b] block">Jelambar</span>
+              <span class="text-[10px] text-[#71717a]">1 Pit Kosong</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tanggal Kedatangan -->
+        <div class="flex flex-col gap-2">
+          <h3 class="text-xs font-bold text-[#18181b]">Pilih Tanggal Kedatangan</h3>
+          <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+            <button type="button" onclick="selectDate(this, 'Sabtu, 11 Okt')" class="date-chip px-4 py-2.5 rounded-2xl bg-[#18181b] text-white text-center shrink-0 transition-all">
+              <span class="text-[9px] uppercase tracking-wider opacity-80 block">Sabtu</span>
+              <span class="text-sm font-bold block">11 Okt</span>
+            </button>
+            <button type="button" onclick="selectDate(this, 'Minggu, 12 Okt')" class="date-chip px-4 py-2.5 rounded-2xl bg-white border border-[#e4e4e7] text-[#18181b] text-center shrink-0 hover:border-[#18181b] transition-all">
+              <span class="text-[9px] uppercase tracking-wider text-[#71717a] block">Minggu</span>
+              <span class="text-sm font-bold block">12 Okt</span>
+            </button>
+            <button type="button" onclick="selectDate(this, 'Senin, 13 Okt')" class="date-chip px-4 py-2.5 rounded-2xl bg-white border border-[#e4e4e7] text-[#18181b] text-center shrink-0 hover:border-[#18181b] transition-all">
+              <span class="text-[9px] uppercase tracking-wider text-[#71717a] block">Senin</span>
+              <span class="text-sm font-bold block">13 Okt</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Jam Slot -->
+        <div class="flex flex-col gap-2">
+          <h3 class="text-xs font-bold text-[#18181b]">Pilih Jam Kedatangan</h3>
+          <div class="grid grid-cols-3 gap-2">
+            <button type="button" onclick="selectSlot(this, '10:30 WIB')" class="slot-btn py-2.5 rounded-xl border-2 border-[#18181b] bg-[#f4f4f5] text-xs font-bold text-[#18181b] text-center transition-all">
+              10:30 WIB
+            </button>
+            <button type="button" onclick="selectSlot(this, '11:30 WIB')" class="slot-btn py-2.5 rounded-xl border border-[#e4e4e7] bg-white text-xs font-semibold text-[#18181b] text-center hover:border-[#18181b] transition-all">
+              11:30 WIB
+            </button>
+            <button type="button" onclick="selectSlot(this, '13:30 WIB')" class="slot-btn py-2.5 rounded-xl border border-[#e4e4e7] bg-white text-xs font-semibold text-[#18181b] text-center hover:border-[#18181b] transition-all">
+              13:30 WIB
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 pt-2">
+          <button type="button" onclick="goToStep(1)" class="h-11 px-5 rounded-full bg-[#f4f4f5] text-[#18181b] text-xs font-bold hover:bg-[#e4e4e7] transition-all">
+            Kembali
+          </button>
+          <button type="button" onclick="goToStep(3)" class="flex-1 h-11 rounded-full bg-[#18181b] text-white text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#27272a] transition-all">
+            <span>Tinjau Reservasi</span>
+            <i class="ph-bold ph-caret-right text-xs"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3: KONFIRMASI -->
+      <div id="wizardStep3" class="hidden flex flex-col gap-4">
+        <!-- Hold Timer Alert -->
+        <div class="p-3.5 rounded-2xl bg-[#f0fdf4] border border-[#bbf7d0] flex items-center justify-between text-xs">
+          <div class="flex items-center gap-2">
+            <i class="ph-bold ph-timer text-[#15803d] text-lg"></i>
+            <div>
+              <span class="font-bold text-[#14532d] block">Slot Pit Dikunci Sementara</span>
+              <span class="text-[10px] text-[#15803d]">Selesaikan pemesanan sebelum batas waktu</span>
+            </div>
+          </div>
+          <span class="font-mono font-bold text-xs px-2.5 py-1 rounded-lg bg-[#22c55e] text-white" id="holdTimer">02:59</span>
+        </div>
+
+        <!-- Review Summary Card -->
+        <section data-component="ReviewSummaryCard" class="ios-card p-4 flex flex-col gap-2.5 text-xs">
+          <div class="flex items-center justify-between">
+            <span class="text-[#71717a]">Unit Kendaraan</span>
+            <span class="font-bold text-[#18181b]">Yamaha NMAX 155 (B 1234 XYZ)</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-[#71717a]">Cabang Pit</span>
+            <span class="font-bold text-[#18181b]" id="summaryBranch">Nine Garage Arcadia BSD</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-[#71717a]">Jadwal & Jam</span>
+            <span class="font-bold text-[#18181b]" id="summarySchedule">Sabtu, 11 Okt · 10:30 WIB</span>
+          </div>
+          <div class="pt-2.5 border-t border-[#f4f4f5] flex items-center justify-between">
+            <span class="font-bold text-[#18181b]">Total Estimasi Biaya</span>
+            <span class="text-sm font-bold text-[#15803d]" id="summaryTotal">Rp 325.000</span>
+          </div>
+        </section>
+
+        <button type="button" onclick="confirmReservation()" class="w-full h-11 rounded-full bg-[#18181b] text-white text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#27272a] active:scale-95 transition-all">
+          <i class="ph-bold ph-check-circle text-base"></i>
+          <span>Konfirmasi & Terbitkan Pass Pit</span>
+        </button>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: BottomTabBar (Apple HIG Translucent Navigation)      -->
+  <!-- ============================================================== -->
+  <nav data-component="BottomTabBar" class="fixed bottom-0 inset-x-0 z-40 bg-white/90 backdrop-blur-xl border-t border-[#e4e4e7] pb-safe">
+    <div class="max-w-md mx-auto h-16 px-2 flex items-center justify-around">
+      <a href="../home.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-house text-xl"></i>
+        <span>Beranda</span>
+      </a>
+      <a href="../iot/accecories.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-cpu text-xl"></i>
+        <span>Aksesori</span>
+      </a>
+      <a href="../mall/mall.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-storefront text-xl"></i>
+        <span>Mall</span>
+      </a>
+      <a href="booking.html" class="flex flex-col items-center gap-0.5 text-[#18181b] font-bold text-[10.5px]">
+        <i class="ph-fill ph-calendar-dots text-xl text-[#18181b]"></i>
+        <span>Booking</span>
+      </a>
+      <a href="../account/profile.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-user-circle text-xl"></i>
+        <span>Akun</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ============================================================== -->
+  <!-- JAVASCRIPT CONTROLLERS                                         -->
+  <!-- ============================================================== -->
+  <script>
+    var currentView = 'hub';
+    var selectedBranch = 'Nine Garage Arcadia BSD';
+    var selectedDate = 'Sabtu, 11 Okt';
+    var selectedSlot = '10:30 WIB';
+
+    var SERVICES = [
+      { id: 0, name: "Retrofit Biled Matrix E9 Pro", duration: "± 120 menit", price: 250000, selected: true },
+      { id: 1, name: "Kalibrasi Beam Luxmeter", duration: "± 30 menit", price: 75000, selected: true },
+      { id: 2, name: "Instalasi Relay Harness 40A HD", duration: "± 25 menit", price: 85000, selected: false },
+      { id: 3, name: "Ganti Oli Motul 10W-40 + Filter", duration: "± 20 menit", price: 95000, selected: false }
+    ];
+
+    function switchView(view) {
+      currentView = view;
+      var hub = document.getElementById('viewHub');
+      var wizard = document.getElementById('viewWizard');
+      var tabHub = document.getElementById('tabBtnHub');
+      var tabWiz = document.getElementById('tabBtnWizard');
+
+      if (view === 'hub') {
+        hub.classList.remove('hidden');
+        wizard.classList.add('hidden');
+        tabHub.className = "flex-1 py-2 rounded-xl bg-white text-[#18181b] shadow-xs transition-all flex items-center justify-center gap-1.5";
+        tabHub.querySelector('i').className = "ph-bold ph-storefront text-sm text-[#15803d]";
+        tabWiz.className = "flex-1 py-2 rounded-xl text-[#71717a] hover:text-[#18181b] transition-all flex items-center justify-center gap-1.5";
+        tabWiz.querySelector('i').className = "ph-bold ph-calendar-plus text-sm";
+      } else {
+        hub.classList.add('hidden');
+        wizard.classList.remove('hidden');
+        tabWiz.className = "flex-1 py-2 rounded-xl bg-white text-[#18181b] shadow-xs transition-all flex items-center justify-center gap-1.5";
+        tabWiz.querySelector('i').className = "ph-bold ph-calendar-plus text-sm text-[#15803d]";
+        tabHub.className = "flex-1 py-2 rounded-xl text-[#71717a] hover:text-[#18181b] transition-all flex items-center justify-center gap-1.5";
+        tabHub.querySelector('i').className = "ph-bold ph-storefront text-sm";
+        renderWizardServices();
+        goToStep(1);
+      }
+    }
+
+    function startBookingWithService(idx) {
+      SERVICES.forEach(function(s, i) { s.selected = (i === idx); });
+      switchView('wizard');
+    }
+
+    function renderWizardServices() {
+      var container = document.getElementById('wizardServicesContainer');
+      if (!container) return;
+      container.innerHTML = SERVICES.map(function(s, idx) {
+        var isChecked = s.selected;
+        return '<div onclick="toggleWizardService(' + idx + ')" class="ios-card p-3.5 flex items-center justify-between cursor-pointer transition-all ' + (isChecked ? 'border-2 border-[#18181b] bg-[#f4f4f5]' : '') + '">' +
+          '<div class="flex items-center gap-3">' +
+            '<div class="w-5 h-5 rounded-md flex items-center justify-center ' + (isChecked ? 'bg-[#18181b] text-white' : 'border border-[#e4e4e7]') + '">' +
+              (isChecked ? '<i class="ph-bold ph-check text-xs"></i>' : '') +
+            '</div>' +
+            '<div>' +
+              '<span class="text-xs font-bold text-[#18181b] block">' + s.name + '</span>' +
+              '<span class="text-[10px] text-[#71717a] block mt-0.5">' + s.duration + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<span class="text-xs font-bold text-[#18181b]">Rp ' + s.price.toLocaleString('id-ID') + '</span>' +
+        '</div>';
+      }).join('');
+    }
+
+    function toggleWizardService(idx) {
+      SERVICES[idx].selected = !SERVICES[idx].selected;
+      renderWizardServices();
+    }
+
+    function goToStep(step) {
+      [1, 2, 3].forEach(function(s) {
+        var el = document.getElementById('wizardStep' + s);
+        var badge = document.getElementById('stepBadge' + s);
+        if (el) el.classList.toggle('hidden', s !== step);
+        if (badge) {
+          if (s === step) {
+            badge.className = "w-6 h-6 rounded-full bg-[#18181b] text-white flex items-center justify-center text-[10px] font-bold";
+          } else {
+            badge.className = "w-6 h-6 rounded-full bg-[#f4f4f5] text-[#71717a] flex items-center justify-center text-[10px] font-bold";
+          }
+        }
+      });
+
+      if (step === 3) {
+        var total = SERVICES.reduce(function(acc, cur) { return cur.selected ? acc + cur.price : acc; }, 0);
+        document.getElementById('summaryTotal').innerText = "Rp " + total.toLocaleString('id-ID');
+        document.getElementById('summaryBranch').innerText = selectedBranch;
+        document.getElementById('summarySchedule').innerText = selectedDate + " · " + selectedSlot;
+        startTimer();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function selectBranch(type, btnEl) {
+      document.querySelectorAll('.branch-btn').forEach(function(b) {
+        b.className = "branch-btn p-3 rounded-2xl border border-[#e4e4e7] bg-white text-left hover:border-[#18181b] transition-all";
+      });
+      btnEl.className = "branch-btn p-3 rounded-2xl border-2 border-[#18181b] bg-[#f4f4f5] text-left transition-all";
+      selectedBranch = (type === 'arcadia' ? 'Nine Garage Arcadia BSD' : 'Nine Garage Jelambar');
+    }
+
+    function selectDate(btnEl, dateStr) {
+      document.querySelectorAll('.date-chip').forEach(function(d) {
+        d.className = "date-chip px-4 py-2.5 rounded-2xl bg-white border border-[#e4e4e7] text-[#18181b] text-center shrink-0 hover:border-[#18181b] transition-all";
+      });
+      btnEl.className = "date-chip px-4 py-2.5 rounded-2xl bg-[#18181b] text-white text-center shrink-0 transition-all";
+      selectedDate = dateStr;
+    }
+
+    function selectSlot(btnEl, slotStr) {
+      document.querySelectorAll('.slot-btn').forEach(function(s) {
+        s.className = "slot-btn py-2.5 rounded-xl border border-[#e4e4e7] bg-white text-xs font-semibold text-[#18181b] text-center hover:border-[#18181b] transition-all";
+      });
+      btnEl.className = "slot-btn py-2.5 rounded-xl border-2 border-[#18181b] bg-[#f4f4f5] text-xs font-bold text-[#18181b] text-center transition-all";
+      selectedSlot = slotStr;
+    }
+
+    var timerVal = 179;
+    var timerInterval = null;
+    function startTimer() {
+      clearInterval(timerInterval);
+      timerVal = 179;
+      timerInterval = setInterval(function() {
+        if (timerVal <= 0) {
+          clearInterval(timerInterval);
+          return;
+        }
+        var m = Math.floor(timerVal / 60);
+        var s = timerVal % 60;
+        var el = document.getElementById('holdTimer');
+        if (el) el.innerText = (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
+        timerVal--;
+      }, 1000);
+    }
+
+    function confirmReservation() {
+      clearInterval(timerInterval);
+      alert("Reservasi Berhasil! Pass Digital Pit 02 diterbitkan.");
+      window.location.href = "booking-detail.html";
+    }
+
+    function openWhatsAppConfirmation() {
+      window.open("https://wa.me/6281234567890?text=Halo%20Nine%20Garage%2C%20konfirmasi%20tiket%20TGR-8821", "_blank");
+    }
+  </script>
+</body>
+</html>

@@ -3,203 +3,225 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>Pesanan Saya — Nine Autogarage</title>
+  <title>Pesanan Mall & Bengkel — Nine Autogarage</title>
+  
+  <!-- Fonts & Phosphor Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS Engine & Design Tokens -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/config.js"></script>
-  <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/base.css"/>
-</head>
-<body data-tab="mall" data-search="off" data-title="Pesanan Saya" class="bg-surface font-body text-body text-on-surface antialiased">
-<main class="max-w-md mx-auto min-h-screen pt-16 pb-24 bg-surface text-on-surface flex flex-col relative">
-
-  <!-- Header Summary & Quick Track -->
-  <div class="px-4 pt-3 pb-1 flex items-center justify-between">
-    <div>
-      <h1 class="font-headline text-lg font-black tracking-tight text-primary-950">Daftar Transaksi</h1>
-      <p class="text-xs text-neutral-500">2 pesanan aktif · 4 selesai</p>
-    </div>
-    <a href="track.html" class="tap-44 h-9 px-3 rounded-full bg-white border border-neutral-200 shadow-2xs font-bold text-xs text-primary-950 flex items-center gap-1.5 ios-press">
-      <i class="ph-bold ph-crosshair text-sm"></i>Cek Resi
-    </a>
-  </div>
-
-  <!-- Segmented Tabs (Horizontal Scrollable) -->
-  <div class="px-4 py-2 overflow-x-auto no-scrollbar">
-    <div class="flex items-center gap-1.5 w-max">
-      <button onclick="switchTab(this,'menunggu')" class="order-tab tap-44 h-9 px-3.5 rounded-full bg-accent-600 text-white font-bold text-xs shadow-xs">
-        Menunggu Bayar
-      </button>
-      <button onclick="switchTab(this,'diproses')" class="order-tab tap-44 h-9 px-3.5 rounded-full bg-white border border-neutral-200/80 text-neutral-600 font-semibold text-xs">
-        Diproses
-      </button>
-      <button onclick="switchTab(this,'dikirim')" class="order-tab tap-44 h-9 px-3.5 rounded-full bg-white border border-neutral-200/80 text-neutral-600 font-semibold text-xs">
-        Dikirim
-      </button>
-      <button onclick="switchTab(this,'selesai')" class="order-tab tap-44 h-9 px-3.5 rounded-full bg-white border border-neutral-200/80 text-neutral-600 font-semibold text-xs">
-        Selesai
-      </button>
-      <button onclick="switchTab(this,'dibatalkan')" class="order-tab tap-44 h-9 px-3.5 rounded-full bg-white border border-neutral-200/80 text-neutral-600 font-semibold text-xs">
-        Dibatalkan
-      </button>
-    </div>
-  </div>
-
-  <!-- Orders Cards List -->
-  <div class="px-4 flex flex-col gap-3 mt-1 pb-4" id="orderList">
-    <!-- Rendered via JS -->
-  </div>
-
-</main>
-
-<script src="assets/shell.js"></script>
-<script>
-  var IMG_BILED = "https://lh3.googleusercontent.com/aida-public/AB6AXuAlxOCBstxA_JC65izhiTBAHGrnP5cqtWZTpt8zayL0ghLJoLyv2urJ3wP2xEtTbbMeoeyXNR1bcfGoVws3eOryncQoa-ZM3xFEqzFo_OzvB5FKG7OuEHMWKs5bfm5y6OnJleyo9WR8W58WJpZDPW_y4d-VLOK5CFuFhV_9gTN3sIZlaakHIxDOwErnqktJNAqgah1A_7VeZLzdSpC1oWlyX_BfOtbkXk4smJYkx8VE";
-  var IMG_RELAY = "https://lh3.googleusercontent.com/aida-public/AB6AXuBeoggYWzW8iPuPljVfCEhSrIokJ0EDmsTt0IXJiIeEd5tSfUe4iXyWGVZtkESdcetPaFXJiHmI7o_0fBcivey6WBr317s0pbyYEoEEROMLle-l3FPuCcpkCk4udBrj6dv3R5fTuu6c60GUnRGN11E4PLwWdwkFxudCfLFrq6YyVPPlqyescxeF869MbByFvqTFhJGLbP62Qd2NC60fRWdkmtmMeIT_IlyuFh9hIfVE";
-  var IMG_LASER = "https://lh3.googleusercontent.com/aida-public/AB6AXuAZv-hI1ymx6Td3Oj_1xdafgyVLhfo7ZLwfHY1-wGEyeDLysJoDWRWnXb8Q3hVNchdMKTYifogAQpyKhBDW2lMYWbEiwC1Qj7fKP34LuKjZSPtZgvj1dCPBo-1OkQF-xXVWPXLYHDOWe1ds-42dDOQeq_sPadoxAvayfTmIXoz52uaAySW1jPJ8z-latNS5xgW6cAidCmUJEpAWPW33i-ZyZv0ax6CJ_1iy9QOFT0ZN";
-  var IMG_HORN = "https://lh3.googleusercontent.com/aida-public/AB6AXuAnUAn4tZgbMiVIZvn7OnFJdR6jVnOsgiu0Av9UJ8tPVtoFtTalp7-CzGddTNsm3v2bFJsqcEhF2ZsykD2V-a7VrK_iJmXF71pBk9xKLSqIyS3CZZqApsihel8DlVfZlAluCVAfHkCm7SD9QOR2id8z8cuv9O6od9iaNPR1bOgidZKpuPo3mNbbIvwgFurBuQ8lSAy6f9CT-l6JBDOpK73sb-9A-hp2jU4GyWdHfLr4";
-
-  var ORDERS = {
-    menunggu: [
-      {
-        id: "#NNE-88302-JKT",
-        date: "8 Okt 2026 · 14.20 WIB",
-        status: "MENUNGGU PEMBAYARAN",
-        statusTone: "bg-warning-50 text-warning-text border-amber-200",
-        items: [
-          { name: "Biled Matrix E9 Pro 3.0\"", img: IMG_BILED, qty: 1, price: "Rp 1.299.000" },
-          { name: "Relay Harness 40A Tembaga", img: IMG_RELAY, qty: 1, price: "Rp 125.000" }
-        ],
-        total: "Rp 1.424.000",
-        countdown: "Batas transfer: 23 jam 42 mnt lagi",
-        primaryCta: "Bayar Sekarang",
-        primaryHref: "checkout.html"
-      }
-    ],
-    diproses: [
-      {
-        id: "#NNE-88291-JKT",
-        date: "8 Okt 2026 · 11.05 WIB",
-        status: "DIPROSES GUDANG",
-        statusTone: "bg-blue-50 text-info border-blue-200",
-        items: [
-          { name: "Biled Matrix E3 Blue Lens 55W", img: IMG_BILED, qty: 1, price: "Rp 850.000" }
-        ],
-        total: "Rp 850.000",
-        note: "Gudang Jakarta Barat sedang mengemas paket dengan bubble wrap tebal.",
-        primaryCta: "Lihat Detail",
-        primaryHref: "order-detail.html"
-      }
-    ],
-    dikirim: [
-      {
-        id: "#NNE-88150-JKT",
-        date: "7 Okt 2026 · 16.30 WIB",
-        status: "DALAM PERJALANAN (J&T)",
-        statusTone: "bg-blue-50 text-info border-blue-200",
-        items: [
-          { name: "Mini Laser D2 Dual Color 30W", img: IMG_LASER, qty: 2, price: "Rp 640.000" }
-        ],
-        total: "Rp 640.000",
-        note: "Resi: JT0128849217 · Transit Cakung Hub",
-        primaryCta: "Lacak Resi",
-        primaryHref: "order-detail.html"
-      }
-    ],
-    selesai: [
-      {
-        id: "#NNE-87702-JKT",
-        date: "2 Okt 2026 · 18.00 WIB",
-        status: "SELESAI DITERIMA",
-        statusTone: "bg-accent-50 text-accent-700 border-accent-200",
-        items: [
-          { name: "Twin Snail Horn 118dB Waterproof", img: IMG_HORN, qty: 1, price: "Rp 145.000" }
-        ],
-        total: "Rp 145.000",
-        note: "Nine Koin +1.450 telah ditambahkan ke akunmu.",
-        primaryCta: "Beli Lagi",
-        primaryHref: "product-detail.html"
-      }
-    ],
-    dibatalkan: [
-      {
-        id: "#NNE-86991-JKT",
-        date: "25 Sep 2026 · 10.15 WIB",
-        status: "DIBATALKAN",
-        statusTone: "bg-red-50 text-danger-text border-red-200",
-        items: [
-          { name: "Nine Biled Foglamp 3.0 Inch", img: IMG_BILED, qty: 1, price: "Rp 550.000" }
-        ],
-        total: "Rp 550.000",
-        note: "Alasan: Pembayaran melewati batas waktu 24 jam.",
-        primaryCta: "Pesan Ulang",
-        primaryHref: "catalog.html"
-      }
-    ]
-  };
-
-  function renderOrders(tabKey) {
-    var list = ORDERS[tabKey] || [];
-    var container = document.getElementById("orderList");
-
-    if (!list.length) {
-      container.innerHTML =
-        '<div class="ios-card p-8 text-center text-neutral-400">' +
-        '<i class="ph-bold ph-shopping-bag-open text-4xl mb-2 block mx-auto text-neutral-300"></i>' +
-        '<p class="font-bold text-sm text-primary-950">Tidak ada pesanan di status ini</p>' +
-        '<p class="text-xs text-neutral-400 mt-0.5">Semua transaksi yang kamu buat akan tersimpan di sini.</p>' +
-        '</div>';
-      return;
+  
+  <style>
+    body {
+      background-color: #fafafa;
+      color: #18181b;
+      -webkit-font-smoothing: antialiased;
     }
+  </style>
+</head>
 
-    container.innerHTML = list.map(function (o) {
-      return '<div class="ios-card p-4 flex flex-col gap-3">' +
-        '<div class="flex items-center justify-between pb-2.5 border-b border-neutral-100">' +
-        '<span class="font-mono text-xs font-bold text-primary-950">' + o.id + '</span>' +
-        '<span class="px-2 py-0.5 rounded-full border text-[9px] font-black uppercase tracking-wider ' + o.statusTone + '">' + o.status + '</span>' +
-        '</div>' +
+<body data-tab="mall" class="min-h-screen bg-[#fafafa] flex flex-col antialiased selection:bg-accent-100 selection:text-accent-700">
 
-        '<div class="space-y-2">' +
-        o.items.map(function (item) {
-          return '<div class="flex items-center gap-3">' +
-            '<div class="w-12 h-12 rounded-xl bg-neutral-100 overflow-hidden shrink-0 border border-neutral-100">' +
-            '<img src="' + item.img + '" alt="' + item.name + '" class="w-full h-full object-cover"/>' +
-            '</div>' +
-            '<div class="min-w-0 flex-1">' +
-            '<h4 class="font-bold text-xs text-primary-950 truncate">' + item.name + '</h4>' +
-            '<span class="text-[11px] text-neutral-500">' + item.qty + ' barang · ' + item.price + '</span>' +
-            '</div>' +
-            '</div>';
-        }).join("") +
-        '</div>' +
+  <!-- ============================================================== -->
+  <!-- COMPONENT: AppHeader (Styling Ikon Bulat Sesuai Halaman Home)    -->
+  <!-- ============================================================== -->
+  <header data-component="AppHeader" class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e4e4e7] pt-safe">
+    <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between gap-2">
+      <!-- Back Button -->
+      <a href="mall.html" aria-label="Kembali ke Mall" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-caret-left text-[20px]"></i>
+      </a>
 
-        (o.countdown ? '<div class="p-2.5 rounded-xl bg-amber-50 text-warning-text text-xs font-bold flex items-center gap-2"><i class="ph-bold ph-timer text-sm"></i>' + o.countdown + '</div>' : '') +
-        (o.note ? '<p class="text-xs text-neutral-500 leading-snug"><i class="ph-bold ph-info text-neutral-400 mr-1"></i>' + o.note + '</p>' : '') +
+      <!-- Page Title -->
+      <div class="flex-1 text-center min-w-0">
+        <h1 class="text-sm font-bold text-[#18181b] truncate">Pesanan Saya</h1>
+        <p class="text-[10px] text-[#71717a] truncate">1 Dikirim · 4 Selesai</p>
+      </div>
 
-        '<div class="flex items-center justify-between pt-2.5 border-t border-neutral-100">' +
-        '<div>' +
-        '<span class="text-[10px] text-neutral-400 font-bold uppercase tracking-wider block">TOTAL PESANAN</span>' +
-        '<span class="font-price text-sm font-black text-primary-950">' + o.total + '</span>' +
-        '</div>' +
-        '<a href="' + o.primaryHref + '" class="h-9 px-4 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-bold text-xs flex items-center justify-center ios-press active:scale-95 transition-all shadow-xs">' + o.primaryCta + '</a>' +
-        '</div>' +
-        '</div>';
-    }).join("");
-  }
+      <!-- Tracking Link -->
+      <a href="track.html" aria-label="Lacak Resi" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-truck text-[20px]"></i>
+      </a>
+    </div>
+  </header>
 
-  function switchTab(btn, key) {
-    document.querySelectorAll(".order-tab").forEach(function (b) {
-      b.className = "order-tab tap-44 h-9 px-3.5 rounded-full bg-white border border-neutral-200/80 text-neutral-600 font-semibold text-xs";
-    });
-    btn.className = "order-tab tap-44 h-9 px-3.5 rounded-full bg-accent-600 text-white font-bold text-xs shadow-xs";
-    renderOrders(key);
-  }
+  <!-- ============================================================== -->
+  <!-- MAIN CONTENT CONTAINER                                         -->
+  <!-- ============================================================== -->
+  <main class="w-full max-w-md mx-auto pt-20 pb-28 px-4 flex flex-col gap-4">
 
-  renderOrders("menunggu");
-</script>
+    <!-- COMPONENT: OrderStatusTabs -->
+    <section data-component="OrderStatusTabs" class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar text-xs">
+      <button type="button" onclick="filterOrder('all', this)" class="order-tab-btn px-3.5 py-2 rounded-full font-bold bg-[#18181b] text-white shrink-0 transition-all">
+        Semua (3)
+      </button>
+      <button type="button" onclick="filterOrder('dikirim', this)" class="order-tab-btn px-3.5 py-2 rounded-full font-medium bg-white border border-[#e4e4e7] text-[#71717a] hover:text-[#18181b] shrink-0 transition-all">
+        Dikirim (1)
+      </button>
+      <button type="button" onclick="filterOrder('menunggu', this)" class="order-tab-btn px-3.5 py-2 rounded-full font-medium bg-white border border-[#e4e4e7] text-[#71717a] hover:text-[#18181b] shrink-0 transition-all">
+        Menunggu Bayar (1)
+      </button>
+      <button type="button" onclick="filterOrder('selesai', this)" class="order-tab-btn px-3.5 py-2 rounded-full font-medium bg-white border border-[#e4e4e7] text-[#71717a] hover:text-[#18181b] shrink-0 transition-all">
+        Selesai (1)
+      </button>
+    </section>
+
+    <!-- COMPONENT: OrderList -->
+    <div data-component="OrderList" class="flex flex-col gap-3" id="ordersContainer">
+
+      <!-- Order 1: Sedang Dikirim -->
+      <article data-component="OrderCard" data-status="dikirim" class="ios-card p-4 flex flex-col gap-3">
+        <div class="flex items-center justify-between pb-2.5 border-b border-[#f4f4f5] text-xs">
+          <div class="flex items-center gap-2">
+            <i class="ph-bold ph-package text-base text-[#18181b]"></i>
+            <span class="font-bold text-[#18181b]">#NNE-88150-JKT</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full bg-[#f0fdf4] text-[#15803d] text-[10px] font-bold border border-[#bbf7d0]">
+            Sedang Dikirim
+          </span>
+        </div>
+
+        <a href="order-detail.html" class="flex items-center gap-3">
+          <div class="w-14 h-14 rounded-xl bg-neutral-900 overflow-hidden shrink-0">
+            <img src="lampu.jpg" alt="Biled E9 Pro" class="w-full h-full object-cover"/>
+          </div>
+          <div class="min-w-0 flex-1 text-xs">
+            <h4 class="font-bold text-[#18181b] truncate">Biled Matrix E9 Pro 3.0" 65W</h4>
+            <span class="text-[10px] text-[#71717a] block mt-0.5">1 barang · J&T Express (Resi: JT992144)</span>
+            <span class="font-bold text-[#18181b] block mt-1">Rp 1.299.000</span>
+          </div>
+        </a>
+
+        <div class="pt-2 border-t border-[#f4f4f5] flex items-center justify-between">
+          <span class="text-[11px] text-[#71717a]">Estimasi tiba: Besok sore</span>
+          <a href="track.html" class="px-3.5 py-1.5 rounded-full bg-[#18181b] text-white text-xs font-bold hover:bg-[#27272a] transition-all">
+            Lacak Resi
+          </a>
+        </div>
+      </article>
+
+      <!-- Order 2: Menunggu Pembayaran -->
+      <article data-component="OrderCard" data-status="menunggu" class="ios-card p-4 flex flex-col gap-3">
+        <div class="flex items-center justify-between pb-2.5 border-b border-[#f4f4f5] text-xs">
+          <div class="flex items-center gap-2">
+            <i class="ph-bold ph-receipt text-base text-[#18181b]"></i>
+            <span class="font-bold text-[#18181b]">#NNE-88302-JKT</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full bg-[#fffbeb] text-[#b45309] text-[10px] font-bold border border-[#fde68a]">
+            Menunggu Bayar
+          </span>
+        </div>
+
+        <a href="checkout.html" class="flex items-center gap-3">
+          <div class="w-14 h-14 rounded-xl bg-neutral-900 overflow-hidden shrink-0">
+            <img src="dashcam.jpg" alt="Twin Snail Horn" class="w-full h-full object-cover"/>
+          </div>
+          <div class="min-w-0 flex-1 text-xs">
+            <h4 class="font-bold text-[#18181b] truncate">Twin Snail Horn 118dB + Relay 40A</h4>
+            <span class="text-[10px] text-[#71717a] block mt-0.5">2 barang · BCA Virtual Account</span>
+            <span class="font-bold text-[#18181b] block mt-1">Rp 230.000</span>
+          </div>
+        </a>
+
+        <div class="pt-2 border-t border-[#f4f4f5] flex items-center justify-between">
+          <span class="text-[11px] text-[#b45309] font-medium">Batas: 23 jam 40 mnt lagi</span>
+          <a href="checkout.html" class="px-3.5 py-1.5 rounded-full bg-[#22c55e] text-white text-xs font-bold hover:bg-[#16a34a] transition-all">
+            Bayar Sekarang
+          </a>
+        </div>
+      </article>
+
+      <!-- Order 3: Selesai -->
+      <article data-component="OrderCard" data-status="selesai" class="ios-card p-4 flex flex-col gap-3">
+        <div class="flex items-center justify-between pb-2.5 border-b border-[#f4f4f5] text-xs">
+          <div class="flex items-center gap-2">
+            <i class="ph-bold ph-check-circle text-base text-[#15803d]"></i>
+            <span class="font-bold text-[#18181b]">#NNE-88001-JKT</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full bg-[#f4f4f5] text-[#71717a] text-[10px] font-bold">
+            Selesai
+          </span>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div class="w-14 h-14 rounded-xl bg-neutral-900 overflow-hidden shrink-0">
+            <img src="lampu.jpg" alt="Mini Projie" class="w-full h-full object-cover"/>
+          </div>
+          <div class="min-w-0 flex-1 text-xs">
+            <h4 class="font-bold text-[#18181b] truncate">Laser Gun Q3 Dual White/Yellow</h4>
+            <span class="text-[10px] text-[#71717a] block mt-0.5">Selesai pada 01 Okt 2026</span>
+            <span class="font-bold text-[#18181b] block mt-1">Rp 450.000</span>
+          </div>
+        </div>
+
+        <div class="pt-2 border-t border-[#f4f4f5] flex items-center justify-end gap-2">
+          <a href="product-detail.html" class="px-3.5 py-1.5 rounded-full bg-[#f4f4f5] text-[#18181b] text-xs font-bold hover:bg-[#e4e4e7] transition-all">
+            Beli Lagi
+          </a>
+          <button type="button" onclick="alert('Beri ulasan 5 bintang')" class="px-3.5 py-1.5 rounded-full bg-[#18181b] text-white text-xs font-bold hover:bg-[#27272a] transition-all">
+            Ulas Produk
+          </button>
+        </div>
+      </article>
+
+    </div>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: BottomTabBar (Apple HIG Translucent Navigation)      -->
+  <!-- ============================================================== -->
+  <nav data-component="BottomTabBar" class="fixed bottom-0 inset-x-0 z-40 bg-white/90 backdrop-blur-xl border-t border-[#e4e4e7] pb-safe">
+    <div class="max-w-md mx-auto h-16 px-2 flex items-center justify-around">
+      <a href="home.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-house text-xl"></i>
+        <span>Beranda</span>
+      </a>
+      <a href="accecories.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-cpu text-xl"></i>
+        <span>Aksesori</span>
+      </a>
+      <a href="mall.html" class="flex flex-col items-center gap-0.5 text-[#18181b] font-bold text-[10.5px]">
+        <i class="ph-fill ph-storefront text-xl text-[#18181b]"></i>
+        <span>Mall</span>
+      </a>
+      <a href="booking.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-calendar-dots text-xl"></i>
+        <span>Booking</span>
+      </a>
+      <a href="profile.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-user-circle text-xl"></i>
+        <span>Akun</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ============================================================== -->
+  <!-- JAVASCRIPT CONTROLLERS                                         -->
+  <!-- ============================================================== -->
+  <script>
+    function filterOrder(status, btnEl) {
+      document.querySelectorAll('.order-tab-btn').forEach(function(b) {
+        b.className = "order-tab-btn px-3.5 py-2 rounded-full font-medium bg-white border border-[#e4e4e7] text-[#71717a] hover:text-[#18181b] shrink-0 transition-all";
+      });
+      btnEl.className = "order-tab-btn px-3.5 py-2 rounded-full font-bold bg-[#18181b] text-white shrink-0 transition-all";
+
+      var cards = document.querySelectorAll('#ordersContainer > article');
+      cards.forEach(function(card) {
+        if (status === 'all' || card.getAttribute('data-status') === status) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+  </script>
 </body>
 </html>

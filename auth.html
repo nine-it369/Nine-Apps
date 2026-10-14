@@ -4,330 +4,170 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
   <title>Masuk & Daftar — Nine Autogarage</title>
+  
+  <!-- Fonts & Phosphor Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS Engine & Design Tokens -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/config.js"></script>
-  <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/base.css"/>
+  
+  <style>
+    body {
+      background-color: #fafafa;
+      color: #18181b;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
 </head>
-<body data-tab="" class="bg-surface font-body text-body text-on-surface flex flex-col antialiased selection:bg-accent-subtle selection:text-accent-text" data-shell="bare">
 
-<main class="w-full max-w-md mx-auto min-h-screen px-4 pt-10 pb-12 flex flex-col justify-between">
+<body class="min-h-screen bg-[#fafafa] flex flex-col antialiased selection:bg-accent-100 selection:text-accent-700">
 
-  <!-- Top Hero Brand -->
-  <div>
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-2.5">
-        <div class="w-10 h-10 rounded-xl bg-primary-900 text-white flex items-center justify-center font-headline text-lg font-bold shadow-md">
-          9
+  <!-- ============================================================== -->
+  <!-- MAIN AUTH CONTAINER                                            -->
+  <!-- ============================================================== -->
+  <main class="w-full max-w-md mx-auto min-h-screen px-4 pt-10 pb-8 flex flex-col justify-between">
+
+    <div>
+      <!-- COMPONENT: AuthBrandHeader (Logo & Lewati) -->
+      <section data-component="AuthBrandHeader" class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-[#18181b] text-white flex items-center justify-center font-bold text-lg">
+            9
+          </div>
+          <div>
+            <span class="text-xs font-bold text-[#18181b] block">Nine Autogarage</span>
+            <span class="text-[10px] text-[#71717a]">Ecosystem Pass</span>
+          </div>
         </div>
-        <div>
-          <span class="font-headline text-caption uppercase tracking-wider text-primary-900 font-extrabold block">Nine Autogarage</span>
-          <span class="font-micro text-micro uppercase tracking-widest text-secondary">Ecosystem Pass</span>
-        </div>
+        <a href="home.html" class="text-xs font-semibold text-[#71717a] hover:text-[#18181b] transition-colors">
+          Lewati
+        </a>
+      </section>
+
+      <!-- Welcome Heading -->
+      <div class="mt-6">
+        <h1 class="text-xl font-bold text-[#18181b]" id="authHeading">Selamat Datang</h1>
+        <p class="text-xs text-[#71717a] mt-1" id="authSubheading">
+          Masuk dengan nomor WhatsApp atau email terdaftar kamu.
+        </p>
       </div>
-      <a href="home.html" class="font-caption text-caption text-secondary font-medium hover:text-on-surface transition-colors">
-        Lewati
-      </a>
-    </div>
 
-    <!-- Title & Greeting -->
-    <div class="mt-6">
-      <h1 class="font-headline text-display text-on-surface font-bold tracking-tight" id="authHeading">Selamat Datang</h1>
-      <p class="font-caption text-caption text-secondary mt-1" id="authSubheading">
-        Masuk dengan akun WhatsApp atau email terdaftar kamu.
-      </p>
-    </div>
-
-    <!-- Segmented Auth Switcher (Masuk vs Daftar) -->
-    <div class="mt-5 ios-segmented p-1 flex gap-1" id="authSegment">
-      <button onclick="switchView('login')" id="tabBtnLogin" class="auth-tab flex-1 py-2 rounded-lg font-body-semibold text-caption bg-surface-card text-on-surface shadow-sm transition-all">
-        Masuk
-      </button>
-      <button onclick="switchView('daftar')" id="tabBtnDaftar" class="auth-tab flex-1 py-2 rounded-lg font-body-semibold text-caption text-secondary transition-all">
-        Daftar Baru
-      </button>
-    </div>
-
-    <!-- VIEW 1: MASUK (LOGIN) -->
-    <div id="v-login" class="mt-4 flex flex-col gap-3.5">
-      <div class="ios-card p-4 shadow-sm flex flex-col gap-3.5">
-        <label class="block">
-          <span class="font-label text-label uppercase tracking-wider text-secondary block mb-1">WhatsApp / Email</span>
-          <input id="loginInput" value="rob.kusuma@gmail.com" class="w-full h-11 px-3.5 bg-surface border border-primary-200 rounded-xl font-body text-body text-on-surface outline-none focus:border-primary-900 transition-colors"/>
-        </label>
-
-        <label class="block">
-          <div class="flex items-center justify-between mb-1">
-            <span class="font-label text-label uppercase tracking-wider text-secondary">Kata Sandi</span>
-            <button onclick="switchView('lupa')" class="font-caption text-caption font-semibold text-accent-text">
-              Lupa Sandi?
-            </button>
-          </div>
-          <div class="relative flex items-center">
-            <input type="password" id="pwLogin" value="Password123!" class="w-full h-11 px-3.5 pr-11 bg-surface border border-primary-200 rounded-xl font-body text-body text-on-surface outline-none focus:border-primary-900 transition-colors"/>
-            <button type="button" onclick="togglePwVisibility('pwLogin', this)" class="absolute right-0 inset-y-0 w-11 flex items-center justify-center text-secondary active:text-on-surface">
-              <i class="ph ph-eye text-lg"></i>
-            </button>
-          </div>
-        </label>
-
-        <label class="flex items-center gap-2 cursor-pointer pt-0.5">
-          <input type="checkbox" checked class="w-4 h-4 accent-primary-900 rounded"/>
-          <span class="font-caption text-caption text-secondary">Ingat sesi login di perangkat ini</span>
-        </label>
-
-        <button onclick="switchView('verif')" class="ios-press w-full h-12 rounded-xl bg-primary-900 text-white font-body-semibold text-body flex items-center justify-center shadow-sm">
-          Masuk Sekarang
+      <!-- COMPONENT: AuthSegmentedTabs (Masuk vs Daftar) -->
+      <section data-component="AuthSegmentedTabs" class="mt-5 p-1 rounded-2xl bg-[#f4f4f5] border border-[#e4e4e7] flex items-center gap-1 text-xs font-semibold">
+        <button type="button" onclick="switchAuthTab('login', this)" class="auth-tab-btn flex-1 py-2 rounded-xl bg-white text-[#18181b] shadow-xs text-center transition-all">
+          Masuk
         </button>
-      </div>
-
-      <!-- Social & SSO Divider -->
-      <div class="flex items-center gap-3 my-1">
-        <div class="flex-1 h-px bg-primary-200"></div>
-        <span class="font-micro text-micro uppercase tracking-wider text-secondary">atau lanjutkan dengan</span>
-        <div class="flex-1 h-px bg-primary-200"></div>
-      </div>
-
-      <!-- Google SSO Button -->
-      <button onclick="nineToast('Menghubungkan akun Google SSO...','google-logo')" class="ios-press w-full h-12 rounded-xl bg-surface-card border border-primary-200 text-on-surface font-body-semibold text-caption flex items-center justify-center gap-2 shadow-sm">
-        <i class="ph-fill ph-google-logo text-lg text-danger"></i>
-        <span>Lanjutkan dengan Google</span>
-      </button>
-
-      <!-- CS Assisted Login Link -->
-      <div class="text-center mt-1">
-        <button onclick="nineToast('Tautan login darurat dikirim ke WhatsApp','headset')" class="font-caption text-[11px] text-secondary hover:text-accent-text transition-colors">
-          Kesulitan masuk? <span class="underline">Minta Tautan Bantuan CS (OTT)</span>
+        <button type="button" onclick="switchAuthTab('register', this)" class="auth-tab-btn flex-1 py-2 rounded-xl text-[#71717a] hover:text-[#18181b] text-center transition-all">
+          Daftar Baru
         </button>
-      </div>
-    </div>
+      </section>
 
-    <!-- VIEW 2: DAFTAR (REGISTER) -->
-    <div id="v-daftar" class="hidden mt-4 flex flex-col gap-3.5">
-      <div class="ios-card p-4 shadow-sm flex flex-col gap-3.5">
-        <label class="block">
-          <span class="font-label text-label uppercase tracking-wider text-secondary block mb-1">Nama Lengkap</span>
-          <input id="regName" placeholder="Contoh: Rob Kusuma" class="w-full h-11 px-3.5 bg-surface border border-primary-200 rounded-xl font-body text-body text-on-surface outline-none focus:border-primary-900 transition-colors"/>
-        </label>
+      <!-- VIEW 1: LOGIN -->
+      <div id="v-login" class="mt-4 flex flex-col gap-3.5">
+        <section data-component="LoginForm" class="ios-card p-4 flex flex-col gap-3">
+          <label class="block">
+            <span class="text-xs font-bold text-[#18181b] block mb-1">WhatsApp atau Email</span>
+            <input type="text" value="rob.kusuma@gmail.com" class="w-full h-11 px-3.5 bg-[#f4f4f5] border border-[#e4e4e7] rounded-xl text-xs font-bold text-[#18181b] outline-none focus:border-[#18181b]"/>
+          </label>
 
-        <label class="block">
-          <span class="font-label text-label uppercase tracking-wider text-secondary block mb-1">Nomor WhatsApp</span>
-          <div class="flex items-center gap-2 h-11 px-3.5 bg-surface border border-primary-200 rounded-xl focus-within:border-primary-900 transition-colors">
-            <span class="font-body-semibold text-caption text-secondary">+62</span>
-            <input id="regPhone" placeholder="812-3456-7890" type="tel" class="flex-1 min-w-0 bg-transparent font-body text-body text-on-surface outline-none"/>
-          </div>
-        </label>
+          <label class="block">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-xs font-bold text-[#18181b]">Kata Sandi</span>
+              <a href="#" class="text-[10px] font-bold text-[#15803d]">Lupa Sandi?</a>
+            </div>
+            <input type="password" value="Password123!" class="w-full h-11 px-3.5 bg-[#f4f4f5] border border-[#e4e4e7] rounded-xl text-xs font-bold text-[#18181b] outline-none focus:border-[#18181b]"/>
+          </label>
 
-        <label class="block">
-          <span class="font-label text-label uppercase tracking-wider text-secondary block mb-1">Alamat Email</span>
-          <input id="regEmail" type="email" placeholder="nama@email.com" class="w-full h-11 px-3.5 bg-surface border border-primary-200 rounded-xl font-body text-body text-on-surface outline-none focus:border-primary-900 transition-colors"/>
-        </label>
+          <label class="flex items-center gap-2 cursor-pointer pt-0.5">
+            <input type="checkbox" checked class="w-4 h-4 accent-[#18181b] rounded"/>
+            <span class="text-xs text-[#71717a]">Ingat sesi login di perangkat ini</span>
+          </label>
 
-        <label class="block">
-          <span class="font-label text-label uppercase tracking-wider text-secondary block mb-1">Kata Sandi Baru</span>
-          <div class="relative flex items-center">
-            <input type="password" id="pwReg" placeholder="Minimal 8 karakter" class="w-full h-11 px-3.5 pr-11 bg-surface border border-primary-200 rounded-xl font-body text-body text-on-surface outline-none focus:border-primary-900 transition-colors"/>
-            <button type="button" onclick="togglePwVisibility('pwReg', this)" class="absolute right-0 inset-y-0 w-11 flex items-center justify-center text-secondary active:text-on-surface">
-              <i class="ph ph-eye text-lg"></i>
-            </button>
-          </div>
-        </label>
+          <a href="home.html" class="w-full h-11 rounded-full bg-[#18181b] hover:bg-[#27272a] text-white text-xs font-bold flex items-center justify-center transition-all mt-1">
+            Masuk Sekarang
+          </a>
+        </section>
 
-        <label class="flex items-start gap-2 cursor-pointer pt-0.5">
-          <input type="checkbox" checked class="w-4 h-4 mt-0.5 accent-primary-900 rounded"/>
-          <span class="font-caption text-caption text-secondary leading-tight">
-            Saya menyetujui <span class="text-accent-text font-bold">Syarat & Kebijakan Privasi</span> Nine Autogarage.
-          </span>
-        </label>
-
-        <button onclick="switchView('verif')" class="ios-press w-full h-12 rounded-xl bg-primary-900 text-white font-body-semibold text-body flex items-center justify-center shadow-sm">
-          Daftar & Kirim OTP WhatsApp
-        </button>
-      </div>
-    </div>
-
-    <!-- VIEW 3: VERIFIKASI OTP 6 DIGIT -->
-    <div id="v-verif" class="hidden mt-4 flex flex-col gap-3.5">
-      <div class="ios-card p-4 shadow-sm flex flex-col gap-3.5">
-        <div>
-          <span class="font-label text-label uppercase tracking-wider text-secondary block">Masukkan 6-Digit OTP</span>
-          <p class="font-caption text-caption text-secondary mt-1">
-            Kode verifikasi telah dikirimkan ke WhatsApp <span class="font-mono font-bold text-on-surface">+62 812-••••-7700</span>.
-          </p>
+        <!-- Social Divider -->
+        <div class="flex items-center gap-3 my-1 text-xs text-[#71717a]">
+          <div class="flex-1 h-px bg-[#e4e4e7]"></div>
+          <span>atau lanjutkan dengan</span>
+          <div class="flex-1 h-px bg-[#e4e4e7]"></div>
         </div>
 
-        <!-- 6-Box OTP Inputs -->
-        <div class="grid grid-cols-6 gap-2 mt-1" id="otpGroup">
-          <input inputmode="numeric" maxlength="1" class="otp-box w-full h-13 text-center font-headline text-title font-bold bg-surface border-2 border-primary-200 rounded-xl outline-none focus:border-primary-900 transition-colors"/>
-          <input inputmode="numeric" maxlength="1" class="otp-box w-full h-13 text-center font-headline text-title font-bold bg-surface border-2 border-primary-200 rounded-xl outline-none focus:border-primary-900 transition-colors"/>
-          <input inputmode="numeric" maxlength="1" class="otp-box w-full h-13 text-center font-headline text-title font-bold bg-surface border-2 border-primary-200 rounded-xl outline-none focus:border-primary-900 transition-colors"/>
-          <input inputmode="numeric" maxlength="1" class="otp-box w-full h-13 text-center font-headline text-title font-bold bg-surface border-2 border-primary-200 rounded-xl outline-none focus:border-primary-900 transition-colors"/>
-          <input inputmode="numeric" maxlength="1" class="otp-box w-full h-13 text-center font-headline text-title font-bold bg-surface border-2 border-primary-200 rounded-xl outline-none focus:border-primary-900 transition-colors"/>
-          <input inputmode="numeric" maxlength="1" class="otp-box w-full h-13 text-center font-headline text-title font-bold bg-surface border-2 border-primary-200 rounded-xl outline-none focus:border-primary-900 transition-colors"/>
-        </div>
-
-        <!-- Bot Live Stream Status -->
-        <div class="p-2.5 rounded-xl bg-accent-50/60 border border-accent-200 flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <i class="ph-fill ph-whatsapp-logo text-accent-text text-lg"></i>
-            <span class="font-caption text-caption text-accent-text font-medium">WhatsApp Bot Listener Aktif</span>
-          </div>
-          <span class="w-2 h-2 rounded-full bg-accent-pressed animate-pulse"></span>
-        </div>
-
-        <button onclick="finishAuth()" class="ios-press w-full h-12 rounded-xl bg-primary-900 text-white font-body-semibold text-body flex items-center justify-center shadow-sm">
-          Verifikasi & Masuk
-        </button>
-
-        <button onclick="resendOtp()" id="btnResend" class="w-full py-2 font-body-semibold text-caption text-secondary flex items-center justify-center gap-1">
-          <span>Kirim Ulang Kode</span>
-          <span class="font-mono" id="otpCooldown">(00:54)</span>
+        <button type="button" onclick="alert('Masuk via Google SSO')" class="w-full h-11 rounded-2xl bg-white border border-[#e4e4e7] text-xs font-bold text-[#18181b] flex items-center justify-center gap-2 hover:bg-[#f4f4f5] transition-all">
+          <i class="ph-bold ph-google-logo text-base text-[#ef4444]"></i>
+          <span>Lanjutkan dengan Akun Google</span>
         </button>
       </div>
-    </div>
 
-    <!-- VIEW 4: LUPA KATA SANDI -->
-    <div id="v-lupa" class="hidden mt-4 flex flex-col gap-3.5">
-      <div class="ios-card p-4 shadow-sm flex flex-col gap-3.5">
-        <div>
-          <span class="font-label text-label uppercase tracking-wider text-secondary block">Atur Ulang Kata Sandi</span>
-          <p class="font-caption text-caption text-secondary mt-1">
-            Kami akan mengirimkan instruksi pemulihan ke nomor WhatsApp yang terdaftar.
-          </p>
-        </div>
+      <!-- VIEW 2: REGISTER -->
+      <div id="v-register" class="hidden mt-4 flex flex-col gap-3.5">
+        <section data-component="RegisterForm" class="ios-card p-4 flex flex-col gap-3">
+          <label class="block">
+            <span class="text-xs font-bold text-[#18181b] block mb-1">Nama Lengkap</span>
+            <input type="text" placeholder="Masukkan nama lengkap" class="w-full h-11 px-3.5 bg-[#f4f4f5] border border-[#e4e4e7] rounded-xl text-xs font-bold text-[#18181b] outline-none focus:border-[#18181b]"/>
+          </label>
 
-        <label class="block">
-          <span class="font-label text-label uppercase tracking-wider text-secondary block mb-1">Nomor WhatsApp</span>
-          <div class="flex items-center gap-2 h-11 px-3.5 bg-surface border border-primary-200 rounded-xl focus-within:border-primary-900 transition-colors">
-            <span class="font-body-semibold text-caption text-secondary">+62</span>
-            <input value="812-8899-7700" type="tel" class="flex-1 min-w-0 bg-transparent font-body text-body text-on-surface outline-none"/>
-          </div>
-        </label>
+          <label class="block">
+            <span class="text-xs font-bold text-[#18181b] block mb-1">Nomor WhatsApp</span>
+            <input type="tel" placeholder="08xxxxxxxxxx" class="w-full h-11 px-3.5 bg-[#f4f4f5] border border-[#e4e4e7] rounded-xl text-xs font-bold text-[#18181b] outline-none focus:border-[#18181b]"/>
+          </label>
 
-        <button onclick="nineToast('Tautan reset kata sandi telah dikirim ke WhatsApp','whatsapp-logo');switchView('login')" class="ios-press w-full h-12 rounded-xl bg-primary-900 text-white font-body-semibold text-body flex items-center justify-center shadow-sm">
-          Kirim Tautan Reset
-        </button>
+          <label class="block">
+            <span class="text-xs font-bold text-[#18181b] block mb-1">Kata Sandi Baru</span>
+            <input type="password" placeholder="Minimal 8 karakter" class="w-full h-11 px-3.5 bg-[#f4f4f5] border border-[#e4e4e7] rounded-xl text-xs font-bold text-[#18181b] outline-none focus:border-[#18181b]"/>
+          </label>
 
-        <button onclick="switchView('login')" class="w-full py-2 font-body-semibold text-caption text-secondary text-center">
-          Kembali ke Halaman Masuk
-        </button>
+          <a href="home.html" class="w-full h-11 rounded-full bg-[#18181b] hover:bg-[#27272a] text-white text-xs font-bold flex items-center justify-center transition-all mt-1">
+            Daftar Akun Baru
+          </a>
+        </section>
       </div>
+
     </div>
 
-  </div>
+    <!-- Footer Privacy Note -->
+    <div class="text-center text-[10px] text-[#71717a] mt-6">
+      Dengan melanjutkan, kamu menyetujui Ketentuan Layanan & Kebijakan Privasi Nine Autogarage.
+    </div>
 
-  <!-- Bottom Privacy Footer -->
-  <div class="mt-8 text-center">
-    <p class="font-micro text-micro text-secondary uppercase tracking-widest font-bold">Nine Autogarage Security</p>
-    <p class="font-caption text-[11px] text-secondary mt-0.5">
-      Dilindungi enkripsi TLS 1.3 & Standar Keamanan Data Otomotif
-    </p>
-  </div>
+  </main>
 
-</main>
+  <!-- ============================================================== -->
+  <!-- JAVASCRIPT CONTROLLERS                                         -->
+  <!-- ============================================================== -->
+  <script>
+    function switchAuthTab(tab, btnEl) {
+      document.querySelectorAll('.auth-tab-btn').forEach(function(b) {
+        b.className = "auth-tab-btn flex-1 py-2 rounded-xl text-[#71717a] hover:text-[#18181b] text-center transition-all";
+      });
+      btnEl.className = "auth-tab-btn flex-1 py-2 rounded-xl bg-white text-[#18181b] shadow-xs text-center transition-all";
 
-<script src="assets/shell.js"></script>
-<script>
-  var cdSeconds = 54;
-  var cdInterval = null;
+      var vLogin = document.getElementById('v-login');
+      var vRegister = document.getElementById('v-register');
+      var heading = document.getElementById('authHeading');
+      var subheading = document.getElementById('authSubheading');
 
-  function switchView(view) {
-    ['login', 'daftar', 'verif', 'lupa'].forEach(function(v) {
-      var el = document.getElementById("v-" + v);
-      if (el) el.classList.toggle("hidden", v !== view);
-    });
-
-    var seg = document.getElementById("authSegment");
-    var heading = document.getElementById("authHeading");
-    var sub = document.getElementById("authSubheading");
-
-    if (view === 'login') {
-      seg.classList.remove("hidden");
-      document.getElementById("tabBtnLogin").className = "auth-tab flex-1 py-2 rounded-lg font-body-semibold text-caption bg-surface-card text-on-surface shadow-sm";
-      document.getElementById("tabBtnDaftar").className = "auth-tab flex-1 py-2 rounded-lg font-body-semibold text-caption text-secondary";
-      heading.textContent = "Selamat Datang";
-      sub.textContent = "Masuk dengan akun WhatsApp atau email terdaftar kamu.";
-    } else if (view === 'daftar') {
-      seg.classList.remove("hidden");
-      document.getElementById("tabBtnLogin").className = "auth-tab flex-1 py-2 rounded-lg font-body-semibold text-caption text-secondary";
-      document.getElementById("tabBtnDaftar").className = "auth-tab flex-1 py-2 rounded-lg font-body-semibold text-caption bg-surface-card text-on-surface shadow-sm";
-      heading.textContent = "Buat Akun";
-      sub.textContent = "Daftarkan diri untuk garasi digital dan loyalty points.";
-    } else if (view === 'verif') {
-      seg.classList.add("hidden");
-      heading.textContent = "Verifikasi Akun";
-      sub.textContent = "Masukkan 6 digit kode yang baru saja kami kirimkan.";
-      startCooldown();
-      setTimeout(function() {
-        var first = document.querySelector(".otp-box");
-        if (first) first.focus();
-      }, 100);
-    } else if (view === 'lupa') {
-      seg.classList.add("hidden");
-      heading.textContent = "Lupa Kata Sandi";
-      sub.textContent = "Pulihkan akses masuk akun kamu dengan mudah.";
-    }
-  }
-
-  function togglePwVisibility(id, btn) {
-    var input = document.getElementById(id);
-    if (input.type === 'password') {
-      input.type = 'text';
-      btn.innerHTML = '<i class="ph ph-eye-slash text-lg"></i>';
-    } else {
-      input.type = 'password';
-      btn.innerHTML = '<i class="ph ph-eye text-lg"></i>';
-    }
-  }
-
-  // OTP Auto-Tab Logic
-  var otpBoxes = Array.prototype.slice.call(document.querySelectorAll(".otp-box"));
-  otpBoxes.forEach(function(box, idx) {
-    box.addEventListener("input", function() {
-      box.value = box.value.replace(/\D/g, "");
-      if (box.value && idx < otpBoxes.length - 1) {
-        otpBoxes[idx + 1].focus();
-      }
-    });
-    box.addEventListener("keydown", function(e) {
-      if (e.key === "Backspace" && !box.value && idx > 0) {
-        otpBoxes[idx - 1].focus();
-      }
-    });
-  });
-
-  function startCooldown() {
-    clearInterval(cdInterval);
-    cdSeconds = 54;
-    var el = document.getElementById("otpCooldown");
-    cdInterval = setInterval(function() {
-      cdSeconds--;
-      if (cdSeconds <= 0) {
-        clearInterval(cdInterval);
-        el.textContent = "(Bisa kirim ulang)";
+      if (tab === 'login') {
+        vLogin.classList.remove('hidden');
+        vRegister.classList.add('hidden');
+        heading.innerText = "Selamat Datang";
+        subheading.innerText = "Masuk dengan nomor WhatsApp atau email terdaftar kamu.";
       } else {
-        el.textContent = "(00:" + (cdSeconds < 10 ? "0" + cdSeconds : cdSeconds) + ")";
+        vLogin.classList.add('hidden');
+        vRegister.classList.remove('hidden');
+        heading.innerText = "Buat Akun Baru";
+        subheading.innerText = "Dapatkan garansi resmi 2 tahun & diskon servis di seluruh pit.";
       }
-    }, 1000);
-  }
-
-  function resendOtp() {
-    if (cdSeconds > 0) return;
-    nineToast("Kode OTP 6-digit baru telah dikirim", "whatsapp-logo");
-    startCooldown();
-  }
-
-  function finishAuth() {
-    nineToast("Verifikasi berhasil! Mengalihkan ke Beranda...", "check-circle");
-    setTimeout(function() {
-      window.location.href = "home.html";
-    }, 800);
-  }
-</script>
+    }
+  </script>
 </body>
 </html>

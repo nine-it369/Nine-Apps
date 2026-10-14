@@ -3,386 +3,191 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>Checkout — Nine Autogarage</title>
+  <title>Checkout Pembayaran — Nine Autogarage</title>
+  
+  <!-- Fonts & Phosphor Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS Engine & Design Tokens -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/config.js"></script>
-  <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/base.css"/>
+  
+  <style>
+    body {
+      background-color: #fafafa;
+      color: #18181b;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
 </head>
-<body data-tab="mall" data-search="off" data-title="Checkout Pembayaran" data-shell="detail" data-notab="true" class="bg-surface font-body text-body text-on-surface antialiased">
-<main class="max-w-md mx-auto min-h-screen pt-16 pb-32 bg-surface text-on-surface flex flex-col relative">
 
-  <!-- Step View 1: Form Checkout -->
-  <div id="v-form" class="space-y-3.5 pt-3">
+<body data-tab="mall" class="min-h-screen bg-[#fafafa] flex flex-col antialiased selection:bg-accent-100 selection:text-accent-700">
 
-    <!-- 1. Alamat Pengiriman (CheckoutAddress.vue) -->
-    <section class="px-4">
-      <div class="flex items-center justify-between mb-1.5">
-        <span class="font-bold text-[11px] uppercase tracking-wider text-neutral-500">ALAMAT PENGIRIMAN</span>
-        <button onclick="openAddressSheet()" class="text-xs font-bold text-accent-700 ios-press">Ubah Alamat</button>
-      </div>
-      <div class="ios-card p-4 flex items-start gap-3">
-        <div class="w-10 h-10 rounded-xl bg-neutral-100 text-primary-950 flex items-center justify-center shrink-0">
-          <i class="ph-bold ph-map-pin text-xl"></i>
-        </div>
-        <div class="min-w-0 flex-1">
-          <div class="flex items-center gap-2">
-            <span class="font-bold text-sm text-primary-950" id="recipientName">Robby Wijaya</span>
-            <span class="px-1.5 py-0.5 rounded bg-accent-50 text-accent-700 font-micro text-[8.5px] font-black uppercase">UTAMA</span>
-          </div>
-          <span class="text-xs text-neutral-500 block mt-0.5" id="recipientPhone">+62 812-3456-7890</span>
-          <p class="text-xs text-neutral-700 mt-1 leading-snug" id="recipientAddress">
-            Ruko Arcadia Square Blok B No. 12, Jl. Daan Mogot KM 19, Batuceper, Kota Tangerang, Banten 15122
-          </p>
-        </div>
-      </div>
-    </section>
+  <!-- ============================================================== -->
+  <!-- COMPONENT: AppHeader (Styling Ikon Bulat Sesuai Halaman Home)    -->
+  <!-- ============================================================== -->
+  <header data-component="AppHeader" class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e4e4e7] pt-safe">
+    <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between gap-2">
+      <!-- Back Button -->
+      <a href="keranjang.html" aria-label="Kembali ke Keranjang" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-caret-left text-[20px]"></i>
+      </a>
 
-    <!-- 2. Pilihan Kurir J&T (CheckoutCourier.vue) -->
-    <section class="px-4">
-      <span class="font-bold text-[11px] uppercase tracking-wider text-neutral-500 block mb-1.5">OPSI PENGIRIMAN (J&amp;T EXPRESS)</span>
-      <div class="space-y-2" id="courierList">
-        <div onclick="selectCourier('EZ', 0, this)" class="courier-card p-3.5 rounded-2xl border-2 border-accent-500 bg-accent-50/50 flex items-center justify-between cursor-pointer ios-press">
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-red-50 text-danger-500 flex items-center justify-center font-bold">
-              <i class="ph-bold ph-truck text-lg"></i>
-            </div>
-            <div>
-              <span class="font-bold text-xs text-primary-950 block">J&amp;T Express · EZ (Reguler)</span>
-              <span class="text-[11px] text-neutral-500">Estimasi tiba 1 - 2 hari kerja</span>
-            </div>
-          </div>
-          <span class="font-bold text-xs text-accent-700 uppercase">Gratis Ongkir</span>
-        </div>
-
-        <div onclick="selectCourier('ECO', 0, this)" class="courier-card p-3.5 rounded-2xl border border-neutral-200 bg-white flex items-center justify-between cursor-pointer ios-press">
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-neutral-100 text-neutral-700 flex items-center justify-center font-bold">
-              <i class="ph-bold ph-clock text-lg"></i>
-            </div>
-            <div>
-              <span class="font-bold text-xs text-primary-950 block">J&amp;T Economy · ECO</span>
-              <span class="text-[11px] text-neutral-500">Estimasi tiba 2 - 4 hari kerja</span>
-            </div>
-          </div>
-          <span class="font-bold text-xs text-neutral-500">Gratis</span>
-        </div>
-
-        <div onclick="selectCourier('Cargo', 35000, this)" class="courier-card p-3.5 rounded-2xl border border-neutral-200 bg-white flex items-center justify-between cursor-pointer ios-press">
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-neutral-100 text-neutral-700 flex items-center justify-center font-bold">
-              <i class="ph-bold ph-package text-lg"></i>
-            </div>
-            <div>
-              <span class="font-bold text-xs text-primary-950 block">J&amp;T Cargo (Barang Berat)</span>
-              <span class="text-[11px] text-neutral-500">Estimasi tiba 3 - 5 hari kerja</span>
-            </div>
-          </div>
-          <span class="font-bold text-xs text-primary-950">Rp 35.000</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. Voucher Promo & Nine Koin (CheckoutVoucher.vue) -->
-    <section class="px-4">
-      <span class="font-bold text-[11px] uppercase tracking-wider text-neutral-500 block mb-1.5">DISKON &amp; LOYALITAS</span>
-      <div class="ios-card divide-y divide-neutral-100 overflow-hidden">
-        <!-- Voucher Code Input -->
-        <div class="p-3.5 flex items-center gap-2">
-          <i class="ph-bold ph-ticket text-neutral-400 text-lg shrink-0"></i>
-          <input id="inputVoucher" value="NINEFEST" placeholder="Masukkan kode voucher" class="flex-1 h-9 px-3 bg-neutral-50 border border-neutral-200 rounded-lg text-xs font-semibold text-primary-950 outline-none uppercase"/>
-          <button onclick="applyVoucher()" class="h-9 px-3.5 rounded-lg bg-accent-600 hover:bg-accent-700 text-white font-bold text-xs ios-press active:scale-95 transition-all shadow-xs">Gunakan</button>
-        </div>
-
-        <!-- Nine Koin Toggle -->
-        <div class="p-3.5 flex items-center justify-between">
-          <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-xl bg-accent-50 text-accent-700 flex items-center justify-center font-bold">
-              <i class="ph-fill ph-coins text-base"></i>
-            </div>
-            <div>
-              <span class="font-bold text-xs text-primary-950 block">Tukarkan 1.250 Nine Koin</span>
-              <span class="text-[11px] text-accent-700">Potongan langsung Rp 12.500</span>
-            </div>
-          </div>
-          <!-- Toggle -->
-          <label class="relative inline-flex items-center cursor-pointer shrink-0">
-            <input type="checkbox" id="toggleKoin" checked onchange="handleKoinToggle(this)" class="sr-only peer"/>
-            <div class="w-11 h-6 bg-neutral-300 peer-checked:bg-accent-500 rounded-full transition-colors after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-5 shadow-xs"></div>
-          </label>
-        </div>
-      </div>
-    </section>
-
-    <!-- 4. Metode Pembayaran (CheckoutPayment.vue) -->
-    <section class="px-4">
-      <span class="font-bold text-[11px] uppercase tracking-wider text-neutral-500 block mb-1.5">METODE PEMBAYARAN</span>
-      <div class="space-y-2" id="paymentList">
-        <!-- BCA VA -->
-        <div onclick="selectPayment('BCA Virtual Account', 'bca', this)" class="pay-card p-3.5 rounded-2xl border-2 border-accent-500 bg-accent-50/50 flex items-center justify-between cursor-pointer ios-press">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-7 rounded-lg bg-blue-900 text-white font-black text-[11px] flex items-center justify-center shadow-2xs">BCA</div>
-            <div>
-              <span class="font-bold text-xs text-primary-950 block">BCA Virtual Account</span>
-              <span class="text-[11px] text-neutral-500">Verifikasi instan via BCA Mobile / myBCA</span>
-            </div>
-          </div>
-          <i class="ph-bold ph-check-circle text-accent-600 text-lg pay-check"></i>
-        </div>
-
-        <!-- Mandiri VA -->
-        <div onclick="selectPayment('Mandiri Virtual Account', 'mandiri', this)" class="pay-card p-3.5 rounded-2xl border border-neutral-200 bg-white flex items-center justify-between cursor-pointer ios-press">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-7 rounded-lg bg-amber-500 text-white font-black text-[9px] flex items-center justify-center shadow-2xs">MANDIRI</div>
-            <div>
-              <span class="font-bold text-xs text-primary-950 block">Mandiri Virtual Account</span>
-              <span class="text-[11px] text-neutral-500">Transfer via Livin' by Mandiri</span>
-            </div>
-          </div>
-          <i class="ph-bold ph-circle text-neutral-300 text-lg pay-check"></i>
-        </div>
-
-        <!-- QRIS -->
-        <div onclick="selectPayment('QRIS (GoPay/OVO/DANA)', 'qris', this)" class="pay-card p-3.5 rounded-2xl border border-neutral-200 bg-white flex items-center justify-between cursor-pointer ios-press">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-7 rounded-lg bg-neutral-900 text-white font-black text-[9px] flex items-center justify-center shadow-2xs">QRIS</div>
-            <div>
-              <span class="font-bold text-xs text-primary-950 block">QRIS Scan Realtime</span>
-              <span class="text-[11px] text-neutral-500">Scan via GoPay, ShopeePay, DANA, OVO</span>
-            </div>
-          </div>
-          <i class="ph-bold ph-circle text-neutral-300 text-lg pay-check"></i>
-        </div>
-      </div>
-    </section>
-
-    <!-- 5. Rincian Biaya (CheckoutSummary.vue) -->
-    <section class="px-4">
-      <div class="ios-card p-4 space-y-2.5 text-xs">
-        <h3 class="font-bold text-[11px] uppercase tracking-wider text-neutral-500 mb-2">RINGKASAN PEMBAYARAN</h3>
-        <div class="flex justify-between">
-          <span class="text-neutral-500">Subtotal Produk (2 item)</span>
-          <span class="font-semibold text-primary-950">Rp 2.749.000</span>
-        </div>
-        <div class="flex justify-between">
-          <span class="text-neutral-500">Ongkos Kirim (J&amp;T Express)</span>
-          <span class="font-bold text-accent-700" id="costShipping">Gratis (Rp 0)</span>
-        </div>
-        <div class="flex justify-between">
-          <span class="text-neutral-500">Kupon Diskon (NINEFEST)</span>
-          <span class="font-bold text-accent-700" id="costDiscount">- Rp 50.000</span>
-        </div>
-        <div class="flex justify-between" id="rowKoin">
-          <span class="text-neutral-500">Potongan Nine Koin</span>
-          <span class="font-bold text-accent-700">- Rp 12.500</span>
-        </div>
-        <div class="flex justify-between">
-          <span class="text-neutral-500">Biaya Layanan &amp; Asuransi</span>
-          <span class="font-semibold text-primary-950">Rp 1.000</span>
-        </div>
-        <div class="pt-3 border-t border-neutral-100 flex justify-between items-baseline">
-          <span class="font-bold text-sm text-primary-950">Total Pembayaran</span>
-          <span class="font-display text-xl font-black text-primary-950" id="grandTotal">Rp 2.687.500</span>
-        </div>
-      </div>
-    </section>
-
-  </div>
-
-  <!-- Step View 2: Instruksi Pembayaran (Muncul setelah klik Bayar Sekarang) -->
-  <div id="v-pay" class="hidden px-4 pt-4 space-y-4">
-    <div class="ios-card p-5 text-center">
-      <div class="w-14 h-14 rounded-2xl bg-amber-50 text-warning-500 flex items-center justify-center mx-auto mb-3 shadow-xs">
-        <i class="ph-bold ph-hourglass-high text-2xl"></i>
-      </div>
-      <h2 class="font-headline text-lg font-bold text-primary-950">Menunggu Pembayaran</h2>
-      <p class="text-xs text-neutral-500 mt-1">Selesaikan transfer sebelum batas waktu berakhir:</p>
-      <div class="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-warning-text font-mono text-sm font-bold border border-amber-200">
-        <i class="ph-bold ph-timer"></i><span id="payTimer">23:59:45</span>
-      </div>
-    </div>
-
-    <!-- VA Number Card with Copy Buttons -->
-    <div class="ios-card p-4 space-y-4">
-      <div class="flex items-center justify-between pb-3 border-b border-neutral-100">
-        <div>
-          <span class="text-[10px] text-neutral-400 font-bold uppercase tracking-wider block">METODE PEMBAYARAN</span>
-          <span class="font-bold text-xs text-primary-950" id="confirmedMethod">BCA Virtual Account</span>
-        </div>
-        <div class="w-10 h-7 rounded-lg bg-blue-900 text-white font-black text-[11px] flex items-center justify-center">BCA</div>
+      <!-- Page Title -->
+      <div class="flex-1 text-center min-w-0">
+        <h1 class="text-sm font-bold text-[#18181b] truncate">Checkout Pembayaran</h1>
+        <p class="text-[10px] text-[#71717a] truncate">Gudang Jakarta Barat · Enkripsi 256-bit</p>
       </div>
 
-      <div>
-        <span class="text-[10px] text-neutral-400 font-bold uppercase tracking-wider block mb-1">NOMOR VIRTUAL ACCOUNT</span>
-        <div class="flex items-center justify-between p-3 rounded-xl bg-neutral-50 border border-neutral-200">
-          <span class="font-mono text-base font-bold text-primary-950 tracking-wider">8802 8829 1002 9182</span>
-          <button onclick="window.nineToast('Nomor VA disalin!', 'copy')" class="h-8 px-3 rounded-lg bg-primary-950 text-white font-bold text-xs ios-press">
-            Salin
-          </button>
-        </div>
-      </div>
-
-      <div>
-        <span class="text-[10px] text-neutral-400 font-bold uppercase tracking-wider block mb-1">TOTAL NOMINAL TRANSFER</span>
-        <div class="flex items-center justify-between p-3 rounded-xl bg-neutral-50 border border-neutral-200">
-          <span class="font-price text-lg font-black text-primary-950">Rp 2.687.500</span>
-          <button onclick="window.nineToast('Nominal disalin!', 'copy')" class="h-8 px-3 rounded-lg bg-primary-950 text-white font-bold text-xs ios-press">
-            Salin
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Simulator Check Status Action -->
-    <div class="space-y-2 pt-2">
-      <button onclick="simulatePaymentSuccess()" class="w-full h-12 rounded-xl bg-accent-500 hover:bg-accent-600 text-white font-bold text-xs uppercase tracking-wider shadow-sm ios-press">
-        Saya Sudah Bayar (Cek Status)
-      </button>
-      <a href="orders.html" class="w-full h-11 rounded-xl bg-neutral-100 text-primary-950 font-bold text-xs flex items-center justify-center">
-        Lihat Pesanan Saya
+      <!-- Quick CS Help Button -->
+      <a href="https://wa.me/6281234567890" target="_blank" aria-label="Bantuan CS" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-headset text-[20px]"></i>
       </a>
     </div>
-  </div>
+  </header>
 
-</main>
+  <!-- ============================================================== -->
+  <!-- MAIN CONTENT CONTAINER                                         -->
+  <!-- ============================================================== -->
+  <main class="w-full max-w-md mx-auto pt-20 pb-36 px-4 flex flex-col gap-4">
 
-<!-- FIXED BOTTOM BAR CHECKOUT -->
-<div id="checkoutActionBar" class="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-t border-neutral-200/80 shadow-2xl pb-safe">
-  <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between gap-3">
-    <div>
-      <span class="text-[10px] text-neutral-400 font-bold uppercase tracking-wider block">TOTAL AKHIR</span>
-      <span class="font-display text-lg font-black text-primary-950" id="barTotal">Rp 2.687.500</span>
-    </div>
-    <button onclick="processCheckout()" class="h-12 px-7 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-xs ios-press active:scale-95 transition-all">
-      Bayar Sekarang<i class="ph-bold ph-arrow-right text-sm"></i>
-    </button>
-  </div>
-</div>
-
-<!-- Bottom Sheet: Buku Alamat -->
-<div id="addressSheet" class="hidden fixed inset-0 z-[70] bg-black/40 backdrop-blur-xs flex items-end justify-center">
-  <div class="w-full max-w-md bg-white rounded-t-3xl p-5 pb-8 shadow-2xl translate-y-full transition-transform duration-300" id="addressSheetBody">
-    <div data-sheet-handle class="ios-sheet-handle"></div>
-    <h3 class="font-headline text-lg font-bold text-primary-950 text-center">Pilih Alamat Pengiriman</h3>
-    <div class="mt-4 space-y-2.5">
-      <div onclick="selectAddress('Robby Wijaya', '+62 812-3456-7890', 'Ruko Arcadia Square Blok B No. 12, Cisauk, Tangerang 15338')" class="p-3.5 rounded-2xl border-2 border-accent-500 bg-accent-50 cursor-pointer">
-        <span class="font-bold text-xs text-primary-950 block">Robby Wijaya (Rumah Utama)</span>
-        <span class="text-xs text-neutral-500">Ruko Arcadia Square Blok B No. 12, Cisauk, Tangerang 15338</span>
+    <!-- COMPONENT: DeliveryAddressCard (Alamat Pengiriman) -->
+    <section data-component="DeliveryAddressCard" class="ios-card p-4 flex flex-col gap-2">
+      <div class="flex items-center justify-between">
+        <span class="text-xs font-bold text-[#18181b] flex items-center gap-1.5">
+          <i class="ph-bold ph-map-pin text-[#15803d] text-base"></i>
+          Alamat Pengiriman
+        </span>
+        <button type="button" onclick="alert('Ubah Alamat Pengiriman')" class="text-xs font-semibold text-[#15803d]">Ubah</button>
       </div>
-      <div onclick="selectAddress('Nine Garage Official', '+62 831-7327-1177', 'Nine Garage Cabang Arcadia, Batuceper, Kota Tangerang')" class="p-3.5 rounded-2xl border border-neutral-200 bg-white cursor-pointer">
-        <span class="font-bold text-xs text-primary-950 block">Nine Garage Arcadia (Pasang di Tempat)</span>
-        <span class="text-xs text-neutral-500">Nine Garage Cabang Arcadia, Batuceper, Kota Tangerang</span>
+
+      <div class="text-xs">
+        <div class="flex items-center gap-2">
+          <strong class="text-[#18181b]">Rob Kusuma</strong>
+          <span class="text-[10px] font-bold text-[#15803d] bg-[#f0fdf4] px-1.5 py-0.2 rounded border border-[#bbf7d0]">Utama</span>
+          <span class="text-[#71717a]">+62 812-8899-7700</span>
+        </div>
+        <p class="text-[#71717a] mt-1 leading-snug">
+          Arcadia Residence Blok B No. 12, Jl. Daan Mogot KM 19, Batuceper, Kota Tangerang, Banten 15122
+        </p>
       </div>
+    </section>
+
+    <!-- COMPONENT: CourierSelector (Pilihan Kurir J&T) -->
+    <section data-component="CourierSelector" class="flex flex-col gap-2">
+      <h3 class="text-xs font-bold text-[#18181b] px-0.5">Opsi Kurir Pengiriman</h3>
+
+      <div class="flex flex-col gap-2">
+        <div class="ios-card p-3.5 flex items-center justify-between border-2 border-[#18181b] bg-[#f4f4f5]">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-xl bg-[#18181b] text-white flex items-center justify-center">
+              <i class="ph-bold ph-truck text-base"></i>
+            </div>
+            <div>
+              <strong class="text-xs text-[#18181b] block">J&T Express · Reguler (EZ)</strong>
+              <span class="text-[10px] text-[#71717a]">Estimasi tiba 1 - 2 hari kerja</span>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-[#15803d]">Gratis Ongkir</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPONENT: PaymentMethodSelector (Metode Pembayaran) -->
+    <section data-component="PaymentMethodSelector" class="flex flex-col gap-2">
+      <h3 class="text-xs font-bold text-[#18181b] px-0.5">Metode Pembayaran</h3>
+
+      <div class="ios-card divide-y divide-[#f4f4f5] overflow-hidden text-xs">
+        <label class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-[#fafafa]">
+          <div class="flex items-center gap-3">
+            <div class="w-7 h-7 rounded-lg bg-[#f4f4f5] text-[#18181b] flex items-center justify-center font-bold text-[10px]">
+              BCA
+            </div>
+            <div>
+              <strong class="text-[#18181b] block">BCA Virtual Account</strong>
+              <span class="text-[10px] text-[#71717a]">Verifikasi instan otomatis 24 jam</span>
+            </div>
+          </div>
+          <input type="radio" name="paymentMethod" checked class="w-4 h-4 accent-[#18181b]"/>
+        </label>
+
+        <label class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-[#fafafa]">
+          <div class="flex items-center gap-3">
+            <div class="w-7 h-7 rounded-lg bg-[#f4f4f5] text-[#18181b] flex items-center justify-center font-bold text-[10px]">
+              QRIS
+            </div>
+            <div>
+              <strong class="text-[#18181b] block">QRIS (GoPay, OVO, ShopeePay)</strong>
+              <span class="text-[10px] text-[#71717a]">Scan via seluruh mobile banking</span>
+            </div>
+          </div>
+          <input type="radio" name="paymentMethod" class="w-4 h-4 accent-[#18181b]"/>
+        </label>
+      </div>
+    </section>
+
+    <!-- COMPONENT: OrderSummaryCard (Ringkasan Biaya) -->
+    <section data-component="OrderSummaryCard" class="ios-card p-4 flex flex-col gap-2.5 text-xs">
+      <h3 class="font-bold text-[#18181b] pb-2 border-b border-[#f4f4f5]">Ringkasan Pembayaran</h3>
+
+      <div class="flex items-center justify-between text-[#71717a]">
+        <span>Total Harga (2 barang)</span>
+        <span class="font-bold text-[#18181b]">Rp 1.444.000</span>
+      </div>
+
+      <div class="flex items-center justify-between text-[#71717a]">
+        <span>Total Ongkos Kirim (1.2 kg)</span>
+        <span class="line-through text-[#a1a1aa]">Rp 22.000</span>
+      </div>
+
+      <div class="flex items-center justify-between text-[#15803d]">
+        <span>Diskon Ongkos Kirim</span>
+        <span class="font-bold">-Rp 22.000</span>
+      </div>
+
+      <div class="flex items-center justify-between text-[#15803d]">
+        <span>Diskon Voucher NINEFEST</span>
+        <span class="font-bold">-Rp 50.000</span>
+      </div>
+
+      <div class="pt-2.5 border-t border-[#f4f4f5] flex items-center justify-between text-sm">
+        <strong class="text-[#18181b]">Total Tagihan</strong>
+        <strong class="text-[#18181b]">Rp 1.394.000</strong>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: FixedBottomPaymentBar                               -->
+  <!-- ============================================================== -->
+  <div data-component="FixedBottomPaymentBar" class="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-[#e4e4e7] pb-safe">
+    <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <div>
+        <span class="text-[10px] text-[#71717a] block">Total Bayar</span>
+        <span class="text-base font-bold text-[#18181b]">Rp 1.394.000</span>
+      </div>
+      <button type="button" onclick="processPayment()" class="h-11 px-6 rounded-full bg-[#18181b] hover:bg-[#27272a] text-white text-xs font-bold flex items-center gap-1.5 transition-all">
+        <i class="ph-bold ph-shield-check text-base text-[#22c55e]"></i>
+        <span>Bayar Pesanan</span>
+      </button>
     </div>
-    <button onclick="closeAddressSheet()" class="mt-4 w-full h-11 rounded-xl bg-neutral-100 text-primary-950 font-bold text-xs">Tutup</button>
   </div>
-</div>
 
-<script src="assets/shell.js"></script>
-<script>
-  var shippingCost = 0;
-  var voucherDiscount = 50000;
-  var koinDiscount = 12500;
-  var subtotal = 2749000;
-  var currentPayMethod = "BCA Virtual Account";
-
-  function recalculate() {
-    var grand = subtotal + shippingCost - voucherDiscount - (document.getElementById("toggleKoin").checked ? koinDiscount : 0) + 1000;
-    var grandStr = "Rp " + grand.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    document.getElementById("grandTotal").textContent = grandStr;
-    document.getElementById("barTotal").textContent = grandStr;
-  }
-
-  function selectCourier(name, cost, el) {
-    shippingCost = cost;
-    document.querySelectorAll(".courier-card").forEach(function (c) {
-      c.className = "courier-card p-3.5 rounded-2xl border border-neutral-200 bg-white flex items-center justify-between cursor-pointer ios-press";
-    });
-    el.className = "courier-card p-3.5 rounded-2xl border-2 border-accent-500 bg-accent-50/50 flex items-center justify-between cursor-pointer ios-press";
-    document.getElementById("costShipping").textContent = cost === 0 ? "Gratis (Rp 0)" : "Rp " + cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    recalculate();
-  }
-
-  function handleKoinToggle(el) {
-    document.getElementById("rowKoin").style.display = el.checked ? "flex" : "none";
-    recalculate();
-  }
-
-  function selectPayment(name, code, el) {
-    currentPayMethod = name;
-    document.querySelectorAll(".pay-card").forEach(function (c) {
-      c.className = "pay-card p-3.5 rounded-2xl border border-neutral-200 bg-white flex items-center justify-between cursor-pointer ios-press";
-      var icon = c.querySelector(".pay-check");
-      if (icon) icon.className = "ph-bold ph-circle text-neutral-300 text-lg pay-check";
-    });
-    el.className = "pay-card p-3.5 rounded-2xl border-2 border-accent-500 bg-accent-50/50 flex items-center justify-between cursor-pointer ios-press";
-    var icon = el.querySelector(".pay-check");
-    if (icon) icon.className = "ph-bold ph-check-circle text-accent-600 text-lg pay-check";
-    document.getElementById("confirmedMethod").textContent = name;
-  }
-
-  function applyVoucher() {
-    window.nineToast("Voucher NINEFEST aktif: Diskon Rp 50.000", "ticket");
-  }
-
-  function processCheckout() {
-    document.getElementById("v-form").classList.add("hidden");
-    document.getElementById("checkoutActionBar").classList.add("hidden");
-    document.getElementById("v-pay").classList.remove("hidden");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    nineCartSet(0);
-    window.nineToast("Pesanan dibuat! Silakan transfer", "check-circle");
-  }
-
-  function simulatePaymentSuccess() {
-    window.nineToast("Pembayaran berhasil diverifikasi!", "check-circle");
-    setTimeout(function () {
-      location.href = "orders.html";
-    }, 1200);
-  }
-
-  // Address Sheet
-  var addressSheet = document.getElementById("addressSheet");
-  var addressSheetBody = document.getElementById("addressSheetBody");
-
-  function openAddressSheet() {
-    addressSheet.classList.remove("hidden");
-    requestAnimationFrame(function () {
-      addressSheetBody.classList.remove("translate-y-full");
-    });
-  }
-
-  function closeAddressSheet() {
-    addressSheetBody.classList.add("translate-y-full");
-    setTimeout(function () {
-      addressSheet.classList.add("hidden");
-    }, 280);
-  }
-
-  function selectAddress(name, phone, addr) {
-    document.getElementById("recipientName").textContent = name;
-    document.getElementById("recipientPhone").textContent = phone;
-    document.getElementById("recipientAddress").textContent = addr;
-    closeAddressSheet();
-    window.nineToast("Alamat pengiriman diperbarui", "map-pin");
-  }
-
-  // Payment Countdown Timer
-  var paySec = 24 * 3600 - 15;
-  setInterval(function () {
-    if (paySec <= 0) return;
-    paySec--;
-    var h = String(Math.floor(paySec / 3600)).padStart(2, "0");
-    var m = String(Math.floor((paySec % 3600) / 60)).padStart(2, "0");
-    var s = String(paySec % 60).padStart(2, "0");
-    var el = document.getElementById("payTimer");
-    if (el) el.textContent = h + ":" + m + ":" + s;
-  }, 1000);
-</script>
+  <!-- ============================================================== -->
+  <!-- JAVASCRIPT CONTROLLERS                                         -->
+  <!-- ============================================================== -->
+  <script>
+    function processPayment() {
+      alert("Pesanan #NNE-88302-JKT berhasil dibuat! Mengalihkan ke halaman detail transaksi...");
+      window.location.href = "orders.html";
+    }
+  </script>
 </body>
 </html>

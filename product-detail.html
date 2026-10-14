@@ -4,268 +4,257 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
   <title>Biled Matrix E9 Pro 3.0" — Nine Autogarage</title>
+  
+  <!-- Fonts & Phosphor Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS Engine & Design Tokens -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/config.js"></script>
-  <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/base.css"/>
+  
+  <style>
+    body {
+      background-color: #fafafa;
+      color: #18181b;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
 </head>
-<body data-tab="mall" data-search="off" data-title="Detail Produk" data-shell="detail" data-notab="true" class="bg-surface font-body text-body text-on-surface antialiased">
-<main class="max-w-md mx-auto min-h-screen pt-16 pb-28 bg-surface text-on-surface flex flex-col relative">
 
-  <!-- Image Gallery Hero -->
-  <div class="relative bg-neutral-900 overflow-hidden">
-    <div class="relative w-full aspect-square max-h-80 overflow-hidden">
-      <img id="mainImg" src="lampu.jpg" alt="Biled Matrix E9 Pro" class="w-full h-full object-cover transition-all duration-300"/>
-    </div>
+<body data-tab="mall" class="min-h-screen bg-[#fafafa] flex flex-col antialiased selection:bg-accent-100 selection:text-accent-700">
 
-    <!-- Gallery Navigation Pills -->
-    <div class="absolute bottom-3 inset-x-0 flex items-center justify-center gap-1.5 z-10">
-      <button onclick="setGal(0, this)" class="gal-dot w-6 h-1.5 rounded-full bg-white transition-all"></button>
-      <button onclick="setGal(1, this)" class="gal-dot w-1.5 h-1.5 rounded-full bg-white/50 transition-all"></button>
-      <button onclick="setGal(2, this)" class="gal-dot w-1.5 h-1.5 rounded-full bg-white/50 transition-all"></button>
-    </div>
+  <!-- ============================================================== -->
+  <!-- COMPONENT: AppHeader (Styling Ikon Bulat Sesuai Halaman Home)    -->
+  <!-- ============================================================== -->
+  <header data-component="AppHeader" class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e4e4e7] pt-safe">
+    <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between gap-2">
+      <!-- Back Button -->
+      <a href="mall.html" aria-label="Kembali ke Mall" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-caret-left text-[20px]"></i>
+      </a>
 
-    <!-- Official Store & Discount Floating Pills -->
-    <div class="absolute top-3 left-3 flex items-center gap-1.5 z-10">
-      <span class="px-2.5 py-1 rounded-full bg-accent-500 text-white font-micro text-[9px] font-black uppercase tracking-wider shadow-sm">
-        GARANSI 24 BULAN
-      </span>
-      <span class="px-2 py-1 rounded-full bg-danger-500 text-white font-micro text-[9px] font-black uppercase tracking-wider shadow-sm">
-        -21%
-      </span>
-    </div>
-  </div>
-
-  <!-- Product Info Content (per ProductDetailContent.vue) -->
-  <div class="px-4 pt-4 pb-2">
-    <!-- Category & SKU -->
-    <div class="flex items-center justify-between text-xs text-neutral-400">
-      <span class="font-bold text-[11px] uppercase tracking-wider text-accent-700">BILED PROJECTOR · MATRIX SERIES</span>
-      <span class="font-mono text-[10px]">SKU: NNE-E9PRO-30</span>
-    </div>
-
-    <!-- Title -->
-    <h1 class="font-headline text-lg font-black text-primary-950 mt-1 leading-snug">
-      Biled Matrix E9 Pro 3.0" Dual Core Laser
-    </h1>
-
-    <!-- Price Block & Cashback Badge -->
-    <div class="flex items-baseline gap-2.5 mt-2 flex-wrap">
-      <span class="font-price text-2xl font-black text-primary-950" id="displayPrice">Rp 1.299.000</span>
-      <span class="text-xs text-neutral-400 font-bold line-through">Rp 1.650.000</span>
-      <span class="px-2 py-0.5 rounded bg-red-50 text-danger-text font-bold text-[10px]">Hemat Rp 351.000</span>
-      <span class="badge-koin text-[10px] ml-auto">🪙 +12.990 Koin</span>
-    </div>
-
-    <!-- Rating & Stock Info -->
-    <div class="flex items-center gap-3 mt-2 pb-3 border-b border-neutral-100 text-xs">
-      <div class="flex items-center gap-1 font-bold text-primary-950">
-        <i class="ph-fill ph-star text-amber-400 text-sm"></i>4.9
-        <span class="text-neutral-400 font-normal">(1.204 ulasan)</span>
+      <!-- Page Title -->
+      <div class="flex-1 text-center min-w-0">
+        <h1 class="text-sm font-bold text-[#18181b] truncate">Detail Produk</h1>
+        <p class="text-[10px] text-[#71717a] truncate">Nine Official Store</p>
       </div>
-      <span class="text-neutral-300">·</span>
-      <span class="text-neutral-500 font-medium">1,4 rb terjual</span>
-      <span class="text-neutral-300">·</span>
-      <span class="font-bold text-accent-700 bg-accent-50 px-2 py-0.5 rounded-full text-[10px]">Ready Stock (12 pcs)</span>
-    </div>
 
-    <!-- Flash Sale Countdown Banner -->
-    <div class="p-3 rounded-2xl bg-gradient-to-r from-red-50 to-orange-50 border border-red-200 mt-3 flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <div class="w-8 h-8 rounded-xl bg-danger-500 text-white flex items-center justify-center font-bold">
-          <i class="ph-bold ph-lightning text-lg"></i>
+      <!-- Share Product Button -->
+      <button type="button" onclick="shareProduct()" aria-label="Bagikan Produk" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-share-network text-[20px]"></i>
+      </button>
+
+      <!-- Cart Shopping Bag Button -->
+      <a href="keranjang.html" aria-label="Keranjang Belanja" class="tap-44 relative w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-shopping-bag text-[20px]"></i>
+        <span class="absolute top-1 right-1 min-w-[17px] h-[17px] px-1 rounded-full bg-[#22c55e] text-white text-[10px] font-bold flex items-center justify-center leading-none">2</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- MAIN CONTENT CONTAINER                                         -->
+  <!-- ============================================================== -->
+  <main class="w-full max-w-md mx-auto pt-20 pb-36 px-4 flex flex-col gap-4">
+
+    <!-- COMPONENT: ImageGalleryHero (Galeri Foto Produk) -->
+    <section data-component="ImageGalleryHero" class="relative rounded-2xl overflow-hidden bg-neutral-900 border border-[#e4e4e7] aspect-square flex items-center justify-center">
+      <img id="mainProductImg" src="lampu.jpg" alt="Biled Matrix E9 Pro" class="w-full h-full object-cover"/>
+      
+      <!-- Badges -->
+      <div class="absolute top-3 left-3 flex items-center gap-1.5">
+        <span class="px-2.5 py-1 rounded-lg bg-[#ef4444] text-white text-[10px] font-bold shadow-xs">
+          -21% FLASH SALE
+        </span>
+        <span class="px-2.5 py-1 rounded-lg bg-white/90 backdrop-blur-md text-[#18181b] text-[10px] font-bold shadow-xs">
+          GARANSI 24 BULAN
+        </span>
+      </div>
+
+      <!-- Navigation Dots -->
+      <div class="absolute bottom-3 inset-x-0 flex items-center justify-center gap-1.5">
+        <span class="w-5 h-1.5 rounded-full bg-white"></span>
+        <span class="w-1.5 h-1.5 rounded-full bg-white/50"></span>
+        <span class="w-1.5 h-1.5 rounded-full bg-white/50"></span>
+      </div>
+    </section>
+
+    <!-- COMPONENT: ProductMetadata (Judul, Harga, Rating) -->
+    <section data-component="ProductMetadata" class="ios-card p-4 flex flex-col gap-3">
+      <div class="flex items-center justify-between text-[11px] text-[#71717a]">
+        <span>SKU: NNE-E9PRO-30 · Headlamp Series</span>
+        <span class="text-[#15803d] font-semibold">Ready Stock (12 pcs)</span>
+      </div>
+
+      <div>
+        <h2 class="text-base font-bold text-[#18181b] leading-snug">Biled Matrix E9 Pro 3.0" Dual Core Laser 65W Turbo</h2>
+        <div class="flex items-baseline gap-2 mt-1.5">
+          <span class="text-xl font-bold text-[#18181b]">Rp 1.299.000</span>
+          <span class="text-xs text-[#a1a1aa] line-through">Rp 1.650.000</span>
+          <span class="text-[10px] font-bold text-[#15803d] bg-[#f0fdf4] px-2 py-0.5 rounded-md border border-[#bbf7d0]">Hemat Rp 351rb</span>
         </div>
+      </div>
+
+      <div class="pt-2 border-t border-[#f4f4f5] flex items-center gap-3 text-xs text-[#71717a]">
+        <div class="flex items-center gap-1 text-[#18181b] font-bold">
+          <i class="ph-fill ph-star text-[#f59e0b]"></i>
+          <span>4.9</span>
+          <span class="font-normal text-[#71717a]">(1.204 ulasan)</span>
+        </div>
+        <span>·</span>
+        <span>1,4 rb terjual</span>
+        <span>·</span>
+        <span class="text-[#15803d] font-semibold">🪙 +12.990 Koin</span>
+      </div>
+    </section>
+
+    <!-- COMPONENT: VariantSelector (Pilihan Warna Lensa & Ukuran) -->
+    <section data-component="VariantSelector" class="ios-card p-4 flex flex-col gap-3.5">
+      <!-- Warna Lensa -->
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center justify-between text-xs">
+          <span class="font-bold text-[#18181b]">Warna Lensa Optik</span>
+          <span class="text-[#15803d] font-semibold" id="activeColorVariant">Blue Lens 6000K</span>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <button type="button" onclick="selectColor('Blue Lens 6000K', this)" class="color-opt p-3 rounded-2xl border-2 border-[#18181b] bg-[#f4f4f5] text-left transition-all">
+            <strong class="text-xs text-[#18181b] block">Blue Lens 6000K</strong>
+            <span class="text-[10px] text-[#71717a] block mt-0.5">Putih tajam kontras tinggi</span>
+          </button>
+          <button type="button" onclick="selectColor('Clear Lens 5500K', this)" class="color-opt p-3 rounded-2xl border border-[#e4e4e7] bg-white text-left hover:border-[#18181b] transition-all">
+            <strong class="text-xs text-[#18181b] block">Clear Lens 5500K</strong>
+            <span class="text-[10px] text-[#71717a] block mt-0.5">Daylight natural nyaman</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Ukuran Lensa -->
+      <div class="flex flex-col gap-2 pt-2 border-t border-[#f4f4f5]">
+        <span class="text-xs font-bold text-[#18181b]">Diameter Lensa Proyektor</span>
+        <div class="grid grid-cols-2 gap-2">
+          <button type="button" onclick="selectSize('3.0 Inch (Universal)', this)" class="size-opt py-2.5 rounded-xl border-2 border-[#18181b] bg-[#f4f4f5] text-xs font-bold text-[#18181b] text-center transition-all">
+            3.0 Inch (Universal)
+          </button>
+          <button type="button" onclick="selectSize('2.5 Inch (Compact)', this)" class="size-opt py-2.5 rounded-xl border border-[#e4e4e7] bg-white text-xs font-semibold text-[#18181b] text-center hover:border-[#18181b] transition-all">
+            2.5 Inch (Compact)
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPONENT: TechnicalSpecs (Tabel Spesifikasi Resmi) -->
+    <section data-component="TechnicalSpecs" class="ios-card overflow-hidden">
+      <div class="px-4 py-3 bg-[#f4f4f5] border-b border-[#e4e4e7]">
+        <h3 class="text-xs font-bold text-[#18181b]">Spesifikasi Teknis Pabrik</h3>
+      </div>
+      <div class="divide-y divide-[#f4f4f5] text-xs">
+        <div class="px-4 py-2.5 flex items-center justify-between">
+          <span class="text-[#71717a]">Konsumsi Daya</span>
+          <span class="font-bold text-[#18181b]">Low Beam 55W · High 65W Turbo</span>
+        </div>
+        <div class="px-4 py-2.5 flex items-center justify-between">
+          <span class="text-[#71717a]">Tegangan Kerja</span>
+          <span class="font-bold text-[#18181b]">DC 9V - 16V (Aki Motor/Mobil)</span>
+        </div>
+        <div class="px-4 py-2.5 flex items-center justify-between">
+          <span class="text-[#71717a]">Cut-Off Horizon</span>
+          <span class="font-bold text-[#18181b]">RHD (Standar Indonesia / Stir Kanan)</span>
+        </div>
+        <div class="px-4 py-2.5 flex items-center justify-between">
+          <span class="text-[#71717a]">Pendingin Aktif</span>
+          <span class="font-bold text-[#18181b]">High Speed Turbo Fan 12.000 RPM</span>
+        </div>
+        <div class="px-4 py-2.5 flex items-center justify-between">
+          <span class="text-[#71717a]">Proteksi Air & Debu</span>
+          <span class="font-bold text-[#15803d]">IP67 Waterproof Certified</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPONENT: ReviewsPreview (Ulasan Pembeli Terverifikasi) -->
+    <section data-component="ReviewsPreview" class="ios-card p-4 flex flex-col gap-3">
+      <div class="flex items-center justify-between pb-2 border-b border-[#f4f4f5]">
+        <h3 class="text-xs font-bold text-[#18181b]">Ulasan Pembeli (1.204)</h3>
+        <span class="text-xs font-bold text-[#15803d]">Lihat Semua</span>
+      </div>
+
+      <div class="flex flex-col gap-2.5 text-xs">
         <div>
-          <span class="font-bold text-xs text-red-950 block">Flash Sale Promo Ninefest</span>
-          <span class="text-[11px] text-red-700">Berakhir dalam <b>02:07:13</b></span>
-        </div>
-      </div>
-      <div class="text-right">
-        <span class="font-bold text-[10px] text-red-800 uppercase block">KUOTA PROMO</span>
-        <span class="font-bold text-xs text-accent-700">Tersisa 4 unit</span>
-      </div>
-    </div>
-
-    <!-- Variant Selector 1: Warna Lensa -->
-    <div class="mt-5">
-      <div class="flex items-center justify-between mb-2">
-        <label class="font-bold text-[11px] uppercase tracking-wider text-neutral-500">WARNA LENSA &amp; TEMPERATUR</label>
-        <span class="text-xs font-bold text-primary-950" id="selectedColorLabel">Blue Lens 6000K</span>
-      </div>
-      <div class="grid grid-cols-2 gap-2">
-        <button onclick="selectColor('Blue Lens 6000K', this)" class="color-btn p-3 rounded-xl border-2 border-accent-500 bg-accent-50 text-left ios-press">
-          <span class="font-bold text-xs text-accent-800 block">Blue Lens 6000K</span>
-          <span class="text-[10px] text-accent-700">Cahaya putih tajam tembus kabut tipis</span>
-        </button>
-        <button onclick="selectColor('Clear Lens 5500K', this)" class="color-btn p-3 rounded-xl border border-neutral-200 bg-white text-left ios-press">
-          <span class="font-bold text-xs text-neutral-800 block">Clear Lens 5500K</span>
-          <span class="text-[10px] text-neutral-500">All Weather putih hangat alami</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Variant Selector 2: Ukuran Lensa -->
-    <div class="mt-4">
-      <div class="flex items-center justify-between mb-2">
-        <label class="font-bold text-[11px] uppercase tracking-wider text-neutral-500">UKURAN LENSA</label>
-        <span class="text-xs font-bold text-primary-950" id="selectedSizeLabel">3.0 Inch (Universal)</span>
-      </div>
-      <div class="grid grid-cols-2 gap-2">
-        <button onclick="selectSize('3.0 Inch (Universal)', this)" class="size-btn py-2.5 px-3 rounded-xl border-2 border-accent-500 bg-accent-50 font-bold text-xs text-accent-800 text-center ios-press">
-          3.0 Inch (Universal Headlamp)
-        </button>
-        <button onclick="selectSize('2.5 Inch (Compact)', this)" class="size-btn py-2.5 px-3 rounded-xl border border-neutral-200 bg-white font-semibold text-xs text-neutral-700 text-center ios-press">
-          2.5 Inch (Reflektor Sempit)
-        </button>
-      </div>
-    </div>
-
-    <!-- Spesifikasi Teknis Otomotif (Authentic Nine Specs) -->
-    <div class="mt-5 ios-card p-4">
-      <h3 class="font-bold text-xs text-primary-950 uppercase tracking-wider mb-3">Spesifikasi Teknis</h3>
-      <div class="space-y-2 text-xs">
-        <div class="flex justify-between py-1 border-b border-neutral-100">
-          <span class="text-neutral-500">Daya Operasional</span>
-          <span class="font-bold text-primary-950">Low 55W · High Beam 65W</span>
-        </div>
-        <div class="flex justify-between py-1 border-b border-neutral-100">
-          <span class="text-neutral-500">Voltase Kerja</span>
-          <span class="font-bold text-primary-950">DC 9V - 16V (Aki 12V)</span>
-        </div>
-        <div class="flex justify-between py-1 border-b border-neutral-100">
-          <span class="text-neutral-500">Intensitas Lumens</span>
-          <span class="font-bold text-primary-950">6.500 Lumens / Lampu</span>
-        </div>
-        <div class="flex justify-between py-1 border-b border-neutral-100">
-          <span class="text-neutral-500">Cut-off Beam</span>
-          <span class="font-bold text-primary-950">RHD (Standar Indonesia / Stir Kanan)</span>
-        </div>
-        <div class="flex justify-between py-1 border-b border-neutral-100">
-          <span class="text-neutral-500">Sistem Pendingin</span>
-          <span class="font-bold text-primary-950">High Speed Turbo Fan 12.000 RPM</span>
-        </div>
-        <div class="flex justify-between py-1">
-          <span class="text-neutral-500">Ketahanan Air</span>
-          <span class="font-bold text-accent-700">Sertifikasi IP67 Waterproof</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Customer Reviews Preview -->
-    <div class="mt-5 ios-card p-4">
-      <div class="flex items-center justify-between mb-3 pb-2 border-b border-neutral-100">
-        <h3 class="font-bold text-xs text-primary-950 uppercase tracking-wider">Ulasan Pembeli Terverifikasi</h3>
-        <span class="text-xs font-bold text-info">Lihat Semua (1,2rb)</span>
-      </div>
-      <div class="space-y-3">
-        <div class="text-xs">
           <div class="flex items-center justify-between">
-            <span class="font-bold text-primary-950">Andika Wijaya · NMAX 2023</span>
-            <div class="flex text-amber-400 text-xs"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+            <span class="font-bold text-[#18181b]">Andika Wijaya · NMAX 2023</span>
+            <div class="flex text-[#f59e0b] text-xs"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
           </div>
-          <p class="text-neutral-600 mt-1 leading-snug">
-            Cut-off biled rapi banget, tidak menyilaukan pengendara lawan arah. Pasang di Nine Garage Arcadia rapi dan bergaransi resmi.
-          </p>
-        </div>
-        <div class="text-xs pt-2 border-t border-neutral-100">
-          <div class="flex items-center justify-between">
-            <span class="font-bold text-primary-950">Fajar Pratama · Fortuner</span>
-            <div class="flex text-amber-400 text-xs"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
-          </div>
-          <p class="text-neutral-600 mt-1 leading-snug">
-            Cahaya super padat dan tebal. Blue lens 6000K warna putihnya mewah dan elegan di malam hari.
-          </p>
+          <p class="text-[#71717a] mt-1">Cut-off biled rapi banget, tidak menyilaukan pengendara lawan arah. Pasang di stall pit Arcadia rapi tanpa potong kabel.</p>
         </div>
       </div>
-    </div>
+    </section>
 
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: StickyBottomBar (Beli Sekarang & + Keranjang)       -->
+  <!-- ============================================================== -->
+  <div data-component="StickyBottomBar" class="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-[#e4e4e7] pb-safe">
+    <div class="max-w-md mx-auto px-4 py-3 flex items-center gap-2.5">
+      <!-- Quantity Stepper -->
+      <div class="flex items-center rounded-xl border border-[#e4e4e7] bg-[#f4f4f5] h-11 px-1 shrink-0">
+        <button type="button" onclick="adjustQty(-1)" class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-[#18181b] active:bg-[#e4e4e7]">-</button>
+        <span id="productQtyDisplay" class="w-6 text-center font-bold text-xs text-[#18181b]">1</span>
+        <button type="button" onclick="adjustQty(1)" class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-[#18181b] active:bg-[#e4e4e7]">+</button>
+      </div>
+
+      <!-- Add to Cart -->
+      <button type="button" onclick="addToCart()" class="flex-1 h-11 rounded-full bg-[#f4f4f5] hover:bg-[#e4e4e7] text-[#18181b] text-xs font-bold transition-all">
+        + Keranjang
+      </button>
+
+      <!-- Buy Now -->
+      <a href="checkout.html" class="flex-1 h-11 rounded-full bg-[#18181b] hover:bg-[#27272a] text-white text-xs font-bold flex items-center justify-center transition-all">
+        Beli Sekarang
+      </a>
+    </div>
   </div>
 
-</main>
+  <!-- ============================================================== -->
+  <!-- JAVASCRIPT CONTROLLERS                                         -->
+  <!-- ============================================================== -->
+  <script>
+    var qty = 1;
 
-<!-- STICKY BOTTOM ACTION BAR (Matching ProductMobileActionBar.vue from Frontend-Mall) -->
-<div class="fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur-xl border-t border-neutral-200/80 shadow-2xl pb-safe">
-  <div class="max-w-md mx-auto px-4 py-3 flex items-center gap-2.5">
-    <!-- Quantity Stepper -->
-    <div class="flex items-center rounded-xl border border-neutral-200 bg-neutral-50 h-11 px-1 shrink-0">
-      <button onclick="changeQty(-1)" class="w-8 h-8 rounded-lg flex items-center justify-center text-primary-950 font-bold active:bg-neutral-200">
-        <i class="ph-bold ph-minus text-xs"></i>
-      </button>
-      <span id="qtyVal" class="w-7 text-center font-bold text-xs text-primary-950">1</span>
-      <button onclick="changeQty(1)" class="w-8 h-8 rounded-lg flex items-center justify-center text-primary-950 font-bold active:bg-neutral-200">
-        <i class="ph-bold ph-plus text-xs"></i>
-      </button>
-    </div>
+    function adjustQty(delta) {
+      qty = Math.max(1, Math.min(10, qty + delta));
+      document.getElementById('productQtyDisplay').innerText = qty;
+    }
 
-    <!-- Add to Cart Button -->
-    <button onclick="handleAddToCart()" class="flex-1 h-11 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-primary-950 font-bold text-xs flex items-center justify-center gap-1.5 ios-press">
-      <i class="ph-bold ph-shopping-bag text-base"></i>+ Keranjang
-    </button>
+    function selectColor(colorName, btnEl) {
+      document.querySelectorAll('.color-opt').forEach(function(b) {
+        b.className = "color-opt p-3 rounded-2xl border border-[#e4e4e7] bg-white text-left hover:border-[#18181b] transition-all";
+      });
+      btnEl.className = "color-opt p-3 rounded-2xl border-2 border-[#18181b] bg-[#f4f4f5] text-left transition-all";
+      document.getElementById('activeColorVariant').innerText = colorName;
+    }
 
-    <!-- Buy Now Primary Button -->
-    <button onclick="handleBuyNow()" class="flex-1 h-11 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center shadow-xs ios-press active:scale-95 transition-all">
-      Beli Sekarang
-    </button>
+    function selectSize(sizeName, btnEl) {
+      document.querySelectorAll('.size-opt').forEach(function(b) {
+        b.className = "size-opt py-2.5 rounded-xl border border-[#e4e4e7] bg-white text-xs font-semibold text-[#18181b] text-center hover:border-[#18181b] transition-all";
+      });
+      btnEl.className = "size-opt py-2.5 rounded-xl border-2 border-[#18181b] bg-[#f4f4f5] text-xs font-bold text-[#18181b] text-center transition-all";
+    }
 
-    <!-- Share Button -->
-    <button onclick="window.nineToast('Tautan produk disalin', 'share-network')" class="w-11 h-11 rounded-xl border border-neutral-200 bg-white text-primary-950 flex items-center justify-center shadow-2xs shrink-0 ios-press">
-      <i class="ph-bold ph-share-network text-base"></i>
-    </button>
-  </div>
-</div>
+    function addToCart() {
+      alert("Biled Matrix E9 Pro (" + qty + " pcs) berhasil dimasukkan ke keranjang!");
+    }
 
-<script src="assets/shell.js"></script>
-<script>
-  var currentQty = 1;
-
-  function changeQty(delta) {
-    currentQty = Math.max(1, Math.min(12, currentQty + delta));
-    document.getElementById("qtyVal").textContent = currentQty;
-  }
-
-  function setGal(idx, btn) {
-    document.querySelectorAll(".gal-dot").forEach(function (d) {
-      d.className = "gal-dot w-1.5 h-1.5 rounded-full bg-white/50 transition-all";
-    });
-    btn.className = "gal-dot w-6 h-1.5 rounded-full bg-white transition-all";
-  }
-
-  function selectColor(color, btn) {
-    document.getElementById("selectedColorLabel").textContent = color;
-    document.querySelectorAll(".color-btn").forEach(function (b) {
-      b.className = "color-btn p-3 rounded-xl border border-neutral-200 bg-white text-left ios-press";
-      var t = b.querySelector(".text-accent-800");
-      if (t) t.className = "font-bold text-xs text-neutral-800 block";
-    });
-    btn.className = "color-btn p-3 rounded-xl border-2 border-accent-500 bg-accent-50 text-left ios-press";
-    btn.querySelector(".text-neutral-800").className = "font-bold text-xs text-accent-800 block";
-  }
-
-  function selectSize(size, btn) {
-    document.getElementById("selectedSizeLabel").textContent = size;
-    document.querySelectorAll(".size-btn").forEach(function (b) {
-      b.className = "size-btn py-2.5 px-3 rounded-xl border border-neutral-200 bg-white font-semibold text-xs text-neutral-700 text-center ios-press";
-    });
-    btn.className = "size-btn py-2.5 px-3 rounded-xl border-2 border-accent-500 bg-accent-50 font-bold text-xs text-accent-800 text-center ios-press";
-  }
-
-  function handleAddToCart() {
-    var c = parseInt(localStorage.getItem("nine_cart") || "2", 10) + currentQty;
-    nineCartSet(c);
-    window.nineToast("Biled Matrix E9 Pro (" + currentQty + " pcs) masuk keranjang", "shopping-bag");
-  }
-
-  function handleBuyNow() {
-    handleAddToCart();
-    setTimeout(function () {
-      location.href = "checkout.html";
-    }, 400);
-  }
-</script>
+    function shareProduct() {
+      navigator.clipboard?.writeText(window.location.href);
+      alert("Tautan produk berhasil disalin!");
+    }
+  </script>
 </body>
 </html>

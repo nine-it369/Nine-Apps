@@ -4,225 +4,340 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
   <title>Katalog Produk — Nine Autogarage</title>
+  
+  <!-- Fonts & Phosphor Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
   <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS Engine & Design Tokens -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/config.js"></script>
-  <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/base.css"/>
+  
+  <style>
+    body {
+      background-color: #fafafa;
+      color: #18181b;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
 </head>
-<body data-tab="mall" data-search="off" data-title="Katalog Produk" class="bg-surface font-body text-body text-on-surface antialiased">
-<main class="max-w-md mx-auto min-h-screen pt-16 pb-24 bg-surface text-on-surface flex flex-col relative">
 
-  <!-- Search & Filter Controls -->
-  <section class="px-4 pt-3 pb-2">
-    <!-- Search Input -->
-    <div class="relative w-full">
-      <i class="ph-bold ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400 text-base"></i>
-      <input id="catalogSearch" oninput="filterProducts()" placeholder="Cari tipe socket, biled, watt..." class="w-full h-11 pl-10 pr-9 rounded-xl bg-white border border-neutral-200/80 text-xs font-semibold text-primary-950 placeholder-neutral-400 outline-none focus:border-primary-900 shadow-2xs"/>
-      <button onclick="document.getElementById('catalogSearch').value='';filterProducts();" class="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-700">
-        <i class="ph-bold ph-x text-xs"></i>
+<body data-tab="mall" class="min-h-screen bg-[#fafafa] flex flex-col antialiased selection:bg-accent-100 selection:text-accent-700">
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: AppHeader (Styling Ikon Bulat Sesuai Halaman Home)    -->
+  <!-- ============================================================== -->
+  <header data-component="AppHeader" class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e4e4e7] pt-safe">
+    <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between gap-2">
+      <!-- Back Button -->
+      <a href="mall.html" aria-label="Kembali ke Mall" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-caret-left text-[20px]"></i>
+      </a>
+
+      <!-- Search Input Pill -->
+      <div class="flex-1 min-w-0 flex items-center gap-2 h-10 px-3.5 rounded-full bg-[#f4f4f5] text-[#18181b] border border-[#e4e4e7]">
+        <i class="ph-bold ph-magnifying-glass text-[17px] text-[#71717a] shrink-0"></i>
+        <input type="text" id="catalogSearchInput" oninput="filterCatalog()" placeholder="Cari biled, klakson, harness..." class="w-full bg-transparent text-xs text-[#18181b] placeholder-[#71717a] outline-none"/>
+      </div>
+
+      <!-- Filter Drawer Button -->
+      <button type="button" onclick="openModal('modal-filter')" aria-label="Filter Produk" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-sliders-horizontal text-[20px]"></i>
       </button>
+
+      <!-- Cart Shopping Bag Button -->
+      <a href="keranjang.html" aria-label="Keranjang Belanja" class="tap-44 relative w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-shopping-bag text-[20px]"></i>
+        <span class="absolute top-1 right-1 min-w-[17px] h-[17px] px-1 rounded-full bg-[#22c55e] text-white text-[10px] font-bold flex items-center justify-center leading-none">2</span>
+      </a>
     </div>
+  </header>
 
-    <!-- Filter Bar Horizontal Chips -->
-    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-2.5">
-      <button onclick="openFilterSheet()" class="tap-44 h-9 px-3.5 rounded-full bg-primary-950 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs shrink-0 ios-press">
-        <i class="ph-bold ph-funnel text-xs"></i>Filter
+  <!-- ============================================================== -->
+  <!-- MAIN CONTENT CONTAINER                                         -->
+  <!-- ============================================================== -->
+  <main class="w-full max-w-md mx-auto pt-20 pb-28 px-4 flex flex-col gap-4">
+
+    <!-- COMPONENT: CategoryFilters (Pills Kategori Horisontal) -->
+    <section data-component="CategoryFilters" class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar text-xs">
+      <button type="button" onclick="filterCategory('all', this)" class="cat-filter-btn px-3.5 py-2 rounded-full font-bold bg-[#18181b] text-white shrink-0 transition-all">
+        Semua (6)
       </button>
-      <button onclick="setFilterCategory('all', this)" class="cat-chip tap-44 h-9 px-3.5 rounded-full bg-accent-50 text-accent-700 border border-accent-200 font-bold text-xs shrink-0">
-        Semua
+      <button type="button" onclick="filterCategory('biled', this)" class="cat-filter-btn px-3.5 py-2 rounded-full font-medium bg-white border border-[#e4e4e7] text-[#71717a] hover:text-[#18181b] shrink-0 transition-all">
+        Biled Matrix
       </button>
-      <button onclick="setFilterCategory('biled', this)" class="cat-chip tap-44 h-9 px-3.5 rounded-full bg-white border border-neutral-200/80 text-neutral-700 font-semibold text-xs shrink-0">
-        Biled
-      </button>
-      <button onclick="setFilterCategory('laser', this)" class="cat-chip tap-44 h-9 px-3.5 rounded-full bg-white border border-neutral-200/80 text-neutral-700 font-semibold text-xs shrink-0">
+      <button type="button" onclick="filterCategory('laser', this)" class="cat-filter-btn px-3.5 py-2 rounded-full font-medium bg-white border border-[#e4e4e7] text-[#71717a] hover:text-[#18181b] shrink-0 transition-all">
         Lampu Tembak
       </button>
-      <button onclick="setFilterCategory('horn', this)" class="cat-chip tap-44 h-9 px-3.5 rounded-full bg-white border border-neutral-200/80 text-neutral-700 font-semibold text-xs shrink-0">
+      <button type="button" onclick="filterCategory('horn', this)" class="cat-filter-btn px-3.5 py-2 rounded-full font-medium bg-white border border-[#e4e4e7] text-[#71717a] hover:text-[#18181b] shrink-0 transition-all">
         Klakson
       </button>
-      <button onclick="setFilterCategory('relay', this)" class="cat-chip tap-44 h-9 px-3.5 rounded-full bg-white border border-neutral-200/80 text-neutral-700 font-semibold text-xs shrink-0">
-        Relay Set
+      <button type="button" onclick="filterCategory('relay', this)" class="cat-filter-btn px-3.5 py-2 rounded-full font-medium bg-white border border-[#e4e4e7] text-[#71717a] hover:text-[#18181b] shrink-0 transition-all">
+        Relay Harness
       </button>
-      <button onclick="setFilterCategory('nmax', this)" class="cat-chip tap-44 h-9 px-3.5 rounded-full bg-white border border-neutral-200/80 text-neutral-700 font-semibold text-xs shrink-0">
-        NMAX
+    </section>
+
+    <!-- Metadata Row -->
+    <div class="flex items-center justify-between px-1 text-xs text-[#71717a]">
+      <span>Menampilkan <strong class="text-[#18181b]" id="productCount">6</strong> komponen resmi</span>
+      <span class="text-[#15803d] font-semibold">Gudang Jakarta Barat</span>
+    </div>
+
+    <!-- COMPONENT: ProductGrid (Katalog Produk Sesuai ProductCard.vue) -->
+    <section data-component="ProductGrid" class="grid grid-cols-2 gap-3" id="catalogGrid">
+      
+      <!-- Item 1: Biled Matrix E9 Pro -->
+      <article data-component="ProductCard" data-cat="biled" class="ios-card p-3 flex flex-col gap-2 group">
+        <a href="product-detail.html" class="block">
+          <div class="aspect-square rounded-xl bg-[#f4f4f5] flex items-center justify-center relative overflow-hidden">
+            <img src="lampu.jpg" alt="Biled E9 Pro" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+            <span class="absolute top-2 left-2 rounded-lg bg-[#ef4444] text-white px-2 py-0.5 text-[10px] font-bold">-21%</span>
+          </div>
+          <div class="mt-2">
+            <span class="text-[10px] font-semibold text-[#71717a] uppercase">Lampu Utama</span>
+            <h4 class="text-xs font-bold text-[#18181b] truncate mt-0.5">Biled Matrix E9 Pro 65W</h4>
+            <div class="mt-1 flex items-baseline gap-1.5">
+              <span class="text-xs font-bold text-[#18181b]">Rp 1.299.000</span>
+              <span class="text-[10px] text-[#a1a1aa] line-through">Rp 1.650rb</span>
+            </div>
+          </div>
+        </a>
+        <button onclick="addToCart('Biled Matrix E9 Pro')" class="mt-1 w-full py-2 rounded-xl bg-[#18181b] text-white text-xs font-bold hover:bg-[#27272a] active:scale-95 transition-all">
+          + Keranjang
+        </button>
+      </article>
+
+      <!-- Item 2: Twin Snail Horn -->
+      <article data-component="ProductCard" data-cat="horn" class="ios-card p-3 flex flex-col gap-2 group">
+        <a href="product-detail.html" class="block">
+          <div class="aspect-square rounded-xl bg-[#f4f4f5] flex items-center justify-center relative overflow-hidden">
+            <img src="dashcam.jpg" alt="Twin Snail Horn" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+            <span class="absolute top-2 left-2 rounded-lg bg-[#ef4444] text-white px-2 py-0.5 text-[10px] font-bold">-15%</span>
+          </div>
+          <div class="mt-2">
+            <span class="text-[10px] font-semibold text-[#71717a] uppercase">Keamanan</span>
+            <h4 class="text-xs font-bold text-[#18181b] truncate mt-0.5">Twin Snail Horn 118dB</h4>
+            <div class="mt-1 flex items-baseline gap-1.5">
+              <span class="text-xs font-bold text-[#18181b]">Rp 145.000</span>
+              <span class="text-[10px] text-[#a1a1aa] line-through">Rp 175rb</span>
+            </div>
+          </div>
+        </a>
+        <button onclick="addToCart('Twin Snail Horn')" class="mt-1 w-full py-2 rounded-xl bg-[#18181b] text-white text-xs font-bold hover:bg-[#27272a] active:scale-95 transition-all">
+          + Keranjang
+        </button>
+      </article>
+
+      <!-- Item 3: Mini Projie Laser Q3 -->
+      <article data-component="ProductCard" data-cat="laser" class="ios-card p-3 flex flex-col gap-2 group">
+        <a href="product-detail.html" class="block">
+          <div class="aspect-square rounded-xl bg-[#f4f4f5] flex items-center justify-center relative overflow-hidden">
+            <img src="lampu.jpg" alt="Laser Q3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+          </div>
+          <div class="mt-2">
+            <span class="text-[10px] font-semibold text-[#71717a] uppercase">Auxiliary Light</span>
+            <h4 class="text-xs font-bold text-[#18181b] truncate mt-0.5">Laser Gun Q3 Dual White/Yellow</h4>
+            <div class="mt-1 flex items-baseline gap-1.5">
+              <span class="text-xs font-bold text-[#18181b]">Rp 450.000</span>
+            </div>
+          </div>
+        </a>
+        <button onclick="addToCart('Laser Gun Q3')" class="mt-1 w-full py-2 rounded-xl bg-[#18181b] text-white text-xs font-bold hover:bg-[#27272a] active:scale-95 transition-all">
+          + Keranjang
+        </button>
+      </article>
+
+      <!-- Item 4: Relay Harness HD 40A -->
+      <article data-component="ProductCard" data-cat="relay" class="ios-card p-3 flex flex-col gap-2 group">
+        <a href="product-detail.html" class="block">
+          <div class="aspect-square rounded-xl bg-[#f4f4f5] flex items-center justify-center relative overflow-hidden">
+            <img src="dashcam.jpg" alt="Relay Harness" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+          </div>
+          <div class="mt-2">
+            <span class="text-[10px] font-semibold text-[#71717a] uppercase">Kelistrikan</span>
+            <h4 class="text-xs font-bold text-[#18181b] truncate mt-0.5">Relay Harness 40A Waterproof</h4>
+            <div class="mt-1 flex items-baseline gap-1.5">
+              <span class="text-xs font-bold text-[#18181b]">Rp 85.000</span>
+            </div>
+          </div>
+        </a>
+        <button onclick="addToCart('Relay Harness 40A')" class="mt-1 w-full py-2 rounded-xl bg-[#18181b] text-white text-xs font-bold hover:bg-[#27272a] active:scale-95 transition-all">
+          + Keranjang
+        </button>
+      </article>
+
+      <!-- Item 5: Biled E3 Turbo 2.5 Inch -->
+      <article data-component="ProductCard" data-cat="biled" class="ios-card p-3 flex flex-col gap-2 group">
+        <a href="product-detail.html" class="block">
+          <div class="aspect-square rounded-xl bg-[#f4f4f5] flex items-center justify-center relative overflow-hidden">
+            <img src="lampu.jpg" alt="Biled E3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+          </div>
+          <div class="mt-2">
+            <span class="text-[10px] font-semibold text-[#71717a] uppercase">Lampu Utama</span>
+            <h4 class="text-xs font-bold text-[#18181b] truncate mt-0.5">Biled Matrix E3 Compact 2.5"</h4>
+            <div class="mt-1 flex items-baseline gap-1.5">
+              <span class="text-xs font-bold text-[#18181b]">Rp 890.000</span>
+            </div>
+          </div>
+        </a>
+        <button onclick="addToCart('Biled Matrix E3')" class="mt-1 w-full py-2 rounded-xl bg-[#18181b] text-white text-xs font-bold hover:bg-[#27272a] active:scale-95 transition-all">
+          + Keranjang
+        </button>
+      </article>
+
+      <!-- Item 6: Disc Lock Alarm Smart -->
+      <article data-component="ProductCard" data-cat="horn" class="ios-card p-3 flex flex-col gap-2 group">
+        <a href="product-detail.html" class="block">
+          <div class="aspect-square rounded-xl bg-[#f4f4f5] flex items-center justify-center relative overflow-hidden">
+            <img src="dashcam.jpg" alt="Disc Lock" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+          </div>
+          <div class="mt-2">
+            <span class="text-[10px] font-semibold text-[#71717a] uppercase">Keamanan</span>
+            <h4 class="text-xs font-bold text-[#18181b] truncate mt-0.5">Disc Lock Alarm 110dB Sensor</h4>
+            <div class="mt-1 flex items-baseline gap-1.5">
+              <span class="text-xs font-bold text-[#18181b]">Rp 185.000</span>
+            </div>
+          </div>
+        </a>
+        <button onclick="addToCart('Disc Lock Alarm')" class="mt-1 w-full py-2 rounded-xl bg-[#18181b] text-white text-xs font-bold hover:bg-[#27272a] active:scale-95 transition-all">
+          + Keranjang
+        </button>
+      </article>
+
+    </section>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: BottomTabBar (Apple HIG Translucent Navigation)      -->
+  <!-- ============================================================== -->
+  <nav data-component="BottomTabBar" class="fixed bottom-0 inset-x-0 z-40 bg-white/90 backdrop-blur-xl border-t border-[#e4e4e7] pb-safe">
+    <div class="max-w-md mx-auto h-16 px-2 flex items-center justify-around">
+      <a href="home.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-house text-xl"></i>
+        <span>Beranda</span>
+      </a>
+      <a href="accecories.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-cpu text-xl"></i>
+        <span>Aksesori</span>
+      </a>
+      <a href="mall.html" class="flex flex-col items-center gap-0.5 text-[#18181b] font-bold text-[10.5px]">
+        <i class="ph-fill ph-storefront text-xl text-[#18181b]"></i>
+        <span>Mall</span>
+      </a>
+      <a href="booking.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-calendar-dots text-xl"></i>
+        <span>Booking</span>
+      </a>
+      <a href="profile.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-user-circle text-xl"></i>
+        <span>Akun</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: SheetModal (Filter Komprehensif)                    -->
+  <!-- ============================================================== -->
+  <div data-component="SheetModal" id="modal-filter" class="hidden fixed inset-0 z-50 flex items-end justify-center sheet-backdrop" onclick="closeModal('modal-filter')">
+    <div class="w-full max-w-md bg-white rounded-t-[28px] p-5 pb-8 sheet-content shadow-2xl flex flex-col gap-4 border-t border-[#e4e4e7]" onclick="event.stopPropagation()">
+      <div class="w-10 h-1 bg-neutral-300 rounded-full mx-auto"></div>
+      
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-bold text-[#18181b]">Filter Komponen</h3>
+        <button onclick="closeModal('modal-filter')" aria-label="Tutup" class="w-7 h-7 rounded-full bg-[#f4f4f5] text-[#71717a] flex items-center justify-center hover:bg-[#e4e4e7]">
+          <i class="ph-bold ph-x text-xs"></i>
+        </button>
+      </div>
+
+      <!-- Price Range -->
+      <div class="flex flex-col gap-2">
+        <span class="text-xs font-bold text-[#18181b]">Rentang Harga (Rp)</span>
+        <div class="grid grid-cols-2 gap-2">
+          <input type="number" placeholder="Min 100.000" class="h-10 px-3 rounded-xl border border-[#e4e4e7] bg-[#f4f4f5] text-xs font-bold text-[#18181b] outline-none"/>
+          <input type="number" placeholder="Maks 3.000.000" class="h-10 px-3 rounded-xl border border-[#e4e4e7] bg-[#f4f4f5] text-xs font-bold text-[#18181b] outline-none"/>
+        </div>
+      </div>
+
+      <!-- Socket Compatibility -->
+      <div class="flex flex-col gap-2">
+        <span class="text-xs font-bold text-[#18181b]">Soket & Kompatibilitas</span>
+        <div class="grid grid-cols-3 gap-2">
+          <button type="button" class="py-2 rounded-xl border-2 border-[#18181b] bg-[#f4f4f5] text-xs font-bold text-[#18181b]">H4 / H7</button>
+          <button type="button" class="py-2 rounded-xl border border-[#e4e4e7] bg-white text-xs font-medium text-[#71717a]">Universal PNP</button>
+          <button type="button" class="py-2 rounded-xl border border-[#e4e4e7] bg-white text-xs font-medium text-[#71717a]">Bracket NMAX</button>
+        </div>
+      </div>
+
+      <button type="button" onclick="closeModal('modal-filter')" class="w-full h-11 rounded-full bg-[#18181b] text-white text-xs font-bold hover:bg-[#27272a] transition-all mt-1">
+        Terapkan Filter
       </button>
-    </div>
-
-    <!-- Results metadata -->
-    <div class="flex items-center justify-between text-xs text-neutral-500 pb-1">
-      <span>Menampilkan <b class="text-primary-950" id="resultCount">8</b> produk resmi</span>
-      <span class="font-medium text-[11px] text-accent-700">Gudang Jakarta Barat</span>
-    </div>
-  </section>
-
-  <!-- 2-Column Product Grid -->
-  <section class="px-4">
-    <div class="grid grid-cols-2 gap-3" id="catalogGrid">
-      <!-- Injected via JS -->
-    </div>
-  </section>
-
-</main>
-
-<!-- Bottom Sheet: Filter Lengkap (Per Frontend-Mall ProductMobileFilterDrawer.vue) -->
-<div id="filterSheet" class="hidden fixed inset-0 z-[70] bg-black/40 backdrop-blur-xs flex items-end justify-center">
-  <div class="w-full max-w-md bg-white rounded-t-3xl p-5 pb-8 shadow-2xl translate-y-full transition-transform duration-300 max-h-[88vh] overflow-y-auto" id="filterBody">
-    <div data-sheet-handle class="ios-sheet-handle"></div>
-    <div class="flex items-center justify-between pb-3 border-b border-neutral-100">
-      <h3 class="font-headline text-lg font-bold text-primary-950">Filter Produk</h3>
-      <button onclick="closeFilterSheet()" class="tap-44 text-neutral-400 hover:text-neutral-700">
-        <i class="ph-bold ph-x text-lg"></i>
-      </button>
-    </div>
-
-    <!-- Kategori Selection -->
-    <div class="mt-4">
-      <label class="font-bold text-[11px] uppercase tracking-wider text-neutral-500 block mb-2">KATEGORI</label>
-      <div class="grid grid-cols-2 gap-2">
-        <button class="sheet-filter-cat py-2.5 px-3 rounded-xl border-2 border-accent-500 bg-accent-50 font-bold text-xs text-accent-800 text-left">Biled Projector</button>
-        <button class="sheet-filter-cat py-2.5 px-3 rounded-xl border border-neutral-200 bg-neutral-50 font-semibold text-xs text-neutral-700 text-left">Lampu Tembak Miniprojie</button>
-        <button class="sheet-filter-cat py-2.5 px-3 rounded-xl border border-neutral-200 bg-neutral-50 font-semibold text-xs text-neutral-700 text-left">Klakson Keong</button>
-        <button class="sheet-filter-cat py-2.5 px-3 rounded-xl border border-neutral-200 bg-neutral-50 font-semibold text-xs text-neutral-700 text-left">Relay Harness</button>
-      </div>
-    </div>
-
-    <!-- Rentang Harga -->
-    <div class="mt-5">
-      <label class="font-bold text-[11px] uppercase tracking-wider text-neutral-500 block mb-2">RENTANG HARGA (RP)</label>
-      <div class="flex items-center gap-2">
-        <input type="text" value="100.000" class="flex-1 h-11 px-3 rounded-xl bg-neutral-50 border border-neutral-200 text-xs font-semibold text-primary-950"/>
-        <span class="text-neutral-400 font-bold">-</span>
-        <input type="text" value="3.000.000" class="flex-1 h-11 px-3 rounded-xl bg-neutral-50 border border-neutral-200 text-xs font-semibold text-primary-950"/>
-      </div>
-    </div>
-
-    <!-- Kompatibel Kendaraan -->
-    <div class="mt-5">
-      <label class="font-bold text-[11px] uppercase tracking-wider text-neutral-500 block mb-2">KOMPATIBILITAS KENDARAAN</label>
-      <div class="grid grid-cols-3 gap-2">
-        <button class="py-2.5 rounded-xl border-2 border-accent-500 bg-accent-50 font-bold text-xs text-accent-800">Semua</button>
-        <button class="py-2.5 rounded-xl border border-neutral-200 bg-neutral-50 font-semibold text-xs text-neutral-700">Motor (NMAX, PCX)</button>
-        <button class="py-2.5 rounded-xl border border-neutral-200 bg-neutral-50 font-semibold text-xs text-neutral-700">Mobil (SUV, Sedan)</button>
-      </div>
-    </div>
-
-    <!-- Urutan -->
-    <div class="mt-5">
-      <label class="font-bold text-[11px] uppercase tracking-wider text-neutral-500 block mb-2">URUTKAN BERDASARKAN</label>
-      <div class="grid grid-cols-2 gap-2">
-        <button class="py-2.5 rounded-xl border-2 border-accent-500 bg-accent-50 font-bold text-xs text-accent-800">Terlaris</button>
-        <button class="py-2.5 rounded-xl border border-neutral-200 bg-neutral-50 font-semibold text-xs text-neutral-700">Harga Terendah</button>
-        <button class="py-2.5 rounded-xl border border-neutral-200 bg-neutral-50 font-semibold text-xs text-neutral-700">Harga Tertinggi</button>
-        <button class="py-2.5 rounded-xl border border-neutral-200 bg-neutral-50 font-semibold text-xs text-neutral-700">Ulasan Tertinggi</button>
-      </div>
-    </div>
-
-    <!-- Footer Actions -->
-    <div class="grid grid-cols-2 gap-2 mt-6 pt-3 border-t border-neutral-100">
-      <button onclick="closeFilterSheet()" class="h-11 rounded-xl bg-neutral-100 text-primary-950 font-bold text-xs ios-press">Reset</button>
-      <button onclick="closeFilterSheet();window.nineToast('Filter diterapkan (8 produk)','funnel');" class="h-11 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-bold text-xs uppercase tracking-wider shadow-xs ios-press active:scale-95 transition-all">Terapkan</button>
     </div>
   </div>
-</div>
 
-<script src="assets/shell.js"></script>
-<script>
-  var PRODUCTS = [
-    { id: 1, title: "Biled Matrix E9 Pro 3.0\" Dual Core", price: "Rp 1.299.000", original: "Rp 1.650.000", discount: 21, cashback: "+12.990 Koin", rating: "4.9", sold: "1,4rb", type: "BILED", cat: "biled", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAlxOCBstxA_JC65izhiTBAHGrnP5cqtWZTpt8zayL0ghLJoLyv2urJ3wP2xEtTbbMeoeyXNR1bcfGoVws3eOryncQoa-ZM3xFEqzFo_OzvB5FKG7OuEHMWKs5bfm5y6OnJleyo9WR8W58WJpZDPW_y4d-VLOK5CFuFhV_9gTN3sIZlaakHIxDOwErnqktJNAqgah1A_7VeZLzdSpC1oWlyX_BfOtbkXk4smJYkx8VE" },
-    { id: 2, title: "Mini Laser D2 Dual Color 30W Waterproof", price: "Rp 320.000", original: "", discount: 0, cashback: "+3.200 Koin", rating: "4.9", sold: "2,1rb", type: "TEMBAK", cat: "laser", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAZv-hI1ymx6Td3Oj_1xdafgyVLhfo7ZLwfHY1-wGEyeDLysJoDWRWnXb8Q3hVNchdMKTYifogAQpyKhBDW2lMYWbEiwC1Qj7fKP34LuKjZSPtZgvj1dCPBo-1OkQF-xXVWPXLYHDOWe1ds-42dDOQeq_sPadoxAvayfTmIXoz52uaAySW1jPJ8z-latNS5xgW6cAidCmUJEpAWPW33i-ZyZv0ax6CJ_1iy9QOFT0ZN" },
-    { id: 3, title: "Twin Snail Horn 118dB Waterproof 12V", price: "Rp 145.000", original: "Rp 190.000", discount: 23, cashback: "+1.450 Koin", rating: "4.8", sold: "940", type: "KLAKSON", cat: "horn", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAnUAn4tZgbMiVIZvn7OnFJdR6jVnOsgiu0Av9UJ8tPVtoFtTalp7-CzGddTNsm3v2bFJsqcEhF2ZsykD2V-a7VrK_iJmXF71pBk9xKLSqIyS3CZZqApsihel8DlVfZlAluCVAfHkCm7SD9QOR2id8z8cuv9O6od9iaNPR1bOgidZKpuPo3mNbbIvwgFurBuQ8lSAy6f9CT-l6JBDOpK73sb-9A-hp2jU4GyWdHfLr4" },
-    { id: 4, title: "Relay Harness Set 40A Tembaga Murni", price: "Rp 125.000", original: "", discount: 0, cashback: "+1.250 Koin", rating: "5.0", sold: "3,2rb", type: "RELAY", cat: "relay", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBeoggYWzW8iPuPljVfCEhSrIokJ0EDmsTt0IXJiIeEd5tSfUe4iXyWGVZtkESdcetPaFXJiHmI7o_0fBcivey6WBr317s0pbyYEoEEROMLle-l3FPuCcpkCk4udBrj6dv3R5fTuu6c60GUnRGN11E4PLwWdwkFxudCfLFrq6YyVPPlqyescxeF869MbByFvqTFhJGLbP62Qd2NC60fRWdkmtmMeIT_IlyuFh9hIfVE" },
-    { id: 5, title: "Nine GPS Tracker 4G Realtime Anti-Theft", price: "Rp 550.000", original: "Rp 699.000", discount: 21, cashback: "+5.500 Koin", rating: "4.8", sold: "620", type: "GPS", cat: "nmax", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCCnc8XNxiywK-knFr4oR3GLcF2XbHDi0pfFJyKrpkAh6mTP-0_d6GhErQL_ngcol8t74eBkKRlDMOuN8r_qqrym5IzpLVKzTUJvPafkc_2qW0lIXDBd4AQ5LtW3LgFi4234C4VyqFPGLVA8q5EG-jKmN3ouQ94BS4ERwVxTC9VJj7eeGJBiOb1JpH7sjunpq6jw9pkH262ZiMFp970WS_qcdcMRfwbt6HALKgfDshI" },
-    { id: 6, title: "Nine Dashcam 4K Dual Front & Rear WiFi", price: "Rp 1.150.000", original: "", discount: 0, cashback: "+11.500 Koin", rating: "4.9", sold: "410", type: "DASHCAM", cat: "dashcam", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBxZ85e0NCxXv-l_WWOwFQxWu_d6fhb7c_TuEc2DfvgrCIQ3rK73c7bsSwPW36juStPIh_CLIkVwFSQpbsTEP1I2nLU64UI_qnIGPjb6NATTi5qINIyiRQ_COpbmLZ3qxJ0ECW6ltyHioQuG5kmz7QTBuVo8V_Y8Or493oQ-TZxJq4YmOM_Umax6zGk-hOHCLnA9ri8fGlw4TokSsMhPjes_Uwl_sbaJXUvnS4O1SUQ" },
-    { id: 7, title: "Biled Matrix E3 Blue Lens 55W", price: "Rp 850.000", original: "Rp 1.100.000", discount: 22, cashback: "+8.500 Koin", rating: "4.8", sold: "870", type: "BILED", cat: "biled", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAlxOCBstxA_JC65izhiTBAHGrnP5cqtWZTpt8zayL0ghLJoLyv2urJ3wP2xEtTbbMeoeyXNR1bcfGoVws3eOryncQoa-ZM3xFEqzFo_OzvB5FKG7OuEHMWKs5bfm5y6OnJleyo9WR8W58WJpZDPW_y4d-VLOK5CFuFhV_9gTN3sIZlaakHIxDOwErnqktJNAqgah1A_7VeZLzdSpC1oWlyX_BfOtbkXk4smJYkx8VE" },
-    { id: 8, title: "Voltmeter Digital & USB Fast Charging Nine", price: "Rp 85.000", original: "Rp 115.000", discount: 26, cashback: "+850 Koin", rating: "4.9", sold: "1,8rb", type: "AKSESORI", cat: "nmax", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBeoggYWzW8iPuPljVfCEhSrIokJ0EDmsTt0IXJiIeEd5tSfUe4iXyWGVZtkESdcetPaFXJiHmI7o_0fBcivey6WBr317s0pbyYEoEEROMLle-l3FPuCcpkCk4udBrj6dv3R5fTuu6c60GUnRGN11E4PLwWdwkFxudCfLFrq6YyVPPlqyescxeF869MbByFvqTFhJGLbP62Qd2NC60fRWdkmtmMeIT_IlyuFh9hIfVE" }
-  ];
+  <!-- ============================================================== -->
+  <!-- JAVASCRIPT CONTROLLERS                                         -->
+  <!-- ============================================================== -->
+  <script>
+    function openModal(id) {
+      var modal = document.getElementById(id);
+      if (modal) {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+    }
 
-  var activeCat = "all";
+    function closeModal(id) {
+      var modal = document.getElementById(id);
+      if (modal) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+      }
+    }
 
-  function renderGrid(list) {
-    document.getElementById("resultCount").textContent = list.length;
-    document.getElementById("catalogGrid").innerHTML = list.map(function (p) {
-      return '<div class="ios-card p-3 flex flex-col justify-between group hover:border-neutral-300 transition-all">' +
-        '<a href="product-detail.html" class="block">' +
-        '<div class="relative w-full aspect-square rounded-xl overflow-hidden bg-neutral-100 mb-2">' +
-        '<img src="' + p.img + '" alt="' + p.title + '" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>' +
-        (p.discount > 0 ? '<span class="absolute top-2 left-2 rounded-lg bg-rose-500 text-white font-black text-[9.5px] px-2 py-0.5 uppercase shadow-xs">-' + p.discount + '%</span>' : '') +
-        '<span class="absolute top-2 right-2 rounded-md bg-white/90 backdrop-blur-xs px-1.5 py-0.5 font-micro text-[8px] font-bold text-primary-950 uppercase">' + p.type + '</span>' +
-        '</div>' +
-        '<div class="flex items-center gap-1 mb-1">' +
-        '<i class="ph-fill ph-star text-amber-400 text-xs"></i><span class="text-xs font-bold text-primary-950">' + p.rating + '</span>' +
-        '<span class="text-[10px] text-neutral-400">(' + p.sold + ')</span>' +
-        '</div>' +
-        '<h3 class="font-bold text-xs text-primary-950 line-clamp-2 leading-tight">' + p.title + '</h3>' +
-        (p.cashback ? '<div class="mt-1"><span class="badge-koin text-[9.5px]">🪙 ' + p.cashback + '</span></div>' : '') +
-        '</a>' +
-        '<div class="mt-2 pt-2 border-t border-neutral-100 flex items-center justify-between">' +
-        '<div>' +
-        '<span class="font-price text-sm font-black text-primary-950 block">' + p.price + '</span>' +
-        (p.original ? '<span class="text-[10px] text-neutral-400 line-through">' + p.original + '</span>' : '') +
-        '</div>' +
-        '<button onclick="quickAdd(\'' + p.title + '\')" aria-label="Tambah" class="tap-44 w-8 h-8 rounded-xl bg-accent-600 hover:bg-accent-700 text-white flex items-center justify-center transition-all shadow-xs active:scale-95 ios-press">' +
-        '<i class="ph-bold ph-plus text-sm"></i>' +
-        '</button>' +
-        '</div>' +
-        '</div>';
-    }).join("");
-  }
+    function filterCategory(cat, btnEl) {
+      document.querySelectorAll('.cat-filter-btn').forEach(function(b) {
+        b.className = "cat-filter-btn px-3.5 py-2 rounded-full font-medium bg-white border border-[#e4e4e7] text-[#71717a] hover:text-[#18181b] shrink-0 transition-all";
+      });
+      btnEl.className = "cat-filter-btn px-3.5 py-2 rounded-full font-bold bg-[#18181b] text-white shrink-0 transition-all";
 
-  function setFilterCategory(cat, btn) {
-    activeCat = cat;
-    document.querySelectorAll(".cat-chip").forEach(function (b) {
-      b.className = "cat-chip tap-44 h-9 px-3.5 rounded-full bg-white border border-neutral-200/80 text-neutral-700 font-semibold text-xs shrink-0";
-    });
-    btn.className = "cat-chip tap-44 h-9 px-3.5 rounded-full bg-accent-600 text-white font-bold text-xs shadow-xs shrink-0";
-    filterProducts();
-  }
+      var cards = document.querySelectorAll('#catalogGrid > article');
+      var visibleCount = 0;
+      cards.forEach(function(card) {
+        if (cat === 'all' || card.getAttribute('data-cat') === cat) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+      document.getElementById('productCount').innerText = visibleCount;
+    }
 
-  function filterProducts() {
-    var q = document.getElementById("catalogSearch").value.toLowerCase();
-    var filtered = PRODUCTS.filter(function (p) {
-      var matchCat = activeCat === "all" || p.cat === activeCat;
-      var matchQuery = !q || p.title.toLowerCase().indexOf(q) !== -1 || p.type.toLowerCase().indexOf(q) !== -1;
-      return matchCat && matchQuery;
-    });
-    renderGrid(filtered);
-  }
+    function filterCatalog() {
+      var query = document.getElementById('catalogSearchInput').value.toLowerCase();
+      var cards = document.querySelectorAll('#catalogGrid > article');
+      var visibleCount = 0;
+      cards.forEach(function(card) {
+        var text = card.innerText.toLowerCase();
+        if (text.includes(query)) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+      document.getElementById('productCount').innerText = visibleCount;
+    }
 
-  function quickAdd(name) {
-    var c = parseInt(localStorage.getItem("nine_cart") || "2", 10) + 1;
-    nineCartSet(c);
-    window.nineToast(name + " dimasukkan ke keranjang", "shopping-bag");
-  }
-
-  // Filter Sheet Logic
-  var filterSheet = document.getElementById("filterSheet");
-  var filterBody = document.getElementById("filterBody");
-
-  function openFilterSheet() {
-    filterSheet.classList.remove("hidden");
-    requestAnimationFrame(function () {
-      filterBody.classList.remove("translate-y-full");
-    });
-  }
-
-  function closeFilterSheet() {
-    filterBody.classList.add("translate-y-full");
-    setTimeout(function () {
-      filterSheet.classList.add("hidden");
-    }, 280);
-  }
-
-  filterSheet.addEventListener("click", function (e) {
-    if (e.target === filterSheet) closeFilterSheet();
-  });
-
-  renderGrid(PRODUCTS);
-</script>
+    function addToCart(name) {
+      alert(name + " berhasil ditambahkan ke keranjang belanja!");
+    }
+  </script>
 </body>
 </html>

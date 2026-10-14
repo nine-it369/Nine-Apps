@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Lacak Pengiriman — Nine Autogarage</title>
+  
+  <!-- Fonts & Phosphor Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS Engine & Design Tokens -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../assets/config.js"></script>
+  <link rel="stylesheet" href="../assets/base.css"/>
+  
+  <style>
+    body {
+      background-color: #fafafa;
+      color: #18181b;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+</head>
+
+<body data-tab="mall" class="min-h-screen bg-[#fafafa] flex flex-col antialiased selection:bg-accent-100 selection:text-accent-700">
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: AppHeader (Styling Ikon Bulat Sesuai Halaman Home)    -->
+  <!-- ============================================================== -->
+  <header data-component="AppHeader" class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e4e4e7] pt-safe">
+    <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between gap-2">
+      <!-- Back Button -->
+      <a href="orders.html" aria-label="Kembali ke Pesanan" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-caret-left text-[20px]"></i>
+      </a>
+
+      <!-- Page Title -->
+      <div class="flex-1 text-center min-w-0">
+        <h1 class="text-sm font-bold text-[#18181b] truncate">Lacak Pengiriman</h1>
+        <p class="text-[10px] text-[#71717a] truncate">J&T Express · Real-Time Resi</p>
+      </div>
+
+      <!-- Quick CS Help Button -->
+      <a href="https://wa.me/6281234567890" target="_blank" aria-label="Bantuan CS" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-headset text-[20px]"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- MAIN CONTENT CONTAINER                                         -->
+  <!-- ============================================================== -->
+  <main class="w-full max-w-md mx-auto pt-20 pb-28 px-4 flex flex-col gap-4">
+
+    <!-- COMPONENT: TrackingInputCard -->
+    <section data-component="TrackingInputCard" class="ios-card p-4 flex flex-col gap-2.5">
+      <span class="text-xs font-bold text-[#18181b]">Lacak Nomor Resi</span>
+      <div class="flex gap-2">
+        <div class="relative flex-1">
+          <i class="ph-bold ph-barcode absolute left-3 top-1/2 -translate-y-1/2 text-[#71717a] text-lg"></i>
+          <input id="inputAwb" value="JT0128849217" placeholder="Contoh: JT0128849217" class="w-full h-11 pl-10 pr-3 rounded-xl bg-[#f4f4f5] border border-[#e4e4e7] text-xs font-bold text-[#18181b] outline-none"/>
+        </div>
+        <button type="button" onclick="alert('Pembaruan status resi real-time berhasil diambil!')" class="px-5 rounded-full bg-[#18181b] text-white text-xs font-bold hover:bg-[#27272a] transition-all">
+          Lacak
+        </button>
+      </div>
+      <span class="text-[10px] text-[#71717a]">Pesanan: #NNE-88150-JKT · Dikirim dari Gudang Jakarta Barat</span>
+    </section>
+
+    <!-- COMPONENT: TrackingTimelineCard -->
+    <section data-component="TrackingTimelineCard" class="ios-card p-4 flex flex-col gap-3">
+      <div class="flex items-center justify-between pb-2.5 border-b border-[#f4f4f5] text-xs">
+        <div>
+          <span class="text-[10px] text-[#71717a] block uppercase font-bold">Status Pengiriman</span>
+          <strong class="text-sm text-[#18181b] mt-0.5 block">Dalam Pengantaran</strong>
+        </div>
+        <span class="px-2.5 py-0.5 rounded-full bg-[#f0fdf4] text-[#15803d] text-[10px] font-bold border border-[#bbf7d0]">
+          ON PROCESS
+        </span>
+      </div>
+
+      <!-- Timeline Checkpoints -->
+      <div class="flex flex-col gap-4 text-xs pt-1">
+        <!-- Step 1 -->
+        <div class="flex items-start gap-3">
+          <div class="w-5 h-5 rounded-full bg-[#22c55e] text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">
+            <i class="ph-bold ph-truck"></i>
+          </div>
+          <div>
+            <strong class="text-[#18181b] block">Kurir sedang mengantar paket ke alamat tujuan</strong>
+            <span class="text-[10px] text-[#71717a]">Hari ini, 15:30 WIB · Area Tangerang Batuceper</span>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="flex items-start gap-3">
+          <div class="w-5 h-5 rounded-full bg-[#f4f4f5] text-[#18181b] flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">
+            <i class="ph-bold ph-package"></i>
+          </div>
+          <div>
+            <strong class="text-[#18181b] block">Paket tiba di Drop Point DC Tangerang</strong>
+            <span class="text-[10px] text-[#71717a]">Hari ini, 10:15 WIB</span>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="flex items-start gap-3">
+          <div class="w-5 h-5 rounded-full bg-[#f4f4f5] text-[#18181b] flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">
+            <i class="ph-bold ph-buildings"></i>
+          </div>
+          <div>
+            <strong class="text-[#18181b] block">Paket diserahkan Gudang Jakarta Barat ke Kurir J&T</strong>
+            <span class="text-[10px] text-[#71717a]">Kemarin, 19:40 WIB</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

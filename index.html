@@ -1,1629 +1,611 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
   <title>Beranda — Nine Autogarage</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet" />
-  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet" />
-  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet" />
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS Engine & Design Tokens -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/config.js"></script>
-  <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/base.css" />
+  <link rel="stylesheet" href="assets/base.css"/>
+  
   <style>
-    /* Solid Top Brand Header + Clean White Canvas (NO GRADIENT) */
-    #homeCanvas {
-      background: #ffffff !important;
-    }
-
-    .theme-grad-0 {
-      background: #ffffff !important;
-    }
-
-    /* Clean Floating White Glass Buttons in Header */
-    body[data-header="transparent"] header .tap-44 {
-      background: rgba(255, 255, 255, 0.92) !important;
-      backdrop-filter: blur(12px) !important;
-      -webkit-backdrop-filter: blur(12px) !important;
-      border: 1px solid rgba(228, 228, 231, 0.9) !important;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
-      color: #09090b !important;
-    }
-
-    /* Scaling Hero Card Animation - Apple HIG Carousel with Peek Affordance */
-    .hero-card {
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: transform, opacity;
-      transform-origin: center center;
-    }
-
-    .hero-card.active {
-      transform: scale(1.0) !important;
-      opacity: 1 !important;
-      box-shadow: none !important;
-      z-index: 20;
-    }
-
-    .hero-card.inactive {
-      transform: scale(0.95) !important;
-      opacity: 0.68 !important;
-      box-shadow: none !important;
-      z-index: 10;
-      cursor: pointer;
+    body {
+      background-color: #fafafa;
+      color: #18181b;
+      -webkit-font-smoothing: antialiased;
     }
   </style>
 </head>
 
-<body data-tab="beranda" data-header="transparent" data-search="Cari aksesori di Mall…"
-  class="font-body text-body text-on-surface antialiased selection:bg-accent-subtle selection:text-accent-text">
+<body data-tab="beranda" class="min-h-screen bg-[#fafafa] flex flex-col antialiased selection:bg-accent-100 selection:text-accent-700">
 
-  <main id="homeCanvas"
-    class="w-full min-h-screen pt-16 pb-32 text-on-surface flex flex-col relative overflow-x-hidden bg-white">
-    <!-- Gradient Automotive Light Header: Memudar halus ke putih murni di bawah aksesori terhubung agar menyatu sempurna -->
-    <div
-      class="absolute top-0 inset-x-0 h-[640px] bg-gradient-to-b from-[#eef2f6] via-[#f8fafc] to-white pointer-events-none z-0">
+  <!-- ============================================================== -->
+  <!-- COMPONENT: AppHeader (Phosphor Icons Bulat & Search Pill)      -->
+  <!-- ============================================================== -->
+  <header data-component="AppHeader" class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e4e4e7] pt-safe">
+    <div class="max-w-md mx-auto px-4 h-14 flex items-center gap-2">
+      <!-- Search Input Pill -->
+      <a href="mall/catalog.html" aria-label="Cari aksesori di Mall" class="flex-1 min-w-0 flex items-center gap-2 h-10 px-3.5 rounded-full bg-[#f4f4f5] text-[#18181b] border border-[#e4e4e7] active:scale-[0.98] transition-all">
+        <i class="ph-bold ph-magnifying-glass text-[17px] text-[#71717a] shrink-0"></i>
+        <span class="text-xs text-[#71717a] truncate">Cari aksesori di Mall…</span>
+      </a>
+
+      <!-- CS Hotline Button (Bulat Putih Border Halus) -->
+      <button type="button" onclick="openHelpSheet()" aria-label="Bantuan & CS" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-headset text-[20px]"></i>
+      </button>
+
+      <!-- Cart Shopping Bag Button (Bulat Putih dengan Badge Emerald) -->
+      <a href="mall/keranjang.html" aria-label="Keranjang Belanja" class="tap-44 relative w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-shopping-bag text-[20px]"></i>
+        <span class="absolute top-1 right-1 min-w-[17px] h-[17px] px-1 rounded-full bg-[#22c55e] text-white text-[10px] font-bold flex items-center justify-center leading-none">2</span>
+      </a>
     </div>
+  </header>
 
-    <div class="max-w-md mx-auto w-full px-4 flex flex-col relative z-10">
+  <!-- ============================================================== -->
+  <!-- MAIN CONTENT CONTAINER (Centered Mobile Canvas)                -->
+  <!-- ============================================================== -->
+  <main class="w-full max-w-md mx-auto pt-20 pb-28 px-4 flex flex-col gap-4">
 
-      <!-- TOP BAR: VEHICLE SELECTOR & UNIFIED KOIN / VOUCHER (Apple HIG Inset) -->
-      <section class="pt-2 flex items-center justify-between gap-2">
-        <!-- Vehicle Pill -->
-        <button onclick="openVehicleSheet()"
-          class="tap-44 h-10 px-3.5 rounded-full bg-white/95 backdrop-blur-md border border-neutral-200/90 shadow-2xs flex items-center gap-2 active:scale-95 transition-all">
-          <span class="font-body-semibold text-xs text-primary-950 font-bold truncate max-w-[150px]"
-            id="currentVehName">Yamaha NMAX 155</span>
-          <span class="px-1.5 py-0.5 rounded bg-primary-100 font-micro text-micro uppercase text-primary-800"
-            id="currentVehType">Motor</span>
-          <i class="ph-bold ph-caret-down text-neutral-400 text-xs"></i>
-        </button>
-
-        <!-- Unified Koin & Voucher Group -->
-        <div class="flex items-center gap-1.5">
-          <!-- Nine Koin (Single unified coin pill per user request) -->
-          <a href="profile.html" aria-label="Nine Koin"
-            class="tap-44 h-10 px-3 rounded-full bg-white/90 backdrop-blur-md border border-neutral-200/90 shadow-2xs flex items-center gap-1.5 active:scale-95 transition-all">
-            <i class="ph-fill ph-coins text-accent-600 text-base"></i>
-            <span class="font-headline text-xs text-primary-950 font-extrabold font-mono leading-none">1.250</span>
-            <span class="font-micro text-micro text-secondary uppercase font-semibold">Koin</span>
-          </a>
-
-          <!-- Voucher Saya (Added per user request) -->
-          <a href="profile.html" aria-label="Voucher Saya"
-            class="tap-44 h-10 px-2.5 rounded-full bg-white/90 backdrop-blur-md border border-neutral-200/90 shadow-2xs flex items-center gap-1 active:scale-95 transition-all">
-            <i class="ph-fill ph-ticket text-primary-900 text-base"></i>
-            <span class="font-headline text-xs text-primary-950 font-extrabold font-mono leading-none">3</span>
-            <span class="font-micro text-micro text-secondary uppercase font-semibold">Vcr</span>
-          </a>
+    <!-- COMPONENT: VehicleSelector (Motor Aktif & Saldo Koin) -->
+    <section data-component="VehicleSelector" class="flex items-center justify-between gap-2 pt-1">
+      <!-- Active Vehicle Pill -->
+      <button type="button" onclick="openVehicleSheet()" class="ios-pill h-10 px-3.5 flex items-center gap-2 active:scale-95 transition-transform">
+        <div class="w-6 h-6 rounded-full bg-[#18181b] text-white flex items-center justify-center text-xs">
+          <i class="ph-bold ph-motorcycle"></i>
         </div>
-      </section>
-
-      <!-- ACTIVE LOCATION SHARE BANNER (Conditional) -->
-      <div id="shareActive" class="hidden mt-3">
-        <div
-          class="flex items-center justify-between gap-3 bg-white/95 backdrop-blur-md border border-accent-300 rounded-2xl p-3 shadow-2xs">
-          <div class="flex items-center gap-2.5 min-w-0">
-            <div class="w-8 h-8 rounded-xl bg-accent-50 text-accent-600 flex items-center justify-center shrink-0">
-              <i class="ph-bold ph-share-network text-lg"></i>
-            </div>
-            <div class="min-w-0">
-              <span class="font-body-semibold text-xs text-primary-950 font-bold block">Lokasi GPS Sedang
-                Berjalan</span>
-              <span class="text-[11px] text-accent-700">Berakhir <span id="shareEta">8 jam</span> lagi · 1 tautan
-                aktif</span>
-            </div>
-          </div>
-          <button onclick="stopShare()"
-            class="px-2.5 py-1 rounded-xl bg-danger-50 text-danger-text font-bold text-[11px] uppercase tracking-wider border border-red-200 shadow-2xs active:opacity-70">
-            Hentikan
-          </button>
+        <div class="flex flex-col text-left leading-none">
+          <span class="text-xs font-bold text-[#18181b]">Yamaha NMAX 155</span>
+          <span class="text-[10px] text-[#71717a] mt-0.5">B 1234 XYZ</span>
         </div>
+        <i class="ph-bold ph-caret-down text-[#71717a] text-xs ml-1"></i>
+      </button>
+
+      <!-- Unified Nine Koin Pill -->
+      <a href="account/profile.html" aria-label="Saldo Koin" class="ios-pill h-10 px-3 flex items-center gap-1.5 active:scale-95 transition-transform">
+        <i class="ph-fill ph-coins text-[#22c55e] text-base"></i>
+        <span class="text-xs font-bold text-[#18181b]">1.250</span>
+        <span class="text-[10.5px] text-[#71717a]">Koin</span>
+      </a>
+    </section>
+
+    <!-- SECTION TITLE: AKSESORI TERPASANG -->
+    <div class="flex items-center justify-between px-1">
+      <div>
+        <h2 class="text-xs font-bold text-[#18181b]">Aksesori Terpasang</h2>
+        <span class="text-[11px] text-[#71717a]">3 perangkat aktif di unit Yamaha NMAX · Ketuk kartu</span>
       </div>
+      <a href="iot/accecories.html" class="text-xs font-semibold text-[#15803d] hover:underline">
+        Semua Modul
+      </a>
+    </div>
 
-      <!-- SECTION 1: HERO AKSESORI AKTIF (ENLARGED GPS MOCKUP & TRULY TRANSPARENT CARDS) -->
-      <section class="mt-4">
-        <div class="flex items-center justify-between mb-2.5 px-1">
-          <div class="flex items-center gap-2">
-            <span class="font-label text-label uppercase tracking-widest text-primary-950 font-black">Aksesori
-              Terhubung</span>
-          </div>
-          <a href="accecories.html"
-            class="font-caption text-caption text-accent-700 font-bold flex items-center gap-0.5 hover:underline">
-            Semua Unit<i class="ph-bold ph-caret-right text-xs"></i>
-          </a>
-        </div>
-
-        <!-- Viewport Carousel: Swipable Full-width, Tightly Spaced, Enlarged Cards with Truly Transparent Info Areas -->
-        <div id="deck"
-          class="w-[calc(100%+2rem)] -mx-4 px-4 overflow-x-auto snap-x-carousel flex items-center gap-3 py-3 scroll-smooth no-scrollbar">
-
-          <!-- CARD 0: Nine GPS Tracker 4G IoT (Enlarged Mockup 250px & Truly Transparent Container) -->
-          <div onclick="deckGoTo(0)" id="card-0"
-            class="hero-card active snap-card shrink-0 w-[364px] sm:w-[382px] h-[364px] rounded-[26px] bg-transparent border border-neutral-200/90 overflow-hidden flex flex-col group relative">
-            <!-- Visual Area (250px): Enlarged Live Navigation Map & Mockup -->
-            <div class="relative h-[250px] bg-[#1e293b] overflow-hidden shrink-0">
-              <svg class="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice" viewBox="0 0 372 250">
-                <!-- Dark Landmass & Parks -->
-                <rect width="372" height="250" fill="#1e293b" />
-                <path d="M-10,20 Q60,10 120,40 T240,15 L260,-10 L-10,-10 Z" fill="#14532d" opacity="0.35" />
-                <path d="M240,115 Q290,105 385,135 L385,260 L240,260 Z" fill="#14532d" opacity="0.35" />
-                <!-- Waterway -->
-                <path d="M145,-10 C160,50 150,115 175,260" fill="none" stroke="#0369a1" stroke-width="20"
-                  opacity="0.45" />
-                <!-- Building footprints -->
-                <g fill="#334155" opacity="0.65">
-                  <rect x="185" y="26" width="58" height="34" rx="3" />
-                  <rect x="270" y="42" width="65" height="40" rx="3" />
-                  <rect x="25" y="140" width="62" height="42" rx="3" />
-                  <rect x="255" y="150" width="68" height="36" rx="3" />
-                  <rect x="95" y="25" width="45" height="30" rx="3" />
-                </g>
-                <!-- Major Arterials -->
-                <g stroke="#475569" fill="none">
-                  <path d="M-10,120 L385,70" stroke-width="8" />
-                  <path d="M80,-10 L108,260" stroke-width="5.5" />
-                  <path d="M295,-10 L278,260" stroke-width="5.5" />
-                </g>
-                <!-- Primary Highway (Sudirman) -->
-                <path d="M-10,148 C110,148 225,142 385,142" stroke="#f59e0b" stroke-width="8.5" opacity="0.85" />
-                <path d="M-10,148 C110,148 225,142 385,142" stroke="#ffffff" stroke-dasharray="5 5" stroke-width="2"
-                  opacity="0.9" />
-                <!-- Active Route Path -->
-                <path d="M35,210 L105,150 L205,146 L260,144" fill="none" stroke="#38bdf8" stroke-width="5"
-                  stroke-linecap="round" stroke-linejoin="round" />
-                <circle cx="35" cy="210" r="5.5" fill="#ffffff" stroke="#0284c7" stroke-width="2.5" />
-                <!-- Live Vehicle Radar Waves & Position Marker -->
-                <circle cx="260" cy="144" r="30" fill="#22c55e" opacity="0.2" class="animate-ping"
-                  style="animation-duration: 2.5s;" />
-                <circle cx="260" cy="144" r="16" fill="#22c55e" opacity="0.35" />
-                <circle cx="260" cy="144" r="7" fill="#22c55e" stroke="#ffffff" stroke-width="2.5" />
-                <text x="35" y="180" font-size="10.5" font-weight="700" fill="#e2e8f0" letter-spacing="0.2">Jl. Jenderal
-                  Sudirman, Jakarta Selatan</text>
-              </svg>
-
-
-              <!-- Live HUD Overlays (Clean Apple CarPlay Inset) -->
-              <div class="absolute top-3.5 left-3.5 flex items-center gap-2">
-                <span
-                  class="flex items-center gap-1.5 bg-black/65 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-white shadow-sm">
-                  <span class="w-2 h-2 rounded-full bg-accent-400 animate-pulse"></span>
-                  <span class="font-body-semibold text-[11px] font-bold text-white tracking-wide">Yamaha NMAX 155 · Live
-                    GPS</span>
-                </span>
-              </div>
-              <div
-                class="absolute top-3.5 right-3.5 flex items-center gap-1.5 bg-black/65 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10 text-white font-mono text-[11px] font-semibold">
-                <i class="ph-bold ph-battery-charging text-accent-400"></i>
-                <span>98% · 12.8V</span>
-              </div>
-              <span
-                class="absolute bottom-2.5 right-3.5 font-mono text-[9px] text-neutral-300 bg-black/60 backdrop-blur-xs px-2.5 py-0.5 rounded-full border border-white/10">GPS
-                4G LTE IoT</span>
+    <!-- COMPONENT: InstalledAccessoriesList (Feed Kartu Aksesori Aktif) -->
+    <div data-component="InstalledAccessoriesList" class="flex flex-col gap-3">
+      
+      <!-- CARD 1: NINE GPS TRACKER 4G IOT -->
+      <article data-component="AccessoryCard" data-device="gps" onclick="openModal('modal-gps')" class="ios-card ios-card-interactive p-4 flex flex-col gap-3">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-[#18181b] text-white flex items-center justify-center shrink-0">
+              <i class="ph-bold ph-navigation-arrow text-lg"></i>
             </div>
-
-            <!-- Bottom Info Area (Benar-Benar Transparan Tanpa Box Putih/Hitam) -->
-            <div class="p-3.5 flex items-center justify-between gap-3 flex-1 bg-transparent text-primary-950">
-              <div class="min-w-0 flex-1">
-                <h3 class="font-headline text-base font-bold text-primary-950 truncate">Nine GPS Tracker 4G IoT</h3>
-                <p class="font-caption text-xs text-neutral-500 truncate mt-0.5">Status Aman · Terparkir (Radius
-                  Geofence 20m)</p>
-                <a href="device-gps.html"
-                  class="inline-flex items-center gap-1.5 font-body-semibold text-xs text-accent-700 font-bold mt-1.5 hover:underline transition-colors">
-                  <span>Buka Telemetri &amp; Histori Rute</span><i class="ph-bold ph-arrow-right text-xs"></i>
-                </a>
-              </div>
-              <!-- Translucent Telemetry Glass Box -->
-              <div
-                class="shrink-0 text-right px-3.5 py-2 rounded-2xl bg-neutral-100/70 border border-neutral-200/80 shadow-2xs">
-                <div class="font-headline text-2xl text-primary-950 font-black leading-none font-mono tracking-tight">42
-                </div>
-                <div class="font-micro text-[9px] text-accent-700 uppercase tracking-widest font-black mt-1">km/j</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- CARD 1: Nine Biled Projector Matrix E9 Pro (Enlarged Mockup 250px & Truly Transparent Container) -->
-          <div onclick="deckGoTo(1)" id="card-1"
-            class="hero-card inactive snap-card shrink-0 w-[364px] sm:w-[382px] h-[364px] rounded-[26px] bg-transparent border border-neutral-200/90 overflow-hidden flex flex-col group relative">
-            <!-- Visual Area (250px): Optical Headlight Chamber -->
-            <div
-              class="relative h-[250px] bg-[#121214] overflow-hidden shrink-0 flex flex-col items-center justify-center">
-              <!-- Dynamic Optical Beam Glow -->
-              <div id="lensGlow" class="absolute inset-0 transition-all duration-300 pointer-events-none"
-                style="background:radial-gradient(circle at 50% 42%,#38BDF8 0%,rgba(56,189,248,.32) 48%,transparent 74%)">
-              </div>
-
-              <!-- Top HUD -->
-              <div
-                class="absolute top-3.5 left-3.5 flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 shadow-sm">
-                <span class="w-2 h-2 rounded-full bg-accent-400"></span>
-                <span class="font-body-semibold text-[11px] font-bold text-white tracking-wide">Biled Matrix E9 Pro ·
-                  Online</span>
-              </div>
-              <span
-                class="absolute top-3.5 right-3.5 font-mono text-[11px] font-bold text-neutral-300 uppercase tracking-wider bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">65W
-                Turbo Beam</span>
-
-              <!-- Projector Lens Optical Structure -->
-              <div id="lensBulb"
-                class="relative w-18 h-18 rounded-full bg-neutral-900 border-2 border-neutral-700 flex items-center justify-center transition-all duration-300 shadow-[0_0_36px_rgba(56,189,248,.6)]">
-                <div class="absolute inset-1.5 rounded-full border border-white/20"></div>
-                <div class="w-9 h-9 rounded-full bg-white flex items-center justify-center shadow-inner">
-                  <i class="ph-bold ph-sun text-xl text-neutral-900"></i>
-                </div>
-              </div>
-
-              <!-- Color Temperature Selector -->
-              <div class="absolute bottom-3 inset-x-0 flex items-center justify-center gap-3">
-                <button type="button" onclick="changeBeam(event,'#F59E0B','rgba(245,158,11,.3)','3000K Golden Amber')"
-                  aria-label="Amber 3000K" class="tap-44 w-9 h-9 shrink-0 flex items-center justify-center">
-                  <span class="swatch-dot block w-5 h-5 rounded-full border border-white/60 transition-all"
-                    style="background:#F59E0B"></span>
-                </button>
-                <button type="button"
-                  onclick="changeBeam(event,'#FDE68A','rgba(253,230,138,.3)','4300K All-Weather Warm')"
-                  aria-label="Warm 4300K" class="tap-44 w-9 h-9 shrink-0 flex items-center justify-center">
-                  <span class="swatch-dot block w-5 h-5 rounded-full border border-white/60 transition-all"
-                    style="background:#FDE68A"></span>
-                </button>
-                <button type="button" onclick="changeBeam(event,'#F8FAFC','rgba(248,250,252,.3)','5500K Pure White')"
-                  aria-label="Pure White 5500K" class="tap-44 w-9 h-9 shrink-0 flex items-center justify-center">
-                  <span class="swatch-dot block w-5 h-5 rounded-full border border-white/60 transition-all"
-                    style="background:#F8FAFC"></span>
-                </button>
-                <button type="button" onclick="changeBeam(event,'#38BDF8','rgba(56,189,248,.35)','6000K Ice Blue')"
-                  aria-label="Ice Blue 6000K" class="tap-44 w-9 h-9 shrink-0 flex items-center justify-center">
-                  <span class="swatch-dot block w-6 h-6 rounded-full border-2 border-white transition-all scale-110"
-                    style="background:#38BDF8"></span>
-                </button>
-                <button type="button" onclick="changeBeam(event,'#22C55E','rgba(34,197,94,.3)','Laser Green Aux')"
-                  aria-label="Laser Green" class="tap-44 w-9 h-9 shrink-0 flex items-center justify-center">
-                  <span class="swatch-dot block w-5 h-5 rounded-full border border-white/60 transition-all"
-                    style="background:#22C55E"></span>
-                </button>
-              </div>
-            </div>
-
-            <!-- Bottom Info Area (Benar-Benar Transparan Tanpa Box Putih/Hitam) -->
-            <div class="p-3.5 flex items-center justify-between gap-3 flex-1 bg-transparent text-primary-950">
-              <div class="min-w-0 flex-1">
-                <h3 class="font-headline text-base font-bold text-primary-950 truncate">Biled Matrix E9 Pro</h3>
-                <p class="font-caption text-xs text-neutral-500 truncate mt-0.5">Warna Sorot: <span id="currentBeamName"
-                    class="text-primary-950 font-semibold">Ice Blue (6000K)</span></p>
-                <a href="device-lampu.html"
-                  class="inline-flex items-center gap-1.5 font-body-semibold text-xs text-accent-700 font-bold mt-1.5 hover:underline transition-colors">
-                  <span>Atur Sudut Sorot &amp; Garansi 2 Thn</span><i class="ph-bold ph-arrow-right text-xs"></i>
-                </a>
-              </div>
-              <div
-                class="shrink-0 text-right px-3.5 py-2 rounded-2xl bg-neutral-100/70 border border-neutral-200/80 shadow-2xs">
-                <div class="font-headline text-2xl text-primary-950 font-black leading-none font-mono tracking-tight">
-                  65W</div>
-                <div class="font-micro text-[9px] text-accent-700 uppercase tracking-widest font-black mt-1">TURBO</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- CARD 2: Nine Cam Pro 4K Dual Matrix (Enlarged Mockup 250px & Truly Transparent Container) -->
-          <div onclick="deckGoTo(2)" id="card-2"
-            class="hero-card inactive snap-card shrink-0 w-[364px] sm:w-[382px] h-[364px] rounded-[26px] bg-transparent border border-neutral-200/90 overflow-hidden flex flex-col group relative">
-            <!-- Visual Area (250px): Dashcam Footage -->
-            <div class="relative h-[250px] bg-neutral-900 overflow-hidden shrink-0">
-              <img src="dashcam.jpg" alt="Rekaman dashcam 4K di jalan tol" class="w-full h-full object-cover" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/35 pointer-events-none">
-              </div>
-
-              <!-- REC Indicator -->
-              <div
-                class="absolute top-3.5 left-3.5 flex items-center gap-1.5 bg-danger-600 px-3 py-1 rounded-md shadow-xs">
-                <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
-                <span class="font-mono text-[10px] font-black text-white uppercase tracking-wider">REC · 4K UHD</span>
-              </div>
-              <span
-                class="absolute top-3.5 right-3.5 font-mono text-[10px] font-bold text-white uppercase tracking-wider bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">30
-                FPS · HDR Night Mode</span>
-
-              <span class="absolute bottom-2.5 left-3.5 font-mono text-[11px] font-semibold text-white/90">08/10/2026 ·
-                17:42:10 WIB</span>
-              <span class="absolute bottom-2.5 right-3.5 font-mono text-[11px] font-bold text-white/90">48 KM/J · GPS
-                Locked</span>
-            </div>
-
-            <!-- Bottom Info Area (Benar-Benar Transparan Tanpa Box Putih/Hitam) -->
-            <div class="p-3.5 flex items-center justify-between gap-3 flex-1 bg-transparent text-primary-950">
-              <div class="min-w-0 flex-1">
-                <h3 class="font-headline text-base font-bold text-primary-950 truncate">Nine Cam Pro 4K Dual</h3>
-                <p class="font-caption text-xs text-neutral-500 truncate mt-0.5">Yamaha NMAX · B 1234 XYZ</p>
-                <a href="device-dashcam.html"
-                  class="inline-flex items-center gap-1.5 font-body-semibold text-xs text-accent-700 font-bold mt-1.5 hover:underline transition-colors">
-                  <span>Lihat Feed Live &amp; Rekaman</span><i class="ph-bold ph-arrow-right text-xs"></i>
-                </a>
-              </div>
-              <div
-                class="shrink-0 px-3.5 py-2 rounded-2xl bg-neutral-100/70 border border-neutral-200/80 shadow-2xs w-[110px]">
-                <div class="font-mono text-[9px] text-neutral-500 uppercase tracking-wider font-bold">MICRO SD</div>
-                <div class="h-1.5 rounded-full bg-neutral-200 mt-1 overflow-hidden">
-                  <div class="h-full bg-accent-500 rounded-full" style="width:75%"></div>
-                </div>
-                <div class="font-mono text-[11px] text-primary-950 font-bold mt-0.5">96/128 GB</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- CARD 3: Tambah Aksesori Baru (Clean Inset dengan Border Garis Putus-Putus & Primary Button Hijau) -->
-          <div onclick="deckGoTo(3)" id="card-3"
-            class="hero-card inactive snap-card shrink-0 w-[364px] sm:w-[382px] h-[364px] rounded-[26px] bg-transparent border border-dashed border-neutral-300 hover:border-neutral-400 flex flex-col items-center justify-center p-6 text-center group cursor-pointer transition-all">
-            <!-- Plain Gray Plus Icon Container -->
-            <div
-              class="w-16 h-16 rounded-full bg-neutral-100 border border-neutral-200/80 text-neutral-500 flex items-center justify-center group-hover:bg-neutral-200 group-hover:text-neutral-700 transition-all shadow-2xs">
-              <i class="ph-bold ph-plus text-2xl"></i>
-            </div>
-
-            <h3 class="font-headline text-base font-bold text-primary-950 mt-4">Hubungkan Aksesori Baru</h3>
-            <p class="font-caption text-xs text-neutral-500 max-w-[270px] mt-1.5 leading-relaxed">
-              Pindai Bluetooth BLE atau masukkan nomor seri modul Nine untuk motor &amp; mobil Anda.
-            </p>
-
-            <div class="flex items-center gap-2 mt-3 text-[11px] text-neutral-400 font-medium">
-              <span>TPMS Ban</span>
-              <span>·</span>
-              <span>Smart Alarm</span>
-              <span>·</span>
-              <span>Klakson BLE</span>
-            </div>
-
-            <!-- Primary Button Hijau Brand Nine -->
-            <a href="accecories.html?action=add" onclick="event.stopPropagation()"
-              class="mt-4 px-5 py-2.5 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-body-semibold text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 active:scale-95">
-              <i class="ph-bold ph-plus-circle text-sm"></i>
-              <span>Mulai Pasangkan</span>
-            </a>
-          </div>
-
-        </div>
-
-        <!-- Centered Carousel Dots (4 dots) -->
-        <div id="deckDots" class="flex items-center justify-center gap-2 mt-2" role="tablist">
-          <button onclick="deckGoTo(0)" class="deck-dot tap-44 h-4 flex items-center justify-center"
-            aria-label="Aksesori 1: GPS Tracker">
-            <span class="block h-1.5 w-6 rounded-full bg-primary-950 transition-all"></span>
-          </button>
-          <button onclick="deckGoTo(1)" class="deck-dot tap-44 h-4 flex items-center justify-center"
-            aria-label="Aksesori 2: Biled Projector">
-            <span class="block h-1.5 w-2 rounded-full bg-neutral-300 transition-all"></span>
-          </button>
-          <button onclick="deckGoTo(2)" class="deck-dot tap-44 h-4 flex items-center justify-center"
-            aria-label="Aksesori 3: Dashcam 4K">
-            <span class="block h-1.5 w-2 rounded-full bg-neutral-300 transition-all"></span>
-          </button>
-          <button onclick="deckGoTo(3)" class="deck-dot tap-44 h-4 flex items-center justify-center"
-            aria-label="Aksesori 4: Tambah Aksesori Baru">
-            <span class="block h-1.5 w-2 rounded-full bg-neutral-300 transition-all"></span>
-          </button>
-        </div>
-      </section>
-
-      <!-- SECTION 2: 3 AKSI CEPAT (Vibrant SuperApp Icons) -->
-      <section class="mt-5" id="sectionActions">
-        <!-- 3 Standalone Action Buttons: Bersih & berjarak teratur (gap-2.5) -->
-        <div class="grid grid-cols-3 gap-2.5 relative z-10" id="actionButtonsRow">
-          <!-- 1. Bagikan Lokasi -->
-          <button type="button" onclick="toggleAction('share')" id="act-btn-share"
-            class="action-btn h-[84px] p-2.5 rounded-2xl bg-white border-2 border-neutral-800 shadow-xs transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 text-primary-950 font-bold relative z-20">
-            <div
-              class="w-10 h-10 rounded-xl icon-squircle flex items-center justify-center transition-colors shadow-2xs"
-              id="act-icon-share">
-              <i class="ph-bold ph-share-network text-lg"></i>
-            </div>
-            <span class="font-body-semibold text-[11px] font-bold leading-none text-center">Bagikan Lokasi</span>
-          </button>
-
-          <!-- 2. Booking Servis (Badge 1) -->
-          <button type="button" onclick="toggleAction('booking')" id="act-btn-booking"
-            class="action-btn h-[84px] p-2.5 rounded-2xl bg-white/75 border border-neutral-200/80 shadow-2xs transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 text-neutral-600 relative">
-            <span
-              class="absolute top-2 right-2 min-w-[17px] h-[17px] px-1 rounded-full bg-accent-600 text-white font-mono text-[10px] font-bold flex items-center justify-center shadow-xs leading-none">1</span>
-            <div
-              class="w-10 h-10 rounded-xl icon-squircle flex items-center justify-center transition-colors shadow-2xs"
-              id="act-icon-booking">
-              <i class="ph-bold ph-calendar-check text-lg"></i>
-            </div>
-            <span class="font-body-semibold text-[11px] font-bold leading-none text-center">Booking Servis</span>
-          </button>
-
-          <!-- 3. List Order (Badge 1) -->
-          <button type="button" onclick="toggleAction('order')" id="act-btn-order"
-            class="action-btn h-[84px] p-2.5 rounded-2xl bg-white/75 border border-neutral-200/80 shadow-2xs transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 text-neutral-600 relative">
-            <span
-              class="absolute top-2 right-2 min-w-[17px] h-[17px] px-1 rounded-full bg-accent-600 text-white font-mono text-[10px] font-bold flex items-center justify-center shadow-xs leading-none">1</span>
-            <div
-              class="w-10 h-10 rounded-xl icon-squircle flex items-center justify-center transition-colors shadow-2xs"
-              id="act-icon-order">
-              <i class="ph-bold ph-clipboard-text text-lg"></i>
-            </div>
-            <span class="font-body-semibold text-[11px] font-bold leading-none text-center">List Order</span>
-          </button>
-        </div>
-
-        <!-- CONTAINER LIST YANG MENYELIMUTI KETIKA DIKLIK, DENGAN BORDER TIPIS YANG MENYATU KE IKON TERPILIH -->
-        <div id="actionExpandContainer"
-          class="relative mt-3 rounded-2xl bg-white border border-neutral-200/90 shadow-sm p-4 transition-all">
-          <!-- Connector notch: Menyatu dengan tombol aktif di atasnya -->
-          <div id="actionIndicatorNotch"
-            class="absolute -top-[9px] w-4 h-4 bg-white border-t border-l border-neutral-300 rotate-45 transition-all duration-300 z-10"
-            style="left: calc(16.67% - 8px);"></div>
-
-          <!-- Panel 1: Bagikan Lokasi (Active by Default) -->
-          <div id="expand-share" class="expand-content flex flex-col gap-3">
-            <div class="flex items-center justify-between pb-2 border-b border-neutral-100">
-              <div>
-                <span class="font-label text-[10px] font-bold text-neutral-400 uppercase tracking-wider block">Bagikan
-                  Lokasi Real-Time</span>
-                <span class="font-headline text-xs font-bold text-primary-950">Yamaha NMAX 155 · Live GPS
-                  Sudirman</span>
-              </div>
-              <button type="button" onclick="toggleAction('share')"
-                class="w-7 h-7 rounded-full bg-neutral-100 text-neutral-500 flex items-center justify-center hover:bg-neutral-200 transition-colors">
-                <i class="ph-bold ph-x text-xs"></i>
-              </button>
-            </div>
-
-            <!-- Share Link Box with Bagikan Button (Membuka Modal Berbagi Aplikasi) -->
-            <div
-              class="flex items-center justify-between p-2.5 rounded-xl bg-neutral-50 border border-neutral-200/60 gap-2">
-              <span class="font-mono text-xs text-neutral-700 truncate select-all"
-                id="shareUrlText">https://nine.co.id/live/gps-nmax-b1234xyz</span>
-              <button type="button" onclick="openShareAppModal()"
-                class="h-8 px-3 rounded-lg bg-accent-600 hover:bg-accent-700 text-white font-bold text-[11px] shrink-0 active:scale-95 transition-all flex items-center gap-1.5 shadow-xs border-0">
-                <i class="ph-bold ph-share-network text-xs"></i>
-                <span>Bagikan</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Panel 2: Booking Servis -->
-          <div id="expand-booking" class="expand-content hidden flex flex-col gap-3">
-            <div class="flex items-center justify-between pb-2 border-b border-neutral-100">
-              <div>
-                <span class="font-label text-[10px] font-bold text-neutral-400 uppercase tracking-wider block">Daftar
-                  Booking Servis</span>
-                <span class="font-headline text-xs font-bold text-primary-950">1 Jadwal Servis Aktif</span>
-              </div>
-              <button type="button" onclick="toggleAction('booking')"
-                class="w-7 h-7 rounded-full bg-neutral-100 text-neutral-500 flex items-center justify-center hover:bg-neutral-200 transition-colors">
-                <i class="ph-bold ph-x text-xs"></i>
-              </button>
-            </div>
-
-            <!-- Active Booking Item (Clickable to booking-detail.html) -->
-            <a href="booking-detail.html"
-              class="p-3.5 rounded-2xl bg-neutral-50 hover:bg-neutral-100/80 border-0 flex items-start gap-3 active:scale-[0.99] transition-all group">
-              <div
-                class="w-12 h-13 rounded-xl bg-neutral-900 text-white flex flex-col items-center justify-center shrink-0 border-0">
-                <span class="font-micro text-[8px] uppercase font-bold text-neutral-400">SABTU</span>
-                <span class="font-headline text-lg font-black leading-none font-mono text-white mt-0.5">11</span>
-                <span class="font-micro text-[8px] uppercase font-bold text-accent-400">OKT</span>
-              </div>
-              <div class="min-w-0 flex-1">
-                <div class="flex items-center justify-between gap-1">
-                  <h4 class="font-headline text-xs font-bold text-primary-950 truncate">Retrofit Biled E9 Pro</h4>
-                  <span
-                    class="font-micro text-[9px] font-bold text-primary-950 bg-neutral-100 border border-neutral-200/80 px-1.5 py-0.2 rounded">Pit
-                    02</span>
-                </div>
-                <p class="font-caption text-[11px] text-neutral-500 truncate mt-0.5">10:30 WIB · Flagship Arcadia BSD
-                </p>
-                <p class="font-caption text-[11px] text-neutral-600 mt-1 flex items-center gap-1">
-                  <i class="ph-bold ph-user-circle text-xs text-neutral-400"></i>
-                  <span>Teknisi: Dimas Pratama</span>
-                </p>
-              </div>
-              <i class="ph-bold ph-caret-right text-neutral-400 group-hover:text-primary-950 self-center"></i>
-            </a>
-
-            <!-- Past Booking History Link -->
-            <div class="flex items-center justify-between pt-1 text-xs">
-              <a href="booking.html" class="text-xs font-bold text-primary-950 hover:underline flex items-center gap-1">
-                <i class="ph-bold ph-plus-circle text-accent-700"></i>
-                <span>Buat Booking Baru</span>
-              </a>
-              <a href="service-history.html"
-                class="text-[11px] font-bold text-neutral-500 hover:text-neutral-900 flex items-center gap-0.5">
-                Riwayat Servis<i class="ph-bold ph-caret-right"></i>
-              </a>
-            </div>
-          </div>
-
-          <!-- Panel 3: List Order -->
-          <div id="expand-order" class="expand-content hidden flex flex-col gap-3">
-            <div class="flex items-center justify-between pb-2 border-b border-neutral-100">
-              <div>
-                <span class="font-label text-[10px] font-bold text-neutral-400 uppercase tracking-wider block">Daftar
-                  Pesanan &amp; Order</span>
-                <span class="font-headline text-xs font-bold text-primary-950">1 Pesanan Dalam Pengiriman</span>
-              </div>
-              <button type="button" onclick="toggleAction('order')"
-                class="w-7 h-7 rounded-full bg-neutral-100 text-neutral-500 flex items-center justify-center hover:bg-neutral-200 transition-colors">
-                <i class="ph-bold ph-x text-xs"></i>
-              </button>
-            </div>
-
-            <!-- Active Order Item (Clickable to order-detail.html) -->
-            <a href="order-detail.html"
-              class="p-3.5 rounded-2xl bg-neutral-50 hover:bg-neutral-100/80 border-0 flex items-start gap-3 active:scale-[0.99] transition-all group">
-              <div
-                class="w-14 h-14 rounded-2xl bg-white border-0 overflow-hidden shrink-0 p-1 flex items-center justify-center shadow-2xs">
-                <img src="lampu.jpg" alt="Biled Matrix E3"
-                  class="w-full h-full object-cover rounded-xl aspect-square" />
-              </div>
-              <div class="min-w-0 flex-1">
-                <div class="flex items-center justify-between gap-1">
-                  <h4 class="font-headline text-xs font-bold text-primary-950 truncate">Biled Matrix E3 Blue Lens</h4>
-                  <span
-                    class="font-micro text-[9px] font-bold text-primary-950 bg-neutral-100 border border-neutral-200/80 px-1.5 py-0.2 rounded">Dikirim</span>
-                </div>
-                <p class="font-mono text-[10px] text-neutral-400 mt-0.5">J&amp;T: JT88921094 · Rp 1.450.000</p>
-                <p class="font-caption text-[11px] text-neutral-600 mt-1 truncate">Paket tiba di DC Jakarta Barat — Siap
-                  diantar</p>
-              </div>
-              <i class="ph-bold ph-caret-right text-neutral-400 group-hover:text-primary-950 self-center"></i>
-            </a>
-
-            <!-- Order Link -->
-            <div class="flex items-center justify-end pt-1">
-              <a href="orders.html" class="text-xs font-bold text-accent-700 hover:underline flex items-center gap-0.5">
-                Semua Pesanan<i class="ph-bold ph-caret-right"></i>
-              </a>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- SECTION 2.5: PROMO BANNER CAROUSEL (TANPA TAG MALL - UNTUK SEMUA PENAWARAN) -->
-      <section class="mt-5">
-        <div class="flex items-center justify-between mb-2.5 px-1">
-          <div class="flex items-center gap-2">
-            <span class="font-label text-label uppercase tracking-widest text-primary-950 font-black">Promo &amp;
-              Penawaran</span>
-          </div>
-          <a href="mall.html" class="font-caption text-caption text-accent-700 font-bold flex items-center gap-0.5">
-            Lihat Semua<i class="ph-bold ph-caret-right text-xs"></i>
-          </a>
-        </div>
-
-        <!-- Image Banner Carousel Container (Aspect 2.2/1, Rounded 2xl, Touch Swipable & Auto-Slide) -->
-        <div class="relative overflow-hidden rounded-2xl bg-neutral-950 border border-neutral-200/80 shadow-xs group">
-          <!-- Carousel Track -->
-          <div id="promoImageDeck" class="w-full flex overflow-x-auto snap-x-carousel scroll-smooth no-scrollbar"
-            style="scroll-snap-type: x mandatory;">
-
-            <!-- Slide 0: Biled Matrix E9 Pro (lampu.jpg) -->
-            <a href="mall.html"
-              class="shrink-0 w-full snap-start relative aspect-[2.2/1] overflow-hidden flex items-end p-4 text-white group-hover:opacity-95 transition-all">
-              <img src="lampu.jpg" alt="Promo Biled Matrix Nine"
-                class="absolute inset-0 w-full h-full object-cover object-center filter brightness-90 group-hover:scale-105 transition-transform duration-700" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-              <div class="relative z-10 w-full">
-                <div class="flex items-center gap-2 mb-1">
-                  <span
-                    class="px-2 py-0.5 rounded-full bg-accent-500 text-neutral-950 font-micro text-[9px] font-black uppercase tracking-wider">Diskon
-                    35%</span>
-                  <span class="text-white/80 font-micro text-[10px] font-medium">Garansi 2 Tahun</span>
-                </div>
-                <h3 class="font-headline text-sm font-bold text-white leading-tight">Retrofit Biled Matrix E9 Pro</h3>
-                <p class="font-caption text-[11px] text-white/80 line-clamp-1 mt-0.5">Cahaya tajam tembus kabut &amp;
-                  instalasi rapi garansi resmi Nine</p>
-              </div>
-            </a>
-
-            <!-- Slide 1: Smart IoT Tracker 4G (gps.webp) -->
-            <a href="mall.html"
-              class="shrink-0 w-full snap-start relative aspect-[2.2/1] overflow-hidden flex items-end p-4 text-white group-hover:opacity-95 transition-all">
-              <img src="gps.webp" alt="Promo GPS Tracker IoT"
-                class="absolute inset-0 w-full h-full object-cover object-center filter brightness-90 group-hover:scale-105 transition-transform duration-700" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-              <div class="relative z-10 w-full">
-                <div class="flex items-center gap-2 mb-1">
-                  <span
-                    class="px-2 py-0.5 rounded-full bg-accent-500 text-neutral-950 font-micro text-[9px] font-black uppercase tracking-wider">Free
-                    Pasang</span>
-                  <span class="text-white/80 font-micro text-[10px] font-medium">Server 1 Tahun Bebas Biaya</span>
-                </div>
-                <h3 class="font-headline text-sm font-bold text-white leading-tight">Smart 4G IoT GPS Tracker</h3>
-                <p class="font-caption text-[11px] text-white/80 line-clamp-1 mt-0.5">Matikan mesin jarak jauh &amp;
-                  lacak posisi akurat real-time</p>
-              </div>
-            </a>
-
-            <!-- Slide 2: Dashcam Dual 4K UHD (dashcam.jpg) -->
-            <a href="mall.html"
-              class="shrink-0 w-full snap-start relative aspect-[2.2/1] overflow-hidden flex items-end p-4 text-white group-hover:opacity-95 transition-all">
-              <img src="dashcam.jpg" alt="Promo Dashcam 4K Nine"
-                class="absolute inset-0 w-full h-full object-cover object-center filter brightness-90 group-hover:scale-105 transition-transform duration-700" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-              <div class="relative z-10 w-full">
-                <div class="flex items-center gap-2 mb-1">
-                  <span
-                    class="px-2 py-0.5 rounded-full bg-accent-500 text-neutral-950 font-micro text-[9px] font-black uppercase tracking-wider">Free
-                    MicroSD 64GB</span>
-                  <span class="text-white/80 font-micro text-[10px] font-medium">Cashback Rp 250Rb</span>
-                </div>
-                <h3 class="font-headline text-sm font-bold text-white leading-tight">Nine Cam Pro Dual 4K Matrix</h3>
-                <p class="font-caption text-[11px] text-white/80 line-clamp-1 mt-0.5">Sensor Sony Starvis 2 night-vision
-                  &amp; 24 jam parking guard</p>
-              </div>
-            </a>
-
-          </div>
-
-          <!-- Indicator Dots (Apple HIG Style Pill) -->
-          <div id="promoDots"
-            class="absolute bottom-2.5 right-3 z-20 flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-2 py-1 rounded-full border border-white/10">
-            <button onclick="promoGoTo(0)" class="promo-dot h-1.5 w-4 rounded-full bg-accent-500 transition-all"
-              aria-label="Promo Slide 1"></button>
-            <button onclick="promoGoTo(1)" class="promo-dot h-1.5 w-1.5 rounded-full bg-white/40 transition-all"
-              aria-label="Promo Slide 2"></button>
-            <button onclick="promoGoTo(2)" class="promo-dot h-1.5 w-1.5 rounded-full bg-white/40 transition-all"
-              aria-label="Promo Slide 3"></button>
-          </div>
-        </div>
-      </section>
-
-      <!-- SECTION 2.6: STATUS PERAWATAN BERKALA (CLEAN APPLE HIG - TANPA CONTAINER PASTEL) -->
-      <section class="mt-5">
-        <div class="ios-card p-4 shadow-2xs bg-white border border-neutral-200/80 rounded-2xl">
-          <!-- Header Section -->
-          <div class="flex items-center justify-between pb-3.5 border-b border-neutral-100">
             <div>
-              <span class="font-label text-label uppercase tracking-widest text-primary-950 font-black block">Status
-                Perawatan Berkala</span>
-              <div class="flex items-baseline gap-1.5 mt-0.5">
-                <span class="font-headline text-lg font-bold text-primary-950 font-mono">12.480 km</span>
-                <span class="font-caption text-caption text-neutral-500">Odometer Terkini</span>
-              </div>
-            </div>
-            <!-- Clean HIG neutral badge with live pulse indicator (NO tacky pastel box) -->
-            <span
-              class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-neutral-100 border border-neutral-200/80 text-primary-950 font-micro text-[10px] font-bold uppercase tracking-wider">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              +32 km Hari Ini
-            </span>
-          </div>
-
-          <!-- 6 Diagnostic Telemetry Boxes (Elegant Apple HIG Squircles) -->
-          <div class="flex overflow-x-auto gap-2.5 pb-2 pt-3 scroll-smooth no-scrollbar snap-x px-0.5">
-            <!-- Box 1: Oli Mesin -->
-            <div
-              class="w-[152px] shrink-0 snap-start p-3 rounded-2xl bg-neutral-50 border border-neutral-200/80 flex flex-col justify-between min-h-[105px] shadow-2xs">
-              <div class="flex items-center justify-between">
-                <div class="w-8 h-8 rounded-xl icon-squircle flex items-center justify-center shadow-2xs">
-                  <i class="ph-bold ph-drop text-base"></i>
-                </div>
-                <button type="button" onclick="resetMaintenanceItem('oli', 'Oli Mesin')" title="Reset Siklus Baru"
-                  class="text-neutral-400 hover:text-primary-950 active:scale-90 p-1 flex items-center justify-center transition-colors">
-                  <i class="ph-bold ph-arrow-counter-clockwise text-base"></i>
-                </button>
-              </div>
-              <div class="mt-2">
-                <div class="flex items-baseline gap-1">
-                  <span class="font-headline text-base font-bold font-mono text-primary-950">1.800</span>
-                  <span class="text-[10px] text-neutral-500 font-mono">/ 2.000 km</span>
-                </div>
-                <span class="font-caption text-[11px] text-neutral-500 block truncate mt-0.5 font-medium">Oli Motul
-                  10W-40</span>
-              </div>
-            </div>
-
-            <!-- Box 2: Filter Udara -->
-            <div
-              class="w-[152px] shrink-0 snap-start p-3 rounded-2xl bg-neutral-50 border border-neutral-200/80 flex flex-col justify-between min-h-[105px] shadow-2xs">
-              <div class="flex items-center justify-between">
-                <div class="w-8 h-8 rounded-xl icon-squircle flex items-center justify-center shadow-2xs">
-                  <i class="ph-bold ph-wind text-base"></i>
-                </div>
-                <button type="button" onclick="resetMaintenanceItem('filter', 'Filter Udara')" title="Reset Siklus Baru"
-                  class="text-neutral-400 hover:text-primary-950 active:scale-90 p-1 flex items-center justify-center transition-colors">
-                  <i class="ph-bold ph-arrow-counter-clockwise text-base"></i>
-                </button>
-              </div>
-              <div class="mt-2">
-                <div class="flex items-baseline gap-1">
-                  <span class="font-headline text-base font-bold font-mono text-primary-950">4.200</span>
-                  <span class="text-[10px] text-neutral-500 font-mono">/ 10.000 km</span>
-                </div>
-                <span class="font-caption text-[11px] text-neutral-500 block truncate mt-0.5 font-medium">Filter Dual
-                  Flow</span>
-              </div>
-            </div>
-
-            <!-- Box 3: Kampas Rem -->
-            <div
-              class="w-[152px] shrink-0 snap-start p-3 rounded-2xl bg-neutral-50 border border-neutral-200/80 flex flex-col justify-between min-h-[105px] shadow-2xs">
-              <div class="flex items-center justify-between">
-                <div class="w-8 h-8 rounded-xl icon-squircle flex items-center justify-center shadow-2xs">
-                  <i class="ph-bold ph-disc text-base"></i>
-                </div>
-                <button type="button" onclick="resetMaintenanceItem('rem', 'Kampas Rem')" title="Reset Siklus Baru"
-                  class="text-neutral-400 hover:text-primary-950 active:scale-90 p-1 flex items-center justify-center transition-colors">
-                  <i class="ph-bold ph-arrow-counter-clockwise text-base"></i>
-                </button>
-              </div>
-              <div class="mt-2">
-                <div class="flex items-baseline gap-1">
-                  <span class="font-headline text-base font-bold font-mono text-primary-950">18.500</span>
-                  <span class="text-[10px] text-neutral-500 font-mono">/ 20.000 km</span>
-                </div>
-                <span class="font-caption text-[11px] text-neutral-500 block truncate mt-0.5 font-medium">Kampas Rem
-                  Bendix</span>
-              </div>
-            </div>
-
-            <!-- Box 4: Aki / Voltase -->
-            <div
-              class="w-[152px] shrink-0 snap-start p-3 rounded-2xl bg-neutral-50 border border-neutral-200/80 flex flex-col justify-between min-h-[105px] shadow-2xs">
-              <div class="flex items-center justify-between">
-                <div class="w-8 h-8 rounded-xl icon-squircle flex items-center justify-center shadow-2xs">
-                  <i class="ph-bold ph-battery-charging text-base"></i>
-                </div>
-                <button type="button" onclick="resetMaintenanceItem('aki', 'Aki Kendaraan')" title="Reset Siklus Baru"
-                  class="text-neutral-400 hover:text-primary-950 active:scale-90 p-1 flex items-center justify-center transition-colors">
-                  <i class="ph-bold ph-arrow-counter-clockwise text-base"></i>
-                </button>
-              </div>
-              <div class="mt-2">
-                <div class="flex items-baseline gap-1">
-                  <span class="font-headline text-base font-bold font-mono text-primary-950">12.6</span>
-                  <span class="text-[10px] text-neutral-500 font-mono">/ 12.8 V</span>
-                </div>
-                <span class="font-caption text-[11px] text-neutral-500 block truncate mt-0.5 font-medium">Aki Kering
-                  Yuasa</span>
-              </div>
-            </div>
-
-            <!-- Box 5: Minyak Rem -->
-            <div
-              class="w-[152px] shrink-0 snap-start p-3 rounded-2xl bg-neutral-50 border border-neutral-200/80 flex flex-col justify-between min-h-[105px] shadow-2xs">
-              <div class="flex items-center justify-between">
-                <div class="w-8 h-8 rounded-xl icon-squircle flex items-center justify-center shadow-2xs">
-                  <i class="ph-bold ph-flask text-base"></i>
-                </div>
-                <button type="button" onclick="resetMaintenanceItem('minyak', 'Minyak Rem')" title="Reset Siklus Baru"
-                  class="text-neutral-400 hover:text-primary-950 active:scale-90 p-1 flex items-center justify-center transition-colors">
-                  <i class="ph-bold ph-arrow-counter-clockwise text-base"></i>
-                </button>
-              </div>
-              <div class="mt-2">
-                <div class="flex items-baseline gap-1">
-                  <span class="font-headline text-base font-bold font-mono text-primary-950">8.000</span>
-                  <span class="text-[10px] text-neutral-500 font-mono">/ 10.000 km</span>
-                </div>
-                <span class="font-caption text-[11px] text-neutral-500 block truncate mt-0.5 font-medium">Minyak Rem DOT
-                  4</span>
-              </div>
-            </div>
-
-            <!-- Box 6: Busi Pengapian -->
-            <div
-              class="w-[152px] shrink-0 snap-start p-3 rounded-2xl bg-neutral-50 border border-neutral-200/80 flex flex-col justify-between min-h-[105px] shadow-2xs">
-              <div class="flex items-center justify-between">
-                <div class="w-8 h-8 rounded-xl icon-squircle flex items-center justify-center shadow-2xs">
-                  <i class="ph-bold ph-lightning text-base"></i>
-                </div>
-                <button type="button" onclick="resetMaintenanceItem('busi', 'Busi Iridium')" title="Reset Siklus Baru"
-                  class="text-neutral-400 hover:text-primary-950 active:scale-90 p-1 flex items-center justify-center transition-colors">
-                  <i class="ph-bold ph-arrow-counter-clockwise text-base"></i>
-                </button>
-              </div>
-              <div class="mt-2">
-                <div class="flex items-baseline gap-1">
-                  <span class="font-headline text-base font-bold font-mono text-primary-950">9.200</span>
-                  <span class="text-[10px] text-neutral-500 font-mono">/ 12.000 km</span>
-                </div>
-                <span class="font-caption text-[11px] text-neutral-500 block truncate mt-0.5 font-medium">Busi Laser
-                  Iridium</span>
-              </div>
+              <h3 class="text-sm font-bold text-[#18181b]">Nine GPS Tracker IoT 4G</h3>
+              <p class="text-xs text-[#71717a]">Jl. Jenderal Sudirman · Sudirman Center</p>
             </div>
           </div>
-
-          <!-- Direct CTA Button -->
-          <button type="button" onclick="openAddPerawatanSheet()"
-            class="mt-3.5 w-full h-11 rounded-xl bg-primary-950 hover:bg-black text-white font-body-semibold text-xs font-bold flex items-center justify-center gap-2 shadow-xs active:scale-[0.98] transition-all">
-            <i class="ph-bold ph-plus-circle text-base"></i>
-            <span>Tambah Status Perawatan</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- SECTION 2.7: HIGHLIGHT PRODUK PILIHAN DARI MALL -->
-      <section class="mt-5">
-        <div class="flex items-center justify-between mb-2.5 px-1">
-          <div>
-            <h2 class="font-label text-label uppercase tracking-widest text-primary-950 font-black">Highlight Produk
-              Mall</h2>
-            <span class="text-[11px] text-neutral-500">Komponen modifikasi &amp; upgrade terlaris</span>
-          </div>
-          <a href="mall.html"
-            class="font-caption text-caption text-accent-700 font-bold flex items-center gap-0.5 ios-press">
-            Buka Mall<i class="ph-bold ph-caret-right text-xs"></i>
-          </a>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#f0fdf4] text-[#15803d] text-[11px] font-semibold border border-[#bbf7d0]">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#22c55e]"></span>
+            Parkir Aman
+          </span>
         </div>
 
-        <!-- 2-Column Product Grid (Clean Apple HIG Automotive Cards) -->
-        <div class="grid grid-cols-2 gap-3" id="homeMallHighlightGrid">
-          <!-- Card 1: Biled Matrix E9 Pro -->
-          <div
-            class="ios-card p-3 flex flex-col justify-between group bg-white border border-neutral-200/80 shadow-2xs rounded-2xl hover:border-neutral-300 transition-all">
-            <a href="mall.html" class="block">
-              <div class="relative w-full aspect-square rounded-xl overflow-hidden bg-neutral-100 mb-2">
-                <img src="lampu.jpg" alt="Biled Matrix E9 Pro"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                <span
-                  class="absolute top-2 left-2 rounded-lg bg-rose-500 text-white px-2 py-0.5 text-[9.5px] font-black uppercase shadow-xs">−21%</span>
-                <span
-                  class="absolute top-2 right-2 rounded-md bg-white/90 backdrop-blur-xs px-1.5 py-0.5 font-micro text-[8px] font-bold text-primary-950 uppercase">BILED</span>
-              </div>
-              <div class="flex items-center gap-1 mb-1">
-                <i class="ph-fill ph-star text-amber-400 text-xs"></i><span
-                  class="text-xs font-bold text-primary-950">4.9</span>
-                <span class="text-[10px] text-neutral-400">(1,4rb)</span>
-              </div>
-              <h3 class="font-bold text-xs text-primary-950 line-clamp-2 leading-tight">Biled Matrix E9 Pro 3.0" Dual
-                Core</h3>
-              <div class="mt-1"><span class="badge-koin text-[9.5px]">🪙 +12.990 Koin</span></div>
-            </a>
-            <div class="mt-2 pt-2 border-t border-neutral-100 flex items-center justify-between">
-              <div>
-                <span class="font-price text-xs font-black text-primary-950 block">Rp 1.299.000</span>
-                <span class="text-[10px] text-neutral-400 line-through">Rp 1.650.000</span>
-              </div>
-              <button onclick="addHomeCart('Biled Matrix E9 Pro 3.0')" aria-label="Beli Biled Matrix E9 Pro"
-                class="tap-44 w-8 h-8 rounded-xl bg-accent-600 hover:bg-accent-700 text-white flex items-center justify-center transition-all shadow-xs active:scale-95 ios-press">
-                <i class="ph-bold ph-plus text-sm"></i>
-              </button>
-            </div>
+        <div class="pt-3 border-t border-[#f4f4f5] flex items-center justify-between text-xs">
+          <div class="flex items-center gap-4 text-[#71717a]">
+            <span>Aki: <strong class="text-[#18181b]">12.8V</strong></span>
+            <span>Geofence: <strong class="text-[#18181b]">20m</strong></span>
+            <span>Speed: <strong class="text-[#18181b]">0 km/j</strong></span>
           </div>
-
-          <!-- Card 2: Mini Laser D2 -->
-          <div
-            class="ios-card p-3 flex flex-col justify-between group bg-white border border-neutral-200/80 shadow-2xs rounded-2xl hover:border-neutral-300 transition-all">
-            <a href="mall.html" class="block">
-              <div class="relative w-full aspect-square rounded-xl overflow-hidden bg-neutral-100 mb-2">
-                <img
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZv-hI1ymx6Td3Oj_1xdafgyVLhfo7ZLwfHY1-wGEyeDLysJoDWRWnXb8Q3hVNchdMKTYifogAQpyKhBDW2lMYWbEiwC1Qj7fKP34LuKjZSPtZgvj1dCPBo-1OkQF-xXVWPXLYHDOWe1ds-42dDOQeq_sPadoxAvayfTmIXoz52uaAySW1jPJ8z-latNS5xgW6cAidCmUJEpAWPW33i-ZyZv0ax6CJ_1iy9QOFT0ZN"
-                  alt="Mini Laser D2"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                <span
-                  class="absolute top-2 right-2 rounded-md bg-white/90 backdrop-blur-xs px-1.5 py-0.5 font-micro text-[8px] font-bold text-primary-950 uppercase">LAMPU
-                  TEMBAK</span>
-              </div>
-              <div class="flex items-center gap-1 mb-1">
-                <i class="ph-fill ph-star text-amber-400 text-xs"></i><span
-                  class="text-xs font-bold text-primary-950">4.9</span>
-                <span class="text-[10px] text-neutral-400">(2,1rb)</span>
-              </div>
-              <h3 class="font-bold text-xs text-primary-950 line-clamp-2 leading-tight">Mini Laser D2 Dual Color 30W Aux
-              </h3>
-              <div class="mt-1"><span class="badge-koin text-[9.5px]">🪙 +3.200 Koin</span></div>
-            </a>
-            <div class="mt-2 pt-2 border-t border-neutral-100 flex items-center justify-between">
-              <div>
-                <span class="font-price text-xs font-black text-primary-950 block">Rp 320.000</span>
-                <span class="text-[10px] text-neutral-400">Garansi 12 Bln</span>
-              </div>
-              <button onclick="addHomeCart('Mini Laser D2 Dual Color')" aria-label="Beli Mini Laser D2"
-                class="tap-44 w-8 h-8 rounded-xl bg-accent-600 hover:bg-accent-700 text-white flex items-center justify-center transition-all shadow-xs active:scale-95 ios-press">
-                <i class="ph-bold ph-plus text-sm"></i>
-              </button>
-            </div>
-          </div>
-
-          <!-- Card 3: Nine GPS Tracker 4G IoT -->
-          <div
-            class="ios-card p-3 flex flex-col justify-between group bg-white border border-neutral-200/80 shadow-2xs rounded-2xl hover:border-neutral-300 transition-all">
-            <a href="mall.html" class="block">
-              <div class="relative w-full aspect-square rounded-xl overflow-hidden bg-neutral-100 mb-2">
-                <img
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCnc8XNxiywK-knFr4oR3GLcF2XbHDi0pfFJyKrpkAh6mTP-0_d6GhErQL_ngcol8t74eBkKRlDMOuN8r_qqrym5IzpLVKzTUJvPafkc_2qW0lIXDBd4AQ5LtW3LgFi4234C4VyqFPGLVA8q5EG-jKmN3ouQ94BS4ERwVxTC9VJj7eeGJBiOb1JpH7sjunpq6jw9pkH262ZiMFp970WS_qcdcMRfwbt6HALKgfDshI"
-                  alt="Nine GPS Tracker IoT"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                <span
-                  class="absolute top-2 left-2 rounded-lg bg-rose-500 text-white px-2 py-0.5 text-[9.5px] font-black uppercase shadow-xs">−21%</span>
-                <span
-                  class="absolute top-2 right-2 rounded-md bg-white/90 backdrop-blur-xs px-1.5 py-0.5 font-micro text-[8px] font-bold text-primary-950 uppercase">GPS</span>
-              </div>
-              <div class="flex items-center gap-1 mb-1">
-                <i class="ph-fill ph-star text-amber-400 text-xs"></i><span
-                  class="text-xs font-bold text-primary-950">4.8</span>
-                <span class="text-[10px] text-neutral-400">(620)</span>
-              </div>
-              <h3 class="font-bold text-xs text-primary-950 line-clamp-2 leading-tight">Nine GPS Tracker IoT 4G Engine
-                Cut</h3>
-              <div class="mt-1"><span class="badge-koin text-[9.5px]">🪙 +5.500 Koin</span></div>
-            </a>
-            <div class="mt-2 pt-2 border-t border-neutral-100 flex items-center justify-between">
-              <div>
-                <span class="font-price text-xs font-black text-primary-950 block">Rp 550.000</span>
-                <span class="text-[10px] text-neutral-400 line-through">Rp 699.000</span>
-              </div>
-              <button onclick="addHomeCart('Nine GPS Tracker IoT 4G')" aria-label="Beli Nine GPS Tracker"
-                class="tap-44 w-8 h-8 rounded-xl bg-accent-600 hover:bg-accent-700 text-white flex items-center justify-center transition-all shadow-xs active:scale-95 ios-press">
-                <i class="ph-bold ph-plus text-sm"></i>
-              </button>
-            </div>
-          </div>
-
-          <!-- Card 4: Twin Snail Horn -->
-          <div
-            class="ios-card p-3 flex flex-col justify-between group bg-white border border-neutral-200/80 shadow-2xs rounded-2xl hover:border-neutral-300 transition-all">
-            <a href="mall.html" class="block">
-              <div class="relative w-full aspect-square rounded-xl overflow-hidden bg-neutral-100 mb-2">
-                <img
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnUAn4tZgbMiVIZvn7OnFJdR6jVnOsgiu0Av9UJ8tPVtoFtTalp7-CzGddTNsm3v2bFJsqcEhF2ZsykD2V-a7VrK_iJmXF71pBk9xKLSqIyS3CZZqApsihel8DlVfZlAluCVAfHkCm7SD9QOR2id8z8cuv9O6od9iaNPR1bOgidZKpuPo3mNbbIvwgFurBuQ8lSAy6f9CT-l6JBDOpK73sb-9A-hp2jU4GyWdHfLr4"
-                  alt="Twin Snail Horn"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                <span
-                  class="absolute top-2 left-2 rounded-lg bg-rose-500 text-white px-2 py-0.5 text-[9.5px] font-black uppercase shadow-xs">−23%</span>
-                <span
-                  class="absolute top-2 right-2 rounded-md bg-white/90 backdrop-blur-xs px-1.5 py-0.5 font-micro text-[8px] font-bold text-primary-950 uppercase">KLAKSON</span>
-              </div>
-              <div class="flex items-center gap-1 mb-1">
-                <i class="ph-fill ph-star text-amber-400 text-xs"></i><span
-                  class="text-xs font-bold text-primary-950">4.8</span>
-                <span class="text-[10px] text-neutral-400">(940)</span>
-              </div>
-              <h3 class="font-bold text-xs text-primary-950 line-clamp-2 leading-tight">Twin Snail Horn 118dB Waterproof
-              </h3>
-              <div class="mt-1"><span class="badge-koin text-[9.5px]">🪙 +1.450 Koin</span></div>
-            </a>
-            <div class="mt-2 pt-2 border-t border-neutral-100 flex items-center justify-between">
-              <div>
-                <span class="font-price text-xs font-black text-primary-950 block">Rp 145.000</span>
-                <span class="text-[10px] text-neutral-400 line-through">Rp 190.000</span>
-              </div>
-              <button onclick="addHomeCart('Twin Snail Horn 118dB')" aria-label="Beli Klakson Twin Snail"
-                class="tap-44 w-8 h-8 rounded-xl bg-accent-600 hover:bg-accent-700 text-white flex items-center justify-center transition-all shadow-xs active:scale-95 ios-press">
-                <i class="ph-bold ph-plus text-sm"></i>
-              </button>
-            </div>
-          </div>
+          <span class="text-xs font-semibold text-[#15803d] flex items-center gap-1">
+            Lihat Detail <i class="ph-bold ph-caret-right text-xs"></i>
+          </span>
         </div>
-      </section>
+      </article>
+
+      <!-- CARD 2: BILED MATRIX E9 PRO 3.0" -->
+      <article data-component="AccessoryCard" data-device="biled" onclick="openModal('modal-biled')" class="ios-card ios-card-interactive p-4 flex flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-[#f4f4f5] text-[#18181b] flex items-center justify-center shrink-0">
+              <i class="ph-bold ph-sun text-lg"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-[#18181b]">Biled Matrix E9 Pro 3.0"</h3>
+              <p class="text-xs text-[#71717a]">Warna Sorot: <strong class="text-[#18181b]" id="currentBeamText">Ice Blue (6000K)</strong></p>
+            </div>
+          </div>
+          <!-- Quick Power Switch -->
+          <div class="switch-toggle active" title="Matikan/Hidupkan Lampu" onclick="event.stopPropagation(); this.classList.toggle('active')"></div>
+        </div>
+
+        <div class="pt-3 border-t border-[#f4f4f5] flex items-center justify-between text-xs">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded-md bg-[#f4f4f5] text-[#18181b] font-semibold text-[10px]">65W TURBO</span>
+            <span class="text-[#71717a]">Garansi s/d Okt 2028</span>
+          </div>
+          <span class="text-xs font-semibold text-[#15803d] flex items-center gap-1">
+            Atur Sorot <i class="ph-bold ph-caret-right text-xs"></i>
+          </span>
+        </div>
+      </article>
+
+      <!-- CARD 3: DASHCAM PRO 4K DUAL -->
+      <article data-component="AccessoryCard" data-device="dashcam" onclick="openModal('modal-dashcam')" class="ios-card ios-card-interactive p-4 flex flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-[#f4f4f5] text-[#18181b] flex items-center justify-center shrink-0">
+              <i class="ph-bold ph-video-camera text-lg"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-[#18181b]">Nine Cam Pro 4K Dual</h3>
+              <p class="text-xs text-[#71717a]">Parking Guard 24 Jam · Aktif</p>
+            </div>
+          </div>
+          <span class="text-xs font-semibold text-[#18181b] bg-[#f4f4f5] px-2.5 py-1 rounded-lg">
+            96 / 128 GB
+          </span>
+        </div>
+
+        <div class="pt-3 border-t border-[#f4f4f5] flex items-center justify-between text-xs">
+          <span class="text-[#71717a]">Sensor Sony Starvis 2 · Siaga</span>
+          <span class="text-xs font-semibold text-[#15803d] flex items-center gap-1">
+            Live Feed <i class="ph-bold ph-caret-right text-xs"></i>
+          </span>
+        </div>
+      </article>
 
     </div>
-  </main>
 
-  <!-- BOTTOM SHEET: SHARE LOCATION MODAL -->
-  <div id="shareSheet" class="hidden fixed inset-0 z-[80] bg-black/40 backdrop-blur-xs flex items-end justify-center">
-    <div
-      class="w-full max-w-md bg-white rounded-t-3xl p-5 pb-8 shadow-2xl translate-y-full transition-transform duration-300"
-      id="shareSheetBody">
-      <div data-sheet-handle class="ios-sheet-handle"></div>
-      <div class="flex items-center gap-3 mb-2">
-        <div class="w-10 h-10 rounded-full bg-accent-50 text-accent-700 flex items-center justify-center shrink-0">
-          <i class="ph-bold ph-share-network text-xl"></i>
+    <!-- COMPONENT: QuickActionGrid (Nine Garage Pit & Lacak Pesanan) -->
+    <section data-component="QuickActionGrid" class="grid grid-cols-2 gap-3 mt-1">
+      <!-- Nine Garage Workshop Quick Link -->
+      <a href="garage/booking.html" class="ios-card p-3.5 flex flex-col justify-between h-24 hover:border-[#18181b] transition-all">
+        <div class="w-8 h-8 rounded-xl bg-[#18181b] text-white flex items-center justify-center">
+          <i class="ph-bold ph-calendar-check text-base"></i>
         </div>
         <div>
-          <h3 class="font-headline text-caption font-bold text-primary-950">Bagikan Lokasi Real-Time</h3>
-          <p class="font-caption text-caption text-secondary">Tautan terenkripsi langsung dari GPS Tracker 4G</p>
+          <h3 class="text-xs font-bold text-[#18181b]">Nine Garage Pit</h3>
+          <p class="text-[11px] text-[#15803d] font-semibold">2 Pit Tersedia Hari Ini</p>
         </div>
+      </a>
+
+      <!-- Mall Orders Quick Link -->
+      <a href="mall/orders.html" class="ios-card p-3.5 flex flex-col justify-between h-24 hover:border-[#18181b] transition-all">
+        <div class="w-8 h-8 rounded-xl bg-[#f4f4f5] text-[#18181b] flex items-center justify-center">
+          <i class="ph-bold ph-package text-base"></i>
+        </div>
+        <div>
+          <h3 class="text-xs font-bold text-[#18181b]">Pesanan Mall</h3>
+          <p class="text-[11px] text-[#71717a]">1 Dalam Pengiriman</p>
+        </div>
+      </a>
+    </section>
+
+    <!-- COMPONENT: PromoBanner (Automotive High-Contrast Slate) -->
+    <section data-component="PromoBanner" class="ios-card p-4 bg-[#18181b] text-white flex items-center justify-between">
+      <div class="flex flex-col gap-1 max-w-[230px]">
+        <span class="text-[10px] font-bold uppercase tracking-wider text-[#4ade80]">Promo Modifikasi</span>
+        <h3 class="text-sm font-bold leading-tight">Retrofit Biled Matrix E9 Pro 65W Turbo</h3>
+        <p class="text-xs text-[#a1a1aa]">Garansi resmi 2 tahun & free pasang di stall pit.</p>
+      </div>
+      <a href="mall/mall.html" class="px-3.5 py-2 rounded-xl bg-white text-[#18181b] text-xs font-bold hover:bg-[#f4f4f5] transition-all shrink-0">
+        Lihat
+      </a>
+    </section>
+
+    <!-- COMPONENT: ProductGrid (Katalog Pilihan dari Mall - Sesuai ProductCard.vue) -->
+    <section data-component="ProductGrid" class="flex flex-col gap-2 mt-1">
+      <div class="flex items-center justify-between px-1">
+        <h3 class="text-xs font-bold text-[#18181b]">Upgrade Terpopuler</h3>
+        <a href="mall/mall.html" class="text-xs font-semibold text-[#15803d]">Semua Produk</a>
       </div>
 
-      <div class="my-3.5">
-        <span class="font-label text-label uppercase tracking-wider text-secondary block mb-2">Pilih Durasi
-          Berbagi</span>
-        <div class="grid grid-cols-3 gap-2">
-          <button onclick="setDur(this, '2 jam')"
-            class="dur-btn py-2 rounded-xl border border-neutral-200 bg-neutral-50 text-xs font-semibold text-neutral-700">2
-            Jam</button>
-          <button onclick="setDur(this, '8 jam')"
-            class="dur-btn py-2 rounded-xl border-2 border-accent-500 bg-accent-50 text-xs font-bold text-accent-800">8
-            Jam</button>
-          <button onclick="setDur(this, '24 jam')"
-            class="dur-btn py-2 rounded-xl border border-neutral-200 bg-neutral-50 text-xs font-semibold text-neutral-700">24
-            Jam</button>
-        </div>
-      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <!-- Product Card 1: Biled Matrix E9 Pro -->
+        <article data-component="ProductCard" class="ios-card p-3 flex flex-col gap-2 group">
+          <a href="mall/product-detail.html" class="block">
+            <div class="aspect-square rounded-xl bg-[#f4f4f5] flex items-center justify-center relative overflow-hidden">
+              <img src="lampu.jpg" alt="Biled Matrix E9 Pro" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+              <span class="absolute top-2 left-2 rounded-lg bg-[#ef4444] text-white px-2 py-0.5 text-[10px] font-bold">-21%</span>
+            </div>
+            <div class="mt-2">
+              <span class="text-[10px] font-semibold text-[#71717a] uppercase">Lampu Utama</span>
+              <h4 class="text-xs font-bold text-[#18181b] truncate mt-0.5">Biled Matrix E9 Pro</h4>
+              <div class="mt-1 flex items-baseline gap-1.5">
+                <span class="text-xs font-bold text-[#18181b]">Rp 1.299.000</span>
+                <span class="text-[10px] text-[#a1a1aa] line-through">Rp 1.650rb</span>
+              </div>
+            </div>
+          </a>
+          <button onclick="addCartItem('Biled Matrix E9 Pro')" class="mt-1 w-full py-2 rounded-xl bg-[#18181b] text-white text-xs font-bold hover:bg-[#27272a] active:scale-95 transition-all">
+            + Keranjang
+          </button>
+        </article>
 
-      <div class="space-y-2 mt-4">
-        <button onclick="submitShare('wa')"
-          class="w-full h-11 rounded-xl bg-accent-600 text-white font-body-semibold text-caption flex items-center justify-center gap-2 shadow-sm">
-          <i class="ph-bold ph-whatsapp-logo text-lg"></i>Kirim via WhatsApp
-        </button>
-        <button onclick="submitShare('link')"
-          class="w-full h-11 rounded-xl bg-neutral-100 text-primary-950 font-body-semibold text-caption flex items-center justify-center gap-2">
-          <i class="ph-bold ph-copy text-base"></i>Salin Tautan Pelacakan
-        </button>
-        <button onclick="closeShareSheet()"
-          class="w-full py-2 font-caption text-caption text-secondary text-center">Batal</button>
+        <!-- Product Card 2: Twin Snail Horn 118dB -->
+        <article data-component="ProductCard" class="ios-card p-3 flex flex-col gap-2 group">
+          <a href="mall/product-detail.html" class="block">
+            <div class="aspect-square rounded-xl bg-[#f4f4f5] flex items-center justify-center relative overflow-hidden">
+              <img src="dashcam.jpg" alt="Klakson Keong" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+              <span class="absolute top-2 left-2 rounded-lg bg-[#ef4444] text-white px-2 py-0.5 text-[10px] font-bold">-15%</span>
+            </div>
+            <div class="mt-2">
+              <span class="text-[10px] font-semibold text-[#71717a] uppercase">Keamanan</span>
+              <h4 class="text-xs font-bold text-[#18181b] truncate mt-0.5">Twin Snail Horn 118dB</h4>
+              <div class="mt-1 flex items-baseline gap-1.5">
+                <span class="text-xs font-bold text-[#18181b]">Rp 145.000</span>
+                <span class="text-[10px] text-[#a1a1aa] line-through">Rp 175rb</span>
+              </div>
+            </div>
+          </a>
+          <button onclick="addCartItem('Twin Snail Horn')" class="mt-1 w-full py-2 rounded-xl bg-[#18181b] text-white text-xs font-bold hover:bg-[#27272a] active:scale-95 transition-all">
+            + Keranjang
+          </button>
+        </article>
       </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: BottomTabBar (Apple HIG Translucent Navigation)      -->
+  <!-- ============================================================== -->
+  <nav data-component="BottomTabBar" class="fixed bottom-0 inset-x-0 z-40 bg-white/90 backdrop-blur-xl border-t border-[#e4e4e7] pb-safe">
+    <div class="max-w-md mx-auto h-16 px-2 flex items-center justify-around">
+      <a href="home.html" class="flex flex-col items-center gap-0.5 text-[#18181b] font-bold text-[10.5px]">
+        <i class="ph-fill ph-house text-xl text-[#18181b]"></i>
+        <span>Beranda</span>
+      </a>
+      <a href="iot/accecories.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-cpu text-xl"></i>
+        <span>Aksesori</span>
+      </a>
+      <a href="mall/mall.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-storefront text-xl"></i>
+        <span>Mall</span>
+      </a>
+      <a href="garage/booking.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-calendar-dots text-xl"></i>
+        <span>Booking</span>
+      </a>
+      <a href="account/profile.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-user-circle text-xl"></i>
+        <span>Akun</span>
+      </a>
     </div>
-  </div>
+  </nav>
 
-  <!-- BOTTOM SHEET: MODAL BAGIKAN KE APLIKASI (Apple HIG Clean Modal) -->
-  <div id="shareAppModal"
-    class="hidden fixed inset-0 z-[85] bg-black/40 backdrop-blur-xs flex items-end justify-center">
-    <div
-      class="w-full max-w-md bg-white rounded-t-3xl p-5 pb-8 shadow-2xl translate-y-full transition-transform duration-300"
-      id="shareAppModalBody">
-      <div data-sheet-handle class="ios-sheet-handle"></div>
-      <div class="flex items-center justify-between mb-1">
-        <h3 class="font-headline text-lg font-bold text-primary-950">Bagikan Lokasi Real-Time</h3>
-        <button type="button" onclick="closeShareAppModal()"
-          class="w-7 h-7 rounded-full bg-neutral-100 text-neutral-500 hover:text-neutral-900 flex items-center justify-center">
+  <!-- ============================================================== -->
+  <!-- COMPONENT: SheetModal (Apple HIG Detail Modals Saat Kartu Diklik)-->
+  <!-- ============================================================== -->
+
+  <!-- 1. MODAL DETAIL GPS TRACKER -->
+  <div data-component="SheetModal" id="modal-gps" class="hidden fixed inset-0 z-50 flex items-end justify-center sheet-backdrop" onclick="closeModal('modal-gps')">
+    <div class="w-full max-w-md bg-white rounded-t-[28px] p-5 pb-8 sheet-content shadow-2xl flex flex-col gap-4 border-t border-[#e4e4e7]" onclick="event.stopPropagation()">
+      <!-- Drag Handle Bar -->
+      <div class="w-10 h-1 bg-neutral-300 rounded-full mx-auto"></div>
+      
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-[#18181b] text-white flex items-center justify-center">
+            <i class="ph-bold ph-navigation-arrow text-lg"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-[#18181b]">Nine GPS Tracker IoT 4G</h3>
+            <p class="text-xs text-[#71717a]">Yamaha NMAX 155 · B 1234 XYZ</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-gps')" aria-label="Tutup" class="w-7 h-7 rounded-full bg-[#f4f4f5] text-[#71717a] flex items-center justify-center hover:bg-[#e4e4e7]">
           <i class="ph-bold ph-x text-xs"></i>
         </button>
       </div>
-      <p class="text-xs text-neutral-500 mb-4">Pilih aplikasi untuk membagikan tautan GPS Yamaha NMAX 155</p>
 
-      <!-- Share Link Box -->
-      <div
-        class="flex items-center justify-between p-3 rounded-2xl bg-neutral-50 border border-neutral-200/70 mb-4 gap-2">
-        <span class="font-mono text-xs text-neutral-700 truncate select-all"
-          id="shareModalUrlText">https://nine.co.id/live/gps-nmax-b1234xyz</span>
-        <button type="button" onclick="copyUnifiedLink()"
-          class="h-8 px-3 rounded-xl bg-neutral-200/80 hover:bg-neutral-300 text-primary-950 font-bold text-xs shrink-0 active:scale-95 transition-all flex items-center gap-1">
-          <i class="ph-bold ph-copy text-xs"></i>
-          <span>Salin</span>
-        </button>
-      </div>
-
-      <!-- App Grid -->
-      <div class="grid grid-cols-4 gap-3">
-        <!-- WhatsApp -->
-        <a href="https://api.whatsapp.com/send?text=Lacak%20posisi%20live%20saya%20di%20https://nine.co.id/live/gps-nmax-b1234xyz"
-          target="_blank" onclick="closeShareAppModal()"
-          class="flex flex-col items-center gap-1.5 p-3 rounded-2xl bg-neutral-50 hover:bg-green-50/50 border border-neutral-100 active:scale-95 transition-all text-center">
-          <div class="w-12 h-12 rounded-full bg-green-500 text-white flex items-center justify-center shadow-xs">
-            <i class="ph-fill ph-whatsapp-logo text-2xl"></i>
-          </div>
-          <span class="text-[11px] font-bold text-neutral-800">WhatsApp</span>
-        </a>
-
-        <!-- Telegram -->
-        <a href="https://t.me/share/url?url=https://nine.co.id/live/gps-nmax-b1234xyz&text=Lacak%20live%20perjalanan%20saya"
-          target="_blank" onclick="closeShareAppModal()"
-          class="flex flex-col items-center gap-1.5 p-3 rounded-2xl bg-neutral-50 hover:bg-sky-50/50 border border-neutral-100 active:scale-95 transition-all text-center">
-          <div class="w-12 h-12 rounded-full bg-sky-500 text-white flex items-center justify-center shadow-xs">
-            <i class="ph-fill ph-telegram-logo text-2xl"></i>
-          </div>
-          <span class="text-[11px] font-bold text-neutral-800">Telegram</span>
-        </a>
-
-        <!-- SMS / Pesan -->
-        <a href="sms:?body=Lacak%20posisi%20live%20saya%20di%20https://nine.co.id/live/gps-nmax-b1234xyz"
-          onclick="closeShareAppModal()"
-          class="flex flex-col items-center gap-1.5 p-3 rounded-2xl bg-neutral-50 hover:bg-neutral-100 border border-neutral-100 active:scale-95 transition-all text-center">
-          <div class="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-xs">
-            <i class="ph-fill ph-chat-circle-dots text-2xl"></i>
-          </div>
-          <span class="text-[11px] font-bold text-neutral-800">Pesan SMS</span>
-        </a>
-
-        <!-- Lainnya / Native Share -->
-        <button type="button" onclick="shareNativeLink(); closeShareAppModal();"
-          class="flex flex-col items-center gap-1.5 p-3 rounded-2xl bg-neutral-50 hover:bg-neutral-100 border border-neutral-100 active:scale-95 transition-all text-center">
-          <div class="w-12 h-12 rounded-full bg-neutral-800 text-white flex items-center justify-center shadow-xs">
-            <i class="ph-bold ph-share-network text-2xl"></i>
-          </div>
-          <span class="text-[11px] font-bold text-neutral-800">Lainnya</span>
-        </button>
-      </div>
-
-      <button type="button" onclick="closeShareAppModal()"
-        class="mt-5 w-full h-11 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-primary-950 font-bold text-xs active:scale-95 transition-all">Tutup</button>
-    </div>
-  </div>
-
-  <!-- BOTTOM SHEET: SHARE APPS MODAL (Modal Aplikasi yang Bisa Dibagikan) -->
-  <div id="shareAppModal"
-    class="hidden fixed inset-0 z-[85] bg-black/50 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4">
-    <div id="shareAppModalBody"
-      class="w-full max-w-md bg-white rounded-t-3xl sm:rounded-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden translate-y-full transition-transform duration-300">
-      <!-- Sheet Drag Handle -->
-      <div class="w-12 h-1.5 bg-neutral-300 rounded-full mx-auto my-3 shrink-0"></div>
-
-      <!-- Header -->
-      <div class="px-5 pb-3 border-b border-neutral-100 flex items-center justify-between shrink-0">
+      <!-- Telemetry Metrics Inset Grid -->
+      <div class="grid grid-cols-3 gap-2 p-3 rounded-2xl bg-[#f4f4f5] text-center text-xs">
         <div>
-          <h3 class="font-headline text-base font-bold text-primary-950">Bagikan Lokasi Live GPS</h3>
-          <p class="text-xs text-neutral-500">Pilih aplikasi tujuan berbagi rute Yamaha NMAX</p>
+          <span class="text-[10px] text-[#71717a] block">Status Aki</span>
+          <span class="font-bold text-[#18181b] mt-0.5 block">12.8V (Normal)</span>
         </div>
-        <button onclick="closeShareAppModal()"
-          class="w-8 h-8 rounded-full bg-neutral-100 text-neutral-500 hover:text-primary-950 flex items-center justify-center transition-colors">
-          <i class="ph-bold ph-x text-base"></i>
-        </button>
-      </div>
-
-      <!-- Body Apps List -->
-      <div class="p-5 overflow-y-auto flex-1 space-y-4">
-        <!-- Target Apps Grid -->
-        <div class="grid grid-cols-4 gap-3">
-          <!-- WhatsApp -->
-          <a href="https://wa.me/?text=Pantau%20lokasi%20live%20perjalanan%20saya%20secara%20real-time%3A%20https%3A%2F%2Fnine.co.id%2Flive%2Fgps-nmax-b1234xyz"
-            target="_blank" rel="noopener"
-            onclick="closeShareAppModal(); window.nineToast('Membuka WhatsApp…', 'whatsapp-logo');"
-            class="flex flex-col items-center gap-2 p-2 rounded-2xl hover:bg-neutral-50 active:scale-95 transition-all">
-            <div class="w-13 h-13 rounded-2xl bg-emerald-500 text-white flex items-center justify-center shadow-xs">
-              <i class="ph-bold ph-whatsapp-logo text-2xl"></i>
-            </div>
-            <span class="text-xs font-bold text-neutral-700">WhatsApp</span>
-          </a>
-
-          <!-- Telegram -->
-          <a href="https://t.me/share/url?url=https%3A%2F%2Fnine.co.id%2Flive%2Fgps-nmax-b1234xyz&text=Pantau%20lokasi%20live%20perjalanan%20saya"
-            target="_blank" rel="noopener"
-            onclick="closeShareAppModal(); window.nineToast('Membuka Telegram…', 'paper-plane-tilt');"
-            class="flex flex-col items-center gap-2 p-2 rounded-2xl hover:bg-neutral-50 active:scale-95 transition-all">
-            <div class="w-13 h-13 rounded-2xl bg-sky-500 text-white flex items-center justify-center shadow-xs">
-              <i class="ph-bold ph-paper-plane-tilt text-2xl"></i>
-            </div>
-            <span class="text-xs font-bold text-neutral-700">Telegram</span>
-          </a>
-
-          <!-- Pesan SMS / iMessage -->
-          <a href="sms:?body=Pantau%20lokasi%20live%20perjalanan%20saya%3A%20https%3A%2F%2Fnine.co.id%2Flive%2Fgps-nmax-b1234xyz"
-            onclick="closeShareAppModal(); window.nineToast('Membuka SMS…', 'chat-dots');"
-            class="flex flex-col items-center gap-2 p-2 rounded-2xl hover:bg-neutral-50 active:scale-95 transition-all">
-            <div class="w-13 h-13 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-xs">
-              <i class="ph-bold ph-chat-circle-dots text-2xl"></i>
-            </div>
-            <span class="text-xs font-bold text-neutral-700">SMS</span>
-          </a>
-
-          <!-- Native Share / Sistem Lainnya -->
-          <button onclick="closeShareAppModal(); shareNativeLink();"
-            class="flex flex-col items-center gap-2 p-2 rounded-2xl hover:bg-neutral-50 active:scale-95 transition-all">
-            <div class="w-13 h-13 rounded-2xl bg-neutral-900 text-white flex items-center justify-center shadow-xs">
-              <i class="ph-bold ph-dots-three-outline text-2xl"></i>
-            </div>
-            <span class="text-xs font-bold text-neutral-700">Lainnya</span>
-          </button>
+        <div>
+          <span class="text-[10px] text-[#71717a] block">Sinyal Seluler</span>
+          <span class="font-bold text-[#15803d] mt-0.5 block">4G · 4/4 Bar</span>
         </div>
-
-        <!-- Copy Direct Link Bar -->
-        <div
-          class="p-3 rounded-2xl bg-neutral-50 border border-neutral-200/80 flex items-center justify-between gap-2 mt-2">
-          <div class="min-w-0 flex-1">
-            <span class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider block">TAUTAN RUTE
-              REAL-TIME</span>
-            <span
-              class="font-mono text-xs text-primary-950 font-semibold block truncate mt-0.5">https://nine.co.id/live/gps-nmax-b1234xyz</span>
-          </div>
-          <button onclick="copyUnifiedLink(); closeShareAppModal();"
-            class="h-9 px-3.5 rounded-xl bg-primary-950 hover:bg-black text-white font-bold text-xs flex items-center gap-1.5 shrink-0 shadow-xs active:scale-95 transition-all">
-            <i class="ph-bold ph-copy text-sm"></i>
-            <span>Salin</span>
-          </button>
-        </div>
-
-        <!-- Live Expiry Note -->
-        <div class="flex items-center gap-2 text-xs text-neutral-500 px-1">
-          <i class="ph-bold ph-shield-check text-emerald-600 text-base shrink-0"></i>
-          <span>Tautan terenkripsi end-to-end dengan batas waktu aktif 60 menit demi privasi Anda.</span>
+        <div>
+          <span class="text-[10px] text-[#71717a] block">Koneksi Satelit</span>
+          <span class="font-bold text-[#18181b] mt-0.5 block">14 Satelit</span>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- BOTTOM SHEET: VEHICLE SWITCHER MODAL -->
-  <div id="vehicleSheet" class="hidden fixed inset-0 z-[80] bg-black/40 backdrop-blur-xs flex items-end justify-center">
-    <div
-      class="w-full max-w-md bg-white rounded-t-3xl p-5 pb-8 shadow-2xl translate-y-full transition-transform duration-300"
-      id="vehicleSheetBody">
-      <div data-sheet-handle class="ios-sheet-handle"></div>
-      <h3 class="font-headline text-caption font-bold text-primary-950 mb-3 text-center">Pilih Kendaraan Utama</h3>
+      <!-- Real-Time Address Inset -->
+      <div class="p-3.5 rounded-2xl border border-[#e4e4e7] bg-white flex items-start gap-2.5">
+        <i class="ph-bold ph-map-pin text-[#15803d] text-base shrink-0 mt-0.5"></i>
+        <div class="min-w-0 flex-1">
+          <span class="text-xs font-bold text-[#18181b] block">Jl. Jenderal Sudirman No. 45, Jakarta Pusat</span>
+          <span class="text-[11px] text-[#71717a] block mt-0.5">Sudirman Center · Radius Geofence 20 Meter</span>
+        </div>
+      </div>
 
-      <div class="space-y-2">
-        <button onclick="selectVehicle('Yamaha NMAX 155', 'Motor')"
-          class="w-full p-3 rounded-2xl border-2 border-accent-500 bg-accent-50/50 flex items-center justify-between text-left">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-primary-900 text-white flex items-center justify-center">
-              <i class="ph-bold ph-motorcycle text-xl"></i>
-            </div>
-            <div>
-              <span class="font-body-semibold text-caption font-bold text-primary-950 block">Yamaha NMAX 155</span>
-              <span class="font-caption text-[11px] text-secondary">B 1234 XYZ · 3 Aksesori Terhubung</span>
-            </div>
-          </div>
-          <i class="ph-bold ph-check text-accent-700 text-lg"></i>
-        </button>
-
-        <button onclick="selectVehicle('Honda CR-V Turbo', 'Mobil')"
-          class="w-full p-3 rounded-2xl border border-neutral-200 bg-white flex items-center justify-between text-left">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-neutral-100 text-primary-950 flex items-center justify-center">
-              <i class="ph-bold ph-car text-xl"></i>
-            </div>
-            <div>
-              <span class="font-body-semibold text-caption font-bold text-primary-950 block">Honda CR-V Turbo</span>
-              <span class="font-caption text-[11px] text-secondary">B 9876 NNE · 1 Aksesori (Dashcam 4K)</span>
-            </div>
-          </div>
-        </button>
-
-        <a href="profile.html"
-          class="w-full p-3 rounded-2xl border border-dashed border-neutral-300 text-neutral-600 font-body-semibold text-caption flex items-center justify-center gap-1.5 hover:bg-neutral-50">
-          <i class="ph-bold ph-plus"></i>Tambah Kendaraan Baru
+      <!-- Action Buttons -->
+      <div class="flex flex-col gap-2 pt-1">
+        <a href="iot/device-gps.html" class="w-full h-11 rounded-full bg-[#18181b] text-white text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#27272a] transition-all">
+          <i class="ph-bold ph-map-trifold text-base"></i>
+          <span>Buka Peta & Telemetri Lengkap</span>
         </a>
+        <button onclick="copyShareLink()" class="w-full h-11 rounded-full bg-[#f4f4f5] hover:bg-[#e4e4e7] text-[#18181b] text-xs font-bold flex items-center justify-center gap-1.5 transition-all">
+          <i class="ph-bold ph-share-network text-base"></i>
+          <span>Bagikan Lokasi Sementara (WhatsApp)</span>
+        </button>
       </div>
-
-      <button onclick="closeVehicleSheet()"
-        class="mt-4 w-full h-11 rounded-xl bg-neutral-100 text-primary-950 font-body-semibold text-caption">Tutup</button>
     </div>
   </div>
 
-  <script src="assets/shell.js"></script>
-  <script src="assets/components.js"></script>
+  <!-- 2. MODAL DETAIL BILED MATRIX E9 PRO (DENGAN OPTICAL BEAM CHAMBER) -->
+  <div data-component="SheetModal" id="modal-biled" class="hidden fixed inset-0 z-50 flex items-end justify-center sheet-backdrop" onclick="closeModal('modal-biled')">
+    <div class="w-full max-w-md bg-white rounded-t-[28px] p-5 pb-8 sheet-content shadow-2xl flex flex-col gap-4 border-t border-[#e4e4e7]" onclick="event.stopPropagation()">
+      <!-- Drag Handle Bar -->
+      <div class="w-10 h-1 bg-neutral-300 rounded-full mx-auto"></div>
+      
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-[#f4f4f5] text-[#18181b] flex items-center justify-center">
+            <i class="ph-bold ph-sun text-lg"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-[#18181b]">Biled Matrix E9 Pro 3.0"</h3>
+            <p class="text-xs text-[#71717a]">Soket Universal H4/H7 · 65W Turbo</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-biled')" aria-label="Tutup" class="w-7 h-7 rounded-full bg-[#f4f4f5] text-[#71717a] flex items-center justify-center hover:bg-[#e4e4e7]">
+          <i class="ph-bold ph-x text-xs"></i>
+        </button>
+      </div>
+
+      <!-- PROJECTOR OPTICAL CHAMBER (Simulasi Realistis Sorot Sinar Lensa) -->
+      <div id="biledOpticalChamber" class="relative rounded-2xl bg-[#0d0d11] border border-neutral-800 h-36 overflow-hidden flex flex-col items-center justify-center p-3 select-none">
+        <!-- Dynamic Radial Glow Simulation -->
+        <div id="biledBeamGlow" class="absolute inset-0 transition-all duration-500 pointer-events-none"
+             style="background: radial-gradient(circle at 50% 45%, rgba(56, 189, 248, 0.45) 0%, rgba(56, 189, 248, 0.12) 40%, transparent 70%);"></div>
+
+        <!-- Cut-Off Horizon Line Simulation -->
+        <div class="absolute inset-x-0 bottom-3 h-px bg-white/20"></div>
+
+        <!-- Lens Core Ring -->
+        <div id="biledLensRing" class="relative z-10 w-20 h-20 rounded-full bg-neutral-900 border-2 border-neutral-700/80 flex items-center justify-center shadow-lg transition-all duration-300">
+          <div id="biledLensIris" class="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 shadow-inner" style="background-color: #38bdf8; box-shadow: 0 0 24px #38bdf8;">
+            <i class="ph-fill ph-sun text-neutral-950 text-xl"></i>
+          </div>
+        </div>
+
+        <!-- Telemetry Overlay -->
+        <div class="absolute top-2.5 left-3 text-[10px] font-mono text-white/70">
+          OPTIC: MATRIX DUAL CORE
+        </div>
+        <div id="biledLuxBadge" class="absolute top-2.5 right-3 text-[10px] font-mono font-bold text-white bg-white/10 px-2 py-0.5 rounded border border-white/15">
+          65W · 8.400 LUX
+        </div>
+      </div>
+
+      <!-- 4 KELVIN SPECTRUM CARDS (Pemilih Warna Spesifikasi Otomotif) -->
+      <div class="flex flex-col gap-1.5">
+        <div class="flex items-center justify-between px-0.5">
+          <span class="text-xs font-bold text-[#18181b]">Spektrum Temperatur Cahaya</span>
+          <span id="biledActiveName" class="text-xs font-bold text-[#15803d]">6000K Ice Blue Matrix</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 pt-1" id="kelvinSelectorGrid">
+          <!-- 3000K -->
+          <button type="button" onclick="setBeamColor('3000K', '#f59e0b', 'rgba(245, 158, 11, 0.5)', '3000K Golden Amber (Kabut)', this)" class="kelvin-card p-2.5 rounded-xl border border-[#e4e4e7] bg-white flex items-center gap-2.5 text-left hover:border-[#18181b] transition-all">
+            <span class="w-7 h-7 rounded-lg shrink-0 flex items-center justify-center shadow-xs" style="background-color: #f59e0b;">
+              <i class="ph-bold ph-drop text-xs text-neutral-950"></i>
+            </span>
+            <div class="min-w-0">
+              <span class="text-xs font-bold text-[#18181b] block leading-tight">3000K</span>
+              <span class="text-[10px] text-[#71717a] truncate block">Tembus Kabut & Hujan</span>
+            </div>
+          </button>
+
+          <!-- 4300K -->
+          <button type="button" onclick="setBeamColor('4300K', '#fde68a', 'rgba(253, 230, 138, 0.5)', '4300K All-Weather (Aspal Basah)', this)" class="kelvin-card p-2.5 rounded-xl border border-[#e4e4e7] bg-white flex items-center gap-2.5 text-left hover:border-[#18181b] transition-all">
+            <span class="w-7 h-7 rounded-lg shrink-0 flex items-center justify-center shadow-xs" style="background-color: #fde68a;">
+              <i class="ph-bold ph-cloud-rain text-xs text-neutral-950"></i>
+            </span>
+            <div class="min-w-0">
+              <span class="text-xs font-bold text-[#18181b] block leading-tight">4300K</span>
+              <span class="text-[10px] text-[#71717a] truncate block">All-Weather Aspal Basah</span>
+            </div>
+          </button>
+
+          <!-- 5500K -->
+          <button type="button" onclick="setBeamColor('5500K', '#ffffff', 'rgba(255, 255, 255, 0.55)', '5500K Pure Daylight (Natural)', this)" class="kelvin-card p-2.5 rounded-xl border border-[#e4e4e7] bg-white flex items-center gap-2.5 text-left hover:border-[#18181b] transition-all">
+            <span class="w-7 h-7 rounded-lg shrink-0 flex items-center justify-center shadow-xs border border-neutral-300" style="background-color: #ffffff;">
+              <i class="ph-bold ph-sun text-xs text-neutral-950"></i>
+            </span>
+            <div class="min-w-0">
+              <span class="text-xs font-bold text-[#18181b] block leading-tight">5500K</span>
+              <span class="text-[10px] text-[#71717a] truncate block">Daylight Kontras Tinggi</span>
+            </div>
+          </button>
+
+          <!-- 6000K (Default Active) -->
+          <button type="button" onclick="setBeamColor('6000K', '#38bdf8', 'rgba(56, 189, 248, 0.55)', '6000K Ice Blue (Hyper-Matrix)', this)" class="kelvin-card p-2.5 rounded-xl border-2 border-[#18181b] bg-[#f4f4f5] flex items-center gap-2.5 text-left transition-all">
+            <span class="w-7 h-7 rounded-lg shrink-0 flex items-center justify-center shadow-xs" style="background-color: #38bdf8;">
+              <i class="ph-bold ph-lightning text-xs text-neutral-950"></i>
+            </span>
+            <div class="min-w-0">
+              <span class="text-xs font-bold text-[#18181b] block leading-tight">6000K</span>
+              <span class="text-[10px] text-[#71717a] truncate block">Ice Blue Signature</span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Status Daya & Garansi -->
+      <div class="grid grid-cols-2 gap-2 text-xs">
+        <div class="p-3 rounded-2xl bg-[#f4f4f5]">
+          <span class="text-[10px] text-[#71717a] block">Status Daya</span>
+          <span class="font-bold text-[#18181b] mt-0.5 block">65W Turbo Beam Aktif</span>
+        </div>
+        <div class="p-3 rounded-2xl bg-[#f4f4f5]">
+          <span class="text-[10px] text-[#71717a] block">Garansi Resmi</span>
+          <span class="font-bold text-[#15803d] mt-0.5 block">Berlaku s/d Okt 2028</span>
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <a href="iot/device-lampu.html" class="w-full h-11 rounded-full bg-[#18181b] text-white text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#27272a] transition-all">
+        <i class="ph-bold ph-sliders-horizontal text-base"></i>
+        <span>Atur Sudut Sorot & Kalibrasi Beam</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 3. MODAL DETAIL DASHCAM 4K DUAL -->
+  <div data-component="SheetModal" id="modal-dashcam" class="hidden fixed inset-0 z-50 flex items-end justify-center sheet-backdrop" onclick="closeModal('modal-dashcam')">
+    <div class="w-full max-w-md bg-white rounded-t-[28px] p-5 pb-8 sheet-content shadow-2xl flex flex-col gap-4 border-t border-[#e4e4e7]" onclick="event.stopPropagation()">
+      <!-- Drag Handle Bar -->
+      <div class="w-10 h-1 bg-neutral-300 rounded-full mx-auto"></div>
+      
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-[#f4f4f5] text-[#18181b] flex items-center justify-center">
+            <i class="ph-bold ph-video-camera text-lg"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-[#18181b]">Nine Cam Pro 4K Dual</h3>
+            <p class="text-xs text-[#71717a]">Sensor Sony Starvis 2 · Parkir 24 Jam</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-dashcam')" aria-label="Tutup" class="w-7 h-7 rounded-full bg-[#f4f4f5] text-[#71717a] flex items-center justify-center hover:bg-[#e4e4e7]">
+          <i class="ph-bold ph-x text-xs"></i>
+        </button>
+      </div>
+
+      <!-- Snapshot Preview Thumbnail -->
+      <div class="relative aspect-video rounded-2xl overflow-hidden bg-neutral-900 border border-[#e4e4e7]">
+        <img src="dashcam.jpg" alt="Snapshot Dashcam" class="w-full h-full object-cover"/>
+        <div class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/60 text-white text-[10px] font-mono">
+          LIVE · CAM DEPAN 4K
+        </div>
+      </div>
+
+      <!-- Storage & G-Sensor Status -->
+      <div class="grid grid-cols-2 gap-2 text-xs">
+        <div class="p-3 rounded-2xl bg-[#f4f4f5]">
+          <span class="text-[10px] text-[#71717a] block">Memori MicroSD</span>
+          <span class="font-bold text-[#18181b] mt-0.5 block">96 GB / 128 GB</span>
+        </div>
+        <div class="p-3 rounded-2xl bg-[#f4f4f5]">
+          <span class="text-[10px] text-[#71717a] block">G-Sensor Parkir</span>
+          <span class="font-bold text-[#15803d] mt-0.5 block">Sensitivitas Tinggi</span>
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <a href="iot/device-dashcam.html" class="w-full h-11 rounded-full bg-[#18181b] text-white text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#27272a] transition-all">
+        <i class="ph-bold ph-play-circle text-base"></i>
+        <span>Buka Galeri Klip & Live Feed Penuh</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- JAVASCRIPT CONTROLLERS                                         -->
+  <!-- ============================================================== -->
   <script>
-    // Dynamic Background Gradients per Active Device (Reverted per user request)
-    var THEME_GRADIENTS = ["theme-grad-0", "theme-grad-1", "theme-grad-2", "theme-grad-3"];
-
-    // Vehicle names per accessory state
-    var VEHICLE_PRESETS = [
-      { name: "Yamaha NMAX 155", type: "Motor" },
-      { name: "Pajero Sport Dakar", type: "Mobil" },
-      { name: "Innova Zenix Hybrid", type: "Mobil" },
-      { name: "Aksesori Baru", type: "Tambah" }
-    ];
-
-    // Hero Carousel Logic with Zero-Delay Real-Time Scroll
-    var deck = document.getElementById("deck");
-    var cards = [
-      document.getElementById("card-0"),
-      document.getElementById("card-1"),
-      document.getElementById("card-2"),
-      document.getElementById("card-3")
-    ];
-    var dots = Array.from(document.querySelectorAll("#deckDots .deck-dot"));
-    var currentIndex = 0;
-
-    function setCardActiveState(index) {
-      if (index === currentIndex && cards[index].classList.contains("active")) return;
-      currentIndex = index;
-
-      // Apply scale & elevation immediately
-      for (var i = 0; i < cards.length; i++) {
-        if (i === index) {
-          cards[i].classList.remove("inactive");
-          cards[i].classList.add("active");
-        } else {
-          cards[i].classList.remove("active");
-          cards[i].classList.add("inactive");
-        }
-      }
-
-      // Vehicle remains unchanged per user requirement (only changed via openVehicleSheet)
-
-      // Update indicator dots
-      for (var d = 0; d < dots.length; d++) {
-        var span = dots[d].querySelector("span");
-        if (span) {
-          span.className = (d === index)
-            ? "block h-1.5 w-6 rounded-full bg-primary-950 transition-all"
-            : "block h-1.5 w-2 rounded-full bg-neutral-300 transition-all";
-        }
+    // Sheet Modal Controller (Apple HIG)
+    function openModal(id) {
+      var modal = document.getElementById(id);
+      if (modal) {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
       }
     }
 
-    function deckGoTo(index) {
-      if (index < 0) index = 0;
-      if (index >= cards.length) index = cards.length - 1;
-      var targetCard = cards[index];
-      var targetOffset = targetCard.offsetLeft - deck.offsetLeft;
-      deck.scrollTo({ left: targetOffset, behavior: "smooth" });
-      setCardActiveState(index);
+    function closeModal(id) {
+      var modal = document.getElementById(id);
+      if (modal) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+      }
     }
 
-    function deckPrev() { deckGoTo(currentIndex - 1); }
-    function deckNext() { deckGoTo(currentIndex + 1); }
-
-    // ZERO-DELAY REAL-TIME SCROLL DETECTION
-    var isScrollTicking = false;
-    deck.addEventListener("scroll", function () {
-      if (!isScrollTicking) {
-        window.requestAnimationFrame(function () {
-          var mid = deck.scrollLeft + deck.clientWidth / 2;
-          var best = 0;
-          var minDist = Infinity;
-          for (var idx = 0; idx < cards.length; idx++) {
-            var c = cards[idx];
-            var cardMid = c.offsetLeft - deck.offsetLeft + c.offsetWidth / 2;
-            var dist = Math.abs(cardMid - mid);
-            if (dist < minDist) {
-              minDist = dist;
-              best = idx;
-            }
-          }
-          setCardActiveState(best);
-          isScrollTicking = false;
-        });
-        isScrollTicking = true;
-      }
-    }, { passive: true });
-
-    // 3-Action Toggle Switcher: Bagikan Lokasi terpilih default dengan border abu-abu serasi
-    var currentActiveAction = "share"; // Default: Bagikan Lokasi terpilih
-
-    function updateActionButtonsUI(activeType) {
-      var container = document.getElementById("actionExpandContainer");
-      var notch = document.getElementById("actionIndicatorNotch");
-      var btnShare = document.getElementById("act-btn-share");
-      var btnBooking = document.getElementById("act-btn-booking");
-      var btnOrder = document.getElementById("act-btn-order");
-
-      var iconShare = document.getElementById("act-icon-share");
-      var iconBooking = document.getElementById("act-icon-booking");
-      var iconOrder = document.getElementById("act-icon-order");
-
-      var sharePanel = document.getElementById("expand-share");
-      var bookingPanel = document.getElementById("expand-booking");
-      var orderPanel = document.getElementById("expand-order");
-
-      var btns = { share: btnShare, booking: btnBooking, order: btnOrder };
-      var icons = { share: iconShare, booking: iconBooking, order: iconOrder };
-      var panels = { share: sharePanel, booking: bookingPanel, order: orderPanel };
-
-      var notchPositions = {
-        share: "calc(16.67% - 8px)",
-        booking: "calc(50% - 8px)",
-        order: "calc(83.33% - 8px)"
-      };
-
-      if (!activeType) {
-        if (container) container.classList.add("hidden");
-        Object.keys(btns).forEach(function (k) {
-          if (btns[k]) {
-            btns[k].className = "action-btn h-[84px] p-2.5 rounded-2xl bg-white/75 border border-neutral-200/80 shadow-2xs transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 text-neutral-600 relative";
-          }
-          if (panels[k]) panels[k].classList.add("hidden");
-        });
-        return;
-      }
-
-      if (container) container.classList.remove("hidden");
-      if (notch && notchPositions[activeType]) {
-        notch.style.left = notchPositions[activeType];
-      }
-
-      Object.keys(btns).forEach(function (k) {
-        if (k === activeType) {
-          if (btns[k]) {
-            btns[k].className = "action-btn h-[84px] p-2.5 rounded-2xl bg-white border-2 border-neutral-800 shadow-xs transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 text-primary-950 font-bold relative z-20";
-          }
-          if (panels[k]) panels[k].classList.remove("hidden");
-        } else {
-          if (btns[k]) {
-            btns[k].className = "action-btn h-[84px] p-2.5 rounded-2xl bg-white/75 border border-neutral-200/80 shadow-2xs transition-all flex flex-col items-center justify-center gap-1.5 active:scale-95 text-neutral-600 relative";
-          }
-          if (panels[k]) panels[k].classList.add("hidden");
-        }
+    // Dynamic Optical Headlight Color Selector
+    function setBeamColor(kelvin, colorHex, glowColor, fullName, btnEl) {
+      // Reset active card border
+      document.querySelectorAll('.kelvin-card').forEach(function(c) {
+        c.className = "kelvin-card p-2.5 rounded-xl border border-[#e4e4e7] bg-white flex items-center gap-2.5 text-left hover:border-[#18181b] transition-all";
       });
-    }
+      btnEl.className = "kelvin-card p-2.5 rounded-xl border-2 border-[#18181b] bg-[#f4f4f5] flex items-center gap-2.5 text-left transition-all";
 
-    function toggleAction(type) {
-      if (currentActiveAction === type) {
-        currentActiveAction = null;
-      } else {
-        currentActiveAction = type;
+      // Update Chamber Radial Optical Glow
+      var glow = document.getElementById('biledBeamGlow');
+      if (glow) {
+        glow.style.background = 'radial-gradient(circle at 50% 45%, ' + glowColor + ' 0%, rgba(0,0,0,0) 70%)';
       }
-      updateActionButtonsUI(currentActiveAction);
-    }
 
-    function copyUnifiedLink() {
-      var text = document.getElementById("shareUrlText") ? document.getElementById("shareUrlText").textContent : "https://nine.co.id/live/gps-nmax-b1234xyz";
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(text);
+      // Update Lens Iris Color & Glow
+      var iris = document.getElementById('biledLensIris');
+      if (iris) {
+        iris.style.backgroundColor = colorHex;
+        iris.style.boxShadow = '0 0 24px ' + colorHex;
       }
-      window.nineToast("Tautan lokasi GPS disalin!", "copy");
+
+      // Update Label
+      var nameLabel = document.getElementById('biledActiveName');
+      if (nameLabel) nameLabel.innerText = fullName;
+      
+      var cardText = document.getElementById('currentBeamText');
+      if (cardText) cardText.innerText = fullName;
     }
 
-    // Open & Close Share Modal
-    function openShareAppModal() {
-      var m = document.getElementById("shareAppModal");
-      var b = document.getElementById("shareAppModalBody");
-      if (!m || !b) return;
-      m.classList.remove("hidden");
-      requestAnimationFrame(function () {
-        b.classList.remove("translate-y-full");
-      });
+    function copyShareLink() {
+      navigator.clipboard?.writeText("https://nine.co.id/live/gps-nmax-b1234xyz");
+      alert("Tautan live GPS 2 jam berhasil disalin!");
     }
 
-    function closeShareAppModal() {
-      var m = document.getElementById("shareAppModal");
-      var b = document.getElementById("shareAppModalBody");
-      if (!m || !b) return;
-      b.classList.add("translate-y-full");
-      setTimeout(function () {
-        m.classList.add("hidden");
-      }, 280);
+    function addCartItem(name) {
+      alert(name + " berhasil ditambahkan ke keranjang belanja!");
     }
-
-    var shareAppModalEl = document.getElementById("shareAppModal");
-    if (shareAppModalEl) {
-      shareAppModalEl.addEventListener("click", function (e) {
-        if (e.target === shareAppModalEl) closeShareAppModal();
-      });
-    }
-
-    function shareNativeLink() {
-      var text = document.getElementById("shareUrlText") ? document.getElementById("shareUrlText").textContent : "https://nine.co.id/live/gps-nmax-b1234xyz";
-      if (navigator.share) {
-        navigator.share({
-          title: 'Lokasi Live GPS - Nine Autogarage',
-          text: 'Pantau perjalanan saya secara real-time:',
-          url: text
-        }).catch(function () { });
-      } else {
-        copyUnifiedLink();
-      }
-    }
-
-    // Quick Cart Add Helper for Home Mall Highlights
-    window.addHomeCart = function (productName) {
-      var count = parseInt(localStorage.getItem("nine_cart") || "2", 10) + 1;
-      localStorage.setItem("nine_cart", count);
-      var badges = document.querySelectorAll("[data-cart-badge]");
-      badges.forEach(function (el) { el.textContent = count; });
-      window.nineToast(productName + " ditambahkan ke keranjang", "shopping-bag");
-    };
-
-    // Render initial default active action on load
-    updateActionButtonsUI("share");
-    // Initial state
-    setCardActiveState(0);
-
-    // Promo Banner Carousel Logic (Auto-slide + Swipe + Dots)
-    var promoDeck = document.getElementById("promoImageDeck");
-    var promoDots = Array.from(document.querySelectorAll("#promoDots .promo-dot"));
-    var promoCurrent = 0;
-    var promoSlidesCount = 3;
-    var promoTimer = null;
-
-    function setPromoActiveDot(index) {
-      promoCurrent = index;
-      promoDots.forEach(function (dot, i) {
-        if (i === index) {
-          dot.className = "promo-dot h-1.5 w-4 rounded-full bg-accent-500 transition-all";
-        } else {
-          dot.className = "promo-dot h-1.5 w-1.5 rounded-full bg-white/40 transition-all";
-        }
-      });
-    }
-
-    function promoGoTo(index) {
-      if (!promoDeck) return;
-      promoCurrent = index;
-      var slideWidth = promoDeck.clientWidth;
-      promoDeck.scrollTo({ left: slideWidth * index, behavior: "smooth" });
-      setPromoActiveDot(index);
-    }
-
-    function startPromoAutoSlide() {
-      if (promoTimer) clearInterval(promoTimer);
-      promoTimer = setInterval(function () {
-        var next = (promoCurrent + 1) % promoSlidesCount;
-        promoGoTo(next);
-      }, 5000);
-    }
-
-    if (promoDeck) {
-      promoDeck.addEventListener("scroll", function () {
-        var slideWidth = promoDeck.clientWidth;
-        if (slideWidth > 0) {
-          var idx = Math.round(promoDeck.scrollLeft / slideWidth);
-          if (idx !== promoCurrent && idx >= 0 && idx < promoSlidesCount) {
-            setPromoActiveDot(idx);
-          }
-        }
-      });
-      startPromoAutoSlide();
-    }
-
-    // Reactive Lens Beam Switcher for Biled Projector
-    function changeBeam(e, hex, rgba, name) {
-      e.preventDefault();
-      e.stopPropagation();
-      document.getElementById("lensGlow").style.background =
-        "radial-gradient(circle at 50% 40%," + hex + " 0%," + rgba + " 48%,transparent 74%)";
-      var bulb = document.getElementById("lensBulb");
-      bulb.style.boxShadow = "0 0 24px " + hex;
-      document.getElementById("currentBeamName").textContent = name;
-
-      var swatches = document.querySelectorAll(".swatch-dot");
-      swatches.forEach(function (s) {
-        s.className = "swatch-dot block w-4 h-4 rounded-full border border-white/60 transition-all";
-      });
-      var cur = e.currentTarget.querySelector(".swatch-dot");
-      if (cur) {
-        cur.className = "swatch-dot block w-5 h-5 rounded-full border-2 border-white transition-all scale-110";
-      }
-      window.nineToast("Warna lensa: " + name, "sun");
-    }
-
-    // Location Sharing Sheet Handlers
-    var shareSheet = document.getElementById("shareSheet");
-    var shareSheetBody = document.getElementById("shareSheetBody");
-    var activeDur = "8 jam";
-
-    function openShareSheet() {
-      shareSheet.classList.remove("hidden");
-      requestAnimationFrame(function () {
-        shareSheetBody.classList.remove("translate-y-full");
-      });
-    }
-
-    function closeShareSheet() {
-      shareSheetBody.classList.add("translate-y-full");
-      setTimeout(function () {
-        shareSheet.classList.add("hidden");
-      }, 280);
-    }
-
-    shareSheet.addEventListener("click", function (e) {
-      if (e.target === shareSheet) closeShareSheet();
-    });
-
-    function setDur(btn, val) {
-      activeDur = val;
-      document.querySelectorAll(".dur-btn").forEach(function (b) {
-        b.className = "dur-btn py-2 rounded-xl border border-neutral-200 bg-neutral-50 text-xs font-semibold text-neutral-700";
-      });
-      btn.className = "dur-btn py-2 rounded-xl border-2 border-accent-500 bg-accent-50 text-xs font-bold text-accent-800";
-    }
-
-    function submitShare(type) {
-      closeShareSheet();
-      document.getElementById("shareEta").textContent = activeDur;
-      document.getElementById("shareActive").classList.remove("hidden");
-      if (type === "wa") {
-        window.nineToast("Membuka WhatsApp untuk berbagi rute GPS…", "whatsapp-logo");
-      } else {
-        window.nineToast("Tautan GPS terenkripsi disalin ke clipboard", "link");
-      }
-    }
-
-    function stopShare() {
-      document.getElementById("shareActive").classList.add("hidden");
-      window.nineToast("Berbagi lokasi dinonaktifkan", "x-circle");
-    }
-
-    // Vehicle Switcher Sheet Handlers
-    var vehicleSheet = document.getElementById("vehicleSheet");
-    var vehicleSheetBody = document.getElementById("vehicleSheetBody");
 
     function openVehicleSheet() {
-      vehicleSheet.classList.remove("hidden");
-      requestAnimationFrame(function () {
-        vehicleSheetBody.classList.remove("translate-y-full");
-      });
+      alert("Membuka Garasi Saya: Yamaha NMAX 155 (B 1234 XYZ)");
     }
 
-    function closeVehicleSheet() {
-      vehicleSheetBody.classList.add("translate-y-full");
-      setTimeout(function () {
-        vehicleSheet.classList.add("hidden");
-      }, 280);
+    function openHelpSheet() {
+      alert("Membuka Layanan Bantuan & Customer Service Nine Official via WhatsApp");
     }
 
-    vehicleSheet.addEventListener("click", function (e) {
-      if (e.target === vehicleSheet) closeVehicleSheet();
+    // Dismiss modal on ESC
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('[data-component="SheetModal"]').forEach(function(m) {
+          m.classList.add('hidden');
+        });
+        document.body.style.overflow = 'auto';
+      }
     });
-
-    function selectVehicle(name, type) {
-      document.getElementById("currentVehName").textContent = name;
-      document.getElementById("currentVehType").textContent = type;
-      closeVehicleSheet();
-      window.nineToast("Kendaraan dialihkan ke " + name, "check-circle");
-    }
   </script>
 </body>
-
 </html>

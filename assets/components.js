@@ -16,7 +16,7 @@
    * @returns {string} HTML string for status badge
    */
   NineComponents.renderStatusBadge = function (status, label) {
-    var dotColor = 'bg-emerald-500';
+    var dotColor = 'bg-accent-500';
     var pulse = '';
     var textClass = 'text-primary-950';
 

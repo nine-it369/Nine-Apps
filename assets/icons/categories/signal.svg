@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="signAmber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FB923C"/>
+      <stop offset="100%" stop-color="#EA580C"/>
+    </linearGradient>
+  </defs>
+  <!-- Outer Slim Housing -->
+  <rect x="18" y="26" width="64" height="42" rx="8" fill="#0F172A" stroke="#334155" stroke-width="2"/>
+  <!-- Dynamic Sequential Chevrons -->
+  <path d="M28 38 L 40 47 L 28 56" stroke="url(#signAmber)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M44 38 L 56 47 L 44 56" stroke="url(#signAmber)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M60 38 L 72 47 L 60 56" stroke="url(#signAmber)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- White highlight dots -->
+  <circle cx="40" cy="47" r="1.5" fill="#FFFFFF"/>
+  <circle cx="56" cy="47" r="1.5" fill="#FFFFFF"/>
+  <circle cx="72" cy="47" r="1.5" fill="#FFFFFF"/>
+  <!-- Mount Stems -->
+  <rect x="46" y="68" width="8" height="13" rx="2" fill="#94A3B8"/>
+</svg>

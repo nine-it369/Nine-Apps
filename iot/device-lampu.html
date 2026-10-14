@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Kontrol Biled Matrix E9 Pro — Nine Autogarage</title>
+  
+  <!-- Fonts & Phosphor Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS Engine & Design Tokens -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../assets/config.js"></script>
+  <link rel="stylesheet" href="../assets/base.css"/>
+  
+  <style>
+    body {
+      background-color: #fafafa;
+      color: #18181b;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+</head>
+
+<body data-tab="aksesori" class="min-h-screen bg-[#fafafa] flex flex-col antialiased selection:bg-accent-100 selection:text-accent-700">
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: AppHeader (Styling Ikon Bulat Sesuai Halaman Home)    -->
+  <!-- ============================================================== -->
+  <header data-component="AppHeader" class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e4e4e7] pt-safe">
+    <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between gap-2">
+      <!-- Back Button -->
+      <a href="accecories.html" aria-label="Kembali ke Daftar Aksesori" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-caret-left text-[20px]"></i>
+      </a>
+
+      <!-- Page Title -->
+      <div class="flex-1 text-center min-w-0">
+        <h1 class="text-sm font-bold text-[#18181b] truncate">Biled Matrix E9 Pro</h1>
+        <p class="text-[10px] text-[#71717a] truncate">Soket H4/H7 · BLE 5.3 Terhubung</p>
+      </div>
+
+      <!-- Quick CS Help Button -->
+      <a href="https://wa.me/6281234567890" target="_blank" aria-label="Hubungi Teknisi" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-headset text-[20px]"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- MAIN CONTENT CONTAINER                                         -->
+  <!-- ============================================================== -->
+  <main class="w-full max-w-md mx-auto pt-20 pb-28 px-4 flex flex-col gap-4">
+
+    <!-- COMPONENT: DeviceSummaryCard (Status Modul & Main Power) -->
+    <section data-component="DeviceSummaryCard" class="ios-card p-4 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-11 h-11 rounded-2xl bg-[#18181b] text-white flex items-center justify-center shrink-0">
+          <i class="ph-bold ph-sun text-xl"></i>
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <h2 class="text-sm font-bold text-[#18181b] truncate">Matrix E9 Pro 3.0"</h2>
+            <span class="px-2 py-0.5 rounded-full bg-[#f0fdf4] text-[#15803d] text-[10px] font-bold border border-[#bbf7d0]">65W Turbo</span>
+          </div>
+          <p class="text-xs text-[#71717a] mt-0.5 truncate">Yamaha NMAX 155 · B 1234 XYZ</p>
+        </div>
+      </div>
+      <!-- Main Power Switch Toggle -->
+      <div class="switch-toggle active" id="mainPowerToggle" title="Saklar Utama Lampu" onclick="toggleMainPower(this)"></div>
+    </section>
+
+    <!-- COMPONENT: SegmentedTabs (Kontrol Beam vs Devil Eye vs Garansi) -->
+    <section data-component="SegmentedTabs" class="p-1 rounded-2xl bg-[#f4f4f5] border border-[#e4e4e7] flex items-center gap-1 text-xs font-semibold">
+      <button type="button" onclick="switchTab('beam', this)" class="tab-btn flex-1 py-2 rounded-xl bg-white text-[#18181b] shadow-xs transition-all text-center">
+        Kontrol Beam
+      </button>
+      <button type="button" onclick="switchTab('devil', this)" class="tab-btn flex-1 py-2 rounded-xl text-[#71717a] hover:text-[#18181b] transition-all text-center">
+        Devil Eye RGB
+      </button>
+      <button type="button" onclick="switchTab('info', this)" class="tab-btn flex-1 py-2 rounded-xl text-[#71717a] hover:text-[#18181b] transition-all text-center">
+        Info & Garansi
+      </button>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- TAB 1: KONTROL BEAM & OPTIK                                    -->
+    <!-- ============================================================== -->
+    <div id="tabContent-beam" class="flex flex-col gap-4">
+
+      <!-- COMPONENT: OpticalProjectorChamber (Simulasi Sorot Lensa Optik) -->
+      <section data-component="OpticalProjectorChamber" class="relative rounded-2xl bg-[#0d0d11] border border-neutral-800 h-44 overflow-hidden flex flex-col items-center justify-center p-3 select-none">
+        <!-- Dynamic Radial Glow Simulation -->
+        <div id="beamChamberGlow" class="absolute inset-0 transition-all duration-500 pointer-events-none"
+             style="background: radial-gradient(circle at 50% 45%, rgba(56, 189, 248, 0.45) 0%, rgba(56, 189, 248, 0.12) 40%, transparent 70%);"></div>
+
+        <!-- Cut-Off Horizon Line Simulation (RHD Cutoff) -->
+        <div class="absolute inset-x-0 bottom-4 h-px bg-white/25"></div>
+        <div class="absolute left-1/2 bottom-4 w-12 h-2.5 border-t border-r border-white/40 -translate-y-px"></div>
+
+        <!-- Lens Core Ring & Devil Eye Accent -->
+        <div id="lensRingChamber" class="relative z-10 w-24 h-24 rounded-full bg-neutral-900 border-2 border-neutral-700/80 flex items-center justify-center shadow-2xl transition-all duration-300">
+          <div id="lensIrisChamber" class="w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 shadow-inner" style="background-color: #38bdf8; box-shadow: 0 0 28px #38bdf8;">
+            <i class="ph-fill ph-sun text-neutral-950 text-2xl"></i>
+          </div>
+          <!-- Outer Devil Eye Halo Ring -->
+          <div id="devilHaloRing" class="absolute -inset-1 rounded-full border border-sky-400/40 pointer-events-none transition-all duration-300"></div>
+        </div>
+
+        <!-- Telemetry Badges -->
+        <div class="absolute top-3 left-3 text-[10px] font-mono text-white/70">
+          LENS: 3.0" BLUE COATED OPTIC
+        </div>
+        <div id="beamLuxBadge" class="absolute top-3 right-3 text-[10px] font-mono font-bold text-white bg-white/10 px-2 py-0.5 rounded border border-white/15">
+          52W · 8.400 LUX
+        </div>
+      </section>
+
+      <!-- COMPONENT: KelvinSpectrumSelector (4 Spektrum Standar Otomotif) -->
+      <section data-component="KelvinSpectrumSelector" class="flex flex-col gap-2">
+        <div class="flex items-center justify-between px-0.5">
+          <h3 class="text-xs font-bold text-[#18181b]">Temperatur Warna Sorot (Kelvin)</h3>
+          <span id="activeKelvinLabel" class="text-xs font-bold text-[#15803d]">6000K Ice Blue Signature</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2.5" id="kelvinGrid">
+          <!-- 3000K Golden Amber -->
+          <button type="button" onclick="selectKelvin('3000K', '#f59e0b', 'rgba(245, 158, 11, 0.5)', '3000K Golden Amber (Kabut)', this)" class="kelvin-opt p-3 rounded-2xl border border-[#e4e4e7] bg-white flex items-center gap-3 text-left hover:border-[#18181b] transition-all">
+            <span class="w-8 h-8 rounded-xl shrink-0 flex items-center justify-center shadow-xs" style="background-color: #f59e0b;">
+              <i class="ph-bold ph-drop text-sm text-neutral-950"></i>
+            </span>
+            <div class="min-w-0">
+              <span class="text-xs font-bold text-[#18181b] block">3000K</span>
+              <span class="text-[10px] text-[#71717a] truncate block">Tembus Kabut & Hujan</span>
+            </div>
+          </button>
+
+          <!-- 4300K All-Weather Warm White -->
+          <button type="button" onclick="selectKelvin('4300K', '#fde68a', 'rgba(253, 230, 138, 0.5)', '4300K All-Weather (Aspal Basah)', this)" class="kelvin-opt p-3 rounded-2xl border border-[#e4e4e7] bg-white flex items-center gap-3 text-left hover:border-[#18181b] transition-all">
+            <span class="w-8 h-8 rounded-xl shrink-0 flex items-center justify-center shadow-xs" style="background-color: #fde68a;">
+              <i class="ph-bold ph-cloud-rain text-sm text-neutral-950"></i>
+            </span>
+            <div class="min-w-0">
+              <span class="text-xs font-bold text-[#18181b] block">4300K</span>
+              <span class="text-[10px] text-[#71717a] truncate block">All-Weather Aspal Basah</span>
+            </div>
+          </button>
+
+          <!-- 5500K Pure Daylight -->
+          <button type="button" onclick="selectKelvin('5500K', '#ffffff', 'rgba(255, 255, 255, 0.55)', '5500K Pure Daylight (Natural)', this)" class="kelvin-opt p-3 rounded-2xl border border-[#e4e4e7] bg-white flex items-center gap-3 text-left hover:border-[#18181b] transition-all">
+            <span class="w-8 h-8 rounded-xl shrink-0 flex items-center justify-center shadow-xs border border-neutral-300" style="background-color: #ffffff;">
+              <i class="ph-bold ph-sun text-sm text-neutral-950"></i>
+            </span>
+            <div class="min-w-0">
+              <span class="text-xs font-bold text-[#18181b] block">5500K</span>
+              <span class="text-[10px] text-[#71717a] truncate block">Daylight Kontras Tinggi</span>
+            </div>
+          </button>
+
+          <!-- 6000K Ice Blue (Active Default) -->
+          <button type="button" onclick="selectKelvin('6000K', '#38bdf8', 'rgba(56, 189, 248, 0.55)', '6000K Ice Blue (Hyper-Matrix)', this)" class="kelvin-opt p-3 rounded-2xl border-2 border-[#18181b] bg-[#f4f4f5] flex items-center gap-3 text-left transition-all">
+            <span class="w-8 h-8 rounded-xl shrink-0 flex items-center justify-center shadow-xs" style="background-color: #38bdf8;">
+              <i class="ph-bold ph-lightning text-sm text-neutral-950"></i>
+            </span>
+            <div class="min-w-0">
+              <span class="text-xs font-bold text-[#18181b] block">6000K</span>
+              <span class="text-[10px] text-[#71717a] truncate block">Ice Blue Signature</span>
+            </div>
+          </button>
+        </div>
+      </section>
+
+      <!-- COMPONENT: BeamLevelingSlider (Kalibrasi Ketinggian Cut-Off) -->
+      <section data-component="BeamLevelingSlider" class="ios-card p-4 flex flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <i class="ph-bold ph-arrows-down-up text-[#18181b] text-base"></i>
+            <span class="text-xs font-bold text-[#18181b]">Kalibrasi Kemiringan Cut-Off (Leveling)</span>
+          </div>
+          <span class="text-xs font-bold text-[#15803d]" id="levelingAngleDisplay">2.5° RHD</span>
+        </div>
+        <input type="range" min="0" max="10" step="0.5" value="2.5" oninput="setLevelingAngle(this.value)" class="w-full accent-[#18181b] h-2 bg-[#f4f4f5] rounded-lg cursor-pointer"/>
+        <div class="flex justify-between text-[10px] text-[#71717a]">
+          <span>0.0° (Rendah / Touring Beban Berat)</span>
+          <span>5.0° (Standar Kota)</span>
+          <span>10.0° (Jarak Jauh)</span>
+        </div>
+      </section>
+
+      <!-- COMPONENT: BrightnessWattageSlider (Daya Output Chipset) -->
+      <section data-component="BrightnessWattageSlider" class="ios-card p-4 flex flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <i class="ph-bold ph-gauge text-[#18181b] text-base"></i>
+            <span class="text-xs font-bold text-[#18181b]">Output Daya Chipset Driver</span>
+          </div>
+          <span class="text-xs font-bold text-[#18181b]" id="wattOutputDisplay">52 Watt (80%)</span>
+        </div>
+        <input type="range" min="35" max="65" step="1" value="52" oninput="setWattage(this.value)" class="w-full accent-[#18181b] h-2 bg-[#f4f4f5] rounded-lg cursor-pointer"/>
+        <div class="flex justify-between text-[10px] text-[#71717a]">
+          <span>35W Eco Beam</span>
+          <span>50W Standard Cruiser</span>
+          <span>65W Turbo Track</span>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- TAB 2: DEVIL EYE RGB AKSEN                                     -->
+    <!-- ============================================================== -->
+    <div id="tabContent-devil" class="hidden flex flex-col gap-4">
+      <section data-component="DevilEyeControl" class="ios-card p-4 flex flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-xs font-bold text-[#18181b]">Devil Eye Halo Ring</h3>
+            <p class="text-[11px] text-[#71717a]">Aksen cahaya lingkar proyektor saat kontak ON</p>
+          </div>
+          <div class="switch-toggle active" id="devilToggle" onclick="this.classList.toggle('active')"></div>
+        </div>
+
+        <div class="pt-3 border-t border-[#f4f4f5] flex flex-col gap-2">
+          <span class="text-xs font-bold text-[#18181b]">Pilihan Warna Aksen Devil Eye</span>
+          <div class="grid grid-cols-4 gap-2">
+            <button type="button" onclick="setDevilColor('#38bdf8', 'Ice Blue', this)" class="devil-chip p-2.5 rounded-xl border-2 border-[#18181b] bg-[#f4f4f5] flex flex-col items-center gap-1.5 transition-all">
+              <span class="w-6 h-6 rounded-full bg-[#38bdf8] shadow-xs"></span>
+              <span class="text-[10px] font-bold text-[#18181b]">Ice Blue</span>
+            </button>
+            <button type="button" onclick="setDevilColor('#ef4444', 'Crimson', this)" class="devil-chip p-2.5 rounded-xl border border-[#e4e4e7] bg-white flex flex-col items-center gap-1.5 hover:border-[#18181b] transition-all">
+              <span class="w-6 h-6 rounded-full bg-[#ef4444] shadow-xs"></span>
+              <span class="text-[10px] font-medium text-[#71717a]">Crimson</span>
+            </button>
+            <button type="button" onclick="setDevilColor('#a855f7', 'Violet', this)" class="devil-chip p-2.5 rounded-xl border border-[#e4e4e7] bg-white flex flex-col items-center gap-1.5 hover:border-[#18181b] transition-all">
+              <span class="w-6 h-6 rounded-full bg-[#a855f7] shadow-xs"></span>
+              <span class="text-[10px] font-medium text-[#71717a]">Violet</span>
+            </button>
+            <button type="button" onclick="setDevilColor('#f59e0b', 'Amber', this)" class="devil-chip p-2.5 rounded-xl border border-[#e4e4e7] bg-white flex flex-col items-center gap-1.5 hover:border-[#18181b] transition-all">
+              <span class="w-6 h-6 rounded-full bg-[#f59e0b] shadow-xs"></span>
+              <span class="text-[10px] font-medium text-[#71717a]">Amber</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Strobo Warning Flash Mode -->
+      <section data-component="StrobeCard" class="ios-card p-4 flex items-center justify-between">
+        <div>
+          <h3 class="text-xs font-bold text-[#18181b]">Mode Strobo Darurat (Hazard Flash)</h3>
+          <p class="text-[11px] text-[#71717a]">Hanya untuk konvoi resmi atau kondisi darurat</p>
+        </div>
+        <button type="button" onclick="alert('Mode Strobo Darurat diaktifkan (Kedip Frekuensi 4Hz)')" class="px-3.5 py-2 rounded-xl bg-[#f4f4f5] hover:bg-[#e4e4e7] text-xs font-bold text-[#18181b] transition-all">
+          Tes Strobo
+        </button>
+      </section>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- TAB 3: INFO & TELEMETRI HARDWARE                               -->
+    <!-- ============================================================== -->
+    <div id="tabContent-info" class="hidden flex flex-col gap-4">
+      <!-- Hardware Telemetry Inset -->
+      <section data-component="HardwareTelemetry" class="ios-card overflow-hidden">
+        <div class="px-4 py-3 bg-[#f4f4f5] border-b border-[#e4e4e7] flex items-center justify-between">
+          <span class="text-xs font-bold text-[#18181b]">Telemetri Driver & Suhu</span>
+          <span class="text-[10px] font-bold text-[#15803d] flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#22c55e]"></span>
+            Optimal
+          </span>
+        </div>
+        <div class="divide-y divide-[#f4f4f5] text-xs">
+          <div class="px-4 py-3 flex items-center justify-between">
+            <span class="text-[#71717a]">Suhu Heatsink Chip</span>
+            <span class="font-bold text-[#15803d]">42°C (Aman)</span>
+          </div>
+          <div class="px-4 py-3 flex items-center justify-between">
+            <span class="text-[#71717a]">Kecepatan Kipas Turbo</span>
+            <span class="font-bold text-[#18181b]">12.000 RPM (Normal)</span>
+          </div>
+          <div class="px-4 py-3 flex items-center justify-between">
+            <span class="text-[#71717a]">Tegangan Masukan Aki</span>
+            <span class="font-bold text-[#18181b]">12.8 Volt DC</span>
+          </div>
+          <div class="px-4 py-3 flex items-center justify-between">
+            <span class="text-[#71717a]">Efisiensi Driver LED</span>
+            <span class="font-bold text-[#18181b]">94.2%</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Digital E-Warranty Card -->
+      <section data-component="WarrantyCard" class="ios-card overflow-hidden">
+        <div class="px-4 py-3 bg-[#f4f4f5] border-b border-[#e4e4e7] flex items-center justify-between">
+          <span class="text-xs font-bold text-[#18181b]">Kartu Garansi Resmi Digital</span>
+          <span class="px-2 py-0.5 rounded-full bg-[#f0fdf4] text-[#15803d] text-[10px] font-bold border border-[#bbf7d0]">Garansi Aktif</span>
+        </div>
+        <div class="divide-y divide-[#f4f4f5] text-xs">
+          <div class="px-4 py-3 flex items-center justify-between">
+            <span class="text-[#71717a]">Nomor Seri (S/N)</span>
+            <span class="font-mono font-bold text-[#18181b]">9N-BLD-65-8821-E9</span>
+          </div>
+          <div class="px-4 py-3 flex items-center justify-between">
+            <span class="text-[#71717a]">Stall Pemasangan</span>
+            <span class="font-bold text-[#18181b]">Nine Garage Arcadia BSD · Pit 02</span>
+          </div>
+          <div class="px-4 py-3 flex items-center justify-between">
+            <span class="text-[#71717a]">Masa Berlaku Garansi</span>
+            <span class="font-bold text-[#15803d]">s/d 22 Oktober 2028 (Sisa 24 Bulan)</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: BottomTabBar (Apple HIG Translucent Navigation)      -->
+  <!-- ============================================================== -->
+  <nav data-component="BottomTabBar" class="fixed bottom-0 inset-x-0 z-40 bg-white/90 backdrop-blur-xl border-t border-[#e4e4e7] pb-safe">
+    <div class="max-w-md mx-auto h-16 px-2 flex items-center justify-around">
+      <a href="../home.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-house text-xl"></i>
+        <span>Beranda</span>
+      </a>
+      <a href="accecories.html" class="flex flex-col items-center gap-0.5 text-[#18181b] font-bold text-[10.5px]">
+        <i class="ph-fill ph-cpu text-xl text-[#18181b]"></i>
+        <span>Aksesori</span>
+      </a>
+      <a href="../mall/mall.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-storefront text-xl"></i>
+        <span>Mall</span>
+      </a>
+      <a href="../garage/booking.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-calendar-dots text-xl"></i>
+        <span>Booking</span>
+      </a>
+      <a href="../account/profile.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-user-circle text-xl"></i>
+        <span>Akun</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ============================================================== -->
+  <!-- JAVASCRIPT CONTROLLERS                                         -->
+  <!-- ============================================================== -->
+  <script>
+    // Tab Switcher Controller
+    function switchTab(tabKey, btnEl) {
+      document.querySelectorAll('.tab-btn').forEach(function(b) {
+        b.className = "tab-btn flex-1 py-2 rounded-xl text-[#71717a] hover:text-[#18181b] transition-all text-center";
+      });
+      btnEl.className = "tab-btn flex-1 py-2 rounded-xl bg-white text-[#18181b] shadow-xs transition-all text-center";
+
+      ['beam', 'devil', 'info'].forEach(function(k) {
+        var el = document.getElementById('tabContent-' + k);
+        if (el) {
+          if (k === tabKey) el.classList.remove('hidden');
+          else el.classList.add('hidden');
+        }
+      });
+    }
+
+    // Dynamic Kelvin Color Controller
+    function selectKelvin(kelvin, colorHex, glowColor, fullName, btnEl) {
+      document.querySelectorAll('.kelvin-opt').forEach(function(c) {
+        c.className = "kelvin-opt p-3 rounded-2xl border border-[#e4e4e7] bg-white flex items-center gap-3 text-left hover:border-[#18181b] transition-all";
+      });
+      btnEl.className = "kelvin-opt p-3 rounded-2xl border-2 border-[#18181b] bg-[#f4f4f5] flex items-center gap-3 text-left transition-all";
+
+      var glow = document.getElementById('beamChamberGlow');
+      if (glow) {
+        glow.style.background = 'radial-gradient(circle at 50% 45%, ' + glowColor + ' 0%, rgba(0,0,0,0) 70%)';
+      }
+
+      var iris = document.getElementById('lensIrisChamber');
+      if (iris) {
+        iris.style.backgroundColor = colorHex;
+        iris.style.boxShadow = '0 0 28px ' + colorHex;
+      }
+
+      var label = document.getElementById('activeKelvinLabel');
+      if (label) label.innerText = fullName;
+    }
+
+    // Cut-Off Leveling Angle Controller
+    function setLevelingAngle(deg) {
+      var display = document.getElementById('levelingAngleDisplay');
+      if (display) display.innerText = deg + "° RHD Cut-Off";
+    }
+
+    // Wattage Output Controller
+    function setWattage(val) {
+      var display = document.getElementById('wattOutputDisplay');
+      var badge = document.getElementById('beamLuxBadge');
+      var lux = Math.round(val * 161.5);
+      if (display) display.innerText = val + " Watt (" + Math.round((val / 65) * 100) + "%)";
+      if (badge) badge.innerText = val + "W · " + lux.toLocaleString('id-ID') + " LUX";
+    }
+
+    // Devil Eye Ring Color
+    function setDevilColor(colorHex, name, btnEl) {
+      document.querySelectorAll('.devil-chip').forEach(function(c) {
+        c.className = "devil-chip p-2.5 rounded-xl border border-[#e4e4e7] bg-white flex flex-col items-center gap-1.5 hover:border-[#18181b] transition-all";
+      });
+      btnEl.className = "devil-chip p-2.5 rounded-xl border-2 border-[#18181b] bg-[#f4f4f5] flex flex-col items-center gap-1.5 transition-all";
+
+      var halo = document.getElementById('devilHaloRing');
+      if (halo) {
+        halo.style.borderColor = colorHex;
+        halo.style.boxShadow = '0 0 16px ' + colorHex;
+      }
+    }
+
+    // Main Power Toggle Switch
+    function toggleMainPower(el) {
+      el.classList.toggle('active');
+      var isOn = el.classList.contains('active');
+      var glow = document.getElementById('beamChamberGlow');
+      var iris = document.getElementById('lensIrisChamber');
+      if (glow && iris) {
+        if (isOn) {
+          glow.style.opacity = '1';
+          iris.style.opacity = '1';
+        } else {
+          glow.style.opacity = '0';
+          iris.style.opacity = '0.15';
+        }
+      }
+    }
+  </script>
+</body>
+</html>

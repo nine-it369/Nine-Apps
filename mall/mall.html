@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Nine Official Mall — Nine Autogarage</title>
+  
+  <!-- Fonts & Phosphor Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS Engine & Design Tokens -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../assets/config.js"></script>
+  <link rel="stylesheet" href="../assets/base.css"/>
+  
+  <style>
+    body {
+      background-color: #fafafa;
+      color: #18181b;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+</head>
+
+<body data-tab="mall" class="min-h-screen bg-[#fafafa] flex flex-col antialiased selection:bg-accent-100 selection:text-accent-700">
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: AppHeader (Phosphor Icons Bulat & Search Pill)      -->
+  <!-- ============================================================== -->
+  <header data-component="AppHeader" class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e4e4e7] pt-safe">
+    <div class="max-w-md mx-auto px-4 h-14 flex items-center gap-2">
+      <!-- Search Input Pill -->
+      <a href="catalog.html" aria-label="Cari produk di Mall" class="flex-1 min-w-0 flex items-center gap-2 h-10 px-3.5 rounded-full bg-[#f4f4f5] text-[#18181b] border border-[#e4e4e7] active:scale-[0.98] transition-all">
+        <i class="ph-bold ph-magnifying-glass text-[17px] text-[#71717a] shrink-0"></i>
+        <span class="text-xs text-[#71717a] truncate">Cari biled, klakson, harness…</span>
+      </a>
+
+      <!-- CS Hotline Button -->
+      <a href="https://wa.me/6281234567890" target="_blank" aria-label="Bantuan CS" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-headset text-[20px]"></i>
+      </a>
+
+      <!-- Cart Shopping Bag Button -->
+      <a href="keranjang.html" aria-label="Keranjang Belanja" class="tap-44 relative w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-shopping-bag text-[20px]"></i>
+        <span class="absolute top-1 right-1 min-w-[17px] h-[17px] px-1 rounded-full bg-[#22c55e] text-white text-[10px] font-bold flex items-center justify-center leading-none">2</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- MAIN CONTENT CONTAINER                                         -->
+  <!-- ============================================================== -->
+  <main class="w-full max-w-md mx-auto pt-20 pb-36 px-4 flex flex-col gap-4">
+
+    <!-- COMPONENT: WarehouseSelector (Pilihan Gudang Resmi) -->
+    <section data-component="WarehouseSelector" class="flex items-center justify-between gap-2 pt-1">
+      <div class="flex items-center gap-2 min-w-0">
+        <i class="ph-bold ph-map-pin text-[#15803d] text-base shrink-0"></i>
+        <div class="text-xs truncate">
+          <span class="text-[#71717a]">Kirim dari:</span>
+          <strong class="text-[#18181b] ml-1" id="currentWarehouseLabel">Jakarta Barat (Hub Utama)</strong>
+        </div>
+      </div>
+      <button type="button" onclick="openModal('modal-warehouse')" class="px-3 py-1.5 rounded-full bg-white border border-[#e4e4e7] text-[11px] font-bold text-[#18181b] hover:bg-[#f4f4f5] transition-all shrink-0">
+        Ganti Gudang
+      </button>
+    </section>
+
+    <!-- COMPONENT: FlashSaleHero (Banner Promo Modifikasi Slate) -->
+    <section data-component="FlashSaleHero" class="ios-card p-4 bg-[#18181b] text-white flex flex-col gap-3">
+      <div class="flex items-center justify-between">
+        <span class="px-2.5 py-0.5 rounded-full bg-[#ef4444] text-white text-[10px] font-bold">
+          FLASH SALE
+        </span>
+        <div class="flex items-center gap-1.5 text-xs text-[#a1a1aa] font-mono">
+          <i class="ph-bold ph-timer text-sm text-[#4ade80]"></i>
+          <span>Berakhir dalam: <strong class="text-white">02:14:50</strong></span>
+        </div>
+      </div>
+
+      <a href="product-detail.html" class="flex items-center gap-3 bg-white/5 border border-white/10 rounded-2xl p-2.5 hover:bg-white/10 transition-all">
+        <div class="w-16 h-16 rounded-xl overflow-hidden bg-neutral-900 shrink-0 relative">
+          <img src="../lampu.jpg" alt="Biled E9 Pro" class="w-full h-full object-cover"/>
+          <span class="absolute top-1 left-1 bg-[#ef4444] text-white text-[9px] font-bold px-1.5 rounded">-21%</span>
+        </div>
+        <div class="min-w-0 flex-1">
+          <h3 class="text-xs font-bold text-white truncate">Biled Matrix E9 Pro 3.0" 65W Turbo</h3>
+          <div class="flex items-baseline gap-2 mt-0.5">
+            <span class="text-sm font-bold text-white">Rp 1.299.000</span>
+            <span class="text-[10px] text-[#a1a1aa] line-through">Rp 1.650rb</span>
+          </div>
+          <span class="text-[10px] text-[#4ade80] font-semibold mt-0.5 block">Tersisa 4 unit di gudang</span>
+        </div>
+      </a>
+    </section>
+
+    <!-- COMPONENT: CategoryGrid (8 Kategori Pilihan) -->
+    <section data-component="CategoryGrid" class="flex flex-col gap-2">
+      <div class="flex items-center justify-between px-0.5">
+        <h3 class="text-xs font-bold text-[#18181b]">Kategori Komponen</h3>
+        <a href="catalog.html" class="text-xs font-semibold text-[#15803d]">Lihat Semua</a>
+      </div>
+
+      <div class="grid grid-cols-4 gap-2">
+        <a href="catalog.html?cat=biled" class="ios-card p-2.5 flex flex-col items-center text-center gap-1.5 hover:border-[#18181b] transition-all">
+          <div class="w-9 h-9 rounded-xl bg-[#f4f4f5] text-[#18181b] flex items-center justify-center">
+            <i class="ph-bold ph-sun text-lg"></i>
+          </div>
+          <span class="text-[10px] font-bold text-[#18181b] leading-tight">Biled Matrix</span>
+        </a>
+
+        <a href="catalog.html?cat=laser" class="ios-card p-2.5 flex flex-col items-center text-center gap-1.5 hover:border-[#18181b] transition-all">
+          <div class="w-9 h-9 rounded-xl bg-[#f4f4f5] text-[#18181b] flex items-center justify-center">
+            <i class="ph-bold ph-flashlight text-lg"></i>
+          </div>
+          <span class="text-[10px] font-bold text-[#18181b] leading-tight">Mini Projie</span>
+        </a>
+
+        <a href="catalog.html?cat=horn" class="ios-card p-2.5 flex flex-col items-center text-center gap-1.5 hover:border-[#18181b] transition-all">
+          <div class="w-9 h-9 rounded-xl bg-[#f4f4f5] text-[#18181b] flex items-center justify-center">
+            <i class="ph-bold ph-speaker-high text-lg"></i>
+          </div>
+          <span class="text-[10px] font-bold text-[#18181b] leading-tight">Klakson</span>
+        </a>
+
+        <a href="catalog.html?cat=relay" class="ios-card p-2.5 flex flex-col items-center text-center gap-1.5 hover:border-[#18181b] transition-all">
+          <div class="w-9 h-9 rounded-xl bg-[#f4f4f5] text-[#18181b] flex items-center justify-center">
+            <i class="ph-bold ph-lightning text-lg"></i>
+          </div>
+          <span class="text-[10px] font-bold text-[#18181b] leading-tight">Relay Set</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- COMPONENT: PromoBundle (Paket Bundling Retrofit PNP) -->
+    <section data-component="PromoBundle" class="ios-card p-4 flex flex-col gap-3">
+      <div class="flex items-center justify-between">
+        <span class="px-2.5 py-0.5 rounded-full bg-[#f0fdf4] text-[#15803d] text-[10px] font-bold border border-[#bbf7d0]">
+          PAKET BUNDLING PNP
+        </span>
+        <span class="text-xs font-bold text-[#15803d]">Hemat Rp 450.000</span>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-bold text-[#18181b]">Paket Retrofit Yamaha NMAX Turbo</h3>
+        <p class="text-xs text-[#71717a] mt-0.5">Plug & Play tanpa kupas kabel bawaan motor. Garansi 2 tahun.</p>
+      </div>
+
+      <div class="p-3 rounded-2xl bg-[#f4f4f5] flex flex-col gap-1.5 text-xs text-[#18181b]">
+        <div class="flex items-center gap-2">
+          <i class="ph-bold ph-check text-[#15803d]"></i>
+          <span>2x Projector Biled Matrix E9 Pro 65W Turbo</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <i class="ph-bold ph-check text-[#15803d]"></i>
+          <span>Relay Harness 40A HD Waterproof Pure Copper</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <i class="ph-bold ph-check text-[#15803d]"></i>
+          <span>Saklar Passbeam Plug & Play NMAX</span>
+        </div>
+      </div>
+
+      <div class="pt-2 border-t border-[#f4f4f5] flex items-center justify-between">
+        <div>
+          <span class="text-[10px] text-[#71717a] block">Harga Bundling Lengkap</span>
+          <span class="text-base font-bold text-[#18181b]">Rp 2.100.000</span>
+        </div>
+        <a href="checkout.html" class="px-5 py-2.5 rounded-full bg-[#18181b] text-white text-xs font-bold hover:bg-[#27272a] transition-all">
+          Beli Paket
+        </a>
+      </div>
+    </section>
+
+    <!-- COMPONENT: ProductGrid (Katalog Produk Sesuai ProductCard.vue) -->
+    <section data-component="ProductGrid" class="flex flex-col gap-2">
+      <div class="flex items-center justify-between px-0.5">
+        <h3 class="text-xs font-bold text-[#18181b]">Produk Terpopuler</h3>
+        <a href="catalog.html" class="text-xs font-semibold text-[#15803d]">Lihat Katalog</a>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <!-- Card 1 -->
+        <article data-component="ProductCard" class="ios-card p-3 flex flex-col gap-2 group">
+          <a href="product-detail.html" class="block">
+            <div class="aspect-square rounded-xl bg-[#f4f4f5] flex items-center justify-center relative overflow-hidden">
+              <img src="../lampu.jpg" alt="Biled E9 Pro" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+              <span class="absolute top-2 left-2 rounded-lg bg-[#ef4444] text-white px-2 py-0.5 text-[10px] font-bold">-21%</span>
+            </div>
+            <div class="mt-2">
+              <span class="text-[10px] font-semibold text-[#71717a] uppercase">Lampu Utama</span>
+              <h4 class="text-xs font-bold text-[#18181b] truncate mt-0.5">Biled Matrix E9 Pro</h4>
+              <div class="mt-1 flex items-baseline gap-1.5">
+                <span class="text-xs font-bold text-[#18181b]">Rp 1.299.000</span>
+                <span class="text-[10px] text-[#a1a1aa] line-through">Rp 1.650rb</span>
+              </div>
+            </div>
+          </a>
+          <button onclick="addToCart('Biled Matrix E9 Pro')" class="mt-1 w-full py-2 rounded-xl bg-[#18181b] text-white text-xs font-bold hover:bg-[#27272a] active:scale-95 transition-all">
+            + Keranjang
+          </button>
+        </article>
+
+        <!-- Card 2 -->
+        <article data-component="ProductCard" class="ios-card p-3 flex flex-col gap-2 group">
+          <a href="product-detail.html" class="block">
+            <div class="aspect-square rounded-xl bg-[#f4f4f5] flex items-center justify-center relative overflow-hidden">
+              <img src="../dashcam.jpg" alt="Twin Snail Horn" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+              <span class="absolute top-2 left-2 rounded-lg bg-[#ef4444] text-white px-2 py-0.5 text-[10px] font-bold">-15%</span>
+            </div>
+            <div class="mt-2">
+              <span class="text-[10px] font-semibold text-[#71717a] uppercase">Keamanan</span>
+              <h4 class="text-xs font-bold text-[#18181b] truncate mt-0.5">Twin Snail Horn 118dB</h4>
+              <div class="mt-1 flex items-baseline gap-1.5">
+                <span class="text-xs font-bold text-[#18181b]">Rp 145.000</span>
+                <span class="text-[10px] text-[#a1a1aa] line-through">Rp 175rb</span>
+              </div>
+            </div>
+          </a>
+          <button onclick="addToCart('Twin Snail Horn')" class="mt-1 w-full py-2 rounded-xl bg-[#18181b] text-white text-xs font-bold hover:bg-[#27272a] active:scale-95 transition-all">
+            + Keranjang
+          </button>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: FloatingCartBar (Akses Cepat Troli)                 -->
+  <!-- ============================================================== -->
+  <div data-component="FloatingCartBar" class="fixed bottom-[72px] inset-x-0 z-30 px-4 pointer-events-none">
+    <div class="max-w-md mx-auto pointer-events-auto bg-white/95 backdrop-blur-md border border-[#e4e4e7] rounded-2xl p-3 flex items-center justify-between shadow-lg">
+      <div class="flex items-center gap-2.5 pl-1">
+        <div class="w-9 h-9 rounded-xl bg-[#f4f4f5] flex items-center justify-center text-[#18181b] relative">
+          <i class="ph-bold ph-shopping-bag text-lg"></i>
+          <span class="absolute -top-1 -right-1 min-w-[16px] h-[16px] px-1 rounded-full bg-[#22c55e] text-white text-[9px] font-bold flex items-center justify-center">2</span>
+        </div>
+        <div>
+          <span class="text-[10px] text-[#71717a] block leading-none">Total Belanja (2 item)</span>
+          <span class="text-xs font-bold text-[#18181b] mt-1 block">Rp 1.444.000</span>
+        </div>
+      </div>
+      <a href="keranjang.html" class="h-9 px-4 rounded-full bg-[#18181b] text-white text-xs font-bold flex items-center gap-1 hover:bg-[#27272a] transition-all">
+        <span>Buka Troli</span>
+        <i class="ph-bold ph-caret-right text-xs"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: BottomTabBar (Apple HIG Translucent Navigation)      -->
+  <!-- ============================================================== -->
+  <nav data-component="BottomTabBar" class="fixed bottom-0 inset-x-0 z-40 bg-white/90 backdrop-blur-xl border-t border-[#e4e4e7] pb-safe">
+    <div class="max-w-md mx-auto h-16 px-2 flex items-center justify-around">
+      <a href="../home.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-house text-xl"></i>
+        <span>Beranda</span>
+      </a>
+      <a href="../iot/accecories.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-cpu text-xl"></i>
+        <span>Aksesori</span>
+      </a>
+      <a href="mall.html" class="flex flex-col items-center gap-0.5 text-[#18181b] font-bold text-[10.5px]">
+        <i class="ph-fill ph-storefront text-xl text-[#18181b]"></i>
+        <span>Mall</span>
+      </a>
+      <a href="../garage/booking.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-calendar-dots text-xl"></i>
+        <span>Booking</span>
+      </a>
+      <a href="../account/profile.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-user-circle text-xl"></i>
+        <span>Akun</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: SheetModal (Pemilih Gudang Pengiriman)               -->
+  <!-- ============================================================== -->
+  <div data-component="SheetModal" id="modal-warehouse" class="hidden fixed inset-0 z-50 flex items-end justify-center sheet-backdrop" onclick="closeModal('modal-warehouse')">
+    <div class="w-full max-w-md bg-white rounded-t-[28px] p-5 pb-8 sheet-content shadow-2xl flex flex-col gap-4 border-t border-[#e4e4e7]" onclick="event.stopPropagation()">
+      <div class="w-10 h-1 bg-neutral-300 rounded-full mx-auto"></div>
+      
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="text-sm font-bold text-[#18181b]">Pilih Gudang Pengiriman</h3>
+          <p class="text-xs text-[#71717a]">Ongkir & ketersediaan stok disesuaikan dari lokasi gudang</p>
+        </div>
+        <button onclick="closeModal('modal-warehouse')" aria-label="Tutup" class="w-7 h-7 rounded-full bg-[#f4f4f5] text-[#71717a] flex items-center justify-center hover:bg-[#e4e4e7]">
+          <i class="ph-bold ph-x text-xs"></i>
+        </button>
+      </div>
+
+      <div class="flex flex-col gap-2.5">
+        <button onclick="selectWarehouse('Jakarta Barat (Hub Utama)')" class="p-3.5 rounded-2xl border-2 border-[#18181b] bg-[#f4f4f5] flex items-center justify-between text-left">
+          <div>
+            <span class="text-xs font-bold text-[#18181b] block">Gudang Jakarta Barat</span>
+            <span class="text-[10px] text-[#71717a]">DKI Jakarta · Stok Lengkap 100%</span>
+          </div>
+          <i class="ph-bold ph-check text-base text-[#15803d]"></i>
+        </button>
+
+        <button onclick="selectWarehouse('Surabaya (Hub Timur)')" class="p-3.5 rounded-2xl border border-[#e4e4e7] bg-white flex items-center justify-between text-left hover:border-[#18181b]">
+          <div>
+            <span class="text-xs font-bold text-[#18181b] block">Gudang Surabaya</span>
+            <span class="text-[10px] text-[#71717a]">Jawa Timur & Indonesia Timur</span>
+          </div>
+        </button>
+
+        <button onclick="selectWarehouse('Medan (Hub Sumatera)')" class="p-3.5 rounded-2xl border border-[#e4e4e7] bg-white flex items-center justify-between text-left hover:border-[#18181b]">
+          <div>
+            <span class="text-xs font-bold text-[#18181b] block">Gudang Medan</span>
+            <span class="text-[10px] text-[#71717a]">Sumatera Utara & Sekitarnya</span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- JAVASCRIPT CONTROLLERS                                         -->
+  <!-- ============================================================== -->
+  <script>
+    function openModal(id) {
+      var modal = document.getElementById(id);
+      if (modal) {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeModal(id) {
+      var modal = document.getElementById(id);
+      if (modal) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    function selectWarehouse(name) {
+      document.getElementById('currentWarehouseLabel').innerText = name;
+      closeModal('modal-warehouse');
+      alert("Lokasi gudang diubah ke: " + name);
+    }
+
+    function addToCart(productName) {
+      alert(productName + " berhasil ditambahkan ke troli belanja!");
+    }
+  </script>
+</body>
+</html>

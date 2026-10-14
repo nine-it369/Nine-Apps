@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="ledGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#0284C7"/>
+    </linearGradient>
+    <linearGradient id="ledHeatsink" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+  </defs>
+  <!-- Bulb Base / Heatsink -->
+  <rect x="36" y="52" width="28" height="22" rx="4" fill="url(#ledHeatsink)" stroke="#475569" stroke-width="1.5"/>
+  <line x1="41" y1="56" x2="41" y2="70" stroke="#64748B" stroke-width="1.5"/>
+  <line x1="47" y1="56" x2="47" y2="70" stroke="#64748B" stroke-width="1.5"/>
+  <line x1="53" y1="56" x2="53" y2="70" stroke="#64748B" stroke-width="1.5"/>
+  <line x1="59" y1="56" x2="59" y2="70" stroke="#64748B" stroke-width="1.5"/>
+  <!-- LED Core Tower -->
+  <rect x="42" y="24" width="16" height="28" rx="3" fill="#0F172A" stroke="#334155" stroke-width="1.5"/>
+  <!-- Glowing LED Chips -->
+  <rect x="45" y="28" width="10" height="8" rx="1.5" fill="url(#ledGlow)"/>
+  <circle cx="50" cy="32" r="2" fill="#FFFFFF"/>
+  <rect x="45" y="39" width="10" height="8" rx="1.5" fill="url(#ledGlow)"/>
+  <circle cx="50" cy="43" r="2" fill="#FFFFFF"/>
+  <!-- Bottom Connector Pins -->
+  <rect x="42" y="74" width="4" height="8" rx="1.5" fill="#94A3B8"/>
+  <rect x="54" y="74" width="4" height="8" rx="1.5" fill="#94A3B8"/>
+</svg>

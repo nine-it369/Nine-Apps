@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="matGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+  </defs>
+  <!-- Contoured Floor Mat Shape -->
+  <path d="M26 26 L 74 26 C 78 40, 82 60, 78 76 C 60 80, 40 80, 22 76 C 18 60, 22 40, 26 26 Z" fill="#0F172A" stroke="#334155" stroke-width="2"/>
+  <!-- Diamond Texture / 5D Stitching -->
+  <path d="M34 32 L 66 32 L 70 70 L 30 70 Z" fill="url(#matGrad)" stroke="#64748B" stroke-width="1.5"/>
+  <line x1="50" y1="32" x2="50" y2="70" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="3 2"/>
+  <line x1="32" y1="51" x2="68" y2="51" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="3 2"/>
+  <!-- Heel pad badge -->
+  <rect x="42" y="56" width="16" height="8" rx="2" fill="#F59E0B"/>
+</svg>

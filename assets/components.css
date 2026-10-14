@@ -1,59 +1,58 @@
 /* ==========================================================================
-   Nine Apps — Reusable Modular UI Components (Apple HIG Clean Architecture)
-   Primary Color: Emerald Green (#16a34a / #22c55e) for action CTAs & active states
-   Secondary: Dark Slate / Zinc-900 (#18181b / #09090b)
+   Nine Apps — Apple web components (STYLE_GUIDE.md)
+   Single accent: the Nine brand green (#15803d) on every interactive element.
+   No decorative gradients. No shadows on cards/buttons/text (product imagery only).
+   Radii grammar: 8px controls · 18px cards · pill CTAs.
    ========================================================================== */
 
-/* 1. BUTTONS */
+/* 1. BUTTONS — Apple pill grammar */
 .btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background-color: #16a34a;
+  background-color: #15803d;
   color: #ffffff;
-  font-weight: 700;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  border-radius: 1rem;
-  padding: 0.75rem 1.25rem;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.2;
+  border-radius: 9999px;
+  padding: 11px 22px;
   min-height: 44px;
-  touch-action: manipulation;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.25);
   border: 1px solid transparent;
+  touch-action: manipulation;
+  transition: background-color 0.2s ease;
 }
 .btn-primary:hover {
-  background-color: #15803d;
-  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35);
-}
-.btn-primary:active {
-  transform: scale(0.98);
   background-color: #166534;
 }
+.btn-primary:active {
+  transform: scale(0.95);
+}
 
+/* Ghost pill — the second CTA when two appear together */
 .btn-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background-color: #f4f4f5;
-  color: #18181b;
-  font-weight: 700;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  border-radius: 1rem;
-  padding: 0.75rem 1.25rem;
+  background-color: transparent;
+  color: #15803d;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.2;
+  border-radius: 9999px;
+  padding: 11px 22px;
   min-height: 44px;
+  border: 1px solid #15803d;
   touch-action: manipulation;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(228, 228, 231, 0.8);
+  transition: background-color 0.2s ease;
 }
 .btn-secondary:hover {
-  background-color: #e4e4e7;
+  background-color: #f0fdf4;
 }
 .btn-secondary:active {
-  transform: scale(0.98);
+  transform: scale(0.95);
 }
 
 .btn-outline {
@@ -62,23 +61,22 @@
   justify-content: center;
   gap: 0.5rem;
   background-color: #ffffff;
-  color: #18181b;
-  font-weight: 700;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  border-radius: 1rem;
-  padding: 0.75rem 1.25rem;
+  color: #1d1d1f;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.2;
+  border-radius: 9999px;
+  padding: 11px 22px;
   min-height: 44px;
-  border: 1px solid #e4e4e7;
+  border: 1px solid #e0e0e0;
   touch-action: manipulation;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 0.2s ease;
 }
 .btn-outline:hover {
-  background-color: #fafafa;
-  border-color: #d4d4d8;
+  background-color: #f5f5f7;
 }
 .btn-outline:active {
-  transform: scale(0.98);
+  transform: scale(0.95);
 }
 
 .btn-danger {
@@ -86,47 +84,50 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background-color: #fef2f2;
-  color: #dc2626;
-  font-weight: 700;
-  font-size: 0.875rem;
-  border-radius: 1rem;
-  padding: 0.75rem 1.25rem;
+  background-color: #ffffff;
+  color: #b91c1c;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.2;
+  border-radius: 9999px;
+  padding: 11px 22px;
   min-height: 44px;
-  border: 1px solid #fee2e2;
-  transition: all 0.2s ease;
+  border: 1px solid #fecaca;
+  transition: background-color 0.2s ease;
 }
 .btn-danger:hover {
-  background-color: #fee2e2;
+  background-color: #fef2f2;
 }
 .btn-danger:active {
-  transform: scale(0.98);
+  transform: scale(0.95);
 }
 
-/* 2. CARDS (Apple Inset Grouped) */
+/* 2. CARDS — store utility card: white, 1px hairline, 18px, no shadow */
 .ios-card {
   background-color: #ffffff;
-  border-radius: 1.25rem;
-  border: 1px solid rgba(228, 228, 231, 0.85);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02);
+  border-radius: 18px;
+  border: 1px solid #e0e0e0;
+  transition: border-color 0.2s ease;
+}
+.ios-card:hover {
+  border-color: #d2d2d7;
 }
 
 .ios-card-dark {
-  background-color: #09090b;
+  background-color: #272729; /* surface-tile-1 */
   color: #ffffff;
-  border-radius: 1.25rem;
-  border: 1px solid rgba(39, 39, 42, 0.8);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.15);
+  border-radius: 18px;
+  border: 1px solid #272729;
 }
 
-/* 3. SECTION HEADERS */
+/* 3. SECTION HEADERS — sentence case caption-strong (Apple never tracks small labels) */
 .ios-section-header {
   display: block;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #71717a;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.224px;
+  text-transform: none;
+  color: #7a7a7a;
   margin-bottom: 0.5rem;
   padding-left: 0.25rem;
   padding-right: 0.25rem;
@@ -137,39 +138,35 @@
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
-  padding: 0.375rem 0.875rem;
+  padding: 0.5rem 1rem;
   border-radius: 9999px;
   background-color: #ffffff;
-  border: 1px solid #e4e4e7;
-  color: #3f3f46;
-  font-size: 0.75rem;
-  font-weight: 600;
+  border: 1px solid #e0e0e0;
+  color: #1d1d1f;
+  font-size: 14px;
+  font-weight: 400;
   white-space: nowrap;
   flex-shrink: 0;
   transition: all 0.15s ease;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02);
 }
 .ios-filter-chip:hover {
-  background-color: #fafafa;
-  color: #18181b;
+  background-color: #f5f5f7;
 }
 .ios-filter-chip.active {
-  background-color: #16a34a !important;
+  background-color: #15803d !important;
   color: #ffffff !important;
-  border-color: #16a34a !important;
-  box-shadow: 0 1px 3px 0 rgba(22, 163, 74, 0.3) !important;
+  border-color: #15803d !important;
 }
 
-/* 5. INSET GROUPED LIST ROWS (Apple Settings Table) */
+/* 5. INSET GROUPED LIST ROWS */
 .ios-list-group {
   background-color: #ffffff;
-  border-radius: 1.25rem;
-  border: 1px solid rgba(228, 228, 231, 0.85);
+  border-radius: 18px;
+  border: 1px solid #e0e0e0;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 .ios-list-group > :not([hidden]) ~ :not([hidden]) {
-  border-top: 1px solid #f4f4f5;
+  border-top: 1px solid #f0f0f0;
 }
 
 .ios-list-row {
@@ -184,10 +181,10 @@
   touch-action: manipulation;
 }
 .ios-list-row:hover {
-  background-color: #fafafa;
+  background-color: #f5f5f7;
 }
 .ios-list-row:active {
-  background-color: #f4f4f5;
+  background-color: #f0f0f0;
 }
 
 .ios-list-icon,
@@ -202,10 +199,10 @@
 .ios-list-icon-cyan {
   width: 2.25rem;
   height: 2.25rem;
-  border-radius: 0.75rem;
-  background-color: #f4f4f5;
-  color: #18181b;
-  border: 1px solid rgba(228, 228, 231, 0.9);
+  border-radius: 8px;
+  background-color: #f5f5f7;
+  color: #1d1d1f;
+  border: 1px solid #e0e0e0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -223,11 +220,11 @@
 .ios-list-row:hover .ios-list-icon-red,
 .ios-list-row:hover .ios-list-icon-slate,
 .ios-list-row:hover .ios-list-icon-cyan {
-  background-color: #e4e4e7;
-  color: #09090b;
+  background-color: #e8e8ed;
+  color: #1d1d1f;
 }
 
-/* 6. APPLE HIG TOGGLE SWITCH (iOS Green) */
+/* 6. TOGGLE SWITCH — accent green, no chrome shadow */
 .ios-toggle {
   position: relative;
   display: inline-flex;
@@ -249,13 +246,12 @@
 .ios-toggle-track {
   width: 3.125rem;
   height: 1.875rem;
-  background-color: #e4e4e7;
+  background-color: #e0e0e0;
   border-radius: 9999px;
-  transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.25s ease;
 }
 .ios-toggle input:checked ~ .ios-toggle-track {
-  background-color: #16a34a !important;
+  background-color: #15803d !important;
 }
 .ios-toggle-thumb {
   position: absolute;
@@ -264,15 +260,15 @@
   width: 1.5rem;
   height: 1.5rem;
   background-color: #ffffff;
+  border: 1px solid #e0e0e0;
   border-radius: 9999px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 1px rgba(0, 0, 0, 0.1);
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.25s ease;
 }
 .ios-toggle input:checked ~ .ios-toggle-track .ios-toggle-thumb {
   transform: translateX(1.25rem);
 }
 
-/* 7. STEPPER (Apple HIG Automotive Clean) */
+/* 7. STEPPER */
 .ios-stepper-circle {
   width: 2.25rem;
   height: 2.25rem;
@@ -280,22 +276,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: 0.8125rem;
+  font-weight: 600;
   transition: all 0.2s ease;
   z-index: 10;
 }
 .ios-stepper-circle.active {
-  background-color: #16a34a;
+  background-color: #15803d;
   color: #ffffff;
-  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.2);
 }
 .ios-stepper-circle.completed {
-  background-color: #16a34a;
+  background-color: #15803d;
   color: #ffffff;
 }
 .ios-stepper-circle.inactive {
   background-color: #ffffff;
-  border: 1.5px solid #d4d4d8;
-  color: #a1a1aa;
+  border: 1.5px solid #d2d2d7;
+  color: #aeaeb2;
 }

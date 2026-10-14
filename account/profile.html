@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Akun Pengguna — Nine Autogarage</title>
+  
+  <!-- Fonts & Phosphor Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS Engine & Design Tokens -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../assets/config.js"></script>
+  <link rel="stylesheet" href="../assets/base.css"/>
+  
+  <style>
+    body {
+      background-color: #fafafa;
+      color: #18181b;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+</head>
+
+<body data-tab="profile" class="min-h-screen bg-[#fafafa] flex flex-col antialiased selection:bg-accent-100 selection:text-accent-700">
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: AppHeader (Styling Ikon Bulat Sesuai Halaman Home)    -->
+  <!-- ============================================================== -->
+  <header data-component="AppHeader" class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e4e4e7] pt-safe">
+    <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between gap-2">
+      <!-- Back Button -->
+      <a href="../home.html" aria-label="Kembali ke Beranda" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-caret-left text-[20px]"></i>
+      </a>
+
+      <!-- Page Title -->
+      <div class="flex-1 text-center min-w-0">
+        <h1 class="text-sm font-bold text-[#18181b] truncate">Akun Saya</h1>
+        <p class="text-[10px] text-[#71717a] truncate">ID Member: 9N-88219</p>
+      </div>
+
+      <!-- Quick CS Help Button -->
+      <a href="https://wa.me/6281234567890" target="_blank" aria-label="Bantuan CS" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-headset text-[20px]"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- MAIN CONTENT CONTAINER                                         -->
+  <!-- ============================================================== -->
+  <main class="w-full max-w-md mx-auto pt-20 pb-28 px-4 flex flex-col gap-4">
+
+    <!-- COMPONENT: ProfileHeaderCard (Informasi Akun & Tier) -->
+    <section data-component="ProfileHeaderCard" class="ios-card p-4 flex flex-col gap-3.5">
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="relative shrink-0">
+            <div class="w-14 h-14 rounded-full bg-[#18181b] text-white flex items-center justify-center font-bold text-lg">
+              RK
+            </div>
+            <div class="absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full bg-[#22c55e] text-white flex items-center justify-center text-[10px] ring-2 ring-white">
+              <i class="ph-bold ph-seal-check"></i>
+            </div>
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-2">
+              <h2 class="text-sm font-bold text-[#18181b] truncate">Rob Kusuma</h2>
+              <span class="px-2 py-0.5 rounded-full bg-[#f4f4f5] text-[#18181b] text-[10px] font-bold">Platinum</span>
+            </div>
+            <p class="text-xs text-[#71717a] mt-0.5 truncate">+62 812-8899-7700</p>
+            <span class="text-[10px] text-[#15803d] font-semibold mt-0.5 block">Member Resmi sejak 2024</span>
+          </div>
+        </div>
+
+        <button type="button" onclick="alert('Buka dialog edit profil')" class="px-3 py-1.5 rounded-full bg-[#f4f4f5] text-xs font-bold text-[#18181b] hover:bg-[#e4e4e7] transition-all shrink-0">
+          Edit
+        </button>
+      </div>
+
+      <div class="pt-3 border-t border-[#f4f4f5] flex items-center justify-between text-xs">
+        <span class="text-[#71717a] flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#22c55e]"></span>
+          Autogarage Pass Aktif
+        </span>
+        <span class="font-bold text-[#15803d]">Berlaku s/d Des 2026</span>
+      </div>
+    </section>
+
+    <!-- COMPONENT: LoyaltyBalances (Koin & Poin Garasi) -->
+    <section data-component="LoyaltyBalances" class="grid grid-cols-2 gap-3">
+      <!-- Nine Koin -->
+      <div class="ios-card p-3.5 flex flex-col justify-between h-24">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-bold text-[#71717a] uppercase">Nine Koin</span>
+          <i class="ph-fill ph-coins text-base text-[#22c55e]"></i>
+        </div>
+        <div>
+          <div class="text-xl font-bold text-[#18181b]">1.250</div>
+          <span class="text-[10px] text-[#71717a]">Setara Rp 12.500</span>
+        </div>
+      </div>
+
+      <!-- Garage Points -->
+      <div class="ios-card p-3.5 flex flex-col justify-between h-24">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-bold text-[#71717a] uppercase">Poin Garasi</span>
+          <i class="ph-bold ph-medal text-base text-[#18181b]"></i>
+        </div>
+        <div>
+          <div class="text-xl font-bold text-[#18181b]">340 Pts</div>
+          <span class="text-[10px] text-[#15803d] font-semibold">Tier Master Pit</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPONENT: ActiveVehicleCard (Kendaraan Terhubung) -->
+    <section data-component="ActiveVehicleCard" class="ios-card p-4 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-10 h-10 rounded-2xl bg-[#18181b] text-white flex items-center justify-center shrink-0">
+          <i class="ph-bold ph-motorcycle text-lg"></i>
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <h3 class="text-xs font-bold text-[#18181b] truncate">Yamaha NMAX 155</h3>
+            <span class="w-1.5 h-1.5 rounded-full bg-[#22c55e]"></span>
+          </div>
+          <p class="text-[11px] text-[#71717a] mt-0.5">B 1234 XYZ · 3 Aksesori Aktif</p>
+        </div>
+      </div>
+      <a href="../iot/accecories.html" class="px-3 py-1.5 rounded-full bg-[#f4f4f5] text-xs font-bold text-[#18181b] hover:bg-[#e4e4e7] transition-all shrink-0">
+        Kelola
+      </a>
+    </section>
+
+    <!-- COMPONENT: MenuListGroup (Menu Transaksi & Garasi) -->
+    <section data-component="MenuListGroup" class="flex flex-col gap-2">
+      <h3 class="text-xs font-bold text-[#18181b] px-0.5">Transaksi & Garasi</h3>
+
+      <div class="ios-card divide-y divide-[#f4f4f5] overflow-hidden text-xs">
+        <a href="../mall/orders.html" class="p-3.5 flex items-center justify-between hover:bg-[#fafafa] transition-all">
+          <div class="flex items-center gap-3">
+            <i class="ph-bold ph-package text-base text-[#18181b]"></i>
+            <span class="font-bold text-[#18181b]">Pesanan Mall</span>
+          </div>
+          <div class="flex items-center gap-2 text-[#71717a]">
+            <span class="text-[10px] font-semibold text-[#15803d]">1 Dikirim</span>
+            <i class="ph-bold ph-caret-right text-xs"></i>
+          </div>
+        </a>
+
+        <a href="../garage/booking-detail.html" class="p-3.5 flex items-center justify-between hover:bg-[#fafafa] transition-all">
+          <div class="flex items-center gap-3">
+            <i class="ph-bold ph-ticket text-base text-[#18181b]"></i>
+            <span class="font-bold text-[#18181b]">Tiket Servis Aktif (Pit 02)</span>
+          </div>
+          <i class="ph-bold ph-caret-right text-xs text-[#71717a]"></i>
+        </a>
+
+        <a href="../garage/service-history.html" class="p-3.5 flex items-center justify-between hover:bg-[#fafafa] transition-all">
+          <div class="flex items-center gap-3">
+            <i class="ph-bold ph-clock-counter-clockwise text-base text-[#18181b]"></i>
+            <span class="font-bold text-[#18181b]">Riwayat Pengerjaan Bengkel</span>
+          </div>
+          <i class="ph-bold ph-caret-right text-xs text-[#71717a]"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- COMPONENT: AppSettingsGroup (Pengaturan Aplikasi) -->
+    <section data-component="AppSettingsGroup" class="flex flex-col gap-2">
+      <h3 class="text-xs font-bold text-[#18181b] px-0.5">Pengaturan Aplikasi</h3>
+
+      <div class="ios-card divide-y divide-[#f4f4f5] overflow-hidden text-xs">
+        <div class="p-3.5 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <i class="ph-bold ph-bell-simple text-base text-[#18181b]"></i>
+            <span class="font-bold text-[#18181b]">Notifikasi Real-time</span>
+          </div>
+          <div class="switch-toggle active" onclick="this.classList.toggle('active')"></div>
+        </div>
+
+        <div class="p-3.5 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <i class="ph-bold ph-shield-check text-base text-[#18181b]"></i>
+            <span class="font-bold text-[#18181b]">Keamanan & Verifikasi PIN</span>
+          </div>
+          <i class="ph-bold ph-caret-right text-xs text-[#71717a]"></i>
+        </div>
+
+        <button type="button" onclick="alert('Keluar dari sesi akun')" class="p-3.5 w-full flex items-center justify-between text-left hover:bg-[#fff5f5] transition-all">
+          <div class="flex items-center gap-3 text-[#ef4444]">
+            <i class="ph-bold ph-sign-out text-base"></i>
+            <span class="font-bold">Keluar Akun</span>
+          </div>
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: BottomTabBar (Apple HIG Translucent Navigation)      -->
+  <!-- ============================================================== -->
+  <nav data-component="BottomTabBar" class="fixed bottom-0 inset-x-0 z-40 bg-white/90 backdrop-blur-xl border-t border-[#e4e4e7] pb-safe">
+    <div class="max-w-md mx-auto h-16 px-2 flex items-center justify-around">
+      <a href="../home.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-house text-xl"></i>
+        <span>Beranda</span>
+      </a>
+      <a href="../iot/accecories.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-cpu text-xl"></i>
+        <span>Aksesori</span>
+      </a>
+      <a href="../mall/mall.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-storefront text-xl"></i>
+        <span>Mall</span>
+      </a>
+      <a href="../garage/booking.html" class="flex flex-col items-center gap-0.5 text-[#71717a] hover:text-[#18181b] font-medium text-[10.5px]">
+        <i class="ph-bold ph-calendar-dots text-xl"></i>
+        <span>Booking</span>
+      </a>
+      <a href="profile.html" class="flex flex-col items-center gap-0.5 text-[#18181b] font-bold text-[10.5px]">
+        <i class="ph-fill ph-user-circle text-xl text-[#18181b]"></i>
+        <span>Akun</span>
+      </a>
+    </div>
+  </nav>
+
+</body>
+</html>

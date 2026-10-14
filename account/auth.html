@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Masuk & Daftar — Nine Autogarage</title>
+  
+  <!-- Fonts & Phosphor Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS Engine & Design Tokens -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../assets/config.js"></script>
+  <link rel="stylesheet" href="../assets/base.css"/>
+  
+  <style>
+    body {
+      background-color: #fafafa;
+      color: #18181b;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-[#fafafa] flex flex-col antialiased selection:bg-accent-100 selection:text-accent-700">
+
+  <!-- ============================================================== -->
+  <!-- MAIN AUTH CONTAINER                                            -->
+  <!-- ============================================================== -->
+  <main class="w-full max-w-md mx-auto min-h-screen px-4 pt-10 pb-8 flex flex-col justify-between">
+
+    <div>
+      <!-- COMPONENT: AuthBrandHeader (Logo & Lewati) -->
+      <section data-component="AuthBrandHeader" class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-[#18181b] text-white flex items-center justify-center font-bold text-lg">
+            9
+          </div>
+          <div>
+            <span class="text-xs font-bold text-[#18181b] block">Nine Autogarage</span>
+            <span class="text-[10px] text-[#71717a]">Ecosystem Pass</span>
+          </div>
+        </div>
+        <a href="../home.html" class="text-xs font-semibold text-[#71717a] hover:text-[#18181b] transition-colors">
+          Lewati
+        </a>
+      </section>
+
+      <!-- Welcome Heading -->
+      <div class="mt-6">
+        <h1 class="text-xl font-bold text-[#18181b]" id="authHeading">Selamat Datang</h1>
+        <p class="text-xs text-[#71717a] mt-1" id="authSubheading">
+          Masuk dengan nomor WhatsApp atau email terdaftar kamu.
+        </p>
+      </div>
+
+      <!-- COMPONENT: AuthSegmentedTabs (Masuk vs Daftar) -->
+      <section data-component="AuthSegmentedTabs" class="mt-5 p-1 rounded-2xl bg-[#f4f4f5] border border-[#e4e4e7] flex items-center gap-1 text-xs font-semibold">
+        <button type="button" onclick="switchAuthTab('login', this)" class="auth-tab-btn flex-1 py-2 rounded-xl bg-white text-[#18181b] shadow-xs text-center transition-all">
+          Masuk
+        </button>
+        <button type="button" onclick="switchAuthTab('register', this)" class="auth-tab-btn flex-1 py-2 rounded-xl text-[#71717a] hover:text-[#18181b] text-center transition-all">
+          Daftar Baru
+        </button>
+      </section>
+
+      <!-- VIEW 1: LOGIN -->
+      <div id="v-login" class="mt-4 flex flex-col gap-3.5">
+        <section data-component="LoginForm" class="ios-card p-4 flex flex-col gap-3">
+          <label class="block">
+            <span class="text-xs font-bold text-[#18181b] block mb-1">WhatsApp atau Email</span>
+            <input type="text" value="rob.kusuma@gmail.com" class="w-full h-11 px-3.5 bg-[#f4f4f5] border border-[#e4e4e7] rounded-xl text-xs font-bold text-[#18181b] outline-none focus:border-[#18181b]"/>
+          </label>
+
+          <label class="block">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-xs font-bold text-[#18181b]">Kata Sandi</span>
+              <a href="#" class="text-[10px] font-bold text-[#15803d]">Lupa Sandi?</a>
+            </div>
+            <input type="password" value="Password123!" class="w-full h-11 px-3.5 bg-[#f4f4f5] border border-[#e4e4e7] rounded-xl text-xs font-bold text-[#18181b] outline-none focus:border-[#18181b]"/>
+          </label>
+
+          <label class="flex items-center gap-2 cursor-pointer pt-0.5">
+            <input type="checkbox" checked class="w-4 h-4 accent-[#18181b] rounded"/>
+            <span class="text-xs text-[#71717a]">Ingat sesi login di perangkat ini</span>
+          </label>
+
+          <a href="../home.html" class="w-full h-11 rounded-full bg-[#18181b] hover:bg-[#27272a] text-white text-xs font-bold flex items-center justify-center transition-all mt-1">
+            Masuk Sekarang
+          </a>
+        </section>
+
+        <!-- Social Divider -->
+        <div class="flex items-center gap-3 my-1 text-xs text-[#71717a]">
+          <div class="flex-1 h-px bg-[#e4e4e7]"></div>
+          <span>atau lanjutkan dengan</span>
+          <div class="flex-1 h-px bg-[#e4e4e7]"></div>
+        </div>
+
+        <button type="button" onclick="alert('Masuk via Google SSO')" class="w-full h-11 rounded-2xl bg-white border border-[#e4e4e7] text-xs font-bold text-[#18181b] flex items-center justify-center gap-2 hover:bg-[#f4f4f5] transition-all">
+          <i class="ph-bold ph-google-logo text-base text-[#ef4444]"></i>
+          <span>Lanjutkan dengan Akun Google</span>
+        </button>
+      </div>
+
+      <!-- VIEW 2: REGISTER -->
+      <div id="v-register" class="hidden mt-4 flex flex-col gap-3.5">
+        <section data-component="RegisterForm" class="ios-card p-4 flex flex-col gap-3">
+          <label class="block">
+            <span class="text-xs font-bold text-[#18181b] block mb-1">Nama Lengkap</span>
+            <input type="text" placeholder="Masukkan nama lengkap" class="w-full h-11 px-3.5 bg-[#f4f4f5] border border-[#e4e4e7] rounded-xl text-xs font-bold text-[#18181b] outline-none focus:border-[#18181b]"/>
+          </label>
+
+          <label class="block">
+            <span class="text-xs font-bold text-[#18181b] block mb-1">Nomor WhatsApp</span>
+            <input type="tel" placeholder="08xxxxxxxxxx" class="w-full h-11 px-3.5 bg-[#f4f4f5] border border-[#e4e4e7] rounded-xl text-xs font-bold text-[#18181b] outline-none focus:border-[#18181b]"/>
+          </label>
+
+          <label class="block">
+            <span class="text-xs font-bold text-[#18181b] block mb-1">Kata Sandi Baru</span>
+            <input type="password" placeholder="Minimal 8 karakter" class="w-full h-11 px-3.5 bg-[#f4f4f5] border border-[#e4e4e7] rounded-xl text-xs font-bold text-[#18181b] outline-none focus:border-[#18181b]"/>
+          </label>
+
+          <a href="../home.html" class="w-full h-11 rounded-full bg-[#18181b] hover:bg-[#27272a] text-white text-xs font-bold flex items-center justify-center transition-all mt-1">
+            Daftar Akun Baru
+          </a>
+        </section>
+      </div>
+
+    </div>
+
+    <!-- Footer Privacy Note -->
+    <div class="text-center text-[10px] text-[#71717a] mt-6">
+      Dengan melanjutkan, kamu menyetujui Ketentuan Layanan & Kebijakan Privasi Nine Autogarage.
+    </div>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- JAVASCRIPT CONTROLLERS                                         -->
+  <!-- ============================================================== -->
+  <script>
+    function switchAuthTab(tab, btnEl) {
+      document.querySelectorAll('.auth-tab-btn').forEach(function(b) {
+        b.className = "auth-tab-btn flex-1 py-2 rounded-xl text-[#71717a] hover:text-[#18181b] text-center transition-all";
+      });
+      btnEl.className = "auth-tab-btn flex-1 py-2 rounded-xl bg-white text-[#18181b] shadow-xs text-center transition-all";
+
+      var vLogin = document.getElementById('v-login');
+      var vRegister = document.getElementById('v-register');
+      var heading = document.getElementById('authHeading');
+      var subheading = document.getElementById('authSubheading');
+
+      if (tab === 'login') {
+        vLogin.classList.remove('hidden');
+        vRegister.classList.add('hidden');
+        heading.innerText = "Selamat Datang";
+        subheading.innerText = "Masuk dengan nomor WhatsApp atau email terdaftar kamu.";
+      } else {
+        vLogin.classList.add('hidden');
+        vRegister.classList.remove('hidden');
+        heading.innerText = "Buat Akun Baru";
+        subheading.innerText = "Dapatkan garansi resmi 2 tahun & diskon servis di seluruh pit.";
+      }
+    }
+  </script>
+</body>
+</html>
