@@ -42,7 +42,7 @@
       <!-- Page Title -->
       <div class="flex-1 text-center min-w-0">
         <h1 class="text-sm font-bold text-[#18181b] truncate">Aksesori Terpasang</h1>
-        <p class="text-[10px] text-[#71717a] truncate">5 Modul Terhubung · Yamaha NMAX</p>
+        <p class="text-[10px] text-[#71717a] truncate">6 Modul Terhubung · Yamaha NMAX</p>
       </div>
 
       <!-- Add Device Button (Bulat Putih Border Halus) -->
@@ -86,13 +86,13 @@
     <!-- COMPONENT: CategoryFilter (Pills Kategori Horisontal) -->
     <section data-component="CategoryFilter" class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar text-xs">
       <button type="button" onclick="filterCategory('all', this)" class="cat-pill px-3.5 py-2 rounded-full font-bold bg-[#18181b] text-white transition-all shrink-0">
-        Semua (5)
+        Semua (6)
       </button>
       <button type="button" onclick="filterCategory('gps', this)" class="cat-pill px-3.5 py-2 rounded-full font-medium bg-white border border-[#e4e4e7] text-[#71717a] hover:text-[#18181b] transition-all shrink-0">
         GPS (1)
       </button>
       <button type="button" onclick="filterCategory('biled', this)" class="cat-pill px-3.5 py-2 rounded-full font-medium bg-white border border-[#e4e4e7] text-[#71717a] hover:text-[#18181b] transition-all shrink-0">
-        Lampu (1)
+        Lampu & LED (2)
       </button>
       <button type="button" onclick="filterCategory('dashcam', this)" class="cat-pill px-3.5 py-2 rounded-full font-medium bg-white border border-[#e4e4e7] text-[#71717a] hover:text-[#18181b] transition-all shrink-0">
         Dashcam (1)
@@ -164,6 +164,36 @@
           </div>
           <span class="text-xs font-semibold text-[#15803d] flex items-center gap-1">
             Spektrum & Beam <i class="ph-bold ph-caret-right text-xs"></i>
+          </span>
+        </div>
+      </article>
+
+      <!-- CARD 3: NINE MATRIX PRO CAN01 (ANIMASI LED CUSTOM) -->
+      <article data-component="AccessoryCard" data-cat="biled" onclick="openModal('modal-matrix-led')" class="ios-card ios-card-interactive p-4 flex flex-col gap-3 cursor-pointer">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-[#18181b] text-white flex items-center justify-center shrink-0">
+              <i class="ph-bold ph-dots-nine text-xl text-[#22c55e]"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-1.5">
+                <h3 class="text-sm font-bold text-[#18181b]">NINE Matrix Pro CAN01</h3>
+                <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#f0fdf4] text-[#15803d]">BLE 5.3</span>
+              </div>
+              <p class="text-xs text-[#71717a] mt-0.5">Preset: <strong class="text-[#18181b]" id="currentMatrixPreset">Neon Flame (24×24 Px)</strong></p>
+            </div>
+          </div>
+          <!-- Quick Power Toggle Switch -->
+          <div class="switch-toggle active" title="Saklar Daya Matrix" onclick="event.stopPropagation(); this.classList.toggle('active')"></div>
+        </div>
+
+        <div class="pt-3 border-t border-[#f4f4f5] flex items-center justify-between text-xs">
+          <div class="flex items-center gap-2 text-[#71717a]">
+            <span class="px-2 py-0.5 rounded-md bg-[#f4f4f5] text-[#18181b] font-semibold text-[10px]">30 FPS SYNC</span>
+            <span>Upload GIF & Running Text</span>
+          </div>
+          <span class="text-xs font-semibold text-[#15803d] flex items-center gap-1">
+            Kustom Animasi <i class="ph-bold ph-caret-right text-xs"></i>
           </span>
         </div>
       </article>
@@ -442,11 +472,17 @@
         </div>
       </div>
 
-      <!-- Action Button -->
-      <a href="device-lampu.html" class="w-full h-11 rounded-full bg-[#18181b] text-white text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#27272a] transition-all">
-        <i class="ph-bold ph-sliders-horizontal text-base"></i>
-        <span>Buka Kontrol Penuh & Kalibrasi Beam</span>
-      </a>
+      <!-- Action Buttons -->
+      <div class="flex flex-col gap-2 pt-1">
+        <a href="device-lampu.html" class="w-full h-11 rounded-full bg-[#18181b] text-white text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#27272a] transition-all">
+          <i class="ph-bold ph-sliders-horizontal text-base"></i>
+          <span>Buka Kontrol Penuh & Kalibrasi Beam</span>
+        </a>
+        <a href="custom-color-lamp.html" class="w-full h-11 rounded-full bg-[#f0fdf4] border border-[#bbf7d0] text-[#15803d] text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#dcfce7] transition-all">
+          <i class="ph-bold ph-dots-nine text-base"></i>
+          <span>Kustomisasi Animasi Matrix LED</span>
+        </a>
+      </div>
     </div>
   </div>
 
@@ -614,6 +650,123 @@
     </div>
   </div>
 
+  <!-- 6. MODAL DETAIL NINE MATRIX PRO CAN01 (ANIMASI LED CUSTOM) -->
+  <div data-component="SheetModal" id="modal-matrix-led" class="hidden fixed inset-0 z-50 flex items-end justify-center sheet-backdrop" onclick="closeModal('modal-matrix-led')">
+    <div class="w-full max-w-md bg-white rounded-t-[28px] p-5 pb-8 sheet-content shadow-2xl flex flex-col gap-4 border-t border-[#e4e4e7]" onclick="event.stopPropagation()">
+      <div class="w-10 h-1 bg-neutral-300 rounded-full mx-auto"></div>
+      
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-[#18181b] text-white flex items-center justify-center">
+            <i class="ph-bold ph-dots-nine text-xl text-[#22c55e]"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-[#18181b]">NINE Matrix Pro CAN01</h3>
+            <p class="text-xs text-[#71717a]">Layar Animasi LED Pixel 24×24 · BLE 5.3</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-matrix-led')" aria-label="Tutup" class="w-7 h-7 rounded-full bg-[#f4f4f5] text-[#71717a] flex items-center justify-center hover:bg-[#e4e4e7]">
+          <i class="ph-bold ph-x text-xs"></i>
+        </button>
+      </div>
+
+      <!-- COMPONENT: SegmentedTabs (Animasi Matrix LED vs Running Text Matrix) -->
+      <section data-component="SegmentedTabs" class="p-1 rounded-2xl bg-[#f4f4f5] border border-[#e4e4e7] flex items-center gap-1 text-xs font-semibold">
+        <button type="button" onclick="switchMatrixTab('anim', this)" class="matrix-tab-btn flex-1 py-2 rounded-xl bg-white text-[#18181b] shadow-xs font-bold transition-all text-center flex items-center justify-center gap-1.5">
+          <i class="ph-bold ph-file-gif text-sm"></i>
+          Animasi Matrix
+        </button>
+        <button type="button" onclick="switchMatrixTab('text', this)" class="matrix-tab-btn flex-1 py-2 rounded-xl text-[#71717a] hover:text-[#18181b] transition-all text-center flex items-center justify-center gap-1.5">
+          <i class="ph-bold ph-text-aa text-sm"></i>
+          Running Text
+        </button>
+      </section>
+
+      <!-- VIEW 1: ANIMASI MATRIX LED (custom-color-lamp.html) -->
+      <div id="matrixTabContent-anim" class="flex flex-col gap-4">
+        <!-- Live Pixel Matrix Snapshot -->
+        <div class="relative rounded-2xl bg-[#0d0d11] border border-neutral-800 p-4 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-black border border-neutral-800 flex items-center justify-center text-[#22c55e]">
+              <i class="ph-bold ph-fire text-2xl animate-pulse"></i>
+            </div>
+            <div>
+              <span class="text-xs font-bold text-white block">Preset: Neon Flame</span>
+              <span class="text-[11px] text-neutral-400 block mt-0.5">30 FPS · Auto-Downscale 24px</span>
+            </div>
+          </div>
+          <span class="px-2 py-0.5 rounded-full bg-[#f0fdf4] text-[#15803d] text-[10px] font-bold border border-[#bbf7d0]">Aktif</span>
+        </div>
+
+        <!-- Telemetry Specs Inset -->
+        <div class="grid grid-cols-3 gap-2 p-3 rounded-2xl bg-[#f4f4f5] text-center text-xs">
+          <div>
+            <span class="text-[10px] text-[#71717a] block">Resolusi</span>
+            <span class="font-bold text-[#18181b] mt-0.5 block">24×24 Px</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-[#71717a] block">Format File</span>
+            <span class="font-bold text-[#15803d] mt-0.5 block">GIF Animasi</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-[#71717a] block">Sinyal BLE</span>
+            <span class="font-bold text-[#18181b] mt-0.5 block">-48 dBm</span>
+          </div>
+        </div>
+
+        <!-- Action Button -->
+        <a href="custom-color-lamp.html" class="w-full h-11 rounded-full bg-[#18181b] hover:bg-[#27272a] text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-xs">
+          <i class="ph-bold ph-sliders text-base"></i>
+          <span>Buka Editor & Kustomisasi Animasi</span>
+        </a>
+      </div>
+
+      <!-- VIEW 2: RUNNING TEXT MATRIX (option-color.lamp.html) -->
+      <div id="matrixTabContent-text" class="hidden flex flex-col gap-4">
+        <!-- Live Running Text Snapshot -->
+        <div class="relative rounded-2xl bg-[#0d0d11] border border-neutral-800 p-4 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-black border border-neutral-800 flex items-center justify-center text-[#22c55e]">
+              <i class="ph-bold ph-text-aa text-2xl animate-pulse"></i>
+            </div>
+            <div>
+              <span class="text-xs font-bold text-white block">Teks: "NINE GARAGE PRO"</span>
+              <span class="text-[11px] text-neutral-400 block mt-0.5">Marquee Running Text · 24×24 SYNC</span>
+            </div>
+          </div>
+          <span class="px-2 py-0.5 rounded-full bg-[#f0fdf4] text-[#15803d] text-[10px] font-bold border border-[#bbf7d0]">Aktif</span>
+        </div>
+
+        <!-- Telemetry Specs Inset -->
+        <div class="grid grid-cols-3 gap-2 p-3 rounded-2xl bg-[#f4f4f5] text-center text-xs">
+          <div>
+            <span class="text-[10px] text-[#71717a] block">Resolusi</span>
+            <span class="font-bold text-[#18181b] mt-0.5 block">24×24 Px</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-[#71717a] block">Format Teks</span>
+            <span class="font-bold text-[#15803d] mt-0.5 block">Dot-Matrix</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-[#71717a] block">Sinyal BLE</span>
+            <span class="font-bold text-[#18181b] mt-0.5 block">-48 dBm</span>
+          </div>
+        </div>
+
+        <!-- Action Button -->
+        <a href="option-color.lamp.html" class="w-full h-11 rounded-full bg-[#18181b] hover:bg-[#27272a] text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-xs">
+          <i class="ph-bold ph-text-aa text-base"></i>
+          <span>Buka Editor Running Text Matrix</span>
+        </a>
+      </div>
+
+      <!-- Close Button -->
+      <button onclick="closeModal('modal-matrix-led')" class="w-full h-11 rounded-full bg-[#f4f4f5] hover:bg-[#e4e4e7] text-[#18181b] text-xs font-bold transition-all">
+        Tutup
+      </button>
+    </div>
+  </div>
+
   <!-- ============================================================== -->
   <!-- JAVASCRIPT CONTROLLERS                                         -->
   <!-- ============================================================== -->
@@ -632,6 +785,24 @@
       if (modal) {
         modal.classList.add('hidden');
         document.body.style.overflow = 'auto';
+      }
+    }
+
+    // Matrix LED Modal Tab Switcher (Animasi vs Running Text)
+    function switchMatrixTab(tabKey, btnEl) {
+      document.querySelectorAll('.matrix-tab-btn').forEach(function(b) {
+        b.className = "matrix-tab-btn flex-1 py-2 rounded-xl text-[#71717a] hover:text-[#18181b] transition-all text-center flex items-center justify-center gap-1.5";
+      });
+      btnEl.className = "matrix-tab-btn flex-1 py-2 rounded-xl bg-white text-[#18181b] shadow-xs font-bold transition-all text-center flex items-center justify-center gap-1.5";
+
+      var animContent = document.getElementById('matrixTabContent-anim');
+      var textContent = document.getElementById('matrixTabContent-text');
+      if (tabKey === 'anim') {
+        if (animContent) animContent.classList.remove('hidden');
+        if (textContent) textContent.classList.add('hidden');
+      } else {
+        if (animContent) animContent.classList.add('hidden');
+        if (textContent) textContent.classList.remove('hidden');
       }
     }
 
