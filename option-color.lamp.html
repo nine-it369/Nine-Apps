@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Running Text Matrix — Nine Autogarage</title>
+  
+  <!-- Fonts & Phosphor Icons (Sesuai Design System Nine-Apps) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS Engine & Design Tokens -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/config.js"></script>
+  <link rel="stylesheet" href="assets/base.css"/>
+  
+  <style>
+    body {
+      background-color: #fafafa;
+      color: #18181b;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-[#fafafa] text-[#18181b] flex flex-col antialiased selection:bg-accent-100 selection:text-accent-700">
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: AppHeader (Apple HIG Clean Style Sesuai custom-color-lamp.html) -->
+  <!-- ============================================================== -->
+  <header data-component="AppHeader" class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e4e4e7] pt-safe">
+    <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between gap-2">
+      <!-- Back Button -->
+      <a href="accecories.html" aria-label="Kembali ke Aksesori" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-caret-left text-[20px]"></i>
+      </a>
+
+      <!-- Page Title -->
+      <div class="flex-1 text-center min-w-0">
+        <h1 class="text-sm font-bold text-[#18181b] truncate">Running Text Matrix</h1>
+        <p class="text-[10px] text-[#71717a] truncate">NINE Matrix Pro · BLE 5.3 Terhubung</p>
+      </div>
+
+      <!-- Quick CS Help Button -->
+      <a href="https://wa.me/6281234567890" target="_blank" aria-label="Hubungi Teknisi" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-headset text-[20px]"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- MAIN CONTENT CONTAINER (Centered Mobile Canvas, No Bottom Nav) -->
+  <!-- ============================================================== -->
+  <main class="w-full max-w-md mx-auto pt-20 pb-10 px-4 flex flex-col gap-4">
+
+    <!-- 1. Connected Device Card with Bluetooth & Active Power Indicator -->
+    <section data-component="DeviceSummaryCard" class="ios-card p-4 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="relative w-11 h-11 rounded-2xl bg-[#18181b] text-white flex items-center justify-center shrink-0">
+          <i class="ph-bold ph-bluetooth text-xl text-[#22c55e]"></i>
+          <span class="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#22c55e] ring-2 ring-white animate-ping opacity-75"></span>
+          <span class="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#22c55e] ring-2 ring-white"></span>
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <h2 class="text-sm font-bold text-[#18181b] truncate">NINE Matrix Pro CAN01</h2>
+            <span class="px-2 py-0.5 rounded-full bg-[#f0fdf4] text-[#15803d] text-[10px] font-bold border border-[#bbf7d0] shrink-0" id="status-badge">
+              AKTIF
+            </span>
+          </div>
+          <div class="flex items-center gap-1.5 text-xs text-[#71717a] mt-0.5 truncate">
+            <span class="inline-flex items-center gap-1 text-[#15803d] font-semibold">
+              <i class="ph-bold ph-bluetooth text-[13px]"></i>
+              BLE 5.3
+            </span>
+            <span>•</span>
+            <span class="truncate">Sinyal Optimal (-48 dBm)</span>
+          </div>
+        </div>
+      </div>
+      <!-- Master Power Switch Toggle -->
+      <button type="button" class="switch-toggle active shrink-0" id="device-power-btn" onclick="togglePower()" title="Saklar Daya Master" aria-label="Saklar Daya Master"></button>
+    </section>
+
+    <!-- COMPONENT: SegmentedTabs (Animasi Matrix vs Running Text Matrix) -->
+    <section data-component="SegmentedTabs" class="p-1 rounded-2xl bg-[#f4f4f5] border border-[#e4e4e7] flex items-center gap-1 text-xs font-semibold">
+      <a href="custom-color-lamp.html" class="flex-1 py-2 rounded-xl text-[#71717a] hover:text-[#18181b] transition-all text-center flex items-center justify-center gap-1.5">
+        <i class="ph-bold ph-file-gif text-sm"></i>
+        Animasi Matrix
+      </a>
+      <a href="option-color.lamp.html" class="flex-1 py-2 rounded-xl bg-white text-[#18181b] shadow-xs font-bold transition-all text-center flex items-center justify-center gap-1.5">
+        <i class="ph-bold ph-text-aa text-sm"></i>
+        Running Text
+      </a>
+    </section>
+
+    <!-- 2. Live LED Matrix Running Text Simulator Preview -->
+    <section class="ios-card p-4 flex flex-col items-center gap-3">
+      <!-- Header Info -->
+      <div class="w-full flex items-center justify-between pb-1">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#22c55e] animate-pulse"></span>
+          <span class="text-xs font-bold text-[#18181b] tracking-tight">Pratinjau Matrix 24×24 Px</span>
+        </div>
+        <div class="flex items-center gap-2 text-xs font-semibold text-[#71717a] bg-[#f4f4f5] px-2.5 py-1 rounded-full border border-[#e4e4e7]">
+          <span>FPS: <strong class="text-[#18181b] font-bold" id="fps-badge">30</strong></span>
+          <span class="text-[#d4d4d8]">•</span>
+          <span>Teks: <strong class="text-[#18181b] font-bold" id="char-counter-badge">15/30</strong></span>
+        </div>
+      </div>
+
+      <!-- LED Dot-Matrix Realistic Display Enclosure -->
+      <div class="relative w-full bg-[#0d0d11] rounded-2xl p-3 shadow-inner flex flex-col items-center justify-center border-4 border-neutral-900 overflow-hidden">
+        <div class="w-full flex justify-between items-center px-1 mb-1.5">
+          <div class="w-1.5 h-1.5 rounded-full bg-neutral-700/80"></div>
+          <span class="text-[9px] font-bold tracking-widest text-neutral-400 uppercase font-mono">NINE OPTICS CAN-BUS ULTRA-EMIT</span>
+          <div class="w-1.5 h-1.5 rounded-full bg-neutral-700/80"></div>
+        </div>
+        <!-- Dot Matrix Pixel LED Grid Simulation Screen -->
+        <div class="w-full h-20 bg-black/90 rounded-xl relative flex items-center justify-center overflow-hidden px-2 shadow-[inset_0_2px_8px_rgba(0,0,0,0.9)]">
+          <!-- Substrate Grid Mask -->
+          <div class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:6px_6px]"></div>
+          <!-- Animated Running Pixel Dot Text -->
+          <div class="flex items-center gap-2 font-mono whitespace-nowrap text-[#10b981] font-bold tracking-widest transition-transform select-none drop-shadow-[0_0_8px_rgba(16,185,129,0.85)]" id="marquee-stream" style="transform: translateX(116.833px); opacity: 1;">
+            <i class="ph-bold ph-flag-banner text-base text-[#10b981]"></i>
+            <span class="text-[15px] tracking-[0.2em] uppercase font-bold" id="screen-marquee-text" style="letter-spacing: 16px;">NINE GARAGE PRO</span>
+            <span class="inline-block w-2 h-2 rounded-full bg-[#10b981] shadow-[0_0_6px_#10b981]"></span>
+          </div>
+        </div>
+        <!-- Technical Status Bar Under Grid -->
+        <div class="w-full flex justify-between items-center px-1 mt-2 text-neutral-400 text-[10px] font-mono">
+          <span class="flex items-center gap-1">
+            <i class="ph-bold ph-cpu text-xs text-[#22c55e]"></i> IC: WS2812B
+          </span>
+          <span class="flex items-center gap-1">
+            <i class="ph-bold ph-lightning text-xs text-[#22c55e]"></i> 5.0V • 1.4A
+          </span>
+          <span class="text-[#22c55e] font-semibold">24×24 SYNC</span>
+        </div>
+      </div>
+
+      <!-- Simulator Control Sub-Bar -->
+      <div class="w-full flex items-center justify-between pt-1">
+        <div class="flex items-center gap-2">
+          <button type="button" class="h-9 px-3 rounded-xl bg-[#18181b] hover:bg-[#27272a] text-white text-xs font-bold flex items-center gap-1.5 active:scale-95 transition-all" id="btn-ctrl-playpause" title="Jeda / Putar">
+            <i class="ph-bold ph-pause text-base" id="playpause-icon"></i>
+            <span id="playpause-label">Jeda</span>
+          </button>
+          <button type="button" class="h-9 px-3 rounded-xl bg-[#f4f4f5] hover:bg-[#e4e4e7] text-[#71717a] hover:text-[#18181b] text-xs font-semibold flex items-center gap-1.5 active:scale-95 transition-all" id="btn-ctrl-prev" title="Frame Mundur">
+            <i class="ph-bold ph-skip-back text-base"></i>
+            <span>Frame</span>
+          </button>
+          <button type="button" class="h-9 px-3 rounded-xl bg-[#f4f4f5] hover:bg-[#e4e4e7] text-[#71717a] hover:text-[#18181b] text-xs font-semibold flex items-center gap-1.5 active:scale-95 transition-all" id="btn-ctrl-next" title="Frame Maju">
+            <i class="ph-bold ph-skip-forward text-base"></i>
+            <span>Frame</span>
+          </button>
+        </div>
+        <button type="button" class="h-9 px-3 rounded-xl bg-[#f4f4f5] hover:bg-[#e4e4e7] text-[#71717a] hover:text-[#18181b] text-xs font-semibold flex items-center gap-1.5 active:scale-95 transition-all" id="btn-ctrl-reset" title="Reset Teks">
+          <i class="ph-bold ph-arrow-counter-clockwise text-base"></i>
+          <span>Reset</span>
+        </button>
+      </div>
+
+      <!-- iOS STYLE TRIGGER BUTTON (Pengaturan Modal Sheet) -->
+      <div class="w-full pt-3 border-t border-[#f4f4f5] mt-1">
+        <button type="button" class="w-full flex items-center justify-between px-3.5 py-3 rounded-xl bg-[#f4f4f5] hover:bg-[#e4e4e7] border border-[#e4e4e7] hover:border-[#18181b] text-[#18181b] group transition-all" onclick="openModal('settings-modal')">
+          <div class="flex items-center gap-2">
+            <i class="ph-bold ph-sliders text-[#18181b] text-lg"></i>
+            <span class="text-xs font-bold group-hover:text-[#18181b] transition-colors">Pengaturan Hardware & Efek Matrix</span>
+          </div>
+          <i class="ph-bold ph-caret-right text-[#71717a] text-sm"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- 3. Input Teks Pixel Card -->
+    <section class="ios-card p-4 flex flex-col gap-3">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-[#f4f4f5] text-[#18181b] flex items-center justify-center shrink-0">
+            <i class="ph-bold ph-text-aa text-xl"></i>
+          </div>
+          <h3 class="text-sm font-bold text-[#18181b]">Input Teks Pixel</h3>
+        </div>
+        <span class="text-[11px] font-semibold text-[#71717a] bg-[#f4f4f5] px-2 py-0.5 rounded-md border border-[#e4e4e7]">Maks. 30 Karakter</span>
+      </div>
+      <p class="text-xs text-[#71717a] leading-relaxed">
+        Teks otomatis dikonversi menjadi pixel font dot-matrix untuk lampu LED berjalan.
+      </p>
+
+      <!-- Input Field -->
+      <div class="relative w-full flex items-center mt-0.5">
+        <input class="w-full h-11 pl-3.5 pr-10 bg-[#fafafa] border border-[#e4e4e7] rounded-xl text-[#18181b] placeholder:text-[#a1a1aa] font-bold text-xs focus:outline-none focus:border-[#18181b] focus:bg-white uppercase transition-all font-mono" id="pixel-text-input" maxlength="30" placeholder="Ketik pesan/running text di sini..." type="text" value="NINE GARAGE PRO"/>
+        <button aria-label="Hapus Teks" class="absolute right-2.5 w-7 h-7 rounded-full flex items-center justify-center text-[#a1a1aa] hover:text-[#18181b] active:scale-95 transition-colors" id="btn-clear-text" type="button">
+          <i class="ph-bold ph-x-circle text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Quick Automotive Tag Chips -->
+      <div class="flex flex-col gap-2 pt-1">
+        <span class="text-[10px] font-bold text-[#71717a] uppercase tracking-wider">Pintasan Cepat Teks Otomotif</span>
+        <div class="flex flex-wrap gap-2" id="preset-chips-container">
+          <button class="px-3 py-1.5 bg-[#f4f4f5] hover:bg-[#e4e4e7] border border-[#e4e4e7] hover:border-[#18181b] active:scale-95 text-[#18181b] rounded-xl text-xs font-semibold transition-all" data-text="#NINE" type="button">#NINE</button>
+          <button class="px-3 py-1.5 bg-[#f4f4f5] hover:bg-[#e4e4e7] border border-[#e4e4e7] hover:border-[#18181b] active:scale-95 text-[#18181b] rounded-xl text-xs font-semibold transition-all" data-text="GARAGE" type="button">GARAGE</button>
+          <button class="px-3 py-1.5 bg-[#f4f4f5] hover:bg-[#e4e4e7] border border-[#e4e4e7] hover:border-[#18181b] active:scale-95 text-[#18181b] rounded-xl text-xs font-semibold transition-all" data-text="SLOW DOWN" type="button">SLOW DOWN</button>
+          <button class="px-3 py-1.5 bg-[#f4f4f5] hover:bg-[#e4e4e7] border border-[#e4e4e7] hover:border-[#18181b] active:scale-95 text-[#18181b] rounded-xl text-xs font-semibold transition-all" data-text="BEBAS POLUSI" type="button">BEBAS POLUSI</button>
+          <button class="px-3 py-1.5 bg-[#f4f4f5] hover:bg-[#e4e4e7] border border-[#e4e4e7] hover:border-[#18181b] active:scale-95 text-[#18181b] rounded-xl text-xs font-semibold transition-all" data-text="HATI-HATI" type="button">HATI-HATI</button>
+          <button class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 border border-rose-200 active:scale-95 text-[#e11d48] rounded-xl text-xs font-semibold transition-all" data-text="POLICE / STOP" type="button">POLICE / STOP</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Tombol Kirim Ke Lampu LED & Simpan Preset -->
+    <div class="w-full flex flex-col gap-2 pt-1">
+      <button type="button" class="w-full h-12 rounded-2xl bg-[#18181b] hover:bg-[#27272a] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-xs active:scale-[0.99] transition-all" id="btn-send-led">
+        <i class="ph-bold ph-lightning text-lg"></i>
+        <span>KIRIM KE LAMPU LED</span>
+      </button>
+      <button type="button" class="w-full h-11 rounded-2xl bg-white hover:bg-[#f4f4f5] border border-[#e4e4e7] hover:border-[#18181b] text-[#18181b] font-bold text-xs flex items-center justify-center gap-2 active:scale-[0.99] transition-all" id="btn-save-preset">
+        <i class="ph-bold ph-bookmark-simple text-[#18181b] text-base"></i>
+        <span>Simpan ke Preset Saya</span>
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ==================== iOS BOTTOM SHEET MODAL: PENGATURAN HARDWARE & EFEK MATRIX ==================== -->
+  <div class="fixed inset-0 z-50 flex items-end justify-center pointer-events-none transition-all duration-300" id="settings-modal">
+    <!-- Backdrop -->
+    <div class="modal-backdrop absolute inset-0 bg-[#09090b]/40 backdrop-blur-xs opacity-0 transition-opacity duration-300" onclick="closeModal('settings-modal')"></div>
+    <!-- iOS Bottom Sheet (Constrained to max-w-md matching phone width!) -->
+    <div class="modal-content relative w-full max-w-md bg-white rounded-t-[28px] shadow-2xl max-h-[85vh] flex flex-col transform translate-y-full transition-transform duration-300 pointer-events-auto pb-safe border-t border-[#e4e4e7]" onclick="event.stopPropagation()">
+      <!-- Drag Handle -->
+      <div class="w-full flex justify-center pt-3 pb-1">
+        <div class="w-10 h-1 bg-[#d4d4d8] rounded-full"></div>
+      </div>
+      <!-- iOS Navigation Header -->
+      <div class="px-5 py-3 border-b border-[#e4e4e7] flex items-center justify-between">
+        <div>
+          <h3 class="text-sm font-bold text-[#18181b]">Pengaturan Hardware & Efek</h3>
+          <p class="text-[11px] text-[#71717a]">Atur arah gerak, warna LED, dan parameter teks</p>
+        </div>
+        <button type="button" class="w-8 h-8 rounded-full bg-[#f4f4f5] hover:bg-[#e4e4e7] text-[#18181b] flex items-center justify-center transition-colors" onclick="closeModal('settings-modal')" aria-label="Tutup">
+          <i class="ph-bold ph-x text-sm"></i>
+        </button>
+      </div>
+      <!-- Sheet Scrollable Body -->
+      <div class="p-5 overflow-y-auto max-h-[60vh] flex flex-col gap-3.5">
+        <!-- 1. Orientasi Gerak -->
+        <div class="flex flex-col gap-1.5 bg-[#f4f4f5] p-3.5 rounded-2xl border border-[#e4e4e7]">
+          <span class="text-xs font-bold text-[#18181b] flex items-center gap-1.5">
+            <i class="ph-bold ph-arrows-left-right text-[#18181b] text-base"></i>
+            Orientasi Gerak Teks
+          </span>
+          <div class="grid grid-cols-4 gap-1 p-1 bg-white rounded-xl border border-[#e4e4e7] mt-1" id="direction-tabs">
+            <button class="direction-tab py-1.5 rounded-lg flex flex-col items-center justify-center gap-0.5 bg-[#f4f4f5] border-2 border-[#18181b] text-[#18181b] font-bold text-xs shadow-xs transition-colors" data-dir="left" type="button">
+              <i class="ph-bold ph-arrow-left text-base"></i>
+              <span class="text-[10px]">Kiri</span>
+            </button>
+            <button class="direction-tab py-1.5 rounded-lg flex flex-col items-center justify-center gap-0.5 border border-transparent text-[#71717a] hover:text-[#18181b] font-semibold text-xs transition-colors" data-dir="right" type="button">
+              <i class="ph-bold ph-arrow-right text-base"></i>
+              <span class="text-[10px]">Kanan</span>
+            </button>
+            <button class="direction-tab py-1.5 rounded-lg flex flex-col items-center justify-center gap-0.5 border border-transparent text-[#71717a] hover:text-[#18181b] font-semibold text-xs transition-colors" data-dir="up" type="button">
+              <i class="ph-bold ph-arrow-up text-base"></i>
+              <span class="text-[10px]">Atas</span>
+            </button>
+            <button class="direction-tab py-1.5 rounded-lg flex flex-col items-center justify-center gap-0.5 border border-transparent text-[#71717a] hover:text-[#18181b] font-semibold text-xs transition-colors" data-dir="static" type="button">
+              <i class="ph-bold ph-pause text-base"></i>
+              <span class="text-[10px]">Statis</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Pilihan Warna LED Pixel -->
+        <div class="flex flex-col gap-1.5 bg-[#f4f4f5] p-3.5 rounded-2xl border border-[#e4e4e7]">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-bold text-[#18181b] flex items-center gap-1.5">
+              <i class="ph-bold ph-palette text-[#18181b] text-base"></i>
+              Warna LED Pixel
+            </span>
+            <span class="text-[11px] font-bold text-[#15803d]" id="selected-color-label">Signature Hijau</span>
+          </div>
+          <div class="grid grid-cols-6 gap-2 pt-1" id="color-palette-bar">
+            <!-- 1. Emerald (Selected) -->
+            <button class="palette-chip w-10 h-10 rounded-full bg-[#10b981] flex items-center justify-center shadow-xs ring-2 ring-[#18181b] ring-offset-2 transition-transform active:scale-95" data-color="#10b981" data-name="Signature Hijau" type="button">
+              <i class="ph-bold ph-check text-white text-sm"></i>
+            </button>
+            <!-- 2. Xenon White -->
+            <button class="palette-chip w-10 h-10 rounded-full bg-white border border-[#e4e4e7] flex items-center justify-center hover:scale-105 active:scale-95 transition-transform" data-color="#FFFFFF" data-name="Xenon Putih" type="button">
+              <i class="ph-bold ph-check text-[#18181b] text-sm hidden"></i>
+            </button>
+            <!-- 3. Amber Oranye -->
+            <button class="palette-chip w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center hover:scale-105 active:scale-95 transition-transform" data-color="#F59E0B" data-name="Amber Oranye" type="button">
+              <i class="ph-bold ph-check text-white text-sm hidden"></i>
+            </button>
+            <!-- 4. Ice Blue -->
+            <button class="palette-chip w-10 h-10 rounded-full bg-sky-400 flex items-center justify-center hover:scale-105 active:scale-95 transition-transform" data-color="#38BDF8" data-name="Ice Blue" type="button">
+              <i class="ph-bold ph-check text-white text-sm hidden"></i>
+            </button>
+            <!-- 5. Crimson Red -->
+            <button class="palette-chip w-10 h-10 rounded-full bg-rose-500 flex items-center justify-center hover:scale-105 active:scale-95 transition-transform" data-color="#EF4444" data-name="Merah Crimson" type="button">
+              <i class="ph-bold ph-check text-white text-sm hidden"></i>
+            </button>
+            <!-- 6. Violet -->
+            <button class="palette-chip w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center hover:scale-105 active:scale-95 transition-transform" data-color="#A855F7" data-name="Ungu Violet" type="button">
+              <i class="ph-bold ph-check text-white text-sm hidden"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. Kecepatan Teks Slider -->
+        <div class="flex flex-col gap-1.5 bg-[#f4f4f5] p-3.5 rounded-2xl border border-[#e4e4e7]">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-[#18181b] flex items-center gap-1.5">
+              <i class="ph-bold ph-gauge text-[#18181b] text-base"></i>
+              Kecepatan Teks
+            </span>
+            <span class="text-xs font-bold text-[#18181b]" id="speed-val-badge">Sedang (31 px/s)</span>
+          </div>
+          <input class="w-full accent-[#18181b] h-2 bg-[#e4e4e7] rounded-lg appearance-none cursor-pointer mt-1" id="range-speed" max="80" min="10" type="range" value="35"/>
+        </div>
+
+        <!-- 4. Kecerahan Matrix Slider -->
+        <div class="flex flex-col gap-1.5 bg-[#f4f4f5] p-3.5 rounded-2xl border border-[#e4e4e7]">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-[#18181b] flex items-center gap-1.5">
+              <i class="ph-bold ph-sun text-[#18181b] text-base"></i>
+              Kecerahan Matrix
+            </span>
+            <span class="text-xs font-bold text-[#18181b]" id="bright-val-badge">85%</span>
+          </div>
+          <input class="w-full accent-[#18181b] h-2 bg-[#e4e4e7] rounded-lg appearance-none cursor-pointer mt-1" id="range-brightness" max="100" min="10" type="range" value="85"/>
+        </div>
+
+        <!-- 5. Spasi Antar Huruf (Kerning) -->
+        <div class="flex flex-col gap-1.5 bg-[#f4f4f5] p-3.5 rounded-2xl border border-[#e4e4e7]">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-[#18181b] flex items-center gap-1.5">
+              <i class="ph-bold ph-text-t text-[#18181b] text-base"></i>
+              Spasi Antar Huruf (Kerning)
+            </span>
+            <span class="text-xs font-bold text-[#18181b]" id="kerning-val-badge">8 Px</span>
+          </div>
+          <input class="w-full accent-[#18181b] h-2 bg-[#e4e4e7] rounded-lg appearance-none cursor-pointer mt-1" id="range-kerning" max="8" min="1" type="range" value="2"/>
+        </div>
+
+        <!-- 6. Toggles Section -->
+        <div class="flex flex-col gap-2 bg-[#f4f4f5] p-3.5 rounded-2xl border border-[#e4e4e7]">
+          <!-- Loop Toggle -->
+          <div class="flex items-center justify-between py-1">
+            <div class="flex flex-col">
+              <span class="text-xs font-bold text-[#18181b]">Putar Berulang (Looping)</span>
+              <span class="text-[11px] text-[#71717a]">Teks berulang terus tanpa henti</span>
+            </div>
+            <button type="button" class="switch-toggle active shrink-0" data-active="true" onclick="toggleSwitch(this)" aria-label="Toggle Looping"></button>
+          </div>
+          <div class="h-[1px] bg-[#e4e4e7] my-1"></div>
+          <!-- Strobo Rem Toggle -->
+          <div class="flex items-center justify-between py-1">
+            <div class="flex flex-col">
+              <span class="text-xs font-bold text-[#18181b]">Mode Peringatan Strobo Saat Rem</span>
+              <span class="text-[11px] text-[#71717a]">Prioritas interupsi darurat saat pengereman</span>
+            </div>
+            <button type="button" class="switch-toggle shrink-0" data-active="false" onclick="toggleSwitch(this)" aria-label="Toggle Strobo Rem"></button>
+          </div>
+        </div>
+
+        <!-- Action button inside settings -->
+        <button type="button" class="w-full h-11 rounded-2xl bg-[#18181b] hover:bg-[#27272a] text-white font-bold text-xs uppercase tracking-wider transition-all" onclick="applySettings()">
+          TERAPKAN PARAMETER
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Logic Script -->
+  <script>
+    (function initMatrixRunningText() {
+      const textInput = document.getElementById('pixel-text-input');
+      const marqueeText = document.getElementById('screen-marquee-text');
+      const charCounterBadge = document.getElementById('char-counter-badge');
+      const clearBtn = document.getElementById('btn-clear-text');
+      const marqueeStream = document.getElementById('marquee-stream');
+      const playPauseBtn = document.getElementById('btn-ctrl-playpause');
+      const playPauseIcon = document.getElementById('playpause-icon');
+      const playPauseLabel = document.getElementById('playpause-label');
+      const resetBtn = document.getElementById('btn-ctrl-reset');
+      const sendLedBtn = document.getElementById('btn-send-led');
+      const savePresetBtn = document.getElementById('btn-save-preset');
+      const speedRange = document.getElementById('range-speed');
+      const speedBadge = document.getElementById('speed-val-badge');
+      const brightRange = document.getElementById('range-brightness');
+      const brightBadge = document.getElementById('bright-val-badge');
+      const kerningRange = document.getElementById('range-kerning');
+      const kerningBadge = document.getElementById('kerning-val-badge');
+      const selectedColorLabel = document.getElementById('selected-color-label');
+      const powerBtn = document.getElementById('device-power-btn');
+      const statusBadge = document.getElementById('status-badge');
+
+      let isPlaying = true;
+      let offset = 0;
+      let animFrame = null;
+      let currentSpeed = 1.2;
+      let isDeviceOn = true;
+
+      // Running text marquee loop
+      function loopMarquee() {
+        if (isPlaying && isDeviceOn) {
+          offset -= currentSpeed;
+          if (offset < -320) {
+            offset = 240;
+          }
+          if (marqueeStream) marqueeStream.style.transform = 'translateX(' + offset + 'px)';
+        }
+        animFrame = requestAnimationFrame(loopMarquee);
+      }
+      animFrame = requestAnimationFrame(loopMarquee);
+
+      // Live update from input
+      function updateText(val) {
+        const sanitized = (val || '').toUpperCase();
+        if (marqueeText) marqueeText.textContent = sanitized.length > 0 ? sanitized : 'NINE LED';
+        if (charCounterBadge) charCounterBadge.textContent = sanitized.length + '/30';
+      }
+
+      if (textInput) {
+        textInput.addEventListener('input', (e) => {
+          updateText(e.target.value);
+        });
+      }
+
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          if (textInput) {
+            textInput.value = '';
+            updateText('');
+            textInput.focus();
+          }
+        });
+      }
+
+      // Automotive Quick Tag Presets
+      const chipsContainer = document.getElementById('preset-chips-container');
+      if (chipsContainer) {
+        chipsContainer.addEventListener('click', (e) => {
+          const chip = e.target.closest('button');
+          if (!chip) return;
+          const text = chip.getAttribute('data-text');
+          if (text && textInput) {
+            textInput.value = text;
+            updateText(text);
+          }
+        });
+      }
+
+      // Transport buttons
+      if (playPauseBtn) {
+        playPauseBtn.addEventListener('click', () => {
+          isPlaying = !isPlaying;
+          if (playPauseIcon && playPauseLabel) {
+            playPauseIcon.className = isPlaying ? 'ph-bold ph-pause text-base' : 'ph-bold ph-play text-base';
+            playPauseLabel.textContent = isPlaying ? 'Jeda' : 'Putar';
+          }
+        });
+      }
+
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          offset = 0;
+          if (marqueeStream) marqueeStream.style.transform = 'translateX(0px)';
+        });
+      }
+
+      const prevBtn = document.getElementById('btn-ctrl-prev');
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          offset = Math.min(offset + 30, 240);
+          if (marqueeStream) marqueeStream.style.transform = 'translateX(' + offset + 'px)';
+        });
+      }
+
+      const nextBtn = document.getElementById('btn-ctrl-next');
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          offset = Math.max(offset - 30, -320);
+          if (marqueeStream) marqueeStream.style.transform = 'translateX(' + offset + 'px)';
+        });
+      }
+
+      // Color Palette Selection
+      const paletteChips = document.querySelectorAll('.palette-chip');
+      paletteChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          paletteChips.forEach(c => {
+            c.classList.remove('ring-2', 'ring-[#18181b]', 'ring-offset-2');
+            const checkIcon = c.querySelector('i');
+            if (checkIcon) checkIcon.classList.add('hidden');
+          });
+
+          chip.classList.add('ring-2', 'ring-[#18181b]', 'ring-offset-2');
+          const checkIcon = chip.querySelector('i');
+          if (checkIcon) checkIcon.classList.remove('hidden');
+
+          const colorName = chip.getAttribute('data-name');
+          const colorHex = chip.getAttribute('data-color');
+          if (selectedColorLabel) selectedColorLabel.textContent = colorName;
+
+          // Apply to Marquee Text
+          if (marqueeStream) {
+            marqueeStream.style.color = colorHex;
+            marqueeStream.style.filter = 'drop-shadow(0 0 8px ' + colorHex + 'CC)';
+          }
+        });
+      });
+
+      // Direction Tabs
+      const directionTabs = document.querySelectorAll('.direction-tab');
+      directionTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          directionTabs.forEach(t => {
+            t.className = 'direction-tab py-1.5 rounded-lg flex flex-col items-center justify-center gap-0.5 border border-transparent text-[#71717a] hover:text-[#18181b] font-semibold text-xs transition-colors';
+          });
+          tab.className = 'direction-tab py-1.5 rounded-lg flex flex-col items-center justify-center gap-0.5 bg-[#f4f4f5] border-2 border-[#18181b] text-[#18181b] font-bold text-xs shadow-xs transition-colors';
+        });
+      });
+
+      // Range Sliders
+      if (speedRange) {
+        speedRange.addEventListener('input', (e) => {
+          const v = Number(e.target.value);
+          currentSpeed = v / 30;
+          let label = 'Sedang';
+          if (v < 25) label = 'Lambat';
+          else if (v > 50) label = 'Cepat';
+          if (speedBadge) speedBadge.textContent = label + ' (' + v + ' px/s)';
+        });
+      }
+
+      if (brightRange) {
+        brightRange.addEventListener('input', (e) => {
+          const b = e.target.value;
+          if (brightBadge) brightBadge.textContent = b + '%';
+          if (marqueeStream) marqueeStream.style.opacity = (b / 100).toString();
+        });
+      }
+
+      if (kerningRange) {
+        kerningRange.addEventListener('input', (e) => {
+          const k = e.target.value;
+          if (kerningBadge) kerningBadge.textContent = k + ' Px';
+          if (marqueeText) marqueeText.style.letterSpacing = (k * 2) + 'px';
+        });
+      }
+
+      // Send Button Feedback
+      if (sendLedBtn) {
+        sendLedBtn.addEventListener('click', () => {
+          const origHtml = sendLedBtn.innerHTML;
+          sendLedBtn.disabled = true;
+          sendLedBtn.innerHTML = '<i class="ph-bold ph-arrows-clockwise text-lg animate-spin"></i><span>MENGIRIM KE CAN-BUS...</span>';
+          setTimeout(() => {
+            sendLedBtn.innerHTML = '<i class="ph-bold ph-check-circle text-lg"></i><span>BERHASIL DIKIRIM!</span>';
+            setTimeout(() => {
+              sendLedBtn.disabled = false;
+              sendLedBtn.innerHTML = origHtml;
+            }, 1200);
+          }, 700);
+        });
+      }
+
+      // Save Preset Feedback
+      if (savePresetBtn) {
+        savePresetBtn.addEventListener('click', () => {
+          const origText = savePresetBtn.innerHTML;
+          savePresetBtn.innerHTML = '<i class="ph-bold ph-check text-base text-[#18181b]"></i><span>Tersimpan di Preset!</span>';
+          setTimeout(() => {
+            savePresetBtn.innerHTML = origText;
+          }, 1400);
+        });
+      }
+
+      // Power Toggle
+      window.togglePower = function() {
+        isDeviceOn = !isDeviceOn;
+        if (powerBtn) {
+          if (isDeviceOn) {
+            powerBtn.classList.add('active');
+            if (statusBadge) {
+              statusBadge.className = 'px-2 py-0.5 rounded-full bg-[#f0fdf4] text-[#15803d] text-[10px] font-bold border border-[#bbf7d0] shrink-0';
+              statusBadge.textContent = 'AKTIF';
+            }
+            if (marqueeStream) marqueeStream.style.display = 'flex';
+          } else {
+            powerBtn.classList.remove('active');
+            if (statusBadge) {
+              statusBadge.className = 'px-2 py-0.5 rounded-full bg-[#f4f4f5] text-[#71717a] text-[10px] font-bold border border-[#e4e4e7] shrink-0';
+              statusBadge.textContent = 'NONAKTIF';
+            }
+            if (marqueeStream) marqueeStream.style.display = 'none';
+          }
+        }
+      };
+
+    })();
+
+    // Modal Sheet Handlers
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+      modal.classList.remove('pointer-events-none');
+      const backdrop = modal.querySelector('.modal-backdrop');
+      const content = modal.querySelector('.modal-content');
+      if (backdrop) {
+        backdrop.classList.remove('opacity-0');
+        backdrop.classList.add('opacity-100');
+      }
+      if (content) {
+        content.classList.remove('translate-y-full');
+        content.classList.add('translate-y-0');
+      }
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+      const backdrop = modal.querySelector('.modal-backdrop');
+      const content = modal.querySelector('.modal-content');
+      if (backdrop) {
+        backdrop.classList.remove('opacity-100');
+        backdrop.classList.add('opacity-0');
+      }
+      if (content) {
+        content.classList.remove('translate-y-0');
+        content.classList.add('translate-y-full');
+      }
+      setTimeout(() => {
+        modal.classList.add('pointer-events-none');
+      }, 300);
+    }
+
+    function toggleSwitch(btn) {
+      const isActive = btn.classList.contains('active');
+      if (isActive) {
+        btn.classList.remove('active');
+        btn.setAttribute('data-active', 'false');
+      } else {
+        btn.classList.add('active');
+        btn.setAttribute('data-active', 'true');
+      }
+    }
+
+    function applySettings() {
+      closeModal('settings-modal');
+      alert('Parameter kontrol running text berhasil diterapkan!');
+    }
+  </script>
+</body>
+</html>

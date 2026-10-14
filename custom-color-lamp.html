@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Animasi Matrix LED — Nine Autogarage</title>
+  
+  <!-- Fonts & Phosphor Icons (Sesuai Design System Nine-Apps) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS Engine & Design Tokens -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/config.js"></script>
+  <link rel="stylesheet" href="assets/base.css"/>
+  
+  <style>
+    body {
+      background-color: #fafafa;
+      color: #18181b;
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-[#fafafa] text-[#18181b] flex flex-col antialiased selection:bg-accent-100 selection:text-accent-700">
+
+  <!-- ============================================================== -->
+  <!-- COMPONENT: AppHeader (Apple HIG Clean Style Sesuai device-lampu.html) -->
+  <!-- ============================================================== -->
+  <header data-component="AppHeader" class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e4e4e7] pt-safe">
+    <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between gap-2">
+      <!-- Back Button -->
+      <a href="accecories.html" aria-label="Kembali ke Aksesori" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-caret-left text-[20px]"></i>
+      </a>
+
+      <!-- Page Title -->
+      <div class="flex-1 text-center min-w-0">
+        <h1 class="text-sm font-bold text-[#18181b] truncate">Animasi Matrix LED</h1>
+        <p class="text-[10px] text-[#71717a] truncate">NINE Matrix Pro · BLE 5.3 Terhubung</p>
+      </div>
+
+      <!-- Quick CS Help Button -->
+      <a href="https://wa.me/6281234567890" target="_blank" aria-label="Hubungi Teknisi" class="tap-44 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-[#e4e4e7] text-[#18181b] hover:bg-[#f4f4f5] active:scale-95 transition-all shrink-0">
+        <i class="ph-bold ph-headset text-[20px]"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- ============================================================== -->
+  <!-- MAIN CONTENT CONTAINER (Centered Mobile Canvas, No Bottom Nav) -->
+  <!-- ============================================================== -->
+  <main class="w-full max-w-md mx-auto pt-20 pb-10 px-4 flex flex-col gap-4">
+
+    <!-- 1. Connected Device Card with Bluetooth & Active Power Indicator -->
+    <section data-component="DeviceSummaryCard" class="ios-card p-4 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="relative w-11 h-11 rounded-2xl bg-[#18181b] text-white flex items-center justify-center shrink-0">
+          <i class="ph-bold ph-bluetooth text-xl text-[#22c55e]"></i>
+          <span class="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#22c55e] ring-2 ring-white animate-ping opacity-75"></span>
+          <span class="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#22c55e] ring-2 ring-white"></span>
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <h2 class="text-sm font-bold text-[#18181b] truncate">NINE Matrix Pro CAN01</h2>
+            <span class="px-2 py-0.5 rounded-full bg-[#f0fdf4] text-[#15803d] text-[10px] font-bold border border-[#bbf7d0] shrink-0" id="status-badge">
+              AKTIF
+            </span>
+          </div>
+          <div class="flex items-center gap-1.5 text-xs text-[#71717a] mt-0.5 truncate">
+            <span class="inline-flex items-center gap-1 text-[#15803d] font-semibold">
+              <i class="ph-bold ph-bluetooth text-[13px]"></i>
+              BLE 5.3
+            </span>
+            <span>•</span>
+            <span class="truncate">Sinyal Optimal (-48 dBm)</span>
+          </div>
+        </div>
+      </div>
+      <!-- Master Power Switch Toggle -->
+      <button type="button" class="switch-toggle active shrink-0" id="master-power-btn" onclick="togglePower()" title="Saklar Daya Master" aria-label="Saklar Daya Master"></button>
+    </section>
+
+    <!-- COMPONENT: SegmentedTabs (Animasi Matrix vs Running Text Matrix) -->
+    <section data-component="SegmentedTabs" class="p-1 rounded-2xl bg-[#f4f4f5] border border-[#e4e4e7] flex items-center gap-1 text-xs font-semibold">
+      <a href="custom-color-lamp.html" class="flex-1 py-2 rounded-xl bg-white text-[#18181b] shadow-xs font-bold transition-all text-center flex items-center justify-center gap-1.5">
+        <i class="ph-bold ph-file-gif text-sm"></i>
+        Animasi Matrix
+      </a>
+      <a href="option-color.lamp.html" class="flex-1 py-2 rounded-xl text-[#71717a] hover:text-[#18181b] transition-all text-center flex items-center justify-center gap-1.5">
+        <i class="ph-bold ph-text-aa text-sm"></i>
+        Running Text
+      </a>
+    </section>
+
+    <!-- 2. Live LED Matrix Pixel Simulator Preview -->
+    <section class="ios-card p-4 flex flex-col items-center gap-3">
+      <!-- Header Info -->
+      <div class="w-full flex items-center justify-between pb-1">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#22c55e] animate-pulse"></span>
+          <span class="text-xs font-bold text-[#18181b] tracking-tight">Pratinjau Matrix 24×24 Px</span>
+        </div>
+        <div class="flex items-center gap-2 text-xs font-semibold text-[#71717a] bg-[#f4f4f5] px-2.5 py-1 rounded-full border border-[#e4e4e7]">
+          <span>FPS: <strong class="text-[#18181b] font-bold" id="fps-indicator">30</strong></span>
+          <span class="text-[#d4d4d8]">•</span>
+          <span>Frame: <strong class="text-[#18181b] font-bold" id="frame-indicator">14/32</strong></span>
+        </div>
+      </div>
+
+      <!-- LED Matrix Display Enclosure -->
+      <div class="relative w-full max-w-[290px] aspect-square bg-[#0d0d11] rounded-2xl p-3 shadow-inner flex items-center justify-center border-4 border-neutral-900 overflow-hidden">
+        <!-- Subtle Glow -->
+        <div class="absolute inset-0 bg-[#22c55e]/10 rounded-full blur-2xl pointer-events-none"></div>
+        <!-- 12x12 Visual Grid -->
+        <div class="relative w-full h-full grid grid-cols-12 grid-rows-12 gap-[2.5px] p-1 bg-black/70 rounded-xl" id="matrix-grid">
+          <!-- Dynamically populated -->
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none rounded-xl"></div>
+      </div>
+
+      <!-- Simulator Control Sub-Bar -->
+      <div class="w-full flex items-center justify-between pt-1">
+        <div class="flex items-center gap-2">
+          <button type="button" class="h-9 px-3 rounded-xl bg-[#18181b] hover:bg-[#27272a] text-white text-xs font-bold flex items-center gap-1.5 active:scale-95 transition-all" id="play-pause-btn" onclick="togglePlayback()">
+            <i class="ph-bold ph-pause text-base" id="play-icon"></i>
+            <span id="play-text">Jeda</span>
+          </button>
+          <button type="button" class="h-9 px-3 rounded-xl bg-[#f4f4f5] hover:bg-[#e4e4e7] text-[#71717a] hover:text-[#18181b] text-xs font-semibold flex items-center gap-1.5 active:scale-95 transition-all" onclick="stepFrame()">
+            <i class="ph-bold ph-skip-forward text-base"></i>
+            <span>Frame</span>
+          </button>
+        </div>
+        <button type="button" class="h-9 px-3 rounded-xl bg-[#f4f4f5] hover:bg-[#e4e4e7] text-[#71717a] hover:text-[#18181b] text-xs font-semibold flex items-center gap-1.5 active:scale-95 transition-all" onclick="resetMatrix()">
+          <i class="ph-bold ph-arrow-counter-clockwise text-base"></i>
+          <span>Reset</span>
+        </button>
+      </div>
+
+      <!-- iOS STYLE TRIGGER BUTTONS (Preset Animasi & Pengaturan Modal Sheets) -->
+      <div class="w-full grid grid-cols-2 gap-2.5 pt-3 border-t border-[#f4f4f5] mt-1">
+        <button type="button" class="flex items-center justify-between px-3.5 py-3 rounded-xl bg-[#f4f4f5] hover:bg-[#e4e4e7] border border-[#e4e4e7] hover:border-[#18181b] text-[#18181b] group transition-all" onclick="openModal('preset-modal')">
+          <div class="flex items-center gap-2">
+            <i class="ph-bold ph-squares-four text-[#18181b] text-lg"></i>
+            <span class="text-xs font-bold group-hover:text-[#18181b] transition-colors">Preset Animasi</span>
+          </div>
+          <i class="ph-bold ph-caret-right text-[#71717a] text-sm"></i>
+        </button>
+        <button type="button" class="flex items-center justify-between px-3.5 py-3 rounded-xl bg-[#f4f4f5] hover:bg-[#e4e4e7] border border-[#e4e4e7] hover:border-[#18181b] text-[#18181b] group transition-all" onclick="openModal('settings-modal')">
+          <div class="flex items-center gap-2">
+            <i class="ph-bold ph-sliders text-[#18181b] text-lg"></i>
+            <span class="text-xs font-bold group-hover:text-[#18181b] transition-colors">Pengaturan</span>
+          </div>
+          <i class="ph-bold ph-caret-right text-[#71717a] text-sm"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- 3. Upload File GIF to Pixel Matrix Section -->
+    <section class="ios-card p-4 flex flex-col gap-3">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-[#f4f4f5] text-[#18181b] flex items-center justify-center shrink-0">
+            <i class="ph-bold ph-file-gif text-xl"></i>
+          </div>
+          <h3 class="text-sm font-bold text-[#18181b]">Unggah File GIF</h3>
+        </div>
+        <span class="text-[11px] font-semibold text-[#71717a] bg-[#f4f4f5] px-2 py-0.5 rounded-md border border-[#e4e4e7]">Maks. 5 MB</span>
+      </div>
+      <p class="text-xs text-[#71717a] leading-relaxed">
+        Konversi otomatis file format GIF menjadi animasi LED Matrix pixel resolusi terukur.
+      </p>
+      <!-- Dropzone Clean Modern Style -->
+      <label class="cursor-pointer group flex flex-col items-center justify-center gap-2 py-5 px-4 rounded-2xl border-2 border-dashed border-[#e4e4e7] hover:border-[#18181b] bg-[#fafafa] hover:bg-[#f4f4f5] transition-all">
+        <div class="w-11 h-11 rounded-full bg-white shadow-xs border border-[#e4e4e7] flex items-center justify-center text-[#18181b] group-hover:scale-105 transition-transform">
+          <i class="ph-bold ph-upload-simple text-xl"></i>
+        </div>
+        <span class="text-xs font-bold text-[#18181b]">Pilih File GIF dari Galeri</span>
+        <span class="text-[11px] text-[#71717a]">Rekomendasi rasio 1:1 (24×24 hingga 64×64 px)</span>
+        <input accept="image/gif" class="hidden" onchange="handleFileSelect(event)" type="file"/>
+      </label>
+      <!-- Smart Feature Chips -->
+      <div class="flex flex-wrap items-center gap-1.5 pt-0.5">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#f4f4f5] text-[#71717a] text-[11px] font-semibold border border-[#e4e4e7]">
+          <i class="ph-bold ph-magic-wand text-[#18181b]"></i>
+          Auto-Downscale (24px)
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#f4f4f5] text-[#71717a] text-[11px] font-semibold border border-[#e4e4e7]">
+          <i class="ph-bold ph-palette text-[#18181b]"></i>
+          Dithering Cerdas
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#f4f4f5] text-[#71717a] text-[11px] font-semibold border border-[#e4e4e7]">
+          <i class="ph-bold ph-gauge text-[#18181b]"></i>
+          30 FPS Sync
+        </span>
+      </div>
+    </section>
+
+    <!-- 4. Tombol Kirim Ke Lampu LED & Simpan Preset -->
+    <div class="w-full flex flex-col gap-2 pt-1">
+      <button type="button" class="w-full h-12 rounded-2xl bg-[#18181b] hover:bg-[#27272a] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-xs active:scale-[0.99] transition-all" onclick="sendToMatrix()">
+        <i class="ph-bold ph-lightning text-lg"></i>
+        <span>KIRIM KE LAMPU LED</span>
+      </button>
+      <button type="button" class="w-full h-11 rounded-2xl bg-white hover:bg-[#f4f4f5] border border-[#e4e4e7] hover:border-[#18181b] text-[#18181b] font-bold text-xs flex items-center justify-center gap-2 active:scale-[0.99] transition-all" onclick="savePreset()">
+        <i class="ph-bold ph-bookmark-simple text-[#18181b] text-base"></i>
+        <span>Simpan ke Preset Saya</span>
+      </button>
+    </div>
+
+    <!-- Quick Preset Previews Grid for Instant Tap -->
+    <section class="w-full flex flex-col gap-2.5 pt-2">
+      <div class="flex items-center justify-between px-1">
+        <h3 class="text-xs font-bold text-[#18181b] uppercase tracking-wider">Preset Favorit Cepat</h3>
+        <button type="button" class="text-xs font-bold text-[#18181b] hover:underline" onclick="openModal('preset-modal')">Semua Preset</button>
+      </div>
+      <div class="grid grid-cols-2 gap-2.5">
+        <div class="preset-card p-3 rounded-2xl bg-[#f4f4f5] border-2 border-[#18181b] shadow-xs cursor-pointer flex items-center justify-between transition-all" onclick="selectPreset(this, 'Neon Flame')">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div class="w-8 h-8 rounded-xl bg-[#18181b] text-white flex items-center justify-center shrink-0">
+              <i class="ph-bold ph-fire text-lg"></i>
+            </div>
+            <div class="truncate">
+              <p class="text-xs font-bold text-[#18181b] truncate">Neon Flame</p>
+              <p class="text-[10px] text-[#71717a]">Api Balap Dinamis</p>
+            </div>
+          </div>
+          <span class="w-5 h-5 rounded-full bg-[#18181b] text-white flex items-center justify-center check-badge shrink-0">
+            <i class="ph-bold ph-check text-xs"></i>
+          </span>
+        </div>
+        <div class="preset-card p-3 rounded-2xl bg-white border border-[#e4e4e7] hover:border-[#18181b] shadow-xs cursor-pointer flex items-center justify-between transition-all" onclick="selectPreset(this, 'Running Text')">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div class="w-8 h-8 rounded-xl bg-[#f4f4f5] text-[#71717a] flex items-center justify-center shrink-0">
+              <i class="ph-bold ph-text-aa text-lg"></i>
+            </div>
+            <div class="truncate">
+              <p class="text-xs font-bold text-[#18181b] truncate">Running Text</p>
+              <p class="text-[10px] text-[#71717a]">Marquee LED</p>
+            </div>
+          </div>
+          <span class="w-5 h-5 rounded-full bg-[#f4f4f5] text-transparent flex items-center justify-center check-badge shrink-0">
+            <i class="ph-bold ph-check text-xs"></i>
+          </span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== iOS BOTTOM SHEET MODAL: PRESET ANIMASI ==================== -->
+  <div class="fixed inset-0 z-50 flex items-end justify-center pointer-events-none transition-all duration-300" id="preset-modal">
+    <!-- Backdrop -->
+    <div class="modal-backdrop absolute inset-0 bg-[#09090b]/40 backdrop-blur-xs opacity-0 transition-opacity duration-300" onclick="closeModal('preset-modal')"></div>
+    <!-- iOS Bottom Sheet (Constrained to max-w-md matching phone width!) -->
+    <div class="modal-content relative w-full max-w-md bg-white rounded-t-[28px] shadow-2xl max-h-[85vh] flex flex-col transform translate-y-full transition-transform duration-300 pointer-events-auto pb-safe border-t border-[#e4e4e7]" onclick="event.stopPropagation()">
+      <!-- Drag Handle -->
+      <div class="w-full flex justify-center pt-3 pb-1">
+        <div class="w-10 h-1 bg-[#d4d4d8] rounded-full"></div>
+      </div>
+      <!-- iOS Navigation Header -->
+      <div class="px-5 py-3 border-b border-[#e4e4e7] flex items-center justify-between">
+        <div>
+          <h3 class="text-sm font-bold text-[#18181b]">Koleksi Preset Animasi</h3>
+          <p class="text-[11px] text-[#71717a]">Pilih mode pola pixel LED Matrix terprogram</p>
+        </div>
+        <button type="button" class="w-8 h-8 rounded-full bg-[#f4f4f5] hover:bg-[#e4e4e7] text-[#18181b] flex items-center justify-center transition-colors" onclick="closeModal('preset-modal')" aria-label="Tutup">
+          <i class="ph-bold ph-x text-sm"></i>
+        </button>
+      </div>
+      <!-- Sheet Scrollable Body -->
+      <div class="p-4 overflow-y-auto max-h-[60vh] flex flex-col gap-2.5">
+        <!-- Preset Item 1 -->
+        <div class="modal-preset-item p-3.5 rounded-2xl border-2 border-[#18181b] bg-[#f4f4f5] flex items-center justify-between cursor-pointer transition-all" onclick="selectPresetModal(this, 'Neon Flame')">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-[#18181b] text-white flex items-center justify-center">
+              <i class="ph-bold ph-fire text-xl"></i>
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-[#18181b]">Neon Flame / Api Balap</h4>
+              <p class="text-[11px] text-[#71717a]">Aksentuasi amber & hijau neon dinamis</p>
+            </div>
+          </div>
+          <span class="modal-check w-5 h-5 rounded-full bg-[#18181b] text-white flex items-center justify-center">
+            <i class="ph-bold ph-check text-xs"></i>
+          </span>
+        </div>
+        <!-- Preset Item 2 -->
+        <div class="modal-preset-item p-3.5 rounded-2xl border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] hover:border-[#18181b] flex items-center justify-between cursor-pointer transition-all" onclick="selectPresetModal(this, 'Running Marquee')">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-[#f4f4f5] text-[#71717a] flex items-center justify-center">
+              <i class="ph-bold ph-text-aa text-xl"></i>
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-[#18181b]">Running Marquee</h4>
+              <p class="text-[11px] text-[#71717a]">Teks berjalan kustom dengan LED ticker</p>
+            </div>
+          </div>
+          <span class="modal-check w-5 h-5 rounded-full bg-[#f4f4f5] text-transparent flex items-center justify-center">
+            <i class="ph-bold ph-check text-xs"></i>
+          </span>
+        </div>
+        <!-- Preset Item 3 -->
+        <div class="modal-preset-item p-3.5 rounded-2xl border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] hover:border-[#18181b] flex items-center justify-between cursor-pointer transition-all" onclick="selectPresetModal(this, 'Cyber Wave')">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-[#f4f4f5] text-[#71717a] flex items-center justify-center">
+              <i class="ph-bold ph-wave-sine text-xl"></i>
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-[#18181b]">Cyber Wave</h4>
+              <p class="text-[11px] text-[#71717a]">Pola gelombang sinyal digital bertahap</p>
+            </div>
+          </div>
+          <span class="modal-check w-5 h-5 rounded-full bg-[#f4f4f5] text-transparent flex items-center justify-center">
+            <i class="ph-bold ph-check text-xs"></i>
+          </span>
+        </div>
+        <!-- Preset Item 4 -->
+        <div class="modal-preset-item p-3.5 rounded-2xl border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] hover:border-[#18181b] flex items-center justify-between cursor-pointer transition-all" onclick="selectPresetModal(this, 'Hazard Strobo Dinamis')">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-[#f4f4f5] text-[#71717a] flex items-center justify-center">
+              <i class="ph-bold ph-warning text-xl"></i>
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-[#18181b]">Hazard Strobo Dinamis</h4>
+              <p class="text-[11px] text-[#71717a]">Kedip peringatan ritmis keselamatan jalan</p>
+            </div>
+          </div>
+          <span class="modal-check w-5 h-5 rounded-full bg-[#f4f4f5] text-transparent flex items-center justify-center">
+            <i class="ph-bold ph-check text-xs"></i>
+          </span>
+        </div>
+        <!-- Preset Item 5 -->
+        <div class="modal-preset-item p-3.5 rounded-2xl border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] hover:border-[#18181b] flex items-center justify-between cursor-pointer transition-all" onclick="selectPresetModal(this, 'Pulsing Heart')">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-[#f4f4f5] text-[#71717a] flex items-center justify-center">
+              <i class="ph-bold ph-heart text-xl"></i>
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-[#18181b]">Pulsing Heart / Denyut</h4>
+              <p class="text-[11px] text-[#71717a]">Irama detak halus bertempo konstan</p>
+            </div>
+          </div>
+          <span class="modal-check w-5 h-5 rounded-full bg-[#f4f4f5] text-transparent flex items-center justify-center">
+            <i class="ph-bold ph-check text-xs"></i>
+          </span>
+        </div>
+        <!-- Preset Item 6 -->
+        <div class="modal-preset-item p-3.5 rounded-2xl border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] hover:border-[#18181b] flex items-center justify-between cursor-pointer transition-all" onclick="selectPresetModal(this, 'Audio Equalizer')">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-[#f4f4f5] text-[#71717a] flex items-center justify-center">
+              <i class="ph-bold ph-equalizer text-xl"></i>
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-[#18181b]">Audio Equalizer</h4>
+              <p class="text-[11px] text-[#71717a]">Visualisasi grafik suara frekuensi bass</p>
+            </div>
+          </div>
+          <span class="modal-check w-5 h-5 rounded-full bg-[#f4f4f5] text-transparent flex items-center justify-center">
+            <i class="ph-bold ph-check text-xs"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== iOS BOTTOM SHEET MODAL: PENGATURAN PARAMETER ==================== -->
+  <div class="fixed inset-0 z-50 flex items-end justify-center pointer-events-none transition-all duration-300" id="settings-modal">
+    <!-- Backdrop -->
+    <div class="modal-backdrop absolute inset-0 bg-[#09090b]/40 backdrop-blur-xs opacity-0 transition-opacity duration-300" onclick="closeModal('settings-modal')"></div>
+    <!-- iOS Bottom Sheet (Constrained to max-w-md matching phone width!) -->
+    <div class="modal-content relative w-full max-w-md bg-white rounded-t-[28px] shadow-2xl max-h-[85vh] flex flex-col transform translate-y-full transition-transform duration-300 pointer-events-auto pb-safe border-t border-[#e4e4e7]" onclick="event.stopPropagation()">
+      <!-- Drag Handle -->
+      <div class="w-full flex justify-center pt-3 pb-1">
+        <div class="w-10 h-1 bg-[#d4d4d8] rounded-full"></div>
+      </div>
+      <!-- iOS Navigation Header -->
+      <div class="px-5 py-3 border-b border-[#e4e4e7] flex items-center justify-between">
+        <div>
+          <h3 class="text-sm font-bold text-[#18181b]">Parameter & Kontrol Hardware</h3>
+          <p class="text-[11px] text-[#71717a]">Atur intensitas dan perilaku lampu LED</p>
+        </div>
+        <button type="button" class="w-8 h-8 rounded-full bg-[#f4f4f5] hover:bg-[#e4e4e7] text-[#18181b] flex items-center justify-center transition-colors" onclick="closeModal('settings-modal')" aria-label="Tutup">
+          <i class="ph-bold ph-x text-sm"></i>
+        </button>
+      </div>
+      <!-- Settings Content List -->
+      <div class="p-5 overflow-y-auto max-h-[60vh] flex flex-col gap-3.5">
+        <!-- Brightness Slider -->
+        <div class="flex flex-col gap-1.5 bg-[#f4f4f5] p-3.5 rounded-2xl border border-[#e4e4e7]">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-[#18181b] flex items-center gap-1.5">
+              <i class="ph-bold ph-sun text-[#18181b] text-base"></i>
+              Kecerahan Matrix
+            </span>
+            <span class="text-xs font-bold text-[#18181b]" id="modal-brightness-val">85%</span>
+          </div>
+          <input class="w-full accent-[#18181b] h-2 bg-[#e4e4e7] rounded-lg appearance-none cursor-pointer mt-1" max="100" min="0" oninput="document.getElementById('modal-brightness-val').textContent = this.value + '%'" type="range" value="85"/>
+        </div>
+        <!-- Animation Speed Slider -->
+        <div class="flex flex-col gap-1.5 bg-[#f4f4f5] p-3.5 rounded-2xl border border-[#e4e4e7]">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-[#18181b] flex items-center gap-1.5">
+              <i class="ph-bold ph-gauge text-[#18181b] text-base"></i>
+              Kecepatan Animasi
+            </span>
+            <span class="text-xs font-bold text-[#18181b]" id="modal-speed-val">30 FPS (1.2×)</span>
+          </div>
+          <input class="w-full accent-[#18181b] h-2 bg-[#e4e4e7] rounded-lg appearance-none cursor-pointer mt-1" max="60" min="5" oninput="updateSpeedModal(this.value)" type="range" value="30"/>
+        </div>
+        <!-- Duration Selector Tabs -->
+        <div class="flex flex-col gap-1.5 bg-[#f4f4f5] p-3.5 rounded-2xl border border-[#e4e4e7]">
+          <span class="text-xs font-bold text-[#18181b] flex items-center gap-1.5">
+            <i class="ph-bold ph-timer text-[#18181b] text-base"></i>
+            Durasi Tampil
+          </span>
+          <div class="grid grid-cols-4 gap-1 p-1 bg-white rounded-xl border border-[#e4e4e7] mt-1">
+            <button type="button" class="modal-duration-btn py-1.5 rounded-lg text-center text-xs font-semibold text-[#71717a] hover:text-[#18181b] transition-colors" onclick="selectDurationModal(this)">3 Detik</button>
+            <button type="button" class="modal-duration-btn py-1.5 rounded-lg text-center text-xs font-semibold text-[#71717a] hover:text-[#18181b] transition-colors" onclick="selectDurationModal(this)">5 Detik</button>
+            <button type="button" class="modal-duration-btn py-1.5 rounded-lg text-center text-xs font-semibold text-[#71717a] hover:text-[#18181b] transition-colors" onclick="selectDurationModal(this)">10 Detik</button>
+            <button type="button" class="modal-duration-btn py-1.5 rounded-lg text-center text-xs font-bold bg-[#f4f4f5] border-2 border-[#18181b] text-[#18181b] shadow-xs transition-colors" onclick="selectDurationModal(this)">Looping</button>
+          </div>
+        </div>
+        <!-- Toggles Section -->
+        <div class="flex flex-col gap-2 bg-[#f4f4f5] p-3.5 rounded-2xl border border-[#e4e4e7]">
+          <!-- Loop Toggle -->
+          <div class="flex items-center justify-between py-1">
+            <div class="flex flex-col">
+              <span class="text-xs font-bold text-[#18181b]">Putar Berulang (Looping)</span>
+              <span class="text-[11px] text-[#71717a]">Animasi berulang terus tanpa jeda</span>
+            </div>
+            <button type="button" class="switch-toggle active shrink-0" data-active="true" onclick="toggleSwitch(this)" aria-label="Toggle Looping"></button>
+          </div>
+          <div class="h-[1px] bg-[#e4e4e7] my-1"></div>
+          <!-- Sync Brake / Turn Toggle -->
+          <div class="flex items-center justify-between py-1">
+            <div class="flex flex-col">
+              <span class="text-xs font-bold text-[#18181b]">Sinkronkan dengan Sein / Rem</span>
+              <span class="text-[11px] text-[#71717a]">Otomatis berubah mode darurat saat aktif</span>
+            </div>
+            <button type="button" class="switch-toggle shrink-0" data-active="false" onclick="toggleSwitch(this)" aria-label="Toggle Sinkronisasi"></button>
+          </div>
+        </div>
+        <!-- Action inside settings -->
+        <button type="button" class="w-full h-11 rounded-2xl bg-[#18181b] hover:bg-[#27272a] text-white font-bold text-xs uppercase tracking-wider transition-all" onclick="applySettings()">
+          Terapkan Parameter
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Logic Script -->
+  <script>
+    // Simulator Grid Engine
+    const gridContainer = document.getElementById('matrix-grid');
+    const totalPixels = 144; // 12x12
+    let isPlaying = true;
+    let activeFrame = 14;
+    let animTimer = null;
+    let isPowerOn = true;
+
+    if (gridContainer) {
+      gridContainer.innerHTML = '';
+      for (let i = 0; i < totalPixels; i++) {
+        const p = document.createElement('div');
+        p.className = 'w-full h-full rounded-[1px] bg-neutral-900 transition-colors duration-150';
+        gridContainer.appendChild(p);
+      }
+    }
+
+    function renderMatrixFrame(frame) {
+      if (!gridContainer || !isPowerOn) return;
+      const pixels = gridContainer.children;
+      const t = frame % 12;
+
+      for (let r = 0; r < 12; r++) {
+        for (let c = 0; c < 12; c++) {
+          const idx = r * 12 + c;
+          const el = pixels[idx];
+          if (!el) continue;
+
+          const distFromCenter = Math.abs(c - 5.5);
+          const wave = Math.sin((r + t) * 0.8) * 3;
+          const isFlame = (11 - r) > (distFromCenter * 1.5 + wave);
+
+          if (isFlame) {
+            if (r < 4) {
+              el.className = 'w-full h-full rounded-[1.5px] bg-[#10B981] shadow-[0_0_5px_#10B981]';
+            } else if (r < 8) {
+              el.className = 'w-full h-full rounded-[1.5px] bg-[#22C55E] shadow-[0_0_4px_#22C55E]';
+            } else {
+              el.className = 'w-full h-full rounded-[1.5px] bg-[#00C853] shadow-[0_0_3px_#00C853]';
+            }
+          } else {
+            el.className = 'w-full h-full rounded-[1px] bg-neutral-900/60';
+          }
+        }
+      }
+    }
+
+    function startAnimation() {
+      if (animTimer) clearInterval(animTimer);
+      animTimer = setInterval(() => {
+        if (!isPlaying || !isPowerOn) return;
+        activeFrame = (activeFrame % 32) + 1;
+        const indicator = document.getElementById('frame-indicator');
+        if (indicator) indicator.textContent = activeFrame + '/32';
+        renderMatrixFrame(activeFrame);
+      }, 100);
+    }
+
+    function togglePlayback() {
+      isPlaying = !isPlaying;
+      const icon = document.getElementById('play-icon');
+      const text = document.getElementById('play-text');
+      if (icon && text) {
+        icon.className = isPlaying ? 'ph-bold ph-pause text-base' : 'ph-bold ph-play text-base';
+        text.textContent = isPlaying ? 'Jeda' : 'Putar';
+      }
+    }
+
+    function stepFrame() {
+      isPlaying = false;
+      const icon = document.getElementById('play-icon');
+      const text = document.getElementById('play-text');
+      if (icon && text) {
+        icon.className = 'ph-bold ph-play text-base';
+        text.textContent = 'Putar';
+      }
+      activeFrame = (activeFrame % 32) + 1;
+      const indicator = document.getElementById('frame-indicator');
+      if (indicator) indicator.textContent = activeFrame + '/32';
+      renderMatrixFrame(activeFrame);
+    }
+
+    function resetMatrix() {
+      activeFrame = 1;
+      const indicator = document.getElementById('frame-indicator');
+      if (indicator) indicator.textContent = '1/32';
+      renderMatrixFrame(activeFrame);
+    }
+
+    // Power Toggle
+    function togglePower() {
+      isPowerOn = !isPowerOn;
+      const btn = document.getElementById('master-power-btn');
+      const badge = document.getElementById('status-badge');
+      if (!btn) return;
+
+      if (isPowerOn) {
+        btn.classList.add('active');
+        if (badge) {
+          badge.className = 'px-2 py-0.5 rounded-full bg-[#f0fdf4] text-[#15803d] text-[10px] font-bold border border-[#bbf7d0] shrink-0';
+          badge.textContent = 'AKTIF';
+        }
+        startAnimation();
+      } else {
+        btn.classList.remove('active');
+        if (badge) {
+          badge.className = 'px-2 py-0.5 rounded-full bg-[#f4f4f5] text-[#71717a] text-[10px] font-bold border border-[#e4e4e7] shrink-0';
+          badge.textContent = 'NONAKTIF';
+        }
+        if (gridContainer) {
+          for (let el of gridContainer.children) {
+            el.className = 'w-full h-full rounded-[1px] bg-neutral-900';
+          }
+        }
+      }
+    }
+
+    // Modal Sheet Controllers
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+      modal.classList.remove('pointer-events-none');
+      const backdrop = modal.querySelector('.modal-backdrop');
+      const content = modal.querySelector('.modal-content');
+      if (backdrop) {
+        backdrop.classList.remove('opacity-0');
+        backdrop.classList.add('opacity-100');
+      }
+      if (content) {
+        content.classList.remove('translate-y-full');
+        content.classList.add('translate-y-0');
+      }
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+      const backdrop = modal.querySelector('.modal-backdrop');
+      const content = modal.querySelector('.modal-content');
+      if (backdrop) {
+        backdrop.classList.remove('opacity-100');
+        backdrop.classList.add('opacity-0');
+      }
+      if (content) {
+        content.classList.remove('translate-y-0');
+        content.classList.add('translate-y-full');
+      }
+      setTimeout(() => {
+        modal.classList.add('pointer-events-none');
+      }, 300);
+    }
+
+    function updateSpeedModal(fps) {
+      const fpsBadge = document.getElementById('fps-indicator');
+      const speedVal = document.getElementById('modal-speed-val');
+      const mult = (fps / 25).toFixed(1);
+      if (fpsBadge) fpsBadge.textContent = fps;
+      if (speedVal) speedVal.textContent = fps + ' FPS (' + mult + '×)';
+    }
+
+    function selectDurationModal(btn) {
+      document.querySelectorAll('.modal-duration-btn').forEach(b => {
+        b.className = 'modal-duration-btn py-1.5 rounded-lg text-center text-xs font-semibold text-[#71717a] hover:text-[#18181b] transition-colors';
+      });
+      btn.className = 'modal-duration-btn py-1.5 rounded-lg text-center text-xs font-bold bg-[#f4f4f5] border-2 border-[#18181b] text-[#18181b] shadow-xs transition-colors';
+    }
+
+    function toggleSwitch(btn) {
+      const isActive = btn.classList.contains('active');
+      if (isActive) {
+        btn.classList.remove('active');
+        btn.setAttribute('data-active', 'false');
+      } else {
+        btn.classList.add('active');
+        btn.setAttribute('data-active', 'true');
+      }
+    }
+
+    function selectPreset(card, name) {
+      document.querySelectorAll('.preset-card').forEach(c => {
+        c.className = 'preset-card p-3 rounded-2xl bg-white border border-[#e4e4e7] hover:border-[#18181b] shadow-xs cursor-pointer flex items-center justify-between transition-all';
+        const iconBox = c.querySelector('.w-8');
+        if (iconBox) iconBox.className = 'w-8 h-8 rounded-xl bg-[#f4f4f5] text-[#71717a] flex items-center justify-center shrink-0';
+        const badge = c.querySelector('.check-badge');
+        if (badge) badge.className = 'w-5 h-5 rounded-full bg-[#f4f4f5] text-transparent flex items-center justify-center check-badge shrink-0';
+      });
+      card.className = 'preset-card p-3 rounded-2xl bg-[#f4f4f5] border-2 border-[#18181b] shadow-xs cursor-pointer flex items-center justify-between transition-all';
+      const iconBox = card.querySelector('.w-8');
+      if (iconBox) iconBox.className = 'w-8 h-8 rounded-xl bg-[#18181b] text-white flex items-center justify-center shrink-0';
+      const badge = card.querySelector('.check-badge');
+      if (badge) badge.className = 'w-5 h-5 rounded-full bg-[#18181b] text-white flex items-center justify-center check-badge shrink-0';
+    }
+
+    function selectPresetModal(item, name) {
+      document.querySelectorAll('.modal-preset-item').forEach(el => {
+        el.className = 'modal-preset-item p-3.5 rounded-2xl border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] hover:border-[#18181b] flex items-center justify-between cursor-pointer transition-all';
+        const iconBox = el.querySelector('.w-10');
+        if (iconBox) iconBox.className = 'w-10 h-10 rounded-xl bg-[#f4f4f5] text-[#71717a] flex items-center justify-center';
+        const chk = el.querySelector('.modal-check');
+        if (chk) chk.className = 'modal-check w-5 h-5 rounded-full bg-[#f4f4f5] text-transparent flex items-center justify-center';
+      });
+      item.className = 'modal-preset-item p-3.5 rounded-2xl border-2 border-[#18181b] bg-[#f4f4f5] flex items-center justify-between cursor-pointer transition-all';
+      const iconBox = item.querySelector('.w-10');
+      if (iconBox) iconBox.className = 'w-10 h-10 rounded-xl bg-[#18181b] text-white flex items-center justify-center';
+      const chk = item.querySelector('.modal-check');
+      if (chk) chk.className = 'modal-check w-5 h-5 rounded-full bg-[#18181b] text-white flex items-center justify-center';
+    }
+
+    function applySettings() {
+      closeModal('settings-modal');
+      alert('Parameter kontrol hardware NINE LED berhasil diterapkan!');
+    }
+
+    function handleFileSelect(evt) {
+      const file = evt.target.files[0];
+      if (file) {
+        alert('File GIF "' + file.name + '" berhasil dimuat. Siap dikirim ke modul NINE Matrix Pro CAN01.');
+      }
+    }
+
+    function sendToMatrix() {
+      alert('Mengirim data animasi ke modul NINE Matrix Pro CAN01 via BLE... Berhasil disinkronkan!');
+    }
+
+    function savePreset() {
+      alert('Konfigurasi animasi berhasil disimpan ke daftar Preset Kustom Anda!');
+    }
+
+    // Start on load
+    startAnimation();
+  </script>
+</body>
+</html>
