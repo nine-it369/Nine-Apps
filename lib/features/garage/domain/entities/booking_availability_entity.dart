@@ -1,18 +1,18 @@
 import 'package:equatable/equatable.dart';
 
 class BookingAvailabilityEntity extends Equatable {
-  final String timeSlot; // e.g. "09:00", "10:00"
-  final bool isAvailable;
-  final int availableCapacity;
-  final String? reason;
+  final String hour; // e.g. "13:00", "13:30"
+  final String status; // "available" | "booked" | "locked" | "full"
+  final int remainingCapacity;
 
   const BookingAvailabilityEntity({
-    required this.timeSlot,
-    required this.isAvailable,
-    required this.availableCapacity,
-    this.reason,
+    required this.hour,
+    required this.status,
+    required this.remainingCapacity,
   });
 
+  bool get isAvailable => status == 'available' && remainingCapacity > 0;
+
   @override
-  List<Object?> get props => [timeSlot, isAvailable, availableCapacity, reason];
+  List<Object?> get props => [hour, status, remainingCapacity];
 }

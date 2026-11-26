@@ -1,0 +1,6 @@
+projectKey=nine-autoseries-mobile
+serverUrl=http://localhost:9000
+serverVersion=26.6.0.123539
+dashboardUrl=http://localhost:9000/dashboard?id=nine-autoseries-mobile
+ceTaskId=2c21ff95-c5db-4c3c-be7b-b5f7882bfaf1
+ceTaskUrl=http://localhost:9000/api/ce/task?id=2c21ff95-c5db-4c3c-be7b-b5f7882bfaf1

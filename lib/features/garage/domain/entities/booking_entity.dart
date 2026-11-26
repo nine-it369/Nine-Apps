@@ -5,24 +5,33 @@ class BookingEntity extends Equatable {
   final String? bookingTicket;
   final String customerName;
   final String customerPhone;
-  final String? customerEmail;
-  final String? address;
-  final String vehicleCategory;
-  final String vehicleBrand;
+  final String customerEmail;
+  final String custAddress;
+  final int cityId;
+  final String? cityName;
+  final String vehicleType; // 'car' | 'motorcycle'
   final String vehicleModel;
-  final String? vehicleYear;
-  final String licensePlate;
-  final String transmissionType;
+  final String vehiclePlat;
+  final String vehicleColor;
+  final bool isEv;
   final int workshopId;
   final String? workshopName;
   final String bookingDate;
-  final String timeSlot;
+  final String? endDate;
+  final bool isMultiDay;
+  final String hour;
+  final bool hasVisited;
+  final String referralSource;
+  final String purchaseSource;
   final List<int> serviceIds;
+  final List<int> packageIds;
+  final List<String> itemNames;
+  final int? voucherId;
   final String? voucherCode;
-  final num subtotalPrice;
+  final num subTotal;
   final num discountAmount;
-  final num totalPrice;
-  final int estimatedDurationMinutes;
+  final num totalAmount;
+  final int estimatedMinutes;
   final String? notes;
   final String status;
 
@@ -31,26 +40,35 @@ class BookingEntity extends Equatable {
     this.bookingTicket,
     required this.customerName,
     required this.customerPhone,
-    this.customerEmail,
-    this.address,
-    required this.vehicleCategory,
-    required this.vehicleBrand,
+    this.customerEmail = '',
+    required this.custAddress,
+    required this.cityId,
+    this.cityName,
+    required this.vehicleType,
     required this.vehicleModel,
-    this.vehicleYear,
-    required this.licensePlate,
-    required this.transmissionType,
+    required this.vehiclePlat,
+    required this.vehicleColor,
+    this.isEv = false,
     required this.workshopId,
     this.workshopName,
     required this.bookingDate,
-    required this.timeSlot,
-    required this.serviceIds,
+    this.endDate,
+    this.isMultiDay = false,
+    required this.hour,
+    this.hasVisited = false,
+    required this.referralSource,
+    this.purchaseSource = 'online',
+    this.serviceIds = const [],
+    this.packageIds = const [],
+    this.itemNames = const [],
+    this.voucherId,
     this.voucherCode,
-    required this.subtotalPrice,
+    required this.subTotal,
     this.discountAmount = 0,
-    required this.totalPrice,
-    this.estimatedDurationMinutes = 60,
+    required this.totalAmount,
+    this.estimatedMinutes = 60,
     this.notes,
-    this.status = 'PENDING',
+    this.status = 'pending',
   });
 
   @override
@@ -60,23 +78,32 @@ class BookingEntity extends Equatable {
         customerName,
         customerPhone,
         customerEmail,
-        address,
-        vehicleCategory,
-        vehicleBrand,
+        custAddress,
+        cityId,
+        cityName,
+        vehicleType,
         vehicleModel,
-        vehicleYear,
-        licensePlate,
-        transmissionType,
+        vehiclePlat,
+        vehicleColor,
+        isEv,
         workshopId,
         workshopName,
         bookingDate,
-        timeSlot,
+        endDate,
+        isMultiDay,
+        hour,
+        hasVisited,
+        referralSource,
+        purchaseSource,
         serviceIds,
+        packageIds,
+        itemNames,
+        voucherId,
         voucherCode,
-        subtotalPrice,
+        subTotal,
         discountAmount,
-        totalPrice,
-        estimatedDurationMinutes,
+        totalAmount,
+        estimatedMinutes,
         notes,
         status,
       ];

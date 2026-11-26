@@ -3,15 +3,52 @@ import '../../../../core/errors/exceptions.dart';
 import '../../../../core/network/api_client.dart';
 import '../models/booking_availability_model.dart';
 import '../models/booking_model.dart';
+import '../models/package_model.dart';
+import '../models/regency_model.dart';
 import '../models/service_model.dart';
+import '../models/voucher_model.dart';
 import '../models/workshop_model.dart';
 
 abstract class IGarageRemoteDataSource {
   Future<List<WorkshopModel>> getWorkshops();
   Future<List<ServiceModel>> getServices({String? vehicleType});
+  Future<List<PackageModel>> getPackages();
+  Future<List<RegencyModel>> searchRegencies(String query);
   Future<List<BookingAvailabilityModel>> getAvailability({
     required int workshopId,
     required String bookingDate,
+  });
+  Future<void> previewBooking({
+    required int workshopId,
+    required String bookingDate,
+    required String hour,
+    required String customerPhone,
+    String? customerEmail,
+    required List<int> serviceIds,
+    required List<int> packageIds,
+    required bool isEv,
+  });
+  Future<void> cancelPreviewBooking({
+    required int workshopId,
+    required String bookingDate,
+    required String hour,
+    required String customerPhone,
+    String? customerEmail,
+  });
+  Future<List<VoucherModel>> getAvailableVouchers({
+    int? workshopId,
+    String? date,
+    String? time,
+  });
+  Future<VoucherValidationResultModel> validateVoucher({
+    required int voucherId,
+    required String vehicleType,
+    required String bookingDate,
+    required String hour,
+    required bool isEv,
+    required int workshopId,
+    required List<int> serviceIds,
+    required List<int> packageIds,
   });
   Future<BookingModel> submitBooking(BookingModel booking);
   Future<BookingModel> getBookingByTicket(String ticket);
@@ -27,16 +64,19 @@ class GarageRemoteDataSourceImpl implements IGarageRemoteDataSource {
     final response = await apiClient.get(ApiEndpoints.workshops);
     if (response.statusCode == 200 && response.data != null) {
       final rawData = response.data['data'] as List<dynamic>? ?? [];
-      return rawData.map((e) => WorkshopModel.fromJson(e as Map<String, dynamic>)).toList();
+      return rawData
+          .map((e) => WorkshopModel.fromJson(e as Map<String, dynamic>))
+          .toList();
     }
-    throw const ServerException(message: 'Gagal mengambil data bengkel');
+    throw const ServerException(message: 'Gagal memuat daftar cabang bengkel.');
   }
 
   @override
   Future<List<ServiceModel>> getServices({String? vehicleType}) async {
     final queryParams = <String, dynamic>{
       'limit': 50,
-      if (vehicleType != null && vehicleType != 'all') 'vehicle_type': vehicleType,
+      if (vehicleType != null && vehicleType.isNotEmpty && vehicleType != 'all')
+        'vehicle_type': vehicleType,
     };
     final response = await apiClient.get(
       ApiEndpoints.services,
@@ -44,9 +84,43 @@ class GarageRemoteDataSourceImpl implements IGarageRemoteDataSource {
     );
     if (response.statusCode == 200 && response.data != null) {
       final rawData = response.data['data'] as List<dynamic>? ?? [];
-      return rawData.map((e) => ServiceModel.fromJson(e as Map<String, dynamic>)).toList();
+      return rawData
+          .map((e) => ServiceModel.fromJson(e as Map<String, dynamic>))
+          .toList();
     }
-    throw const ServerException(message: 'Gagal mengambil katalog jasa');
+    throw const ServerException(message: 'Gagal memuat katalog jasa servis.');
+  }
+
+  @override
+  Future<List<PackageModel>> getPackages() async {
+    final response = await apiClient.get(
+      ApiEndpoints.packages,
+      queryParameters: {'limit': 50},
+    );
+    if (response.statusCode == 200 && response.data != null) {
+      final rawData = response.data['data'] as List<dynamic>? ?? [];
+      return rawData
+          .map((e) => PackageModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+    }
+    throw const ServerException(message: 'Gagal memuat katalog paket layanan.');
+  }
+
+  @override
+  Future<List<RegencyModel>> searchRegencies(String query) async {
+    final response = await apiClient.get(
+      ApiEndpoints.regencies,
+      queryParameters: {
+        if (query.trim().isNotEmpty) 'search': query.trim(),
+      },
+    );
+    if (response.statusCode == 200 && response.data != null) {
+      final rawData = response.data['data'] as List<dynamic>? ?? [];
+      return rawData
+          .map((e) => RegencyModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+    }
+    throw const ServerException(message: 'Gagal memuat daftar kota/kabupaten.');
   }
 
   @override
@@ -54,46 +128,139 @@ class GarageRemoteDataSourceImpl implements IGarageRemoteDataSource {
     required int workshopId,
     required String bookingDate,
   }) async {
-    try {
-      final response = await apiClient.get(
-        ApiEndpoints.bookingAvailability,
-        queryParameters: {
-          'workshop_id': workshopId,
-          'booking_date': bookingDate,
-        },
-      );
-      if (response.statusCode == 200 && response.data != null) {
-        final rawData = response.data['data'];
-        if (rawData is List) {
-          return rawData.map((e) => BookingAvailabilityModel.fromJson(e as Map<String, dynamic>)).toList();
-        }
+    final response = await apiClient.get(
+      ApiEndpoints.bookingAvailability,
+      queryParameters: {
+        'workshop_id': workshopId,
+        'booking_date': bookingDate,
+      },
+    );
+    if (response.statusCode == 200 && response.data != null) {
+      final rawData = response.data['data'];
+      if (rawData is List) {
+        return rawData
+            .map((e) => BookingAvailabilityModel.fromJson(e as Map<String, dynamic>))
+            .toList();
       }
-    } catch (_) {
-      // Fallback default operational time slots (09:00 - 16:00) jika endpoint availability belum disetup
     }
+    return const [];
+  }
 
-    return const [
-      BookingAvailabilityModel(timeSlot: '09:00', isAvailable: true, availableCapacity: 3),
-      BookingAvailabilityModel(timeSlot: '10:00', isAvailable: true, availableCapacity: 3),
-      BookingAvailabilityModel(timeSlot: '11:00', isAvailable: true, availableCapacity: 2),
-      BookingAvailabilityModel(timeSlot: '13:00', isAvailable: true, availableCapacity: 3),
-      BookingAvailabilityModel(timeSlot: '14:00', isAvailable: true, availableCapacity: 3),
-      BookingAvailabilityModel(timeSlot: '15:00', isAvailable: true, availableCapacity: 2),
-      BookingAvailabilityModel(timeSlot: '16:00', isAvailable: true, availableCapacity: 1),
-    ];
+  @override
+  Future<void> previewBooking({
+    required int workshopId,
+    required String bookingDate,
+    required String hour,
+    required String customerPhone,
+    String? customerEmail,
+    required List<int> serviceIds,
+    required List<int> packageIds,
+    required bool isEv,
+  }) async {
+    final payload = {
+      'workshop_id': workshopId,
+      'booking_date': bookingDate,
+      'hour': hour,
+      if (customerPhone.trim().isNotEmpty) 'customer_phone': customerPhone.trim(),
+      if (customerEmail != null && customerEmail.trim().isNotEmpty)
+        'customer_email': customerEmail.trim(),
+      'service_items': serviceIds.map((id) => {'service_id': id}).toList(),
+      'package_items': packageIds.map((id) => {'package_id': id}).toList(),
+      'variant_items': <Map<String, dynamic>>[],
+      'is_ev': isEv,
+    };
+
+    await apiClient.post(ApiEndpoints.bookingPreview, data: payload);
+  }
+
+  @override
+  Future<void> cancelPreviewBooking({
+    required int workshopId,
+    required String bookingDate,
+    required String hour,
+    required String customerPhone,
+    String? customerEmail,
+  }) async {
+    final payload = {
+      'workshop_id': workshopId,
+      'booking_date': bookingDate,
+      'hour': hour,
+      if (customerPhone.trim().isNotEmpty) 'customer_phone': customerPhone.trim(),
+      if (customerEmail != null && customerEmail.trim().isNotEmpty)
+        'customer_email': customerEmail.trim(),
+    };
+
+    await apiClient.post(ApiEndpoints.bookingCancelPreview, data: payload);
+  }
+
+  @override
+  Future<List<VoucherModel>> getAvailableVouchers({
+    int? workshopId,
+    String? date,
+    String? time,
+  }) async {
+    final response = await apiClient.get(
+      ApiEndpoints.vouchers,
+      queryParameters: {
+        'workshop_id': ?workshopId,
+        'date': ?date,
+        'time': ?time,
+      },
+    );
+    if (response.statusCode == 200 && response.data != null) {
+      final rawData = response.data['data'] as List<dynamic>? ?? [];
+      return rawData
+          .map((e) => VoucherModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+    }
+    return const [];
+  }
+
+  @override
+  Future<VoucherValidationResultModel> validateVoucher({
+    required int voucherId,
+    required String vehicleType,
+    required String bookingDate,
+    required String hour,
+    required bool isEv,
+    required int workshopId,
+    required List<int> serviceIds,
+    required List<int> packageIds,
+  }) async {
+    final response = await apiClient.post(
+      ApiEndpoints.validateVoucher,
+      data: {
+        'voucher_id': voucherId,
+        'vehicle_type': vehicleType,
+        'booking_date': bookingDate,
+        'hour': hour,
+        'is_ev': isEv,
+        'workshop_id': workshopId,
+        'service_items': serviceIds.map((id) => {'service_id': id}).toList(),
+        'package_items': packageIds.map((id) => {'package_id': id}).toList(),
+        'variant_items': <Map<String, dynamic>>[],
+      },
+    );
+    if (response.statusCode == 200 && response.data != null) {
+      final data = response.data['data'] as Map<String, dynamic>? ?? {};
+      return VoucherValidationResultModel.fromJson(data);
+    }
+    throw const ServerException(message: 'Gagal memvalidasi kode voucher.');
   }
 
   @override
   Future<BookingModel> submitBooking(BookingModel booking) async {
     final response = await apiClient.post(
       ApiEndpoints.bookings,
-      data: booking.toJson(),
+      data: booking.toCreateJson(),
     );
-    if ((response.statusCode == 200 || response.statusCode == 201) && response.data != null) {
-      final data = response.data['data'] as Map<String, dynamic>? ?? response.data as Map<String, dynamic>;
+    if ((response.statusCode == 200 || response.statusCode == 201) &&
+        response.data != null) {
+      final data = response.data['data'] as Map<String, dynamic>? ??
+          response.data as Map<String, dynamic>;
       return BookingModel.fromJson(data);
     }
-    throw const ServerException(message: 'Gagal membuat reservasi booking');
+    throw const ServerException(message: 'Gagal membuat reservasi booking.');
   }
 
   @override
@@ -103,6 +270,6 @@ class GarageRemoteDataSourceImpl implements IGarageRemoteDataSource {
       final data = response.data['data'] as Map<String, dynamic>;
       return BookingModel.fromJson(data);
     }
-    throw const ServerException(message: 'Data booking tidak ditemukan');
+    throw const ServerException(message: 'Tiket reservasi tidak ditemukan.');
   }
 }

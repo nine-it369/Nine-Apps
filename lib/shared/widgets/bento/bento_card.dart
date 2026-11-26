@@ -20,15 +20,14 @@ class BentoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cardWidget = Container(
+    final content = Padding(
       padding: padding ?? const EdgeInsets.all(16),
+      child: child,
+    );
+
+    return Container(
       decoration: BoxDecoration(
-        color: backgroundColor ?? AppColors.surface,
         borderRadius: AppRadius.cardRadius,
-        border: Border.all(
-          color: borderColor ?? AppColors.borderSubtle,
-          width: 1,
-        ),
         boxShadow: const [
           BoxShadow(
             color: Color(0x0A000000),
@@ -37,17 +36,24 @@ class BentoCard extends StatelessWidget {
           ),
         ],
       ),
-      child: child,
+      child: Material(
+        color: backgroundColor ?? AppColors.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: AppRadius.cardRadius,
+          side: BorderSide(
+            color: borderColor ?? AppColors.borderSubtle,
+            width: 1,
+          ),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: onTap != null
+            ? InkWell(
+                onTap: onTap,
+                borderRadius: AppRadius.cardRadius,
+                child: content,
+              )
+            : content,
+      ),
     );
-
-    if (onTap != null) {
-      return InkWell(
-        onTap: onTap,
-        borderRadius: AppRadius.cardRadius,
-        child: cardWidget,
-      );
-    }
-
-    return cardWidget;
   }
 }

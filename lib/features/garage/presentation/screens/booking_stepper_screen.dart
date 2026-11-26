@@ -37,13 +37,15 @@ class _BookingStepperView extends StatelessWidget {
     return BlocConsumer<BookingBloc, BookingState>(
       listener: (context, state) {
         if (state.errorMessage != null && state.errorMessage!.isNotEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.errorMessage!),
-              backgroundColor: AppColors.danger,
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Text(state.errorMessage!),
+                backgroundColor: AppColors.danger,
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
         }
 
         if (state.submissionStatus == BookingSubmissionStatus.success &&
@@ -91,8 +93,7 @@ class _BookingStepperView extends StatelessWidget {
               BookingStepperHeader(
                 currentStep: state.currentStep,
                 onStepTapped: (step) {
-                  // Only allow jumping backward or valid forward
-                  if (step <= state.currentStep) {
+                  if (step < state.currentStep) {
                     bloc.add(GoToStepEvent(step));
                   }
                 },
@@ -121,49 +122,67 @@ class _BookingStepperView extends StatelessWidget {
           initialName: state.customerName,
           initialPhone: state.customerPhone,
           initialEmail: state.customerEmail,
-          initialAddress: state.address,
+          initialAddress: state.custAddress,
+          initialCityName: state.cityName,
+          initialCityId: state.cityId,
+          initialReferralSource: state.referralSource,
+          initialHasVisited: state.hasVisited,
           initialNotes: state.notes,
-          onUpdated: (name, phone, email, address, notes) {
+          regencyResults: state.regencyResults,
+          onSearchRegency: (q) => bloc.add(SearchRegencyEvent(q)),
+          onSelectRegency: (r) => bloc.add(SelectRegencyEvent(r)),
+          onUpdated: ({
+            String? name,
+            String? phone,
+            String? email,
+            String? address,
+            String? referralSource,
+            bool? hasVisited,
+            String? notes,
+          }) {
             bloc.add(UpdateContactEvent(
               name: name,
               phone: phone,
               email: email,
               address: address,
+              referralSource: referralSource,
+              hasVisited: hasVisited,
               notes: notes,
             ));
           },
         );
       case 2:
         return VehicleSectionWidget(
-          category: state.vehicleCategory,
-          brand: state.vehicleBrand,
-          model: state.vehicleModel,
-          year: state.vehicleYear,
-          licensePlate: state.licensePlate,
-          transmission: state.transmissionType,
+          vehicleType: state.vehicleType,
+          isEv: state.isEv,
+          vehicleModel: state.vehicleModel,
+          vehiclePlat: state.vehiclePlat,
+          vehicleColor: state.vehicleColor,
           onUpdated: ({
-            required category,
-            required brand,
-            required model,
-            required year,
-            required licensePlate,
-            required transmission,
+            String? vehicleType,
+            bool? isEv,
+            String? model,
+            String? plat,
+            String? color,
           }) {
             bloc.add(UpdateVehicleEvent(
-              category: category,
-              brand: brand,
+              vehicleType: vehicleType,
+              isEv: isEv,
               model: model,
-              year: year,
-              licensePlate: licensePlate,
-              transmission: transmission,
+              plat: plat,
+              color: color,
             ));
           },
         );
       case 3:
         return ServiceSectionWidget(
           availableServices: state.availableServices,
+          availablePackages: state.availablePackages,
           selectedServices: state.selectedServices,
+          selectedPackages: state.selectedPackages,
+          isEv: state.isEv,
           onToggleService: (service) => bloc.add(ToggleServiceSelectionEvent(service)),
+          onTogglePackage: (pkg) => bloc.add(TogglePackageSelectionEvent(pkg)),
         );
       case 4:
         return ScheduleSectionWidget(
@@ -171,15 +190,16 @@ class _BookingStepperView extends StatelessWidget {
           selectedWorkshop: state.selectedWorkshop,
           selectedDate: state.selectedDate,
           timeSlots: state.timeSlots,
-          selectedTimeSlot: state.selectedTimeSlot,
+          selectedHour: state.selectedHour,
           onSelectWorkshop: (ws) => bloc.add(SelectWorkshopEvent(ws)),
           onSelectDate: (date) => bloc.add(SelectDateEvent(date)),
-          onSelectTimeSlot: (slot) => bloc.add(SelectTimeSlotEvent(slot)),
+          onSelectTimeSlot: (hour) => bloc.add(SelectTimeSlotEvent(hour)),
         );
       case 5:
         return ReviewSectionWidget(
           state: state,
-          onApplyVoucher: (code) => bloc.add(ApplyVoucherEvent(code)),
+          onApplyVoucher: (v) => bloc.add(ApplyVoucherEvent(v)),
+          onApplyVoucherCode: (code) => bloc.add(ApplyVoucherCodeEvent(code)),
           onRemoveVoucher: () => bloc.add(RemoveVoucherEvent()),
         );
       default:
@@ -190,7 +210,8 @@ class _BookingStepperView extends StatelessWidget {
   Widget _buildBottomActionBar(BuildContext context, BookingState state, BookingBloc bloc) {
     final canProceed = state.canProceed(state.currentStep);
     final isLastStep = state.currentStep == 5;
-    final isSubmitting = state.submissionStatus == BookingSubmissionStatus.submitting;
+    final isBusy =
+        state.submissionStatus == BookingSubmissionStatus.submitting || state.isLockingSlot;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -207,7 +228,7 @@ class _BookingStepperView extends StatelessWidget {
                 flex: 1,
                 child: NineSecondaryButton(
                   label: 'Kembali',
-                  onPressed: isSubmitting ? null : () => bloc.add(PrevStepEvent()),
+                  onPressed: isBusy ? null : () => bloc.add(PrevStepEvent()),
                 ),
               ),
               const SizedBox(width: 12),
@@ -217,8 +238,8 @@ class _BookingStepperView extends StatelessWidget {
               child: NinePrimaryButton(
                 label: isLastStep ? 'Konfirmasi Booking' : 'Lanjut',
                 icon: isLastStep ? Icons.check_circle_outline_rounded : Icons.arrow_forward_rounded,
-                isLoading: isSubmitting,
-                onPressed: canProceed
+                isLoading: isBusy,
+                onPressed: canProceed && !isBusy
                     ? () {
                         if (isLastStep) {
                           bloc.add(SubmitBookingEvent());

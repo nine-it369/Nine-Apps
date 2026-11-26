@@ -40,9 +40,13 @@ class NineSecondaryButton extends StatelessWidget {
               Icon(icon, size: 18, color: AppColors.textSecondary),
               const SizedBox(width: 8),
             ],
-            Text(
-              label,
-              style: AppTextStyles.button.copyWith(color: AppColors.textPrimary),
+            Flexible(
+              child: Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTextStyles.button.copyWith(color: AppColors.textPrimary),
+              ),
             ),
           ],
         ),

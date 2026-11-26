@@ -4,6 +4,7 @@ import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/date_time_utils.dart';
 import '../../../../shared/widgets/bento/bento_card.dart';
+import '../../../../shared/widgets/pills/borderless_status_tag.dart';
 import '../../domain/entities/booking_availability_entity.dart';
 import '../../domain/entities/workshop_entity.dart';
 
@@ -12,7 +13,7 @@ class ScheduleSectionWidget extends StatelessWidget {
   final WorkshopEntity? selectedWorkshop;
   final DateTime? selectedDate;
   final List<BookingAvailabilityEntity> timeSlots;
-  final String? selectedTimeSlot;
+  final String? selectedHour;
   final ValueChanged<WorkshopEntity> onSelectWorkshop;
   final ValueChanged<DateTime> onSelectDate;
   final ValueChanged<String> onSelectTimeSlot;
@@ -23,7 +24,7 @@ class ScheduleSectionWidget extends StatelessWidget {
     required this.selectedWorkshop,
     required this.selectedDate,
     required this.timeSlots,
-    required this.selectedTimeSlot,
+    required this.selectedHour,
     required this.onSelectWorkshop,
     required this.onSelectDate,
     required this.onSelectTimeSlot,
@@ -39,12 +40,11 @@ class ScheduleSectionWidget extends StatelessWidget {
           Text('Jadwal & Lokasi Bengkel', style: AppTextStyles.h2),
           const SizedBox(height: 6),
           Text(
-            'Pilih cabang bengkel resmi Nine AutoSeries dan tentukan waktu kedatangan.',
+            'Pilih cabang resmi dan slot jam. Slot akan ditahan 3 menit saat Anda masuk ke tahap Review.',
             style: AppTextStyles.bodyMedium,
           ),
           const SizedBox(height: 16),
 
-          // 1. Workshop Branch Selection
           Text('Pilih Cabang Bengkel *', style: AppTextStyles.h3),
           const SizedBox(height: 8),
           ...workshops.map((ws) {
@@ -75,7 +75,14 @@ class ScheduleSectionWidget extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(ws.name, style: AppTextStyles.h3.copyWith(fontSize: 14)),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(ws.name, style: AppTextStyles.h3.copyWith(fontSize: 14)),
+                              ),
+                              BorderlessStatusTag.info(ws.code),
+                            ],
+                          ),
                           const SizedBox(height: 2),
                           Text(
                             ws.address,
@@ -83,16 +90,13 @@ class ScheduleSectionWidget extends StatelessWidget {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          const SizedBox(height: 2),
-                          Text(
-                            'Jam Buka: ${ws.operatingHours ?? "09:00 - 18:00"}',
-                            style: AppTextStyles.bodySmall.copyWith(color: AppColors.primaryDark),
-                          ),
                         ],
                       ),
                     ),
-                    if (isSelected)
-                      const Icon(Icons.check_circle_rounded, color: AppColors.primary, size: 22),
+                    if (isSelected) ...[
+                      const SizedBox(width: 8),
+                      const Icon(Icons.check_circle_rounded, color: AppColors.primaryDark, size: 22),
+                    ],
                   ],
                 ),
               ),
@@ -101,7 +105,6 @@ class ScheduleSectionWidget extends StatelessWidget {
 
           const SizedBox(height: 16),
 
-          // 2. Date Selection (Next 14 Days)
           Text('Tanggal Kedatangan *', style: AppTextStyles.h3),
           const SizedBox(height: 8),
           SizedBox(
@@ -109,9 +112,9 @@ class ScheduleSectionWidget extends StatelessWidget {
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: 14,
-              separatorBuilder: (context, index) => const SizedBox(width: 8),
+              separatorBuilder: (_, _) => const SizedBox(width: 8),
               itemBuilder: (context, index) {
-                final date = DateTime.now().add(Duration(days: index + 1));
+                final date = DateTime.now().add(Duration(days: index));
                 final isSelected = selectedDate != null &&
                     selectedDate!.year == date.year &&
                     selectedDate!.month == date.month &&
@@ -164,7 +167,6 @@ class ScheduleSectionWidget extends StatelessWidget {
 
           const SizedBox(height: 20),
 
-          // 3. Time Slot Selection
           Text('Pilih Jam Kedatangan *', style: AppTextStyles.h3),
           const SizedBox(height: 4),
           Text(
@@ -174,54 +176,85 @@ class ScheduleSectionWidget extends StatelessWidget {
             style: AppTextStyles.bodySmall,
           ),
           const SizedBox(height: 10),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: timeSlots.map((slot) {
-              final isSelected = selectedTimeSlot == slot.timeSlot;
-              final isAvailable = slot.isAvailable;
+          if (timeSlots.isEmpty)
+            BentoCard(
+              child: Text(
+                'Tidak ada slot tersedia atau bengkel tutup pada tanggal ini. Silakan pilih tanggal lain.',
+                style: AppTextStyles.bodyMedium,
+              ),
+            )
+          else
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: timeSlots.map((slot) {
+                final isSelected = selectedHour == slot.hour;
+                final isAvailable = slot.isAvailable;
 
-              return GestureDetector(
-                onTap: isAvailable ? () => onSelectTimeSlot(slot.timeSlot) : null,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  decoration: BoxDecoration(
-                    color: isSelected
-                        ? AppColors.primary
-                        : (isAvailable ? AppColors.surface : AppColors.surfaceMuted),
-                    borderRadius: AppRadius.buttonRadius,
-                    border: Border.all(
+                return GestureDetector(
+                  onTap: isAvailable ? () => onSelectTimeSlot(slot.hour) : null,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                    decoration: BoxDecoration(
                       color: isSelected
                           ? AppColors.primary
-                          : (isAvailable ? AppColors.border : AppColors.borderSubtle),
+                          : (isAvailable ? AppColors.surface : AppColors.surfaceMuted),
+                      borderRadius: AppRadius.buttonRadius,
+                      border: Border.all(
+                        color: isSelected
+                            ? AppColors.primary
+                            : (isAvailable ? AppColors.border : AppColors.borderSubtle),
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.access_time_rounded,
+                              size: 14,
+                              color: isSelected
+                                  ? AppColors.textPrimary
+                                  : (isAvailable ? AppColors.textPrimary : AppColors.textMuted),
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              slot.hour,
+                              style: AppTextStyles.mono.copyWith(
+                                color: isSelected
+                                    ? AppColors.textPrimary
+                                    : (isAvailable ? AppColors.textPrimary : AppColors.textMuted),
+                                fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
+                                decoration: !isAvailable ? TextDecoration.lineThrough : null,
+                              ),
+                            ),
+                          ],
+                        ),
+                        if (isAvailable)
+                          Text(
+                            'Sisa ${slot.remainingCapacity} pit',
+                            style: AppTextStyles.bodySmall.copyWith(
+                              fontSize: 9,
+                              color: isSelected ? AppColors.textPrimary : AppColors.primaryDark,
+                            ),
+                          )
+                        else
+                          Text(
+                            slot.status == 'locked' ? 'Ditahan' : 'Penuh',
+                            style: AppTextStyles.bodySmall.copyWith(
+                              fontSize: 9,
+                              color: AppColors.danger,
+                            ),
+                          ),
+                      ],
                     ),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.access_time_rounded,
-                        size: 14,
-                        color: isSelected
-                            ? AppColors.textPrimary
-                            : (isAvailable ? AppColors.textPrimary : AppColors.textMuted),
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        slot.timeSlot,
-                        style: AppTextStyles.mono.copyWith(
-                          color: isSelected
-                              ? AppColors.textPrimary
-                              : (isAvailable ? AppColors.textPrimary : AppColors.textMuted),
-                          fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
+                );
+              }).toList(),
+            ),
+          const SizedBox(height: 24),
         ],
       ),
     );

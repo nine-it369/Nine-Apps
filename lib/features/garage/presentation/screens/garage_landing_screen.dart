@@ -1,15 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/di/injection.dart';
 import '../../../../core/router/route_names.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/usecase/usecase.dart';
 import '../../../../shared/widgets/bento/bento_card.dart';
 import '../../../../shared/widgets/buttons/nine_primary_button.dart';
 import '../../../../shared/widgets/pills/borderless_status_tag.dart';
+import '../../domain/entities/workshop_entity.dart';
+import '../../domain/usecases/get_workshops_usecase.dart';
 
-class GarageLandingScreen extends StatelessWidget {
+class GarageLandingScreen extends StatefulWidget {
   const GarageLandingScreen({super.key});
+
+  @override
+  State<GarageLandingScreen> createState() => _GarageLandingScreenState();
+}
+
+class _GarageLandingScreenState extends State<GarageLandingScreen> {
+  List<WorkshopEntity> _workshops = const [];
+  bool _loadingWorkshops = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadWorkshops();
+  }
+
+  Future<void> _loadWorkshops() async {
+    if (!sl.isRegistered<GetWorkshopsUseCase>()) return;
+    final res = await sl<GetWorkshopsUseCase>()(const NoParams());
+    if (!mounted) return;
+    res.fold(
+      (_) => setState(() => _loadingWorkshops = false),
+      (list) => setState(() {
+        _workshops = list;
+        _loadingWorkshops = false;
+      }),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +63,9 @@ class GarageLandingScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notifications_none_rounded),
+            onPressed: () => context.push(RouteNames.ticketLookup),
+            icon: const Icon(Icons.qr_code_scanner_rounded),
+            tooltip: 'Cek Tiket SPK',
           ),
         ],
       ),
@@ -42,7 +74,6 @@ class GarageLandingScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 1. Hero Obsidian Card (Apple HIG Focus Container)
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(20),
@@ -97,7 +128,6 @@ class GarageLandingScreen extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            // 2. Quick Action Grid (Bento Style)
             Text('Menu Layanan Cepat', style: AppTextStyles.h3),
             const SizedBox(height: 10),
             Row(
@@ -127,7 +157,7 @@ class GarageLandingScreen extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: BentoCard(
-                    onTap: () {},
+                    onTap: () => context.push(RouteNames.ticketLookup),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -152,50 +182,73 @@ class GarageLandingScreen extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            // 3. Featured Cabang Bengkel
             Text('Cabang Bengkel Resmi', style: AppTextStyles.h3),
             const SizedBox(height: 10),
-            BentoCard(
-              child: Row(
-                children: [
-                  Container(
-                    width: 52,
-                    height: 52,
-                    decoration: BoxDecoration(
-                      color: AppColors.surfaceMuted,
-                      borderRadius: AppRadius.squircleRadius,
-                    ),
-                    child: const Icon(Icons.location_city_rounded, color: AppColors.obsidian, size: 28),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Arcadia Daan Mogot (Pusat)', style: AppTextStyles.h3.copyWith(fontSize: 15)),
-                        const SizedBox(height: 2),
-                        Text(
-                          'Ruko Jl. Arcadia Daan Mogot Blok G1 No. 8, Tangerang',
-                          style: AppTextStyles.bodySmall,
-                          maxLines: 2,
-                        ),
-                        const SizedBox(height: 6),
-                        Row(
-                          children: [
-                            BorderlessStatusTag.success('4 Pit Aktif'),
-                            const SizedBox(width: 6),
-                            BorderlessStatusTag.info('Mekanik Tersedia'),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+            if (_loadingWorkshops)
+              const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            else if (_workshops.isEmpty)
+              _buildWorkshopCard(
+                'Arcadia Daan Mogot',
+                'TGR',
+                'Ruko Jl. Arcadia Daan Mogot No. 16-17, Tangerang',
+              )
+            else
+              ..._workshops.map(
+                (ws) => Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: _buildWorkshopCard(ws.name, ws.code, ws.address),
+                ),
               ),
-            ),
             const SizedBox(height: 32),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildWorkshopCard(String name, String code, String address) {
+    return BentoCard(
+      onTap: () => context.push(RouteNames.booking),
+      child: Row(
+        children: [
+          Container(
+            width: 52,
+            height: 52,
+            decoration: BoxDecoration(
+              color: AppColors.surfaceMuted,
+              borderRadius: AppRadius.squircleRadius,
+            ),
+            child: const Icon(Icons.location_city_rounded, color: AppColors.obsidian, size: 28),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(child: Text(name, style: AppTextStyles.h3.copyWith(fontSize: 15))),
+                    BorderlessStatusTag.info(code),
+                  ],
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  address,
+                  style: AppTextStyles.bodySmall,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 6),
+                BorderlessStatusTag.success('Buka • Reservasi Online'),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -6,29 +6,26 @@ import '../../../../shared/widgets/bento/bento_card.dart';
 import '../../../../shared/widgets/controls/nine_text_field.dart';
 
 class VehicleSectionWidget extends StatelessWidget {
-  final String category;
-  final String brand;
-  final String model;
-  final String year;
-  final String licensePlate;
-  final String transmission;
+  final String vehicleType;
+  final bool isEv;
+  final String vehicleModel;
+  final String vehiclePlat;
+  final String vehicleColor;
   final Function({
-    required String category,
-    required String brand,
-    required String model,
-    required String year,
-    required String licensePlate,
-    required String transmission,
+    String? vehicleType,
+    bool? isEv,
+    String? model,
+    String? plat,
+    String? color,
   }) onUpdated;
 
   const VehicleSectionWidget({
     super.key,
-    required this.category,
-    required this.brand,
-    required this.model,
-    required this.year,
-    required this.licensePlate,
-    required this.transmission,
+    required this.vehicleType,
+    required this.isEv,
+    required this.vehicleModel,
+    required this.vehiclePlat,
+    required this.vehicleColor,
     required this.onUpdated,
   });
 
@@ -42,11 +39,10 @@ class VehicleSectionWidget extends StatelessWidget {
           Text('Detail Kendaraan Servis', style: AppTextStyles.h2),
           const SizedBox(height: 6),
           Text(
-            'Informasi kendaraan memastikan suku cadang & slot mekanik sesuai.',
+            'Spesifikasi kendaraan digunakan untuk menyesuaikan teknisi dan kompatibilitas produk.',
             style: AppTextStyles.bodyMedium,
           ),
           const SizedBox(height: 16),
-          // Vehicle Type Segment
           Container(
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
@@ -60,67 +56,49 @@ class VehicleSectionWidget extends StatelessWidget {
                   child: _buildSegmentButton(
                     label: 'Mobil',
                     icon: Icons.directions_car_rounded,
-                    isSelected: category == 'car',
-                    onTap: () => onUpdated(
-                      category: 'car',
-                      brand: brand,
-                      model: model,
-                      year: year,
-                      licensePlate: licensePlate,
-                      transmission: transmission,
-                    ),
+                    isSelected: vehicleType == 'car',
+                    onTap: () => onUpdated(vehicleType: 'car'),
                   ),
                 ),
                 Expanded(
                   child: _buildSegmentButton(
                     label: 'Motor',
                     icon: Icons.two_wheeler_rounded,
-                    isSelected: category == 'motorcycle',
-                    onTap: () => onUpdated(
-                      category: 'motorcycle',
-                      brand: brand,
-                      model: model,
-                      year: year,
-                      licensePlate: licensePlate,
-                      transmission: transmission,
-                    ),
+                    isSelected: vehicleType == 'motorcycle',
+                    onTap: () => onUpdated(vehicleType: 'motorcycle'),
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 14),
           BentoCard(
             child: Column(
               children: [
-                NineTextField(
-                  label: 'Merek Kendaraan *',
-                  hint: 'Contoh: Toyota, Honda, Mitsubishi',
-                  initialValue: brand,
-                  prefixIcon: const Icon(Icons.branding_watermark_outlined, size: 20),
-                  onChanged: (val) => onUpdated(
-                    category: category,
-                    brand: val,
-                    model: model,
-                    year: year,
-                    licensePlate: licensePlate,
-                    transmission: transmission,
+                CheckboxListTile(
+                  value: isEv,
+                  onChanged: (val) => onUpdated(isEv: val ?? false),
+                  title: Text(
+                    'Kendaraan Listrik (EV / Hybrid)',
+                    style: AppTextStyles.bodyLarge.copyWith(fontWeight: FontWeight.w600),
                   ),
+                  subtitle: Text(
+                    'Aktifkan jika kendaraan menggunakan sistem kelistrikan EV',
+                    style: AppTextStyles.bodySmall,
+                  ),
+                  contentPadding: EdgeInsets.zero,
+                  controlAffinity: ListTileControlAffinity.leading,
+                  activeColor: AppColors.obsidian,
                 ),
-                const SizedBox(height: 14),
+                const Divider(height: 20, color: AppColors.borderSubtle),
                 NineTextField(
-                  label: 'Model Kendaraan *',
-                  hint: 'Contoh: Innova Zenix, HR-V, Fortuner, NMAX',
-                  initialValue: model,
+                  label: 'Merek & Model Kendaraan *',
+                  hint: vehicleType == 'car'
+                      ? 'Contoh: Toyota Innova Zenix / Honda HR-V'
+                      : 'Contoh: Yamaha NMAX / Honda Vario 160',
+                  initialValue: vehicleModel,
                   prefixIcon: const Icon(Icons.car_rental_outlined, size: 20),
-                  onChanged: (val) => onUpdated(
-                    category: category,
-                    brand: brand,
-                    model: val,
-                    year: year,
-                    licensePlate: licensePlate,
-                    transmission: transmission,
-                  ),
+                  onChanged: (val) => onUpdated(model: val),
                 ),
                 const SizedBox(height: 14),
                 Row(
@@ -130,85 +108,27 @@ class VehicleSectionWidget extends StatelessWidget {
                       child: NineTextField(
                         label: 'Nomor Polisi *',
                         hint: 'B 1234 NNE',
-                        initialValue: licensePlate,
+                        initialValue: vehiclePlat,
                         prefixIcon: const Icon(Icons.pin_outlined, size: 20),
-                        onChanged: (val) => onUpdated(
-                          category: category,
-                          brand: brand,
-                          model: model,
-                          year: year,
-                          licensePlate: val.toUpperCase(),
-                          transmission: transmission,
-                        ),
+                        onChanged: (val) => onUpdated(plat: val.toUpperCase()),
                       ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
                       flex: 2,
                       child: NineTextField(
-                        label: 'Tahun',
-                        hint: '2024',
-                        initialValue: year,
-                        keyboardType: TextInputType.number,
-                        onChanged: (val) => onUpdated(
-                          category: category,
-                          brand: brand,
-                          model: model,
-                          year: val,
-                          licensePlate: licensePlate,
-                          transmission: transmission,
-                        ),
+                        label: 'Warna *',
+                        hint: 'Hitam',
+                        initialValue: vehicleColor,
+                        onChanged: (val) => onUpdated(color: val),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 14),
-                // Transmission selector
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Tipe Transmisi',
-                      style: AppTextStyles.bodyMedium.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        _buildChoiceChip(
-                          label: 'Otomatis (A/T)',
-                          isSelected: transmission == 'automatic',
-                          onTap: () => onUpdated(
-                            category: category,
-                            brand: brand,
-                            model: model,
-                            year: year,
-                            licensePlate: licensePlate,
-                            transmission: 'automatic',
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        _buildChoiceChip(
-                          label: 'Manual (M/T)',
-                          isSelected: transmission == 'manual',
-                          onTap: () => onUpdated(
-                            category: category,
-                            brand: brand,
-                            model: model,
-                            year: year,
-                            licensePlate: licensePlate,
-                            transmission: 'manual',
-                          ),
-                        ),
-                      ],
                     ),
                   ],
                 ),
               ],
             ),
           ),
+          const SizedBox(height: 24),
         ],
       ),
     );
@@ -229,8 +149,8 @@ class VehicleSectionWidget extends StatelessWidget {
           color: isSelected ? AppColors.surface : Colors.transparent,
           borderRadius: BorderRadius.circular(10),
           boxShadow: isSelected
-              ? [
-                  const BoxShadow(
+              ? const [
+                  BoxShadow(
                     color: Color(0x0F000000),
                     blurRadius: 8,
                     offset: Offset(0, 2),
@@ -255,33 +175,6 @@ class VehicleSectionWidget extends StatelessWidget {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildChoiceChip({
-    required String label,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.obsidian : AppColors.surfaceMuted,
-          borderRadius: AppRadius.buttonRadius,
-          border: Border.all(
-            color: isSelected ? AppColors.obsidian : AppColors.border,
-          ),
-        ),
-        child: Text(
-          label,
-          style: AppTextStyles.bodyMedium.copyWith(
-            color: isSelected ? Colors.white : AppColors.textPrimary,
-            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-          ),
         ),
       ),
     );

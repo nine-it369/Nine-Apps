@@ -1,30 +1,46 @@
 import 'package:dio/dio.dart';
 import '../../errors/exceptions.dart';
+import '../../utils/error_sanitizer.dart';
 
 class ErrorInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    String message = 'Terjadi kesalahan pada server';
-    int? statusCode = err.response?.statusCode;
+    final int? statusCode = err.response?.statusCode;
     dynamic details;
 
     if (err.type == DioExceptionType.connectionTimeout ||
         err.type == DioExceptionType.sendTimeout ||
         err.type == DioExceptionType.receiveTimeout ||
         err.type == DioExceptionType.connectionError) {
-      throw const NetworkException('Koneksi ke server terputus. Pastikan koneksi internet stabil.');
+      const netEx = NetworkException(
+        'Koneksi ke sistem terputus. Pastikan koneksi internet Anda aktif.',
+      );
+      return handler.reject(
+        err.copyWith(error: netEx, message: netEx.message),
+      );
     }
 
-    if (err.response != null && err.response?.data is Map) {
+    String rawMessage = '';
+    if (err.response?.data is Map) {
       final data = err.response!.data as Map;
-      message = data['message']?.toString() ?? message;
+      rawMessage = data['message']?.toString() ?? data['error']?.toString() ?? '';
       details = data['errors'] ?? data['details'];
+    } else if (err.response?.data is String) {
+      rawMessage = err.response!.data as String;
     }
 
-    throw ServerException(
-      message: message,
+    final friendlyMessage = ErrorSanitizer.sanitize(
+      rawMessage.isNotEmpty ? rawMessage : err.message,
+    );
+
+    final serverEx = ServerException(
+      message: friendlyMessage,
       statusCode: statusCode,
       details: details,
+    );
+
+    handler.reject(
+      err.copyWith(error: serverEx, message: friendlyMessage),
     );
   }
 }
