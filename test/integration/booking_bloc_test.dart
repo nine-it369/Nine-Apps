@@ -1,27 +1,46 @@
+import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nine_apps/core/errors/failures.dart';
 import 'package:nine_apps/core/usecase/usecase.dart';
+import 'package:nine_apps/features/garage/data/datasources/garage_sse_datasource.dart';
 import 'package:nine_apps/features/garage/domain/entities/booking_availability_entity.dart';
 import 'package:nine_apps/features/garage/domain/entities/booking_entity.dart';
 import 'package:nine_apps/features/garage/domain/entities/package_entity.dart';
 import 'package:nine_apps/features/garage/domain/entities/regency_entity.dart';
 import 'package:nine_apps/features/garage/domain/entities/service_entity.dart';
+import 'package:nine_apps/features/garage/domain/entities/variant_entity.dart';
 import 'package:nine_apps/features/garage/domain/entities/voucher_entity.dart';
 import 'package:nine_apps/features/garage/domain/entities/workshop_entity.dart';
 import 'package:nine_apps/features/garage/domain/repositories/i_garage_repository.dart';
 import 'package:nine_apps/features/garage/domain/usecases/cancel_preview_booking_usecase.dart';
 import 'package:nine_apps/features/garage/domain/usecases/get_availability_usecase.dart';
+import 'package:nine_apps/features/garage/domain/usecases/get_booking_by_ticket_usecase.dart';
 import 'package:nine_apps/features/garage/domain/usecases/get_packages_usecase.dart';
 import 'package:nine_apps/features/garage/domain/usecases/get_services_usecase.dart';
+import 'package:nine_apps/features/garage/domain/usecases/get_variants_usecase.dart';
 import 'package:nine_apps/features/garage/domain/usecases/get_vouchers_usecase.dart';
 import 'package:nine_apps/features/garage/domain/usecases/get_workshops_usecase.dart';
 import 'package:nine_apps/features/garage/domain/usecases/preview_booking_usecase.dart';
 import 'package:nine_apps/features/garage/domain/usecases/search_regencies_usecase.dart';
 import 'package:nine_apps/features/garage/domain/usecases/submit_booking_usecase.dart';
+import 'package:nine_apps/features/garage/domain/usecases/update_booking_usecase.dart';
 import 'package:nine_apps/features/garage/domain/usecases/validate_voucher_usecase.dart';
 import 'package:nine_apps/features/garage/presentation/blocs/booking_bloc.dart';
 import 'package:nine_apps/features/garage/presentation/blocs/booking_event.dart';
 import 'package:nine_apps/features/garage/presentation/blocs/booking_state.dart';
+
+class FakeGarageSseDataSource implements IGarageSseDataSource {
+  final _controller = StreamController<BookingSseEvent>.broadcast();
+
+  @override
+  Stream<BookingSseEvent> subscribeToUpdates({
+    required int workshopId,
+    required String bookingDate,
+  }) => _controller.stream;
+
+  @override
+  void unsubscribe() {}
+}
 
 class FakeGarageRepository implements IGarageRepository {
   bool previewCalled = false;
@@ -82,11 +101,33 @@ class FakeGarageRepository implements IGarageRepository {
   Future<Either<Failure, List<BookingAvailabilityEntity>>> getAvailability({
     required int workshopId,
     required String bookingDate,
+    String? excludeTicket,
   }) async {
     return Either.right(const [
       BookingAvailabilityEntity(hour: '13:00', status: 'available', remainingCapacity: 2),
       BookingAvailabilityEntity(hour: '14:00', status: 'full', remainingCapacity: 0),
     ]);
+  }
+
+  @override
+  Future<Either<Failure, List<VariantEntity>>> getVariants({
+    int? workshopId,
+    int? categoryId,
+    String? search,
+    String? vehicleType,
+    bool? isEv,
+    int? page,
+    int? limit,
+  }) async {
+    return Either.right(const []);
+  }
+
+  @override
+  Future<Either<Failure, BookingEntity>> updateBooking(
+    String ticket,
+    BookingEntity booking,
+  ) async {
+    return Either.right(booking);
   }
 
   @override
@@ -195,6 +236,10 @@ void main() {
       getVouchersUseCase: GetVouchersUseCase(repo),
       validateVoucherUseCase: ValidateVoucherUseCase(repo),
       submitBookingUseCase: SubmitBookingUseCase(repo),
+      getBookingByTicketUseCase: GetBookingByTicketUseCase(repo),
+      getVariantsUseCase: GetVariantsUseCase(repo),
+      updateBookingUseCase: UpdateBookingUseCase(repo),
+      sseDataSource: FakeGarageSseDataSource(),
     );
 
     bloc.add(InitBookingEvent());

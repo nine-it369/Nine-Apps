@@ -7,4 +7,5 @@ class RouteNames {
   static const String ticketLookup = '/tickets';
   static const String smartLampStudio = '/smart-lamp';
   static const String sensorOverride = '/smart-lamp/sensor-override';
+  static const String accessories = '/accessories';
 }

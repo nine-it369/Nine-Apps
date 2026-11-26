@@ -27,6 +27,9 @@ class AppColors {
 
   // Secondary Accents
   static const Color danger = Color(0xFFED1C24);
+  static const Color error = Color(0xFFED1C24);
+  static const Color errorSurface = Color(0xFFFEE2E2);
+  static const Color primarySurface = Color(0xFFE6F3D4);
   static const Color warning = Color(0xFFF59E0B);
   static const Color info = Color(0xFF4366B0);
   static const Color gold = Color(0xFFBA983D);

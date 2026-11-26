@@ -7,6 +7,15 @@ enum LedProtocolType {
   manoTechMatrix,
 }
 
+/// Category classifying lights into Nine-proprietary Matrix Tail Light vs Universal RGB BLE lights
+enum LedDeviceCategory {
+  nineSpecific('Khusus Nine'),
+  universal('Lampu Universal');
+
+  final String label;
+  const LedDeviceCategory(this.label);
+}
+
 /// Hardware wire RGB pin order calibration from LED LAMP (RgbSortActivity)
 enum RgbPinOrder {
   rgb('RGB'),
@@ -51,6 +60,15 @@ class LedDeviceEntity extends Equatable {
     this.isConnected = false,
     this.rssi = -52,
   });
+
+  /// Automatically categorizes device based on protocol type
+  LedDeviceCategory get category =>
+      protocolType == LedProtocolType.manoTechMatrix
+          ? LedDeviceCategory.nineSpecific
+          : LedDeviceCategory.universal;
+
+  bool get isNineSpecific => category == LedDeviceCategory.nineSpecific;
+  bool get isUniversal => category == LedDeviceCategory.universal;
 
   LedDeviceEntity copyWith({
     String? id,

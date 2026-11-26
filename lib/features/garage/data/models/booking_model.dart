@@ -1,4 +1,5 @@
 import '../../domain/entities/booking_entity.dart';
+import '../../domain/entities/booking_variant_item_entity.dart';
 
 class BookingModel extends BookingEntity {
   const BookingModel({
@@ -26,6 +27,7 @@ class BookingModel extends BookingEntity {
     super.purchaseSource = 'online',
     super.serviceIds = const [],
     super.packageIds = const [],
+    super.variantItems = const [],
     super.itemNames = const [],
     super.voucherId,
     super.voucherCode,
@@ -63,6 +65,7 @@ class BookingModel extends BookingEntity {
       purchaseSource: entity.purchaseSource,
       serviceIds: entity.serviceIds,
       packageIds: entity.packageIds,
+      variantItems: entity.variantItems,
       itemNames: entity.itemNames,
       voucherId: entity.voucherId,
       voucherCode: entity.voucherCode,
@@ -78,9 +81,11 @@ class BookingModel extends BookingEntity {
   factory BookingModel.fromJson(Map<String, dynamic> json) {
     final serviceList = json['service_items'] as List<dynamic>? ?? [];
     final packageList = json['package_items'] as List<dynamic>? ?? [];
+    final variantList = json['variant_items'] as List<dynamic>? ?? [];
 
     final parsedServiceIds = <int>[];
     final parsedPackageIds = <int>[];
+    final parsedVariantItems = <BookingVariantItemEntity>[];
     final parsedNames = <String>[];
 
     for (final s in serviceList) {
@@ -101,6 +106,14 @@ class BookingModel extends BookingEntity {
           parsedPackageIds.add(int.tryParse(pid.toString()) ?? 0);
         }
         final name = p['package_name']?.toString() ?? p['name']?.toString();
+        if (name != null && name.isNotEmpty) parsedNames.add(name);
+      }
+    }
+
+    for (final v in variantList) {
+      if (v is Map) {
+        parsedVariantItems.add(BookingVariantItemEntity.fromJson(Map<String, dynamic>.from(v)));
+        final name = v['variant_name']?.toString() ?? v['name']?.toString();
         if (name != null && name.isNotEmpty) parsedNames.add(name);
       }
     }
@@ -138,6 +151,7 @@ class BookingModel extends BookingEntity {
       purchaseSource: json['purchase_source']?.toString() ?? 'online',
       serviceIds: parsedServiceIds,
       packageIds: parsedPackageIds,
+      variantItems: parsedVariantItems,
       itemNames: parsedNames,
       voucherId: json['voucher_id'] is int
           ? json['voucher_id'] as int
@@ -183,7 +197,7 @@ class BookingModel extends BookingEntity {
       'purchase_source': purchaseSource,
       'service_items': serviceIds.map((id) => {'service_id': id}).toList(),
       'package_items': packageIds.map((id) => {'package_id': id}).toList(),
-      'variant_items': <Map<String, dynamic>>[],
+      'variant_items': variantItems.map((v) => v.toJson()).toList(),
       if (voucherId != null) 'voucher_id': voucherId,
       if (notes != null && notes!.trim().isNotEmpty) 'notes': notes!.trim(),
     };

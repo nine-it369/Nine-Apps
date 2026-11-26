@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'booking_variant_item_entity.dart';
 
 class BookingEntity extends Equatable {
   final int? id;
@@ -25,6 +26,7 @@ class BookingEntity extends Equatable {
   final String purchaseSource;
   final List<int> serviceIds;
   final List<int> packageIds;
+  final List<BookingVariantItemEntity> variantItems;
   final List<String> itemNames;
   final int? voucherId;
   final String? voucherCode;
@@ -60,6 +62,7 @@ class BookingEntity extends Equatable {
     this.purchaseSource = 'online',
     this.serviceIds = const [],
     this.packageIds = const [],
+    this.variantItems = const [],
     this.itemNames = const [],
     this.voucherId,
     this.voucherCode,
@@ -97,6 +100,7 @@ class BookingEntity extends Equatable {
         purchaseSource,
         serviceIds,
         packageIds,
+        variantItems,
         itemNames,
         voucherId,
         voucherCode,

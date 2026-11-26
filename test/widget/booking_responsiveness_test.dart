@@ -14,6 +14,9 @@ import 'package:nine_apps/features/garage/domain/usecases/preview_booking_usecas
 import 'package:nine_apps/features/garage/domain/usecases/search_regencies_usecase.dart';
 import 'package:nine_apps/features/garage/domain/usecases/submit_booking_usecase.dart';
 import 'package:nine_apps/features/garage/domain/usecases/validate_voucher_usecase.dart';
+import 'package:nine_apps/features/garage/domain/usecases/get_booking_by_ticket_usecase.dart';
+import 'package:nine_apps/features/garage/domain/usecases/get_variants_usecase.dart';
+import 'package:nine_apps/features/garage/domain/usecases/update_booking_usecase.dart';
 import 'package:nine_apps/features/garage/presentation/blocs/booking_bloc.dart';
 import 'package:nine_apps/features/garage/presentation/screens/booking_stepper_screen.dart';
 import 'package:nine_apps/features/garage/presentation/screens/booking_success_screen.dart';
@@ -40,6 +43,10 @@ void main() {
         getVouchersUseCase: GetVouchersUseCase(fakeRepo),
         validateVoucherUseCase: ValidateVoucherUseCase(fakeRepo),
         submitBookingUseCase: SubmitBookingUseCase(fakeRepo),
+        getBookingByTicketUseCase: GetBookingByTicketUseCase(fakeRepo),
+        getVariantsUseCase: GetVariantsUseCase(fakeRepo),
+        updateBookingUseCase: UpdateBookingUseCase(fakeRepo),
+        sseDataSource: FakeGarageSseDataSource(),
       ),
     );
   });

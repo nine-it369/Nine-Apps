@@ -533,3 +533,527 @@ void showHardwareCalibrationSheet(BuildContext context, SmartLightingBloc bloc) 
     ),
   );
 }
+
+IconData _getDeviceIcon(LedProtocolType type) {
+  switch (type) {
+    case LedProtocolType.manoTechMatrix:
+      return Icons.grid_view_rounded;
+    case LedProtocolType.ledLampCar02:
+      return Icons.wb_iridescent_rounded;
+    case LedProtocolType.happyLightingTriones:
+      return Icons.light_mode_rounded;
+  }
+}
+
+/// 5. Modal Sheet: Device Manager & BLE Discovery (SCR-21 Header Tap & Home Card Tap)
+/// Helper to render device category badge (Khusus Nine vs Universal)
+Widget _buildCategoryBadge(LedDeviceCategory category) {
+  final isNine = category == LedDeviceCategory.nineSpecific;
+  return Container(
+    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+    decoration: BoxDecoration(
+      color: isNine ? AppColors.primary.withAlpha(45) : const Color(0xFF00AEEF).withAlpha(35),
+      borderRadius: BorderRadius.circular(6),
+      border: Border.all(
+        color: isNine ? AppColors.primary : const Color(0xFF00AEEF),
+        width: 0.8,
+      ),
+    ),
+    child: Text(
+      isNine ? 'Khusus Nine (Matrix)' : 'Lampu Universal',
+      style: TextStyle(
+        fontSize: 9.5,
+        fontWeight: FontWeight.bold,
+        color: isNine ? AppColors.primaryDark : const Color(0xFF0284C7),
+      ),
+    ),
+  );
+}
+
+/// 7. Modal Sheet: Kelola Perangkat Smart Lamp (BLE Scanner & Switcher)
+void showDeviceManagerSheet(BuildContext context, SmartLightingBloc bloc) {
+  var selectedCategoryFilter = 0; // 0: Semua, 1: Khusus Nine, 2: Universal
+
+  showModalBottomSheet<void>(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (_) => BlocProvider.value(
+      value: bloc,
+      child: StatefulBuilder(
+        builder: (modalCtx, setModalState) {
+          return BlocBuilder<SmartLightingBloc, SmartLightingState>(
+            builder: (ctx, state) {
+              final activeDevice = state.lampState.activeDevice;
+              final isScanning = state.isConnecting;
+              final nineCount = state.availableDevices.where((d) => d.isNineSpecific).length;
+              final univCount = state.availableDevices.where((d) => d.isUniversal).length;
+
+              final filteredDevices = state.availableDevices.where((d) {
+                if (selectedCategoryFilter == 1) return d.isNineSpecific;
+                if (selectedCategoryFilter == 2) return d.isUniversal;
+                return true;
+              }).toList();
+
+              return _SheetShell(
+                title: 'Kelola Perangkat Smart Lamp',
+                subtitle: 'Pindai BLE 5.2, hubungkan, & tambah lampu custom',
+                children: [
+                  // Active Connected Lamp Card
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: AppColors.obsidian,
+                      borderRadius: AppRadius.mdRadius,
+                      border: Border.all(color: AppColors.primary.withAlpha(160), width: 1.5),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  width: 8,
+                                  height: 8,
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.primary,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  'LAMPU AKTIF TERHUBUNG',
+                                  style: AppTextStyles.bodySmall.copyWith(
+                                    color: AppColors.primary,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 0.8,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                              decoration: BoxDecoration(
+                                color: Colors.white12,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Text(
+                                'RSSI ${activeDevice.rssi} dBm',
+                                style: AppTextStyles.mono.copyWith(fontSize: 10, color: Colors.white70),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Container(
+                              width: 44,
+                              height: 44,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withAlpha(20),
+                                borderRadius: AppRadius.smRadius,
+                              ),
+                              child: Icon(
+                                _getDeviceIcon(activeDevice.protocolType),
+                                color: AppColors.primary,
+                                size: 24,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          activeDevice.name,
+                                          style: AppTextStyles.h3.copyWith(color: Colors.white, fontSize: 13.5),
+                                        ),
+                                      ),
+                                      _buildCategoryBadge(activeDevice.category),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 3),
+                                  Text(
+                                    '${activeDevice.id} • ${activeDevice.protocolType.name} • ${activeDevice.pinOrder.label}',
+                                    style: AppTextStyles.mono.copyWith(color: Colors.white60, fontSize: 10),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Category Filter Chips (D:\Q4 Planning Style)
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        _buildFilterChip(
+                          label: 'Semua (${state.availableDevices.length})',
+                          isSelected: selectedCategoryFilter == 0,
+                          onTap: () => setModalState(() => selectedCategoryFilter = 0),
+                        ),
+                        const SizedBox(width: 6),
+                        _buildFilterChip(
+                          label: 'Khusus Nine ($nineCount)',
+                          isSelected: selectedCategoryFilter == 1,
+                          onTap: () => setModalState(() => selectedCategoryFilter = 1),
+                        ),
+                        const SizedBox(width: 6),
+                        _buildFilterChip(
+                          label: 'Universal ($univCount)',
+                          isSelected: selectedCategoryFilter == 2,
+                          onTap: () => setModalState(() => selectedCategoryFilter = 2),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  // Scanner Controls Row
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Daftar Perangkat Terdeteksi', style: AppTextStyles.h3.copyWith(fontSize: 13)),
+                      TextButton.icon(
+                        onPressed: isScanning
+                            ? null
+                            : () {
+                                HapticFeedback.lightImpact();
+                                bloc.add(const InitSmartLightingEvent());
+                              },
+                        icon: Icon(
+                          isScanning ? Icons.sync_rounded : Icons.refresh_rounded,
+                          size: 16,
+                          color: AppColors.primaryDark,
+                        ),
+                        label: Text(
+                          isScanning ? 'Memindai...' : 'Pindai Ulang',
+                          style: AppTextStyles.bodySmall.copyWith(
+                            color: AppColors.primaryDark,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  // Available devices list
+                  ...filteredDevices.map((dev) {
+                    final isActive = dev.id == activeDevice.id;
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: isActive ? AppColors.primaryLight.withAlpha(120) : AppColors.surface,
+                          borderRadius: AppRadius.mdRadius,
+                          border: Border.all(
+                            color: isActive ? AppColors.primary : AppColors.borderSubtle,
+                            width: isActive ? 1.5 : 1.0,
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 38,
+                              height: 38,
+                              decoration: BoxDecoration(
+                                color: isActive ? AppColors.obsidian : AppColors.surfaceMuted,
+                                borderRadius: AppRadius.smRadius,
+                              ),
+                              child: Icon(
+                                _getDeviceIcon(dev.protocolType),
+                                color: isActive ? AppColors.primary : AppColors.textPrimary,
+                                size: 20,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          dev.name,
+                                          style: AppTextStyles.h3.copyWith(fontSize: 12.5),
+                                        ),
+                                      ),
+                                      _buildCategoryBadge(dev.category),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    '${dev.id} • ${dev.protocolType.name}',
+                                    style: AppTextStyles.bodySmall.copyWith(
+                                      fontSize: 10.5,
+                                      color: AppColors.textSecondary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            if (isActive)
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                decoration: BoxDecoration(
+                                  color: AppColors.primary,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(Icons.check_rounded, size: 14, color: AppColors.obsidian),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      'Aktif',
+                                      style: AppTextStyles.bodySmall.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.obsidian,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            else
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.obsidian,
+                                  foregroundColor: Colors.white,
+                                  elevation: 0,
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                ),
+                                onPressed: () {
+                                  HapticFeedback.lightImpact();
+                                  bloc.add(ConnectLedDeviceEvent(dev.id));
+                                },
+                                child: const Text('Hubungkan', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+                              ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+
+                  const SizedBox(height: 12),
+
+                  // Button "+ Tambah Lampu Baru"
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        side: const BorderSide(color: AppColors.primary, width: 1.5),
+                        shape: RoundedRectangleBorder(borderRadius: AppRadius.buttonRadius),
+                      ),
+                      icon: const Icon(Icons.add_rounded, color: AppColors.primaryDark),
+                      label: Text(
+                        'Tambah Lampu BLE Baru (+ Pairing)',
+                        style: AppTextStyles.h3.copyWith(fontSize: 13, color: AppColors.primaryDark),
+                      ),
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                        _showAddDeviceDialog(context, bloc);
+                      },
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  // Advanced Hardware Calibration Link
+                  Center(
+                    child: TextButton.icon(
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                        showHardwareCalibrationSheet(context, bloc);
+                      },
+                      icon: const Icon(Icons.tune_rounded, size: 15, color: AppColors.textSecondary),
+                      label: Text(
+                        'Kalibrasi Pin RGB & Tipe IC Driver',
+                        style: AppTextStyles.bodySmall.copyWith(
+                          color: AppColors.textSecondary,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      ),
+    ),
+  );
+}
+
+Widget _buildFilterChip({
+  required String label,
+  required bool isSelected,
+  required VoidCallback onTap,
+}) {
+  return GestureDetector(
+    onTap: () {
+      HapticFeedback.lightImpact();
+      onTap();
+    },
+    child: Container(
+      height: 32,
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      decoration: BoxDecoration(
+        color: isSelected ? const Color(0xFF231F20) : const Color(0xFFF1F5F9),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.bold,
+          color: isSelected ? Colors.white : const Color(0xFF231F20),
+        ),
+      ),
+    ),
+  );
+}
+
+void _showAddDeviceDialog(BuildContext context, SmartLightingBloc bloc) {
+  final nameController = TextEditingController(text: 'Nine Custom Demon Eye');
+  var selectedCategory = LedDeviceCategory.nineSpecific;
+
+  showDialog<void>(
+    context: context,
+    builder: (dialogCtx) => StatefulBuilder(
+      builder: (dCtx, setDialogState) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: AppRadius.mdRadius),
+          title: Row(
+            children: [
+              const Icon(Icons.bluetooth_searching_rounded, color: AppColors.primaryDark),
+              const SizedBox(width: 8),
+              Text('Pairing Lampu Baru', style: AppTextStyles.h3),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Pilih jenis lampu yang akan dipasangkan ke aplikasi:',
+                style: AppTextStyles.bodySmall,
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: ChoiceChip(
+                      label: const Text('Khusus Nine (Matrix)', style: TextStyle(fontSize: 11)),
+                      selected: selectedCategory == LedDeviceCategory.nineSpecific,
+                      selectedColor: AppColors.primary,
+                      onSelected: (val) {
+                        if (val) setDialogState(() => selectedCategory = LedDeviceCategory.nineSpecific);
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: ChoiceChip(
+                      label: const Text('Universal (RGB)', style: TextStyle(fontSize: 11)),
+                      selected: selectedCategory == LedDeviceCategory.universal,
+                      selectedColor: AppColors.primary,
+                      onSelected: (val) {
+                        if (val) setDialogState(() => selectedCategory = LedDeviceCategory.universal);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 14),
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  labelText: 'Nama Lampu / Posisi',
+                  hintText: 'Misal: Lampu Kolong / Stoplamp Belakang',
+                  filled: true,
+                  fillColor: AppColors.surfaceMuted,
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: AppColors.primaryLight.withAlpha(80),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.info_outline_rounded, size: 18, color: AppColors.primaryDark),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        selectedCategory == LedDeviceCategory.nineSpecific
+                            ? 'Ditemukan modul NINE Tail Light (Matrix LED BLE 5.2)'
+                            : 'Ditemukan kontroler LED Universal (RGB Car02 / Triones)',
+                        style: AppTextStyles.bodySmall.copyWith(fontSize: 10.5, color: AppColors.primaryDark),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogCtx).pop(),
+              child: const Text('Batal'),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: AppColors.obsidian,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+              onPressed: () {
+                Navigator.of(dialogCtx).pop();
+                HapticFeedback.mediumImpact();
+                // Connect to appropriate device based on category
+                final targetId = selectedCategory == LedDeviceCategory.nineSpecific
+                    ? 'NINE-LED-12093'
+                    : 'LEDCAR-02-8812';
+                bloc.add(ConnectLedDeviceEvent(targetId));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Lampu "${nameController.text}" (${selectedCategory.label}) berhasil ditambahkan & terhubung!'),
+                    backgroundColor: AppColors.primaryDark,
+                  ),
+                );
+              },
+              child: const Text('Tautkan Sekarang', style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+          ],
+        );
+      },
+    ),
+  );
+}

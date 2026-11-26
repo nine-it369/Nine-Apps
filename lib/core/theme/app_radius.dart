@@ -10,6 +10,8 @@ class AppRadius {
   static const double card = 24.0;
   static const double heroCard = 28.0;
   static const double modal = 32.0;
+  static const double sheet = 32.0;
+  static const double dialog = 24.0;
   static const double pill = 999.0;
 
   static BorderRadius smRadius = BorderRadius.circular(sm);
@@ -19,5 +21,7 @@ class AppRadius {
   static BorderRadius cardRadius = BorderRadius.circular(card);
   static BorderRadius heroRadius = BorderRadius.circular(heroCard);
   static BorderRadius modalRadius = const BorderRadius.vertical(top: Radius.circular(modal));
+  static BorderRadius sheetRadius = const BorderRadius.vertical(top: Radius.circular(sheet));
+  static BorderRadius dialogRadius = BorderRadius.circular(dialog);
   static BorderRadius pillRadius = BorderRadius.circular(pill);
 }

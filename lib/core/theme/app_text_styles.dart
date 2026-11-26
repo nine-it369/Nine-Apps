@@ -43,6 +43,24 @@ class AppTextStyles {
         color: AppColors.textMuted,
       );
 
+  static TextStyle get caption => GoogleFonts.plusJakartaSans(
+        fontSize: 10,
+        fontWeight: FontWeight.w500,
+        color: AppColors.textMuted,
+      );
+
+  static TextStyle get labelMedium => GoogleFonts.plusJakartaSans(
+        fontSize: 12,
+        fontWeight: FontWeight.w600,
+        color: AppColors.textPrimary,
+      );
+
+  static TextStyle get labelSmall => GoogleFonts.plusJakartaSans(
+        fontSize: 10,
+        fontWeight: FontWeight.w600,
+        color: AppColors.textPrimary,
+      );
+
   static TextStyle get button => GoogleFonts.plusJakartaSans(
         fontSize: 14,
         fontWeight: FontWeight.w700,

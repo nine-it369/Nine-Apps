@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import '../../domain/entities/package_entity.dart';
 import '../../domain/entities/regency_entity.dart';
 import '../../domain/entities/service_entity.dart';
+import '../../domain/entities/variant_entity.dart';
 import '../../domain/entities/voucher_entity.dart';
 import '../../domain/entities/workshop_entity.dart';
 
@@ -100,6 +101,42 @@ class TogglePackageSelectionEvent extends BookingEvent {
   List<Object?> get props => [package];
 }
 
+class ToggleVariantSelectionEvent extends BookingEvent {
+  final VariantEntity variant;
+  final bool withInstallation;
+
+  const ToggleVariantSelectionEvent({
+    required this.variant,
+    this.withInstallation = false,
+  });
+
+  @override
+  List<Object?> get props => [variant, withInstallation];
+}
+
+class SelectPackageChildEvent extends BookingEvent {
+  final int packageId;
+  final int parentVariantId;
+  final int childVariantId;
+
+  const SelectPackageChildEvent({
+    required this.packageId,
+    required this.parentVariantId,
+    required this.childVariantId,
+  });
+
+  @override
+  List<Object?> get props => [packageId, parentVariantId, childVariantId];
+}
+
+class ToggleApplyDiscountEvent extends BookingEvent {
+  final bool applyDiscount;
+  const ToggleApplyDiscountEvent(this.applyDiscount);
+
+  @override
+  List<Object?> get props => [applyDiscount];
+}
+
 class SelectWorkshopEvent extends BookingEvent {
   final WorkshopEntity workshop;
   const SelectWorkshopEvent(this.workshop);
@@ -145,3 +182,13 @@ class RemoveVoucherEvent extends BookingEvent {}
 class TickReviewTimerEvent extends BookingEvent {}
 
 class SubmitBookingEvent extends BookingEvent {}
+
+class LoadBookingForEditEvent extends BookingEvent {
+  final String ticket;
+  const LoadBookingForEditEvent(this.ticket);
+
+  @override
+  List<Object?> get props => [ticket];
+}
+
+class BookingSseUpdateReceivedEvent extends BookingEvent {}

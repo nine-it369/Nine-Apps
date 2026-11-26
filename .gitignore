@@ -96,6 +96,9 @@ app.*.map.json
 # Local Decompiled APKs, Tools, and Heavy Binaries (GitHub 100MB limit guard)
 pedoman_Apps/
 tools/
+jadx/
+.scannerwork/
+nul
 *.apk
 *.aab
 *.jar

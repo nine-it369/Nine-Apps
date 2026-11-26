@@ -8,6 +8,7 @@ import '../../domain/entities/booking_entity.dart';
 import '../../domain/entities/package_entity.dart';
 import '../../domain/entities/regency_entity.dart';
 import '../../domain/entities/service_entity.dart';
+import '../../domain/entities/variant_entity.dart';
 import '../../domain/entities/voucher_entity.dart';
 import '../../domain/entities/workshop_entity.dart';
 import '../../domain/repositories/i_garage_repository.dart';
@@ -70,6 +71,32 @@ class GarageRepositoryImpl implements IGarageRepository {
   }
 
   @override
+  Future<Either<Failure, List<VariantEntity>>> getVariants({
+    int? workshopId,
+    int? categoryId,
+    String? search,
+    String? vehicleType,
+    bool? isEv,
+    int? page,
+    int? limit,
+  }) async {
+    try {
+      final result = await remoteDataSource.getVariants(
+        workshopId: workshopId,
+        categoryId: categoryId,
+        search: search,
+        vehicleType: vehicleType,
+        isEv: isEv,
+        page: page,
+        limit: limit,
+      );
+      return Either.right(result);
+    } catch (e) {
+      return Either.left(_mapExceptionToFailure(e));
+    }
+  }
+
+  @override
   Future<Either<Failure, List<RegencyEntity>>> searchRegencies(String query) async {
     try {
       final result = await remoteDataSource.searchRegencies(query);
@@ -83,11 +110,13 @@ class GarageRepositoryImpl implements IGarageRepository {
   Future<Either<Failure, List<BookingAvailabilityEntity>>> getAvailability({
     required int workshopId,
     required String bookingDate,
+    String? excludeTicket,
   }) async {
     try {
       final result = await remoteDataSource.getAvailability(
         workshopId: workshopId,
         bookingDate: bookingDate,
+        excludeTicket: excludeTicket,
       );
       return Either.right(result);
     } catch (e) {
@@ -196,6 +225,17 @@ class GarageRepositoryImpl implements IGarageRepository {
     try {
       final model = BookingModel.fromEntity(booking);
       final result = await remoteDataSource.submitBooking(model);
+      return Either.right(result);
+    } catch (e) {
+      return Either.left(_mapExceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, BookingEntity>> updateBooking(String ticket, BookingEntity booking) async {
+    try {
+      final model = BookingModel.fromEntity(booking);
+      final result = await remoteDataSource.updateBooking(ticket, model);
       return Either.right(result);
     } catch (e) {
       return Either.left(_mapExceptionToFailure(e));

@@ -5,6 +5,9 @@ class ApiEndpoints {
   static const String workshops = '/workshops';
   static const String services = '/services';
   static const String packages = '/packages';
+  static const String variants = '/variants';
+  static const String variantsSearch = '/variants/search';
+  static const String catalogSellable = '/catalog/sellable';
   static const String regencies = '/regencies';
   static const String vouchers = '/vouchers';
   static const String validateVoucher = '/vouchers/validate';
@@ -13,6 +16,7 @@ class ApiEndpoints {
   static const String bookingAvailability = '/bookings/availability';
   static const String bookingPreview = '/bookings/preview';
   static const String bookingCancelPreview = '/bookings/cancel-preview';
+  static const String bookingUpdates = '/bookings/updates';
   static const String customerBookings = '/customers/me/bookings';
   static const String workOrders = '/workorders';
 

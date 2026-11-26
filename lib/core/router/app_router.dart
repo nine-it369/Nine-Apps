@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/garage/domain/entities/booking_entity.dart';
+import '../../features/garage/presentation/screens/accessories_screen.dart';
 import '../../features/garage/presentation/screens/booking_stepper_screen.dart';
 import '../../features/garage/presentation/screens/booking_success_screen.dart';
 import '../../features/garage/presentation/screens/garage_landing_screen.dart';
@@ -25,7 +26,10 @@ class AppRouter {
       GoRoute(
         path: RouteNames.booking,
         name: 'booking',
-        builder: (context, state) => const BookingStepperScreen(),
+        builder: (context, state) {
+          final ticket = state.extra as String?;
+          return BookingStepperScreen(editTicket: ticket);
+        },
       ),
       GoRoute(
         path: RouteNames.bookingSuccess,
@@ -58,6 +62,11 @@ class AppRouter {
           value: sl<SmartLightingBloc>(),
           child: const SensorOverrideScreen(),
         ),
+      ),
+      GoRoute(
+        path: RouteNames.accessories,
+        name: 'accessories',
+        builder: (context, state) => const AccessoriesScreen(),
       ),
     ],
   );

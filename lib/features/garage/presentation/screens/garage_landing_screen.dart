@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/router/route_names.dart';
@@ -9,6 +10,8 @@ import '../../../../core/usecase/usecase.dart';
 import '../../../../shared/widgets/bento/bento_card.dart';
 import '../../../../shared/widgets/buttons/nine_primary_button.dart';
 import '../../../../shared/widgets/pills/borderless_status_tag.dart';
+import '../../../smart_lighting/presentation/blocs/smart_lighting_bloc.dart';
+import '../../../smart_lighting/presentation/widgets/home_hero_led_card.dart';
 import '../../domain/entities/workshop_entity.dart';
 import '../../domain/usecases/get_workshops_usecase.dart';
 
@@ -63,6 +66,11 @@ class _GarageLandingScreenState extends State<GarageLandingScreen> {
         ),
         actions: [
           IconButton(
+            onPressed: () => context.push(RouteNames.accessories),
+            icon: const Icon(Icons.devices_other_rounded),
+            tooltip: 'Aksesoris Terpasang',
+          ),
+          IconButton(
             onPressed: () => context.push(RouteNames.ticketLookup),
             icon: const Icon(Icons.qr_code_scanner_rounded),
             tooltip: 'Cek Tiket SPK',
@@ -74,6 +82,11 @@ class _GarageLandingScreenState extends State<GarageLandingScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            BlocProvider.value(
+              value: sl<SmartLightingBloc>(),
+              child: const HomeHeroLedCard(),
+            ),
+            const SizedBox(height: 18),
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(20),
@@ -154,7 +167,30 @@ class _GarageLandingScreenState extends State<GarageLandingScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: BentoCard(
+                    onTap: () => context.push(RouteNames.accessories),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFAF5FF),
+                            borderRadius: AppRadius.smRadius,
+                          ),
+                          child: const Icon(Icons.devices_other_rounded, color: Color(0xFF9333EA)),
+                        ),
+                        const SizedBox(height: 12),
+                        Text('Aksesoris IoT', style: AppTextStyles.h3.copyWith(fontSize: 14)),
+                        const SizedBox(height: 2),
+                        Text('GPS, Kamera & Lampu', style: AppTextStyles.bodySmall),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
                 Expanded(
                   child: BentoCard(
                     onTap: () => context.push(RouteNames.ticketLookup),
@@ -172,7 +208,7 @@ class _GarageLandingScreenState extends State<GarageLandingScreen> {
                         const SizedBox(height: 12),
                         Text('Digital SPK', style: AppTextStyles.h3.copyWith(fontSize: 14)),
                         const SizedBox(height: 2),
-                        Text('Cek tiket pengerjaan', style: AppTextStyles.bodySmall),
+                        Text('Cek pengerjaan', style: AppTextStyles.bodySmall),
                       ],
                     ),
                   ),

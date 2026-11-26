@@ -13,6 +13,8 @@ class ApiClient {
     required this.authInterceptor,
   });
 
+  String get baseUrl => dio.options.baseUrl;
+
   factory ApiClient.create({EnvConfig? config}) {
     final env = config ?? EnvConfig.current;
     final auth = AuthInterceptor();

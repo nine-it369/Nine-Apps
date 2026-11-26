@@ -9,12 +9,15 @@ import '../../../../shared/widgets/controls/nine_text_field.dart';
 import '../../../../shared/widgets/pills/borderless_status_tag.dart';
 import '../../domain/entities/voucher_entity.dart';
 import '../blocs/booking_state.dart';
+import 'dialogs/promo_terms_dialog.dart';
 
 class ReviewSectionWidget extends StatefulWidget {
   final BookingState state;
   final ValueChanged<VoucherEntity> onApplyVoucher;
   final ValueChanged<String> onApplyVoucherCode;
   final VoidCallback onRemoveVoucher;
+  final ValueChanged<bool> onToggleApplyDiscount;
+  final ValueChanged<int> onEditStep;
 
   const ReviewSectionWidget({
     super.key,
@@ -22,6 +25,8 @@ class ReviewSectionWidget extends StatefulWidget {
     required this.onApplyVoucher,
     required this.onApplyVoucherCode,
     required this.onRemoveVoucher,
+    required this.onToggleApplyDiscount,
+    required this.onEditStep,
   });
 
   @override
@@ -58,6 +63,7 @@ class _ReviewSectionWidgetState extends State<ReviewSectionWidget> {
             decoration: BoxDecoration(
               color: const Color(0xFFFEF3C7),
               borderRadius: AppRadius.buttonRadius,
+              border: Border.all(color: const Color(0xFFFDE68A)),
             ),
             child: Row(
               children: [
@@ -93,6 +99,7 @@ class _ReviewSectionWidgetState extends State<ReviewSectionWidget> {
           ),
           const SizedBox(height: 14),
 
+          // Card 1: Data Pelanggan & Alamat
           BentoCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,18 +107,53 @@ class _ReviewSectionWidgetState extends State<ReviewSectionWidget> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Data Pelanggan & Kendaraan', style: AppTextStyles.h3),
-                    BorderlessStatusTag.info(
-                      state.vehicleType == 'car' ? 'MOBIL' : 'MOTOR',
+                    Text('Data Pelanggan & Alamat', style: AppTextStyles.h3),
+                    TextButton(
+                      onPressed: () => widget.onEditStep(1),
+                      style: TextButton.styleFrom(visualDensity: VisualDensity.compact),
+                      child: const Text('Ubah', style: TextStyle(color: AppColors.primaryDark, fontWeight: FontWeight.bold)),
                     ),
                   ],
                 ),
-                const Divider(height: 20, color: AppColors.borderSubtle),
+                const Divider(height: 12, color: AppColors.borderSubtle),
                 _buildInfoRow('Nama', state.customerName),
                 _buildInfoRow('WhatsApp', state.customerPhone),
                 if (state.customerEmail.isNotEmpty) _buildInfoRow('Email', state.customerEmail),
                 _buildInfoRow('Kota', state.cityName),
                 _buildInfoRow('Alamat', state.custAddress),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 12),
+
+          // Card 2: Kendaraan
+          BentoCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Data Kendaraan', style: AppTextStyles.h3),
+                    Row(
+                      children: [
+                        BorderlessStatusTag.info(state.vehicleType == 'car' ? 'MOBIL' : 'MOTOR'),
+                        if (state.isEv) ...[
+                          const SizedBox(width: 4),
+                          BorderlessStatusTag.success('EV'),
+                        ],
+                        const SizedBox(width: 6),
+                        TextButton(
+                          onPressed: () => widget.onEditStep(2),
+                          style: TextButton.styleFrom(visualDensity: VisualDensity.compact),
+                          child: const Text('Ubah', style: TextStyle(color: AppColors.primaryDark, fontWeight: FontWeight.bold)),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const Divider(height: 12, color: AppColors.borderSubtle),
                 _buildInfoRow('Kendaraan', '${state.vehicleModel} (${state.vehicleColor})'),
                 _buildInfoRow('Nomor Polisi', state.vehiclePlat),
               ],
@@ -120,6 +162,7 @@ class _ReviewSectionWidgetState extends State<ReviewSectionWidget> {
 
           const SizedBox(height: 12),
 
+          // Card 3: Jadwal & Lokasi
           BentoCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,10 +171,14 @@ class _ReviewSectionWidgetState extends State<ReviewSectionWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Jadwal & Lokasi Servis', style: AppTextStyles.h3),
-                    const Icon(Icons.calendar_month_rounded, color: AppColors.primaryDark, size: 20),
+                    TextButton(
+                      onPressed: () => widget.onEditStep(4),
+                      style: TextButton.styleFrom(visualDensity: VisualDensity.compact),
+                      child: const Text('Ubah', style: TextStyle(color: AppColors.primaryDark, fontWeight: FontWeight.bold)),
+                    ),
                   ],
                 ),
-                const Divider(height: 20, color: AppColors.borderSubtle),
+                const Divider(height: 12, color: AppColors.borderSubtle),
                 _buildInfoRow('Cabang Bengkel', state.selectedWorkshop?.name ?? '-'),
                 _buildInfoRow(
                   'Tanggal Kedatangan',
@@ -140,20 +187,35 @@ class _ReviewSectionWidgetState extends State<ReviewSectionWidget> {
                       : '-',
                 ),
                 _buildInfoRow('Jam Kedatangan', '${state.selectedHour ?? "-"} WIB'),
-                _buildInfoRow('Estimasi Pengerjaan', '~${state.estimatedMinutes} menit'),
+                _buildInfoRow('Estimasi Pengerjaan', '~${state.estimatedMinutes} menit (${state.slotsNeeded} slot)'),
+                if (state.isMultiDay && state.endDate != null)
+                  _buildInfoRow('Estimasi Selesai (Multi-Hari)', state.endDate!),
               ],
             ),
           ),
 
           const SizedBox(height: 12),
 
+          // Card 4: Rincian Layanan & Produk
           BentoCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Rincian Layanan & Paket', style: AppTextStyles.h3),
-                const Divider(height: 20, color: AppColors.borderSubtle),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Rincian Layanan & Produk', style: AppTextStyles.h3),
+                    TextButton(
+                      onPressed: () => widget.onEditStep(3),
+                      style: TextButton.styleFrom(visualDensity: VisualDensity.compact),
+                      child: const Text('Ubah', style: TextStyle(color: AppColors.primaryDark, fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+                const Divider(height: 12, color: AppColors.borderSubtle),
+
                 ...state.selectedServices.map((service) {
+                  final price = widget.state.applyDiscount ? service.nowPrice : service.price;
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     child: Row(
@@ -161,14 +223,18 @@ class _ReviewSectionWidgetState extends State<ReviewSectionWidget> {
                       children: [
                         Expanded(child: Text(service.name, style: AppTextStyles.bodyMedium)),
                         Text(
-                          CurrencyFormatter.format(service.nowPrice),
+                          CurrencyFormatter.format(price),
                           style: AppTextStyles.bodyLarge.copyWith(fontWeight: FontWeight.w700),
                         ),
                       ],
                     ),
                   );
                 }),
+
                 ...state.selectedPackages.map((pkg) {
+                  final price = widget.state.applyDiscount
+                      ? pkg.effectivePrice(state.isEv)
+                      : (state.isEv ? (pkg.evPrice > 0 ? pkg.evPrice : pkg.price) : pkg.price);
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     child: Row(
@@ -176,7 +242,41 @@ class _ReviewSectionWidgetState extends State<ReviewSectionWidget> {
                       children: [
                         Expanded(child: Text('[Paket] ${pkg.name}', style: AppTextStyles.bodyMedium)),
                         Text(
-                          CurrencyFormatter.format(pkg.effectivePrice(state.isEv)),
+                          CurrencyFormatter.format(price),
+                          style: AppTextStyles.bodyLarge.copyWith(fontWeight: FontWeight.w700),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+
+                ...state.selectedVariants.where((v) => v.packageId == null).map((variant) {
+                  final itemPrice = widget.state.applyDiscount
+                      ? (variant.discPrice ?? variant.price ?? 0)
+                      : (variant.price ?? 0);
+                  final installPrice = variant.withInstallation
+                      ? (widget.state.applyDiscount
+                          ? (variant.serviceDiscPrice ?? variant.servicePrice ?? 0)
+                          : (variant.servicePrice ?? 0))
+                      : 0;
+
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(variant.variantName ?? 'Produk Suku Cadang', style: AppTextStyles.bodyMedium),
+                              if (variant.withInstallation)
+                                Text('+ Pemasangan di Bengkel', style: AppTextStyles.caption.copyWith(color: AppColors.primaryDark)),
+                            ],
+                          ),
+                        ),
+                        Text(
+                          CurrencyFormatter.format(itemPrice + installPrice),
                           style: AppTextStyles.bodyLarge.copyWith(fontWeight: FontWeight.w700),
                         ),
                       ],
@@ -189,11 +289,69 @@ class _ReviewSectionWidgetState extends State<ReviewSectionWidget> {
 
           const SizedBox(height: 12),
 
+          // Card 5: Switch Diskon Promo & Syarat Ulasan
+          Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: AppRadius.cardRadius,
+              border: Border.all(color: AppColors.borderSubtle),
+            ),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: AppColors.primarySurface,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Icon(Icons.percent_rounded, size: 16, color: AppColors.primaryDark),
+                        ),
+                        const SizedBox(width: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Diskon Promo Resmi', style: AppTextStyles.labelMedium.copyWith(fontWeight: FontWeight.bold)),
+                            Text('Syarat Google Maps & IG Story', style: AppTextStyles.caption.copyWith(color: AppColors.textSecondary, fontSize: 10)),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Switch.adaptive(
+                      value: state.applyDiscount,
+                      activeColor: AppColors.primary,
+                      onChanged: widget.onToggleApplyDiscount,
+                    ),
+                  ],
+                ),
+                const Divider(height: 16, color: AppColors.borderSubtle),
+                InkWell(
+                  onTap: () => PromoTermsDialog.show(context),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.info_outline, size: 14, color: AppColors.primaryDark),
+                      const SizedBox(width: 6),
+                      Text('Lihat Syarat Klaim Diskon Promo >', style: AppTextStyles.caption.copyWith(color: AppColors.primaryDark, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 12),
+
+          // Card 6: Voucher Promo
           BentoCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Voucher Promo Tersedia', style: AppTextStyles.h3),
+                Text('Voucher Promo', style: AppTextStyles.h3),
                 const SizedBox(height: 8),
                 if (state.appliedVoucher != null)
                   Container(
@@ -285,6 +443,7 @@ class _ReviewSectionWidgetState extends State<ReviewSectionWidget> {
 
           const SizedBox(height: 12),
 
+          // Total Price Card (Obsidian)
           BentoCard(
             backgroundColor: AppColors.obsidian,
             child: Column(

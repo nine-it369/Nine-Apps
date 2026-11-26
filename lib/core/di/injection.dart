@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import '../network/api_client.dart';
 import '../../features/garage/data/datasources/garage_remote_datasource.dart';
+import '../../features/garage/data/datasources/garage_sse_datasource.dart';
 import '../../features/garage/data/repositories/garage_repository_impl.dart';
 import '../../features/garage/domain/repositories/i_garage_repository.dart';
 import '../../features/garage/domain/usecases/cancel_preview_booking_usecase.dart';
@@ -8,11 +9,13 @@ import '../../features/garage/domain/usecases/get_availability_usecase.dart';
 import '../../features/garage/domain/usecases/get_booking_by_ticket_usecase.dart';
 import '../../features/garage/domain/usecases/get_packages_usecase.dart';
 import '../../features/garage/domain/usecases/get_services_usecase.dart';
+import '../../features/garage/domain/usecases/get_variants_usecase.dart';
 import '../../features/garage/domain/usecases/get_vouchers_usecase.dart';
 import '../../features/garage/domain/usecases/get_workshops_usecase.dart';
 import '../../features/garage/domain/usecases/preview_booking_usecase.dart';
 import '../../features/garage/domain/usecases/search_regencies_usecase.dart';
 import '../../features/garage/domain/usecases/submit_booking_usecase.dart';
+import '../../features/garage/domain/usecases/update_booking_usecase.dart';
 import '../../features/garage/domain/usecases/validate_voucher_usecase.dart';
 import '../../features/garage/presentation/blocs/booking_bloc.dart';
 import '../../features/smart_lighting/data/datasources/led_ble_datasource.dart';
@@ -33,6 +36,9 @@ Future<void> configureDependencies() async {
   // 2. Data Sources
   sl.registerLazySingleton<IGarageRemoteDataSource>(
     () => GarageRemoteDataSourceImpl(sl<ApiClient>()),
+  );
+  sl.registerLazySingleton<IGarageSseDataSource>(
+    () => GarageSseDataSourceImpl(sl<ApiClient>()),
   );
   sl.registerLazySingleton<ILedBleDataSource>(
     () => SimulatedLedBleDataSourceImpl(),
@@ -56,6 +62,9 @@ Future<void> configureDependencies() async {
   sl.registerLazySingleton<GetPackagesUseCase>(
     () => GetPackagesUseCase(sl<IGarageRepository>()),
   );
+  sl.registerLazySingleton<GetVariantsUseCase>(
+    () => GetVariantsUseCase(sl<IGarageRepository>()),
+  );
   sl.registerLazySingleton<SearchRegenciesUseCase>(
     () => SearchRegenciesUseCase(sl<IGarageRepository>()),
   );
@@ -76,6 +85,9 @@ Future<void> configureDependencies() async {
   );
   sl.registerLazySingleton<SubmitBookingUseCase>(
     () => SubmitBookingUseCase(sl<IGarageRepository>()),
+  );
+  sl.registerLazySingleton<UpdateBookingUseCase>(
+    () => UpdateBookingUseCase(sl<IGarageRepository>()),
   );
   sl.registerLazySingleton<GetBookingByTicketUseCase>(
     () => GetBookingByTicketUseCase(sl<IGarageRepository>()),
@@ -110,6 +122,7 @@ Future<void> configureDependencies() async {
       getWorkshopsUseCase: sl<GetWorkshopsUseCase>(),
       getServicesUseCase: sl<GetServicesUseCase>(),
       getPackagesUseCase: sl<GetPackagesUseCase>(),
+      getVariantsUseCase: sl<GetVariantsUseCase>(),
       searchRegenciesUseCase: sl<SearchRegenciesUseCase>(),
       getAvailabilityUseCase: sl<GetAvailabilityUseCase>(),
       previewBookingUseCase: sl<PreviewBookingUseCase>(),
@@ -117,6 +130,9 @@ Future<void> configureDependencies() async {
       getVouchersUseCase: sl<GetVouchersUseCase>(),
       validateVoucherUseCase: sl<ValidateVoucherUseCase>(),
       submitBookingUseCase: sl<SubmitBookingUseCase>(),
+      updateBookingUseCase: sl<UpdateBookingUseCase>(),
+      getBookingByTicketUseCase: sl<GetBookingByTicketUseCase>(),
+      sseDataSource: sl<IGarageSseDataSource>(),
     ),
   );
   sl.registerLazySingleton<SmartLightingBloc>(

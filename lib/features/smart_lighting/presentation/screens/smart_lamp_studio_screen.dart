@@ -56,7 +56,11 @@ class _SmartLampStudioScreenState extends State<SmartLampStudioScreen> {
   @override
   void initState() {
     super.initState();
-    final initialText = context.read<SmartLightingBloc>().state.lampState.runningText;
+    final bloc = context.read<SmartLightingBloc>();
+    if (bloc.state.availableDevices.length <= 1) {
+      bloc.add(const InitSmartLightingEvent());
+    }
+    final initialText = bloc.state.lampState.runningText;
     _textController = TextEditingController(text: initialText);
   }
 
@@ -416,7 +420,7 @@ class _SmartLampStudioScreenState extends State<SmartLampStudioScreen> {
         GestureDetector(
           onTap: () {
             HapticFeedback.lightImpact();
-            showHardwareCalibrationSheet(context, context.read<SmartLightingBloc>());
+            showDeviceManagerSheet(context, context.read<SmartLightingBloc>());
           },
           child: Container(
             height: 44,
@@ -457,6 +461,12 @@ class _SmartLampStudioScreenState extends State<SmartLampStudioScreen> {
                       ],
                     ),
                   ],
+                ),
+                const SizedBox(width: 8),
+                const Icon(
+                  Icons.keyboard_arrow_down_rounded,
+                  size: 18,
+                  color: Colors.white70,
                 ),
               ],
             ),

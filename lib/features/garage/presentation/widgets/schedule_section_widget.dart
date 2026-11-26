@@ -7,6 +7,8 @@ import '../../../../shared/widgets/bento/bento_card.dart';
 import '../../../../shared/widgets/pills/borderless_status_tag.dart';
 import '../../domain/entities/booking_availability_entity.dart';
 import '../../domain/entities/workshop_entity.dart';
+import '../../domain/utils/slot_calculator.dart';
+import 'dialogs/slot_conflict_sheet.dart';
 
 class ScheduleSectionWidget extends StatelessWidget {
   final List<WorkshopEntity> workshops;
@@ -14,6 +16,12 @@ class ScheduleSectionWidget extends StatelessWidget {
   final DateTime? selectedDate;
   final List<BookingAvailabilityEntity> timeSlots;
   final String? selectedHour;
+  final int estimatedMinutes;
+  final int slotsNeeded;
+  final int requiredTechnicians;
+  final bool isMultiDay;
+  final String? endDate;
+  final SlotValidationResult? slotConflict;
   final ValueChanged<WorkshopEntity> onSelectWorkshop;
   final ValueChanged<DateTime> onSelectDate;
   final ValueChanged<String> onSelectTimeSlot;
@@ -25,6 +33,12 @@ class ScheduleSectionWidget extends StatelessWidget {
     required this.selectedDate,
     required this.timeSlots,
     required this.selectedHour,
+    this.estimatedMinutes = 60,
+    this.slotsNeeded = 2,
+    this.requiredTechnicians = 1,
+    this.isMultiDay = false,
+    this.endDate,
+    this.slotConflict,
     required this.onSelectWorkshop,
     required this.onSelectDate,
     required this.onSelectTimeSlot,
@@ -38,9 +52,9 @@ class ScheduleSectionWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Jadwal & Lokasi Bengkel', style: AppTextStyles.h2),
-          const SizedBox(height: 6),
+          const SizedBox(height: 4),
           Text(
-            'Pilih cabang resmi dan slot jam. Slot akan ditahan 3 menit saat Anda masuk ke tahap Review.',
+            'Pilih cabang resmi dan slot jam. Ketersediaan slot diperbarui secara realtime.',
             style: AppTextStyles.bodyMedium,
           ),
           const SizedBox(height: 16),
@@ -165,7 +179,62 @@ class ScheduleSectionWidget extends StatelessWidget {
             ),
           ),
 
+          // Multi-day Rollover Alert
+          if (isMultiDay && endDate != null) ...[
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFFBEB),
+                borderRadius: AppRadius.cardRadius,
+                border: Border.all(color: const Color(0xFFFDE68A)),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.date_range_rounded, size: 20, color: Color(0xFFD97706)),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Pengerjaan Multi-Hari', style: AppTextStyles.labelMedium.copyWith(color: const Color(0xFF92400E), fontWeight: FontWeight.bold)),
+                        Text(
+                          'Layanan retrofit/bi-led membutuhkan waktu lebih dari 1 hari operasional. Estimasi pengerjaan selesai pada $endDate.',
+                          style: AppTextStyles.caption.copyWith(color: const Color(0xFFB45309)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+
           const SizedBox(height: 20),
+
+          // Duration & Tech Requirement Indicator
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+            decoration: BoxDecoration(
+              color: AppColors.surfaceMuted,
+              borderRadius: AppRadius.cardRadius,
+              border: Border.all(color: AppColors.borderSubtle),
+            ),
+            child: Row(
+              children: [
+                const Icon(Icons.schedule_rounded, size: 16, color: AppColors.primaryDark),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'Kebutuhan: ~$estimatedMinutes menit ($slotsNeeded slot berurutan, $requiredTechnicians teknisi)',
+                    style: AppTextStyles.caption.copyWith(fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 14),
 
           Text('Pilih Jam Kedatangan *', style: AppTextStyles.h3),
           const SizedBox(height: 4),
@@ -175,6 +244,40 @@ class ScheduleSectionWidget extends StatelessWidget {
                 : 'Pilih tanggal di atas terlebih dahulu',
             style: AppTextStyles.bodySmall,
           ),
+
+          if (slotConflict != null) ...[
+            const SizedBox(height: 10),
+            GestureDetector(
+              onTap: () {
+                SlotConflictSheet.show(
+                  context: context,
+                  conflict: slotConflict!,
+                  onSelectSuggestedSlot: onSelectTimeSlot,
+                );
+              },
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: AppColors.errorSurface,
+                  borderRadius: AppRadius.cardRadius,
+                  border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.warning_amber_rounded, size: 18, color: AppColors.error),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Jam yang dipilih bentrok. Ketuk untuk melihat saran jam lain >',
+                        style: AppTextStyles.caption.copyWith(color: AppColors.error, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+
           const SizedBox(height: 10),
           if (timeSlots.isEmpty)
             BentoCard(
@@ -204,6 +307,7 @@ class ScheduleSectionWidget extends StatelessWidget {
                         color: isSelected
                             ? AppColors.primary
                             : (isAvailable ? AppColors.border : AppColors.borderSubtle),
+                        width: isSelected ? 2 : 1,
                       ),
                     ),
                     child: Column(

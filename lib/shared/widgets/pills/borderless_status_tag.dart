@@ -40,6 +40,22 @@ class BorderlessStatusTag extends StatelessWidget {
     );
   }
 
+  factory BorderlessStatusTag.error(String text) {
+    return BorderlessStatusTag(
+      text: text,
+      backgroundColor: const Color(0xFFFEE2E2),
+      textColor: const Color(0xFFDC2626),
+    );
+  }
+
+  factory BorderlessStatusTag.neutral(String text) {
+    return BorderlessStatusTag(
+      text: text,
+      backgroundColor: const Color(0xFFF3F4F6),
+      textColor: const Color(0xFF4B5563),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(

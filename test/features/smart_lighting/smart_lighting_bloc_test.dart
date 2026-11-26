@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:nine_apps/core/di/injection.dart';
+import 'package:nine_apps/features/garage/presentation/screens/accessories_screen.dart';
 import 'package:nine_apps/features/smart_lighting/data/datasources/led_ble_datasource.dart';
 import 'package:nine_apps/features/smart_lighting/data/repositories/smart_lighting_repository_impl.dart';
 import 'package:nine_apps/features/smart_lighting/domain/entities/led_device_entity.dart';
@@ -13,6 +15,7 @@ import 'package:nine_apps/features/smart_lighting/presentation/blocs/smart_light
 import 'package:nine_apps/features/smart_lighting/presentation/blocs/smart_lighting_event.dart';
 import 'package:nine_apps/features/smart_lighting/presentation/screens/sensor_override_screen.dart';
 import 'package:nine_apps/features/smart_lighting/presentation/screens/smart_lamp_studio_screen.dart';
+import 'package:nine_apps/features/smart_lighting/presentation/widgets/home_hero_led_card.dart';
 import 'package:nine_apps/shared/widgets/lighting/nine_color_wheel.dart';
 import 'package:nine_apps/shared/widgets/lighting/nine_vertical_dimmer.dart';
 
@@ -106,7 +109,8 @@ void main() {
           ),
         ),
       );
-      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 250));
+      await tester.pumpAndSettle();
 
       expect(find.text('NINE-LED-12093'), findsOneWidget);
       expect(find.text('Mode: Running Text'), findsOneWidget);
@@ -123,8 +127,16 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('Mode: Sein Dinamis'), findsOneWidget);
 
-      // Open Hardware Calibration Sheet via BLE pill
+      // Open Device Manager Sheet via BLE pill
       await tester.tap(find.text('NINE-LED-12093'));
+      await tester.pumpAndSettle();
+      expect(find.text('Kelola Perangkat Smart Lamp'), findsOneWidget);
+      expect(find.text('LAMPU AKTIF TERHUBUNG'), findsOneWidget);
+      expect(find.text('LEDCAR-02 BiLED Demon Eye'), findsOneWidget);
+
+      // Open Hardware Calibration Sheet from Device Manager Sheet
+      await tester.ensureVisible(find.text('Kalibrasi Pin RGB & Tipe IC Driver'));
+      await tester.tap(find.text('Kalibrasi Pin RGB & Tipe IC Driver'));
       await tester.pumpAndSettle();
       expect(find.text('Kalibrasi Hardware & BLE'), findsOneWidget);
       expect(find.text('WS2811'), findsOneWidget);
@@ -181,7 +193,7 @@ void main() {
       await tester.fling(find.byType(PageView), const Offset(-400, 0), 800);
       await tester.pumpAndSettle();
       expect(find.text('KECERAHAN & TRANSISI'), findsOneWidget);
-      await tester.tap(find.text('Malam 35%'));
+      await tester.tap(find.text('Malam 35%'), warnIfMissed: false);
       await tester.pump();
 
       // Test Power Toggle & Color Wheel center tap
@@ -211,6 +223,97 @@ void main() {
       final turnSwitch = find.byType(Switch).last;
       await tester.tap(turnSwitch);
       await tester.pump();
+    });
+
+    testWidgets('HomeHeroLedCard renders on Home Screen with Khusus Nine vs Universal switcher', (tester) async {
+      tester.view.physicalSize = const Size(800, 1600);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      final bloc = _createTestBloc();
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: BlocProvider.value(
+              value: bloc,
+              child: const HomeHeroLedCard(),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.text('NINE-LED-12093'), findsOneWidget);
+      expect(find.text('Khusus Nine'), findsOneWidget);
+      expect(find.text('Buka Studio'), findsOneWidget);
+      expect(find.text('⚡ Khusus Nine (Matrix)'), findsOneWidget);
+      expect(find.text('🌐 Lampu Universal'), findsOneWidget);
+      expect(find.text('Mode: Running Text'), findsOneWidget);
+
+      // Tap Power button
+      await tester.tap(find.byIcon(Icons.power_settings_new_rounded));
+      await tester.pump();
+      expect(bloc.state.lampState.isPowerOn, isFalse);
+
+      // Tap Color Wheel center to change color
+      await tester.tapAt(tester.getCenter(find.byType(NineColorWheel)));
+      await tester.pump();
+
+      // Tap Vertical Dimmer
+      await tester.tapAt(tester.getCenter(find.byType(NineVerticalDimmer)));
+      await tester.pump();
+
+      // Tap Switcher -> "🌐 Lampu Universal"
+      await tester.tap(find.text('🌐 Lampu Universal'));
+      await tester.pump(const Duration(milliseconds: 250));
+      expect(bloc.state.lampState.activeDevice.id, 'LEDCAR-02-8812');
+      expect(bloc.state.lampState.activeDevice.isUniversal, isTrue);
+      expect(find.text('Universal'), findsOneWidget);
+      expect(find.text('Mode: Universal RGB'), findsOneWidget);
+
+      // Tap Switcher -> "⚡ Khusus Nine (Matrix)"
+      await tester.tap(find.text('⚡ Khusus Nine (Matrix)'));
+      await tester.pump(const Duration(milliseconds: 250));
+      expect(bloc.state.lampState.activeDevice.id, 'NINE-LED-12093');
+      expect(bloc.state.lampState.activeDevice.isNineSpecific, isTrue);
+    });
+
+    testWidgets('AccessoriesScreen renders full IoT hub with dual-category Smart Lamp', (tester) async {
+      tester.view.physicalSize = const Size(800, 1800);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      if (!sl.isRegistered<SmartLightingBloc>()) {
+        sl.registerFactory<SmartLightingBloc>(() => _createTestBloc());
+      }
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: AccessoriesScreen(),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.text('Aksesoris Terpasang'), findsOneWidget);
+      expect(find.text('Semua (4)'), findsOneWidget);
+      expect(find.text('Nine GPS'), findsOneWidget);
+      expect(find.text('Nine Dashcam 4K'), findsOneWidget);
+      expect(find.text('Suku Cadang & Jarak Tempuh GPS'), findsOneWidget);
+      expect(find.text('Tautkan Aksesoris Baru'), findsOneWidget);
+      expect(find.text('SMART LIGHTING IOT'), findsOneWidget);
+      expect(find.text('⚡ Khusus Nine (Matrix)'), findsOneWidget);
+      expect(find.text('🌐 Lampu Universal'), findsOneWidget);
+
+      // Tap category chip filter "Smart LED (2)"
+      await tester.tap(find.text('Smart LED (2)'));
+      await tester.pump();
+      expect(find.text('SMART LIGHTING IOT'), findsOneWidget);
     });
   });
 }

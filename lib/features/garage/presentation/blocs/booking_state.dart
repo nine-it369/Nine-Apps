@@ -1,11 +1,15 @@
 import 'package:equatable/equatable.dart';
 import '../../domain/entities/booking_availability_entity.dart';
 import '../../domain/entities/booking_entity.dart';
+import '../../domain/entities/booking_variant_item_entity.dart';
 import '../../domain/entities/package_entity.dart';
 import '../../domain/entities/regency_entity.dart';
 import '../../domain/entities/service_entity.dart';
+import '../../domain/entities/variant_entity.dart';
 import '../../domain/entities/voucher_entity.dart';
 import '../../domain/entities/workshop_entity.dart';
+import '../../domain/utils/duration_calculator.dart';
+import '../../domain/utils/slot_calculator.dart';
 
 enum BookingSubmissionStatus {
   initial,
@@ -25,6 +29,7 @@ class BookingState extends Equatable {
   final List<WorkshopEntity> workshops;
   final List<ServiceEntity> availableServices;
   final List<PackageEntity> availablePackages;
+  final List<VariantEntity> availableVariants;
   final List<RegencyEntity> regencyResults;
   final List<BookingAvailabilityEntity> timeSlots;
   final List<VoucherEntity> availableVouchers;
@@ -47,19 +52,29 @@ class BookingState extends Equatable {
   final String vehiclePlat;
   final String vehicleColor;
 
-  // Step 3: Services & Packages
+  // Step 3: Services, Packages & Standalone Variants
   final List<ServiceEntity> selectedServices;
   final List<PackageEntity> selectedPackages;
+  final List<BookingVariantItemEntity> selectedVariants;
+  final Map<int, Map<int, int>> selectedPackageChildren; // packageId -> {parentVariantId: childVariantId}
+  final bool applyDiscount; // Toggle promo discount (review & IG story terms)
 
   // Step 4: Schedule & Branch
   final WorkshopEntity? selectedWorkshop;
   final DateTime? selectedDate;
   final String? selectedHour;
+  final String? endDate;
+  final bool isMultiDay;
+  final SlotValidationResult? slotConflict;
 
   // Step 5: Review, Timer & Voucher
   final int reviewSecondsRemaining;
   final VoucherEntity? appliedVoucher;
   final num voucherDiscount;
+
+  // Edit Mode
+  final bool isEditing;
+  final String? editingTicket;
 
   // Submission Status
   final BookingSubmissionStatus submissionStatus;
@@ -74,6 +89,7 @@ class BookingState extends Equatable {
     this.workshops = const [],
     this.availableServices = const [],
     this.availablePackages = const [],
+    this.availableVariants = const [],
     this.regencyResults = const [],
     this.timeSlots = const [],
     this.availableVouchers = const [],
@@ -93,33 +109,77 @@ class BookingState extends Equatable {
     this.vehicleColor = '',
     this.selectedServices = const [],
     this.selectedPackages = const [],
+    this.selectedVariants = const [],
+    this.selectedPackageChildren = const {},
+    this.applyDiscount = true,
     this.selectedWorkshop,
     this.selectedDate,
     this.selectedHour,
+    this.endDate,
+    this.isMultiDay = false,
+    this.slotConflict,
     this.reviewSecondsRemaining = 180,
     this.appliedVoucher,
     this.voucherDiscount = 0,
+    this.isEditing = false,
+    this.editingTicket,
     this.submissionStatus = BookingSubmissionStatus.initial,
     this.submittedBooking,
   });
 
-  num get servicesSubtotal =>
-      selectedServices.fold(0, (sum, item) => sum + item.nowPrice);
+  num get servicesSubtotal => selectedServices.fold(
+        0,
+        (sum, item) => sum + (applyDiscount ? item.nowPrice : item.price),
+      );
 
-  num get packagesSubtotal =>
-      selectedPackages.fold(0, (sum, item) => sum + item.effectivePrice(isEv));
+  num get packagesSubtotal => selectedPackages.fold(
+        0,
+        (sum, item) => sum + (applyDiscount ? item.effectivePrice(isEv) : item.price),
+      );
 
-  num get subTotal => servicesSubtotal + packagesSubtotal;
+  num get variantsSubtotal {
+    num sum = 0;
+    for (final v in selectedVariants) {
+      if (v.packageId != null && v.packageId! > 0) continue;
+      final itemPrice = applyDiscount ? (v.discPrice ?? v.price ?? 0) : (v.price ?? 0);
+      sum += itemPrice * v.qty;
+      if (v.withInstallation) {
+        final installPrice = applyDiscount ? (v.serviceDiscPrice ?? v.servicePrice ?? 0) : (v.servicePrice ?? 0);
+        sum += installPrice;
+      }
+    }
+    return sum;
+  }
 
-  num get totalAmount =>
-      (subTotal - voucherDiscount).clamp(0, double.infinity);
+  num get subTotal => servicesSubtotal + packagesSubtotal + variantsSubtotal;
+
+  num get totalAmount => (subTotal - voucherDiscount).clamp(0, double.infinity);
 
   int get estimatedMinutes {
-    final svcMin = selectedServices.fold(0, (sum, item) => sum + item.estimatedMinutes);
-    final pkgMin = selectedPackages.length * 120;
-    final total = svcMin + pkgMin;
-    return total > 0 ? total : 60;
+    return SlotCalculator.calculateEstimatedMinutes(
+      selectedServices: selectedServices,
+      selectedPackages: selectedPackages,
+      selectedVariants: selectedVariants,
+      allVariants: availableVariants,
+      isEv: isEv,
+    );
   }
+
+  int get requiredTechnicians {
+    return SlotCalculator.calculateRequiredTechnicians(
+      selectedServices: selectedServices,
+      selectedPackages: selectedPackages,
+      selectedVariants: selectedVariants,
+      allVariants: availableVariants,
+    );
+  }
+
+  int get slotsNeeded => SlotCalculator.slotsNeeded(estimatedMinutes);
+
+  bool get hasBiledService => DurationCalculator.hasBiledService(
+        services: selectedServices,
+        packages: selectedPackages,
+      );
 
   bool get isStep1Valid {
     final hasName = customerName.trim().length >= 3;
@@ -137,8 +197,10 @@ class BookingState extends Equatable {
       vehiclePlat.trim().length >= 3 &&
       vehicleColor.trim().isNotEmpty;
 
-  bool get isStep3Valid =>
-      selectedServices.isNotEmpty || selectedPackages.isNotEmpty;
+  bool get isStep3Valid {
+    final hasMainItem = selectedServices.isNotEmpty || selectedPackages.isNotEmpty || selectedVariants.isNotEmpty;
+    return hasMainItem;
+  }
 
   bool get isStep4Valid =>
       selectedWorkshop != null && selectedDate != null && selectedHour != null;
@@ -169,6 +231,7 @@ class BookingState extends Equatable {
     List<WorkshopEntity>? workshops,
     List<ServiceEntity>? availableServices,
     List<PackageEntity>? availablePackages,
+    List<VariantEntity>? availableVariants,
     List<RegencyEntity>? regencyResults,
     List<BookingAvailabilityEntity>? timeSlots,
     List<VoucherEntity>? availableVouchers,
@@ -188,14 +251,23 @@ class BookingState extends Equatable {
     String? vehicleColor,
     List<ServiceEntity>? selectedServices,
     List<PackageEntity>? selectedPackages,
+    List<BookingVariantItemEntity>? selectedVariants,
+    Map<int, Map<int, int>>? selectedPackageChildren,
+    bool? applyDiscount,
     WorkshopEntity? selectedWorkshop,
     DateTime? selectedDate,
     String? selectedHour,
     bool clearSelectedHour = false,
+    String? endDate,
+    bool? isMultiDay,
+    SlotValidationResult? slotConflict,
+    bool clearSlotConflict = false,
     int? reviewSecondsRemaining,
     VoucherEntity? appliedVoucher,
     bool clearVoucher = false,
     num? voucherDiscount,
+    bool? isEditing,
+    String? editingTicket,
     BookingSubmissionStatus? submissionStatus,
     BookingEntity? submittedBooking,
     bool clearError = false,
@@ -209,6 +281,7 @@ class BookingState extends Equatable {
       workshops: workshops ?? this.workshops,
       availableServices: availableServices ?? this.availableServices,
       availablePackages: availablePackages ?? this.availablePackages,
+      availableVariants: availableVariants ?? this.availableVariants,
       regencyResults: regencyResults ?? this.regencyResults,
       timeSlots: timeSlots ?? this.timeSlots,
       availableVouchers: availableVouchers ?? this.availableVouchers,
@@ -228,12 +301,20 @@ class BookingState extends Equatable {
       vehicleColor: vehicleColor ?? this.vehicleColor,
       selectedServices: selectedServices ?? this.selectedServices,
       selectedPackages: selectedPackages ?? this.selectedPackages,
+      selectedVariants: selectedVariants ?? this.selectedVariants,
+      selectedPackageChildren: selectedPackageChildren ?? this.selectedPackageChildren,
+      applyDiscount: applyDiscount ?? this.applyDiscount,
       selectedWorkshop: selectedWorkshop ?? this.selectedWorkshop,
       selectedDate: selectedDate ?? this.selectedDate,
       selectedHour: clearSelectedHour ? null : (selectedHour ?? this.selectedHour),
+      endDate: endDate ?? this.endDate,
+      isMultiDay: isMultiDay ?? this.isMultiDay,
+      slotConflict: clearSlotConflict ? null : (slotConflict ?? this.slotConflict),
       reviewSecondsRemaining: reviewSecondsRemaining ?? this.reviewSecondsRemaining,
       appliedVoucher: clearVoucher ? null : (appliedVoucher ?? this.appliedVoucher),
       voucherDiscount: clearVoucher ? 0 : (voucherDiscount ?? this.voucherDiscount),
+      isEditing: isEditing ?? this.isEditing,
+      editingTicket: editingTicket ?? this.editingTicket,
       submissionStatus: submissionStatus ?? this.submissionStatus,
       submittedBooking: submittedBooking ?? this.submittedBooking,
     );
@@ -249,6 +330,7 @@ class BookingState extends Equatable {
         workshops,
         availableServices,
         availablePackages,
+        availableVariants,
         regencyResults,
         timeSlots,
         availableVouchers,
@@ -268,12 +350,20 @@ class BookingState extends Equatable {
         vehicleColor,
         selectedServices,
         selectedPackages,
+        selectedVariants,
+        selectedPackageChildren,
+        applyDiscount,
         selectedWorkshop,
         selectedDate,
         selectedHour,
+        endDate,
+        isMultiDay,
+        slotConflict,
         reviewSecondsRemaining,
         appliedVoucher,
         voucherDiscount,
+        isEditing,
+        editingTicket,
         submissionStatus,
         submittedBooking,
       ];

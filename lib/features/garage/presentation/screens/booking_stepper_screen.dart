@@ -18,12 +18,21 @@ import '../widgets/service_section_widget.dart';
 import '../widgets/vehicle_section_widget.dart';
 
 class BookingStepperScreen extends StatelessWidget {
-  const BookingStepperScreen({super.key});
+  final String? editTicket;
+  const BookingStepperScreen({super.key, this.editTicket});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<BookingBloc>()..add(InitBookingEvent()),
+      create: (context) {
+        final bloc = sl<BookingBloc>();
+        if (editTicket != null && editTicket!.isNotEmpty) {
+          bloc.add(LoadBookingForEditEvent(editTicket!));
+        } else {
+          bloc.add(InitBookingEvent());
+        }
+        return bloc;
+      },
       child: const _BookingStepperView(),
     );
   }
@@ -178,11 +187,22 @@ class _BookingStepperView extends StatelessWidget {
         return ServiceSectionWidget(
           availableServices: state.availableServices,
           availablePackages: state.availablePackages,
+          availableVariants: state.availableVariants,
           selectedServices: state.selectedServices,
           selectedPackages: state.selectedPackages,
+          selectedVariants: state.selectedVariants,
+          selectedPackageChildren: state.selectedPackageChildren,
           isEv: state.isEv,
+          applyDiscount: state.applyDiscount,
           onToggleService: (service) => bloc.add(ToggleServiceSelectionEvent(service)),
           onTogglePackage: (pkg) => bloc.add(TogglePackageSelectionEvent(pkg)),
+          onToggleVariant: (variant, withInstallation) => bloc.add(
+            ToggleVariantSelectionEvent(variant: variant, withInstallation: withInstallation),
+          ),
+          onSelectPackageChild: (pkgId, parentId, childId) => bloc.add(
+            SelectPackageChildEvent(packageId: pkgId, parentVariantId: parentId, childVariantId: childId),
+          ),
+          onToggleApplyDiscount: (val) => bloc.add(ToggleApplyDiscountEvent(val)),
         );
       case 4:
         return ScheduleSectionWidget(
@@ -191,6 +211,12 @@ class _BookingStepperView extends StatelessWidget {
           selectedDate: state.selectedDate,
           timeSlots: state.timeSlots,
           selectedHour: state.selectedHour,
+          estimatedMinutes: state.estimatedMinutes,
+          slotsNeeded: state.slotsNeeded,
+          requiredTechnicians: state.requiredTechnicians,
+          isMultiDay: state.isMultiDay,
+          endDate: state.endDate,
+          slotConflict: state.slotConflict,
           onSelectWorkshop: (ws) => bloc.add(SelectWorkshopEvent(ws)),
           onSelectDate: (date) => bloc.add(SelectDateEvent(date)),
           onSelectTimeSlot: (hour) => bloc.add(SelectTimeSlotEvent(hour)),
@@ -201,6 +227,8 @@ class _BookingStepperView extends StatelessWidget {
           onApplyVoucher: (v) => bloc.add(ApplyVoucherEvent(v)),
           onApplyVoucherCode: (code) => bloc.add(ApplyVoucherCodeEvent(code)),
           onRemoveVoucher: () => bloc.add(RemoveVoucherEvent()),
+          onToggleApplyDiscount: (val) => bloc.add(ToggleApplyDiscountEvent(val)),
+          onEditStep: (step) => bloc.add(GoToStepEvent(step)),
         );
       default:
         return const SizedBox.shrink();
