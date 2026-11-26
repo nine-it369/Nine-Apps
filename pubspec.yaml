@@ -43,6 +43,10 @@ dependencies:
   intl: ^0.20.3
   google_fonts: ^9.0.0
   qr_flutter: ^4.1.0
+  flutter_tabler_icons: ^1.43.0
+
+  nine_ui_app:
+    path: "D:/nine ui apps"
 
 dev_dependencies:
   flutter_test:
