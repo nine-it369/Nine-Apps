@@ -15,9 +15,11 @@ class Either<L extends Failure, R> {
 
   T fold<T>(T Function(L failure) onLeft, T Function(R data) onRight) {
     if (isRight) {
-      return onRight(_right as R);
+      final right = _right;
+      return onRight(right as R);
     } else {
-      return onLeft(_left as L);
+      final left = _left;
+      return onLeft(left!);
     }
   }
 }

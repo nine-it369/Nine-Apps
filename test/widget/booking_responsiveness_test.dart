@@ -27,10 +27,10 @@ void main() {
     await sl.reset();
     await configureDependencies();
     final fakeRepo = FakeGarageRepository();
-    sl.unregister<IGarageRepository>();
+    await sl.unregister<IGarageRepository>();
     sl.registerLazySingleton<IGarageRepository>(() => fakeRepo);
 
-    sl.unregister<BookingBloc>();
+    await sl.unregister<BookingBloc>();
     sl.registerFactory<BookingBloc>(
       () => BookingBloc(
         getWorkshopsUseCase: GetWorkshopsUseCase(fakeRepo),

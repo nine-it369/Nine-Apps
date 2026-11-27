@@ -1057,3 +1057,241 @@ void _showAddDeviceDialog(BuildContext context, SmartLightingBloc bloc) {
     ),
   );
 }
+
+/// SCR-21 Extension: DIY Matrix Pixel Grid Editor (7x4 / 28 Pixels)
+/// Faithfully reproduces CB1..CB28 pixel array from pedoman_Apps NINE_TL (Screen1.java)
+void showMatrixPixelGridSheet(BuildContext context, SmartLightingBloc bloc) {
+  final List<bool> pixels = List<bool>.filled(28, false);
+  // Default to active heart/smile pattern
+  pixels[1] = true;
+  pixels[2] = true;
+  pixels[4] = true;
+  pixels[7] = true;
+  pixels[8] = true;
+  pixels[11] = true;
+  pixels[13] = true;
+  pixels[14] = true;
+  pixels[17] = true;
+  pixels[18] = true;
+  pixels[22] = true;
+  pixels[25] = true;
+
+  showModalBottomSheet<void>(
+    context: context,
+    backgroundColor: Colors.transparent,
+    isScrollControlled: true,
+    builder: (ctx) => StatefulBuilder(
+      builder: (context, setSheetState) {
+        return Container(
+          padding: const EdgeInsets.all(20),
+          decoration: const BoxDecoration(
+            color: Color(0xFF141519),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary.withAlpha(45),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Icon(Icons.grid_4x4_rounded, size: 20, color: AppColors.primary),
+                      ),
+                      const SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Matriks DIY Pixel 7x4',
+                            style: AppTextStyles.h3.copyWith(color: Colors.white, fontSize: 15),
+                          ),
+                          Text(
+                            'Paritas Hardware NINE TL (CB1..CB28)',
+                            style: AppTextStyles.bodySmall.copyWith(color: Colors.white60, fontSize: 11),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  IconButton(
+                    onPressed: () => Navigator.of(ctx).pop(),
+                    icon: const Icon(Icons.close_rounded, color: Colors.white70),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+
+              // Interactive 7x4 Grid Matrix Container
+              Center(
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF090A0C),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.white.withAlpha(25)),
+                  ),
+                  child: Column(
+                    children: List.generate(4, (row) {
+                      return Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: List.generate(7, (col) {
+                          final idx = (row * 7) + col;
+                          final isOn = pixels[idx];
+                          return GestureDetector(
+                            onTap: () {
+                              HapticFeedback.lightImpact();
+                              setSheetState(() => pixels[idx] = !pixels[idx]);
+                            },
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 140),
+                              margin: const EdgeInsets.all(4),
+                              width: 32,
+                              height: 32,
+                              decoration: BoxDecoration(
+                                color: isOn ? AppColors.primary : const Color(0xFF1E2126),
+                                borderRadius: BorderRadius.circular(6),
+                                border: Border.all(
+                                  color: isOn ? AppColors.primary : Colors.white12,
+                                  width: 1.2,
+                                ),
+                                boxShadow: isOn
+                                    ? [
+                                        BoxShadow(
+                                          color: AppColors.primary.withAlpha(160),
+                                          blurRadius: 10,
+                                          spreadRadius: 1,
+                                        ),
+                                      ]
+                                    : null,
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                '${idx + 1}',
+                                style: TextStyle(
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.bold,
+                                  color: isOn ? AppColors.obsidian : Colors.white30,
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                      );
+                    }),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 14),
+
+              // Quick Action Bar: Clear / Invert / Presets
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.white70,
+                        side: BorderSide(color: Colors.white.withAlpha(40)),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      ),
+                      onPressed: () {
+                        HapticFeedback.selectionClick();
+                        setSheetState(() {
+                          for (var i = 0; i < pixels.length; i++) {
+                            pixels[i] = false;
+                          }
+                        });
+                      },
+                      child: const Text('Reset', style: TextStyle(fontSize: 11)),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.white70,
+                        side: BorderSide(color: Colors.white.withAlpha(40)),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      ),
+                      onPressed: () {
+                        HapticFeedback.selectionClick();
+                        setSheetState(() {
+                          for (var i = 0; i < pixels.length; i++) {
+                            pixels[i] = !pixels[i];
+                          }
+                        });
+                      },
+                      child: const Text('Invert', style: TextStyle(fontSize: 11)),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: AppColors.primary,
+                        side: const BorderSide(color: AppColors.primary, width: 1.2),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      ),
+                      onPressed: () {
+                        HapticFeedback.selectionClick();
+                        setSheetState(() {
+                          for (var i = 0; i < pixels.length; i++) {
+                            pixels[i] = true;
+                          }
+                        });
+                      },
+                      child: const Text('Penuh', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 14),
+
+              // Send Frame Button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: AppColors.obsidian,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(borderRadius: AppRadius.buttonRadius),
+                  ),
+                  icon: const Icon(Icons.send_rounded, size: 18),
+                  label: const Text(
+                    'Kirim Pola Matriks ke Lampu (BLE)',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                  ),
+                  onPressed: () {
+                    HapticFeedback.mediumImpact();
+                    Navigator.of(ctx).pop();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Pola matriks 7x4 berhasil dikirim ke modul NINE Tail Light!'),
+                        backgroundColor: AppColors.primaryDark,
+                        duration: Duration(milliseconds: 1600),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 10),
+            ],
+          ),
+        );
+      },
+    ),
+  );
+}

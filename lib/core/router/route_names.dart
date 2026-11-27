@@ -18,4 +18,5 @@ class RouteNames {
   static const String changePassword = '/profile/password';
   static const String vouchers = '/profile/vouchers';
   static const String loyalty = '/profile/loyalty';
+  static const String login = '/login';
 }

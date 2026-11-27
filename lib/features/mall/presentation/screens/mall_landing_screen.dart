@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
+import 'package:intl/intl.dart';
 import 'package:nine_ui_app/nine_ui.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../blocs/mall_bloc.dart';
+import '../blocs/mall_state.dart';
 
 /// SCR-10: Master Mall Screen (screen-mall-landing)
 /// Replicates D:\Frontend-Mall (app/pages/index.vue) & D:\Q4 Planning\design\src\modules\mall\mall.template.html
@@ -61,53 +65,61 @@ class _MallLandingScreenState extends State<MallLandingScreen> {
     );
   }
 
+  String _formatRupiah(int amount) {
+    return NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ', decimalDigits: 0).format(amount);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8FAF6),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.only(bottom: 110),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // 1. Carbon Fiber Header with Search & Category Pills
-            _buildCarbonHeader(context),
+    return BlocBuilder<MallBloc, MallState>(
+      builder: (context, mallState) {
+        return Scaffold(
+          backgroundColor: const Color(0xFFF8FAF6),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.only(bottom: 110),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // 1. Carbon Fiber Header with Search & Category Pills
+                _buildCarbonHeader(context),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 14),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 14),
 
-                  // 2. AWB Shipment Quick Tracker (aligned with Frontend-Mall HomeAwbTracker)
-                  _buildAwbTracker(context),
+                      // 2. AWB Shipment Quick Tracker (aligned with Frontend-Mall HomeAwbTracker)
+                      _buildAwbTracker(context),
 
-                  const SizedBox(height: 18),
+                      const SizedBox(height: 18),
 
-                  // 3. Official Store Hero Carousel Banner
-                  _buildHeroCarousel(context),
+                      // 3. Official Store Hero Carousel Banner
+                      _buildHeroCarousel(context, mallState),
 
-                  const SizedBox(height: 22),
+                      const SizedBox(height: 22),
 
-                  // 4. Jelajahi Produk Kami (Category & Subcategory Tabs + 2-Col Grid)
-                  _buildExploreProducts(context),
+                      // 4. Jelajahi Produk Kami (Category & Subcategory Tabs + 2-Col Grid)
+                      _buildExploreProducts(context, mallState),
 
-                  const SizedBox(height: 24),
+                      const SizedBox(height: 24),
 
-                  // 5. Voucher Belanja Section (Perforated Ticket Cards)
-                  _buildVoucherSection(context),
+                      // 5. Voucher Belanja Section (Perforated Ticket Cards)
+                      _buildVoucherSection(context),
 
-                  const SizedBox(height: 24),
+                      const SizedBox(height: 24),
 
-                  // 6. Flash Sale / Promo Variants (2-Column Grid)
-                  _buildFlashSaleSection(context),
-                ],
-              ),
+                      // 6. Flash Sale / Promo Variants (2-Column Grid)
+                      _buildFlashSaleSection(context, mallState),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -369,7 +381,11 @@ class _MallLandingScreenState extends State<MallLandingScreen> {
     );
   }
 
-  Widget _buildHeroCarousel(BuildContext context) {
+  Widget _buildHeroCarousel(BuildContext context, MallState mallState) {
+    final bannerSubtitle = mallState.products.isNotEmpty
+        ? 'Tersedia ${mallState.products.length}+ Varian Terverifikasi nine_try_db'
+        : 'Garansi Ganti Baru 24 Bulan • Kirim ke Seluruh Indonesia';
+
     return Container(
       height: 126,
       width: double.infinity,
@@ -409,15 +425,15 @@ class _MallLandingScreenState extends State<MallLandingScreen> {
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Text(
+            children: [
+              const Text(
                 'Katalog Suku Cadang Resmi 2026',
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: Colors.white),
               ),
-              SizedBox(height: 2),
+              const SizedBox(height: 2),
               Text(
-                'Garansi Ganti Baru 24 Bulan • Kirim ke Seluruh Indonesia',
-                style: TextStyle(fontSize: 10, color: Colors.white70),
+                bannerSubtitle,
+                style: const TextStyle(fontSize: 10, color: Colors.white70),
               ),
             ],
           ),
@@ -437,7 +453,30 @@ class _MallLandingScreenState extends State<MallLandingScreen> {
     );
   }
 
-  Widget _buildExploreProducts(BuildContext context) {
+  Widget _buildExploreProducts(BuildContext context, MallState mallState) {
+    final productList = mallState.filteredProducts.isNotEmpty
+        ? mallState.filteredProducts
+        : mallState.products;
+    final p1 = productList.isNotEmpty ? productList[0] : null;
+    final p2 = productList.length > 1 ? productList[1] : null;
+
+    final p1Title = p1?.name ?? 'Lampu LED Mobil X9 (H4 H11 HB3 H7) Series';
+    final p1Subtitle = (p1?.subtitle.isNotEmpty ?? false) ? p1!.subtitle : (p1?.productName ?? 'Headlamp Foglamp LED Mobil X9');
+    final p1Price = p1 != null ? _formatRupiah(p1.discPrice) : 'Rp 319.900';
+    final p1Orig = p1 != null ? _formatRupiah(p1.price) : 'Rp 447.000';
+    final p1Discount = p1 != null && p1.price > p1.discPrice
+        ? '-${((p1.price - p1.discPrice) / p1.price * 100).round()}%'
+        : '-28%';
+    final p1Tag = p1?.productName.toUpperCase() ?? 'HEADLIGHT';
+
+    final p2Title = p2?.name ?? 'Lampu LED Mobil H11 V8 PRO Laser';
+    final p2Subtitle = (p2?.subtitle.isNotEmpty ?? false) ? p2!.subtitle : (p2?.productName ?? 'Headlamp Foglamp LED Mobil HB4');
+    final p2Price = p2 != null ? _formatRupiah(p2.discPrice) : 'Rp 649.902';
+    final p2Orig = p2 != null ? _formatRupiah(p2.price) : 'Rp 909.000';
+    final p2Discount = p2 != null && p2.price > p2.discPrice
+        ? '-${((p2.price - p2.discPrice) / p2.price * 100).round()}%'
+        : '-29%';
+    final p2Tag = p2?.productName.toUpperCase() ?? 'HEADLIGHT';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -556,23 +595,23 @@ class _MallLandingScreenState extends State<MallLandingScreen> {
           children: [
             Expanded(
               child: _buildMallProductCard(
-                categoryTag: 'HEADLIGHT',
-                title: 'Lampu LED Mobil X9 (H4 H11 HB3 H7) Series',
-                subtitle: 'Headlamp Foglamp LED Mobil X9',
-                price: 'Rp 319.900',
-                originalPrice: 'Rp 447.000',
-                discount: '-28%',
+                categoryTag: p1Tag,
+                title: p1Title,
+                subtitle: p1Subtitle,
+                price: p1Price,
+                originalPrice: p1Orig,
+                discount: p1Discount,
               ),
             ),
             const SizedBox(width: 10),
             Expanded(
               child: _buildMallProductCard(
-                categoryTag: 'HEADLIGHT',
-                title: 'Lampu LED Mobil H11 V8 PRO Laser',
-                subtitle: 'Headlamp Foglamp LED Mobil HB4',
-                price: 'Rp 649.902',
-                originalPrice: 'Rp 909.000',
-                discount: '-29%',
+                categoryTag: p2Tag,
+                title: p2Title,
+                subtitle: p2Subtitle,
+                price: p2Price,
+                originalPrice: p2Orig,
+                discount: p2Discount,
               ),
             ),
           ],
@@ -681,7 +720,28 @@ class _MallLandingScreenState extends State<MallLandingScreen> {
     );
   }
 
-  Widget _buildFlashSaleSection(BuildContext context) {
+  Widget _buildFlashSaleSection(BuildContext context, MallState mallState) {
+    final p3 = mallState.products.length > 2 ? mallState.products[2] : null;
+    final p4 = mallState.products.length > 3 ? mallState.products[3] : null;
+
+    final p3Title = p3?.name ?? 'Luminos Shooting Light Q9 Pro Dual Lens';
+    final p3Subtitle = (p3?.subtitle.isNotEmpty ?? false) ? p3!.subtitle : (p3?.productName ?? 'Laser LED High Power 80W');
+    final p3Price = p3 != null ? _formatRupiah(p3.discPrice) : 'Rp 1.850.000';
+    final p3Orig = p3 != null ? _formatRupiah(p3.price) : 'Rp 2.450.000';
+    final p3Discount = p3 != null && p3.price > p3.discPrice
+        ? '-${((p3.price - p3.discPrice) / p3.price * 100).round()}%'
+        : '-24%';
+    final p3Tag = p3?.productName.toUpperCase() ?? 'SHOOTING LIGHT';
+
+    final p4Title = p4?.name ?? 'BiLED Matrix Pro 3.0" Laser Projector';
+    final p4Subtitle = (p4?.subtitle.isNotEmpty ?? false) ? p4!.subtitle : (p4?.productName ?? 'Paket Lensa Ganda Ultra Wide');
+    final p4Price = p4 != null ? _formatRupiah(p4.discPrice) : 'Rp 2.450.000';
+    final p4Orig = p4 != null ? _formatRupiah(p4.price) : 'Rp 3.100.000';
+    final p4Discount = p4 != null && p4.price > p4.discPrice
+        ? '-${((p4.price - p4.discPrice) / p4.price * 100).round()}%'
+        : '-21%';
+    final p4Tag = p4?.productName.toUpperCase() ?? 'PROJECTOR';
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -703,23 +763,23 @@ class _MallLandingScreenState extends State<MallLandingScreen> {
           children: [
             Expanded(
               child: _buildMallProductCard(
-                categoryTag: 'SHOOTING LIGHT',
-                title: 'Luminos Shooting Light Q9 Pro Dual Lens',
-                subtitle: 'Laser LED High Power 80W',
-                price: 'Rp 1.850.000',
-                originalPrice: 'Rp 2.450.000',
-                discount: '-24%',
+                categoryTag: p3Tag,
+                title: p3Title,
+                subtitle: p3Subtitle,
+                price: p3Price,
+                originalPrice: p3Orig,
+                discount: p3Discount,
               ),
             ),
             const SizedBox(width: 10),
             Expanded(
               child: _buildMallProductCard(
-                categoryTag: 'PROJECTOR',
-                title: 'BiLED Matrix Pro 3.0" Laser Projector',
-                subtitle: 'Paket Lensa Ganda Ultra Wide',
-                price: 'Rp 2.450.000',
-                originalPrice: 'Rp 3.100.000',
-                discount: '-21%',
+                categoryTag: p4Tag,
+                title: p4Title,
+                subtitle: p4Subtitle,
+                price: p4Price,
+                originalPrice: p4Orig,
+                discount: p4Discount,
               ),
             ),
           ],

@@ -92,12 +92,15 @@ app.*.map.json
 .env
 .env.*
 !.env.example
+config/env/.env.*.json
+!config/env/.env.example.json
 
 # Local Decompiled APKs, Tools, and Heavy Binaries (GitHub 100MB limit guard)
 pedoman_Apps/
 tools/
 jadx/
 .scannerwork/
+tests.output
 nul
 *.apk
 *.aab

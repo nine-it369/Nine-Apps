@@ -26,6 +26,25 @@ import '../../features/smart_lighting/domain/usecases/send_led_color_usecase.dar
 import '../../features/smart_lighting/domain/usecases/smart_lamp_commands_usecases.dart';
 import '../../features/smart_lighting/presentation/blocs/smart_lighting_bloc.dart';
 import '../../features/smart_lighting/presentation/blocs/smart_lighting_event.dart';
+import '../../features/auth/data/datasources/auth_local_datasource.dart';
+import '../../features/auth/data/datasources/auth_remote_datasource.dart';
+import '../../features/auth/data/repositories/auth_repository_impl.dart';
+import '../../features/auth/domain/repositories/i_auth_repository.dart';
+import '../../features/auth/domain/usecases/auth_usecases.dart';
+import '../../features/auth/presentation/blocs/auth_bloc.dart';
+import '../../features/auth/presentation/blocs/auth_event.dart';
+import '../../features/profile/data/datasources/profile_remote_datasource.dart';
+import '../../features/profile/data/repositories/profile_repository_impl.dart';
+import '../../features/profile/domain/repositories/i_profile_repository.dart';
+import '../../features/profile/domain/usecases/profile_usecases.dart';
+import '../../features/profile/presentation/blocs/profile_bloc.dart';
+import '../../features/profile/presentation/blocs/profile_event.dart';
+import '../../features/mall/data/datasources/mall_remote_datasource.dart';
+import '../../features/mall/data/repositories/mall_repository_impl.dart';
+import '../../features/mall/domain/repositories/i_mall_repository.dart';
+import '../../features/mall/domain/usecases/mall_usecases.dart';
+import '../../features/mall/presentation/blocs/mall_bloc.dart';
+import '../../features/mall/presentation/blocs/mall_event.dart';
 
 final sl = GetIt.instance;
 
@@ -43,6 +62,18 @@ Future<void> configureDependencies() async {
   sl.registerLazySingleton<ILedBleDataSource>(
     () => SimulatedLedBleDataSourceImpl(),
   );
+  sl.registerLazySingleton<IAuthRemoteDataSource>(
+    () => AuthRemoteDataSourceImpl(sl<ApiClient>()),
+  );
+  sl.registerLazySingleton<IAuthLocalDataSource>(
+    () => AuthLocalDataSourceImpl(sl<ApiClient>()),
+  );
+  sl.registerLazySingleton<IProfileRemoteDataSource>(
+    () => ProfileRemoteDataSourceImpl(sl<ApiClient>()),
+  );
+  sl.registerLazySingleton<IMallRemoteDataSource>(
+    () => MallRemoteDataSourceImpl(sl<ApiClient>()),
+  );
 
   // 3. Repositories
   sl.registerLazySingleton<IGarageRepository>(
@@ -50,6 +81,18 @@ Future<void> configureDependencies() async {
   );
   sl.registerLazySingleton<ISmartLightingRepository>(
     () => SmartLightingRepositoryImpl(sl<ILedBleDataSource>()),
+  );
+  sl.registerLazySingleton<IAuthRepository>(
+    () => AuthRepositoryImpl(
+      remoteDataSource: sl<IAuthRemoteDataSource>(),
+      localDataSource: sl<IAuthLocalDataSource>(),
+    ),
+  );
+  sl.registerLazySingleton<IProfileRepository>(
+    () => ProfileRepositoryImpl(sl<IProfileRemoteDataSource>()),
+  );
+  sl.registerLazySingleton<IMallRepository>(
+    () => MallRepositoryImpl(sl<IMallRemoteDataSource>()),
   );
 
   // 4. Use Cases - Garage
@@ -116,6 +159,39 @@ Future<void> configureDependencies() async {
     () => SendLampSettingUseCase(sl<ISmartLightingRepository>()),
   );
 
+  // 4c. Use Cases - Auth
+  sl.registerLazySingleton<LoginUseCase>(
+    () => LoginUseCase(sl<IAuthRepository>()),
+  );
+  sl.registerLazySingleton<RegisterUseCase>(
+    () => RegisterUseCase(sl<IAuthRepository>()),
+  );
+  sl.registerLazySingleton<GetCurrentUserUseCase>(
+    () => GetCurrentUserUseCase(sl<IAuthRepository>()),
+  );
+  sl.registerLazySingleton<LogoutUseCase>(
+    () => LogoutUseCase(sl<IAuthRepository>()),
+  );
+
+  // 4d. Use Cases - Profile
+  sl.registerLazySingleton<GetProfileUseCase>(
+    () => GetProfileUseCase(sl<IProfileRepository>()),
+  );
+  sl.registerLazySingleton<UpdateProfileUseCase>(
+    () => UpdateProfileUseCase(sl<IProfileRepository>()),
+  );
+  sl.registerLazySingleton<ChangePasswordUseCase>(
+    () => ChangePasswordUseCase(sl<IProfileRepository>()),
+  );
+  sl.registerLazySingleton<GetCustomerVouchersUseCase>(
+    () => GetCustomerVouchersUseCase(sl<IProfileRepository>()),
+  );
+
+  // 4e. Use Cases - Mall
+  sl.registerLazySingleton<GetMallHomeDataUseCase>(
+    () => GetMallHomeDataUseCase(sl<IMallRepository>()),
+  );
+
   // 5. BLoCs
   sl.registerFactory<BookingBloc>(
     () => BookingBloc(
@@ -146,5 +222,30 @@ Future<void> configureDependencies() async {
       sendSettingUseCase: sl<SendLampSettingUseCase>(),
       repository: sl<ISmartLightingRepository>(),
     )..add(const InitSmartLightingEvent()),
+  );
+
+  sl.registerLazySingleton<AuthBloc>(
+    () => AuthBloc(
+      loginUseCase: sl<LoginUseCase>(),
+      registerUseCase: sl<RegisterUseCase>(),
+      getCurrentUserUseCase: sl<GetCurrentUserUseCase>(),
+      logoutUseCase: sl<LogoutUseCase>(),
+    )..add(const CheckAuthSessionEvent()),
+  );
+
+  sl.registerLazySingleton<ProfileBloc>(
+    () => ProfileBloc(
+      getProfileUseCase: sl<GetProfileUseCase>(),
+      updateProfileUseCase: sl<UpdateProfileUseCase>(),
+      changePasswordUseCase: sl<ChangePasswordUseCase>(),
+      getCustomerVouchersUseCase: sl<GetCustomerVouchersUseCase>(),
+    )..add(const LoadProfileEvent()),
+  );
+
+  sl.registerLazySingleton<MallBloc>(
+    () => MallBloc(
+      getMallHomeDataUseCase: sl<GetMallHomeDataUseCase>(),
+      repository: sl<IMallRepository>(),
+    )..add(const InitMallEvent()),
   );
 }

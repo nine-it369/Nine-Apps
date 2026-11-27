@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/garage/domain/entities/booking_entity.dart';
 import '../../features/garage/presentation/screens/accessories_screen.dart';
 import '../../features/garage/presentation/screens/booking_stepper_screen.dart';
@@ -145,6 +146,11 @@ class AppRouter {
         path: RouteNames.loyalty,
         name: 'loyalty',
         builder: (context, state) => const LoyaltyPointsScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.login,
+        name: 'login',
+        builder: (context, state) => const LoginScreen(),
       ),
     ],
   );

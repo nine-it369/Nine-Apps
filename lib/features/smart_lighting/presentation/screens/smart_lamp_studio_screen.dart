@@ -554,22 +554,20 @@ class _SmartLampStudioScreenState extends State<SmartLampStudioScreen> {
                 ),
               ),
               const SizedBox(width: 8),
-              SizedBox(
-                height: 48,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    HapticFeedback.lightImpact();
-                    bloc.add(UpdateRunningTextEvent(_textController.text));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: AppColors.textPrimary,
-                    shape: RoundedRectangleBorder(borderRadius: AppRadius.squircleRadius),
-                    elevation: 0,
-                  ),
-                  icon: const Icon(Icons.send_rounded, size: 16),
-                  label: Text('Kirim', style: AppTextStyles.button.copyWith(fontSize: 12)),
+              ElevatedButton.icon(
+                onPressed: () {
+                  HapticFeedback.lightImpact();
+                  bloc.add(UpdateRunningTextEvent(_textController.text));
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(84, 48),
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: AppColors.textPrimary,
+                  shape: RoundedRectangleBorder(borderRadius: AppRadius.squircleRadius),
+                  elevation: 0,
                 ),
+                icon: const Icon(Icons.send_rounded, size: 16),
+                label: Text('Kirim', style: AppTextStyles.button.copyWith(fontSize: 12)),
               ),
             ],
           ),
@@ -660,6 +658,28 @@ class _SmartLampStudioScreenState extends State<SmartLampStudioScreen> {
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: 12),
+          // Direct Access: DIY Matrix Pixel Grid Editor (CB1..CB28 NINE TL Parity)
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                side: BorderSide(color: AppColors.primary.withAlpha(180), width: 1.2),
+                shape: RoundedRectangleBorder(borderRadius: AppRadius.mdRadius),
+                backgroundColor: AppColors.primary.withAlpha(15),
+              ),
+              icon: const Icon(Icons.grid_4x4_rounded, size: 18, color: AppColors.primaryDark),
+              label: Text(
+                'Buka Editor Matriks DIY (7x4 Grid Pixel)',
+                style: AppTextStyles.h3.copyWith(fontSize: 12, color: AppColors.primaryDark),
+              ),
+              onPressed: () {
+                HapticFeedback.lightImpact();
+                showMatrixPixelGridSheet(context, bloc);
+              },
+            ),
           ),
         ],
       ),

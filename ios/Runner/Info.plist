@@ -45,5 +45,27 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+	<!-- Bluetooth Low Energy (BLE) Permissions for Smart Lighting (Nine, HappyLighting, LED LAMP) -->
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Aplikasi Nine AutoSeries memerlukan akses Bluetooth untuk menghubungkan dan mengontrol perangkat lampu pintar LED Nine, HappyLighting, dan LED LAMP.</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Aplikasi Nine AutoSeries memerlukan izin Bluetooth untuk berkomunikasi dengan modul BLE lampu kendaraan.</string>
+
+	<!-- Location Permission (Required for BLE beacon discovery & Garage Workshop Maps) -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Aplikasi Nine AutoSeries memerlukan izin lokasi saat memindai perangkat Bluetooth Low Energy dan mencari bengkel resmi terdekat.</string>
+
+	<!-- Camera & Photo Library Permissions (Required for SPK inspection & QR verification) -->
+	<key>NSCameraUsageDescription</key>
+	<string>Aplikasi Nine AutoSeries memerlukan akses kamera untuk pemindaian barcode/QR dan dokumentasi foto kondisi fisik kendaraan.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Aplikasi Nine AutoSeries memerlukan akses galeri foto untuk unggah dokumen kendaraan dan bukti booking servis.</string>
+
+	<!-- Background Modes for Persistent BLE Device Connection -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>bluetooth-central</string>
+	</array>
 </dict>
 </plist>

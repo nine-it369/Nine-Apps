@@ -127,6 +127,16 @@ class LedBleProtocolEncoder {
     return utf8.encode('TXT,$truncated,${speedMs.clamp(10, 255)}');
   }
 
+  /// Encode 7x4 (28-pixel) DIY Matrix grid state from pedoman_Apps NINE_TL (CB1..CB28 checkboxes)
+  static List<int> encodeNineMatrixGrid(List<bool> pixels28) {
+    final safePixels = List<bool>.from(pixels28);
+    while (safePixels.length < 28) {
+      safePixels.add(false);
+    }
+    final bitString = safePixels.take(28).map((p) => p ? '1' : '0').join();
+    return utf8.encode('GRID,$bitString');
+  }
+
   /// IC Chip driver & pixel count configuration packet (ChipSelectActivity)
   static List<int> encodeIcChipConfig(
     LedDeviceEntity device,

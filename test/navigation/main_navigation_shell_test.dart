@@ -1,36 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:nine_apps/app.dart';
 import 'package:nine_apps/core/di/injection.dart';
-import 'package:nine_apps/core/router/app_router.dart';
-import 'package:nine_apps/features/smart_lighting/data/datasources/led_ble_datasource.dart';
-import 'package:nine_apps/features/smart_lighting/data/repositories/smart_lighting_repository_impl.dart';
-import 'package:nine_apps/features/smart_lighting/domain/usecases/connect_led_device_usecase.dart';
-import 'package:nine_apps/features/smart_lighting/domain/usecases/send_led_color_usecase.dart';
-import 'package:nine_apps/features/smart_lighting/domain/usecases/smart_lamp_commands_usecases.dart';
-import 'package:nine_apps/features/smart_lighting/presentation/blocs/smart_lighting_bloc.dart';
-
-SmartLightingBloc _createTestBloc() {
-  final ds = SimulatedLedBleDataSourceImpl();
-  final repo = SmartLightingRepositoryImpl(ds);
-  return SmartLightingBloc(
-    scanDevicesUseCase: ScanLedDevicesUseCase(repo),
-    connectDeviceUseCase: ConnectLedDeviceUseCase(repo),
-    sendPowerUseCase: SendLampPowerUseCase(repo),
-    sendColorUseCase: SendLedColorUseCase(repo),
-    sendModeUseCase: SendLampModeUseCase(repo),
-    sendRunningTextUseCase: SendRunningTextUseCase(repo),
-    sendSettingUseCase: SendLampSettingUseCase(repo),
-    repository: repo,
-  );
-}
 
 void main() {
   group('Master 4-Tab Navigation Shell & Screens Integration Tests', () {
-    setUp(() {
-      if (!sl.isRegistered<SmartLightingBloc>()) {
-        sl.registerFactory<SmartLightingBloc>(() => _createTestBloc());
-      }
+    setUp(() async {
+      await sl.reset();
+      await configureDependencies();
     });
 
     testWidgets('MainNavigationShell renders 4 tabs (Home, Aksesoris, Mall, Profile) and navigates seamlessly', (tester) async {
@@ -41,11 +19,7 @@ void main() {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        MaterialApp.router(
-          routerConfig: AppRouter.router,
-        ),
-      );
+      await tester.pumpWidget(const NineApp());
       await tester.pumpAndSettle();
 
       // 1. Verify Home Screen on initial location

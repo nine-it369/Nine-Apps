@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:nine_ui_app/nine_ui.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../blocs/profile_bloc.dart';
+import '../blocs/profile_event.dart';
 
 /// SCR-26B: Edit Profil Screen (screen-profile-edit)
 /// Replicates D:\Q4 Planning\design\src\modules\settings\settings.template.html (lines 523-583)
@@ -14,10 +17,19 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  final _nameController = TextEditingController(text: 'Aditya Pratama');
-  final _phoneController = TextEditingController(text: '+62 812-3456-7890');
-  final _emailController = TextEditingController(text: 'aditya@nine.id');
+  late final TextEditingController _nameController;
+  late final TextEditingController _phoneController;
+  late final TextEditingController _emailController;
   bool _isSaving = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final user = context.read<ProfileBloc>().state.user;
+    _nameController = TextEditingController(text: user.name);
+    _phoneController = TextEditingController(text: user.phone);
+    _emailController = TextEditingController(text: user.email ?? 'aditya@nine.id');
+  }
 
   @override
   void dispose() {
@@ -29,7 +41,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   void _saveProfile() async {
     setState(() => _isSaving = true);
-    await Future.delayed(const Duration(milliseconds: 400));
+    final name = _nameController.text.trim();
+    final email = _emailController.text.trim();
+    if (name.isEmpty) {
+      setState(() => _isSaving = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Nama lengkap wajib diisi.')),
+      );
+      return;
+    }
+    context.read<ProfileBloc>().add(
+          SubmitUpdateProfileEvent(
+            name: name,
+            email: email.isNotEmpty ? email : null,
+          ),
+        );
+    await Future.delayed(const Duration(milliseconds: 200));
     if (!mounted) return;
     setState(() => _isSaving = false);
     ScaffoldMessenger.of(context).showSnackBar(

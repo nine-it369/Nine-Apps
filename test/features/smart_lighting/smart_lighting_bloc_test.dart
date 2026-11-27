@@ -298,7 +298,8 @@ void main() {
           home: AccessoriesScreen(),
         ),
       );
-      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 250));
+      await tester.pumpAndSettle();
 
       expect(find.text('Aksesoris Terpasang'), findsOneWidget);
       expect(find.text('Semua (4)'), findsOneWidget);
@@ -312,7 +313,7 @@ void main() {
 
       // Tap category chip filter "Smart LED (2)"
       await tester.tap(find.text('Smart LED (2)'));
-      await tester.pump();
+      await tester.pumpAndSettle();
       expect(find.text('SMART LIGHTING IOT'), findsOneWidget);
     });
   });

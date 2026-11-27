@@ -105,6 +105,17 @@ void main() {
       );
     });
 
+    test('ManoTech Matrix encodes 28-pixel DIY grid (CB1..CB28 NINE TL parity)', () {
+      final pixels = List<bool>.filled(28, false);
+      pixels[0] = true;
+      pixels[27] = true;
+      final encoded = LedBleProtocolEncoder.encodeNineMatrixGrid(pixels);
+      final decoded = utf8.decode(encoded);
+      expect(decoded.startsWith('GRID,100'), isTrue);
+      expect(decoded.endsWith('001'), isTrue);
+      expect(decoded.length, 5 + 28); // "GRID," + 28 chars
+    });
+
     test('HEX telemetry parser converts valid hex string and throws on invalid byte', () {
       final bytes = LedBleProtocolEncoder.parseHexTelemetry('7E FF 05 03 8D C6 3F FF EF');
       expect(bytes, [0x7E, 0xFF, 0x05, 0x03, 0x8D, 0xC6, 0x3F, 0xFF, 0xEF]);

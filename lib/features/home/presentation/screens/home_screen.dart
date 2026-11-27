@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:nine_ui_app/nine_ui.dart';
 import '../../../../core/router/route_names.dart';
+import '../../../mall/presentation/blocs/mall_bloc.dart';
+import '../../../mall/presentation/blocs/mall_state.dart';
+import '../../../profile/presentation/blocs/profile_bloc.dart';
+import '../../../profile/presentation/blocs/profile_state.dart';
 import '../../../smart_lighting/presentation/widgets/home_hero_led_card.dart';
 
 /// SCR-02: Master Home Screen (screen-home-dashcam)
@@ -206,8 +212,8 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
+                    children: [
+                      const Text(
                         'SELAMAT PAGI,',
                         style: TextStyle(
                           fontSize: 9.5,
@@ -216,15 +222,22 @@ class HomeScreen extends StatelessWidget {
                           letterSpacing: 0.8,
                         ),
                       ),
-                      SizedBox(height: 2),
-                      Text(
-                        'Aditya Pratama',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w900,
-                          color: Color(0xFF231F20),
-                          letterSpacing: -0.4,
-                        ),
+                      const SizedBox(height: 2),
+                      BlocBuilder<ProfileBloc, ProfileState>(
+                        builder: (context, profileState) {
+                          final displayName = profileState.user.name.isNotEmpty
+                              ? profileState.user.name
+                              : 'Aditya Pratama';
+                          return Text(
+                            displayName,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF231F20),
+                              letterSpacing: -0.4,
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -657,61 +670,90 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildBestProducts(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return BlocBuilder<MallBloc, MallState>(
+      builder: (context, mallState) {
+        final p1 = mallState.products.isNotEmpty ? mallState.products[0] : null;
+        final p2 = mallState.products.length > 1 ? mallState.products[1] : null;
+
+        final p1Title = p1?.name ?? 'Luminos Shooting Light Q9 Pro Dual Lens';
+        final p1Price = p1 != null
+            ? NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ', decimalDigits: 0).format(p1.discPrice)
+            : 'Rp 1.850.000';
+        final p1Orig = p1 != null
+            ? NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ', decimalDigits: 0).format(p1.price)
+            : 'Rp 2.450.000';
+        final p1Discount = p1 != null && p1.price > p1.discPrice
+            ? '-${((p1.price - p1.discPrice) / p1.price * 100).round()}%'
+            : '-24%';
+
+        final p2Title = p2?.name ?? 'BiLED Matrix Pro 3.0" Laser Projector';
+        final p2Price = p2 != null
+            ? NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ', decimalDigits: 0).format(p2.discPrice)
+            : 'Rp 2.450.000';
+        final p2Orig = p2 != null
+            ? NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ', decimalDigits: 0).format(p2.price)
+            : 'Rp 3.100.000';
+        final p2Discount = p2 != null && p2.price > p2.discPrice
+            ? '-${((p2.price - p2.discPrice) / p2.price * 100).round()}%'
+            : '-21%';
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'PRODUK TERBAIK',
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w900,
-                color: Color(0xFF6B7280),
-                letterSpacing: 0.8,
-              ),
-            ),
-            NineSpringTap(
-              onTap: () => context.go(RouteNames.mall),
-              child: const Text(
-                'Lihat Semua >',
-                style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w800,
-                  color: Color(0xFF18191D),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'PRODUK TERBAIK',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w900,
+                    color: Color(0xFF6B7280),
+                    letterSpacing: 0.8,
+                  ),
                 ),
-              ),
+                NineSpringTap(
+                  onTap: () => context.go(RouteNames.mall),
+                  child: const Text(
+                    'Lihat Semua >',
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w800,
+                      color: Color(0xFF18191D),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Expanded(
+                  child: _buildProductCard(
+                    title: p1Title,
+                    price: p1Price,
+                    originalPrice: p1Orig,
+                    rating: '4.9',
+                    discount: p1Discount,
+                    onTap: () => context.go(RouteNames.mall),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: _buildProductCard(
+                    title: p2Title,
+                    price: p2Price,
+                    originalPrice: p2Orig,
+                    rating: '5.0',
+                    discount: p2Discount,
+                    onTap: () => context.go(RouteNames.mall),
+                  ),
+                ),
+              ],
             ),
           ],
-        ),
-        const SizedBox(height: 10),
-        Row(
-          children: [
-            Expanded(
-              child: _buildProductCard(
-                title: 'Luminos Shooting Light Q9 Pro Dual Lens',
-                price: 'Rp 1.850.000',
-                originalPrice: 'Rp 2.450.000',
-                rating: '4.9',
-                discount: '-24%',
-                onTap: () => context.go(RouteNames.mall),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: _buildProductCard(
-                title: 'BiLED Matrix Pro 3.0" Laser Projector',
-                price: 'Rp 2.450.000',
-                originalPrice: 'Rp 3.100.000',
-                rating: '5.0',
-                discount: '-21%',
-                onTap: () => context.go(RouteNames.mall),
-              ),
-            ),
-          ],
-        ),
-      ],
+        );
+      },
     );
   }
 

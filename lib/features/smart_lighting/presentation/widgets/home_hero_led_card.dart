@@ -21,8 +21,26 @@ import 'smart_lamp_modals.dart';
 /// SCR-21 Preview / Beranda Hero Card: Smart Lamp IoT Controller
 /// Replicates the Q4 Planning design in D:\Q4 Planning\design\src\modules\home\home.component.js
 /// (VIEW C: SMART LAMP #home-hero-led)
-class HomeHeroLedCard extends StatelessWidget {
+class HomeHeroLedCard extends StatefulWidget {
   const HomeHeroLedCard({super.key});
+
+  @override
+  State<HomeHeroLedCard> createState() => _HomeHeroLedCardState();
+}
+
+class _HomeHeroLedCardState extends State<HomeHeroLedCard> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        final bloc = context.read<SmartLightingBloc>();
+        if (bloc.state.availableDevices.length <= 1) {
+          bloc.add(const InitSmartLightingEvent());
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

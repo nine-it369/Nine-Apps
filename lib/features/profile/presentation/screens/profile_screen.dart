@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:nine_ui_app/nine_ui.dart';
 import '../../../../core/router/route_names.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../auth/presentation/blocs/auth_bloc.dart';
+import '../../../auth/presentation/blocs/auth_event.dart';
 import '../../../smart_lighting/presentation/blocs/smart_lighting_bloc.dart';
 import '../../../smart_lighting/presentation/widgets/smart_lamp_modals.dart';
 import '../../../../core/di/injection.dart';
+import '../blocs/profile_bloc.dart';
+import '../blocs/profile_event.dart';
+import '../blocs/profile_state.dart';
 
 /// SCR-24 Master Screen: Profile & Account (screen-profile-garage)
 /// Matches D:\Q4 Planning\design\src\modules\settings\settings.template.html
@@ -17,43 +24,52 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8FAF6),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.only(bottom: 110),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // 1. Carbon Fiber Header Twill Weave
-            _buildCarbonHeader(context),
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      builder: (context, profileState) {
+        return Scaffold(
+          backgroundColor: const Color(0xFFF8FAF6),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.only(bottom: 110),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // 1. Carbon Fiber Header Twill Weave
+                _buildCarbonHeader(context),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // 2. Member VIP Identity Card & Wallet Bar
-                  _buildMemberCard(context),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // 2. Member VIP Identity Card & Wallet Bar
+                      _buildMemberCard(context, profileState),
 
-                  const SizedBox(height: 18),
+                      const SizedBox(height: 18),
 
-                  // 3. Group: Pengaturan Akun
-                  _buildSectionTitle('AKUN'),
-                  _buildGroupCard([
-                    _buildListTile(
-                      icon: TablerIcons.user,
-                      title: 'Edit Profil',
-                      subtitle: 'Perbarui identitas akun & kontak utama',
-                      onTap: () => context.push(RouteNames.editProfile),
-                    ),
-                    const Divider(height: 1, indent: 56, color: Color(0x0F000000)),
-                    _buildListTile(
-                      icon: TablerIcons.lock,
-                      title: 'Ganti Password',
-                      subtitle: 'Perbarui kata sandi keamanan login Anda',
-                      onTap: () => context.push(RouteNames.changePassword),
-                    ),
-                  ]),
+                      // 3. Group: Pengaturan Akun
+                      _buildSectionTitle('AKUN'),
+                      _buildGroupCard([
+                        _buildListTile(
+                          icon: TablerIcons.user,
+                          title: 'Edit Profil',
+                          subtitle: 'Perbarui identitas akun & kontak utama',
+                          onTap: () => context.push(RouteNames.editProfile),
+                        ),
+                        const Divider(height: 1, indent: 56, color: Color(0x0F000000)),
+                        _buildListTile(
+                          icon: TablerIcons.lock,
+                          title: 'Ganti Password',
+                          subtitle: 'Perbarui kata sandi keamanan login Anda',
+                          onTap: () => context.push(RouteNames.changePassword),
+                        ),
+                        const Divider(height: 1, indent: 56, color: Color(0x0F000000)),
+                        _buildListTile(
+                          icon: TablerIcons.login,
+                          title: 'Masuk / Beralih Akun (nine_try_db)',
+                          subtitle: 'Login ke akun tersimpan di database',
+                          onTap: () => context.push(RouteNames.login),
+                        ),
+                      ]),
 
                   const SizedBox(height: 18),
 
@@ -200,6 +216,8 @@ class ProfileScreen extends StatelessWidget {
         ),
       ),
     );
+      },
+    );
   }
 
   // --- Sub-widgets & Builders ---
@@ -286,7 +304,17 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMemberCard(BuildContext context) {
+  Widget _buildMemberCard(BuildContext context, ProfileState profileState) {
+    final user = profileState.user;
+    final initials = user.name.trim().isNotEmpty
+        ? user.name.trim().split(' ').where((w) => w.isNotEmpty).map((w) => w[0]).take(2).join().toUpperCase()
+        : 'AP';
+    final contactText = '${user.phone}${user.email != null && user.email!.isNotEmpty ? ' • ${user.email}' : ''}';
+    final coinFormatted = NumberFormat.currency(locale: 'id_ID', symbol: '', decimalDigits: 0).format(user.nineKoinBalance).trim();
+    final coinText = '$coinFormatted Poin';
+    final voucherCount = profileState.vouchers.isNotEmpty ? profileState.vouchers.length : 3;
+    final voucherText = '$voucherCount Kupon';
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -321,9 +349,9 @@ class ProfileScreen extends StatelessWidget {
                       border: Border.all(color: Colors.white.withAlpha(25)),
                     ),
                     alignment: Alignment.center,
-                    child: const Text(
-                      'AP',
-                      style: TextStyle(
+                    child: Text(
+                      initials,
+                      style: const TextStyle(
                         color: Color(0xFF8DC63F),
                         fontWeight: FontWeight.w900,
                         fontSize: 16,
@@ -351,9 +379,9 @@ class ProfileScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Aditya Pratama',
-                      style: TextStyle(
+                    Text(
+                      user.name,
+                      style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w800,
                         color: Color(0xFF18191D),
@@ -361,7 +389,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      '+62 812-3456-7890 • aditya@nine.id',
+                      contactText,
                       style: TextStyle(
                         fontSize: 11,
                         color: Colors.grey.shade600,
@@ -416,8 +444,8 @@ class ProfileScreen extends StatelessWidget {
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
+                            children: [
+                              const Text(
                                 'N-COINS',
                                 style: TextStyle(
                                   fontSize: 9,
@@ -427,8 +455,8 @@ class ProfileScreen extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '2.450 Poin',
-                                style: TextStyle(
+                                coinText,
+                                style: const TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w900,
                                   color: Colors.white,
@@ -469,8 +497,8 @@ class ProfileScreen extends StatelessWidget {
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
+                            children: [
+                              const Text(
                                 'VOUCHER',
                                 style: TextStyle(
                                   fontSize: 9,
@@ -480,8 +508,8 @@ class ProfileScreen extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '3 Kupon',
-                                style: TextStyle(
+                                voucherText,
+                                style: const TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w900,
                                   color: Colors.white,
@@ -709,6 +737,8 @@ class ProfileScreen extends StatelessWidget {
             style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
             onPressed: () {
               Navigator.pop(ctx);
+              context.read<AuthBloc>().add(const LogoutEvent());
+              context.read<ProfileBloc>().add(const LoadProfileEvent());
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Anda telah keluar dari akun.')),
               );
