@@ -9,12 +9,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final UpdateProfileUseCase updateProfileUseCase;
   final ChangePasswordUseCase changePasswordUseCase;
   final GetCustomerVouchersUseCase getCustomerVouchersUseCase;
+  final GetAddressesUseCase getAddressesUseCase;
+  final GetOrdersUseCase getOrdersUseCase;
 
   ProfileBloc({
     required this.getProfileUseCase,
     required this.updateProfileUseCase,
     required this.changePasswordUseCase,
     required this.getCustomerVouchersUseCase,
+    required this.getAddressesUseCase,
+    required this.getOrdersUseCase,
   }) : super(const ProfileState()) {
     on<LoadProfileEvent>(_onLoadProfile);
     on<SubmitUpdateProfileEvent>(_onUpdateProfile);
@@ -28,6 +32,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     emit(state.copyWith(status: ProfileStatus.loading));
     final profileResult = await getProfileUseCase(const NoParams());
     final vouchersResult = await getCustomerVouchersUseCase(const NoParams());
+    final addressesResult = await getAddressesUseCase(const NoParams());
+    final ordersResult = await getOrdersUseCase(const NoParams());
 
     profileResult.fold(
       (failure) => emit(state.copyWith(
@@ -36,10 +42,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       )),
       (user) {
         final vouchers = vouchersResult.fold((l) => state.vouchers, (r) => r);
+        final addresses = addressesResult.fold((l) => state.addresses, (r) => r);
+        final orders = ordersResult.fold((l) => state.orders, (r) => r);
         emit(state.copyWith(
           status: ProfileStatus.loaded,
           user: user,
           vouchers: vouchers,
+          addresses: addresses,
+          orders: orders,
         ));
       },
     );

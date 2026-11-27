@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:nine_ui_app/nine_ui.dart';
+import '../../../../core/router/route_names.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../blocs/mall_bloc.dart';
+import '../blocs/mall_event.dart';
 import '../blocs/mall_state.dart';
 
 /// SCR-10: Master Mall Screen (screen-mall-landing)
@@ -81,7 +84,7 @@ class _MallLandingScreenState extends State<MallLandingScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // 1. Carbon Fiber Header with Search & Category Pills
-                _buildCarbonHeader(context),
+                _buildCarbonHeader(context, mallState),
 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -125,7 +128,7 @@ class _MallLandingScreenState extends State<MallLandingScreen> {
 
   // --- Sub-widgets & Builders ---
 
-  Widget _buildCarbonHeader(BuildContext context) {
+  Widget _buildCarbonHeader(BuildContext context, MallState mallState) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -180,11 +183,7 @@ class _MallLandingScreenState extends State<MallLandingScreen> {
                   Row(
                     children: [
                       NineSpringTap(
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Riwayat Transaksi Nine Mall')),
-                          );
-                        },
+                        onTap: () => context.push(RouteNames.orderHistory),
                         child: Container(
                           width: 40,
                           height: 40,
@@ -198,11 +197,7 @@ class _MallLandingScreenState extends State<MallLandingScreen> {
                       ),
                       const SizedBox(width: 8),
                       NineSpringTap(
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Keranjang Belanja (2 Produk)')),
-                          );
-                        },
+                        onTap: () => context.push(RouteNames.mallCart),
                         child: Container(
                           width: 40,
                           height: 40,
@@ -224,9 +219,9 @@ class _MallLandingScreenState extends State<MallLandingScreen> {
                                     color: const Color(0xFF8DC63F),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
-                                  child: const Text(
-                                    '2',
-                                    style: TextStyle(
+                                  child: Text(
+                                    '${mallState.cartTotalQuantity}',
+                                    style: const TextStyle(
                                       fontSize: 8.5,
                                       fontWeight: FontWeight.w900,
                                       color: Color(0xFF18191D),
@@ -867,13 +862,51 @@ class _MallLandingScreenState extends State<MallLandingScreen> {
                     style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Color(0xFF18191D), height: 1.2),
                   ),
                   const SizedBox(height: 6),
-                  Text(
-                    originalPrice,
-                    style: TextStyle(fontSize: 9, color: Colors.grey.shade400, decoration: TextDecoration.lineThrough),
-                  ),
-                  Text(
-                    price,
-                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: Color(0xFF18191D)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            originalPrice,
+                            style: TextStyle(fontSize: 9, color: Colors.grey.shade400, decoration: TextDecoration.lineThrough),
+                          ),
+                          Text(
+                            price,
+                            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: Color(0xFF18191D)),
+                          ),
+                        ],
+                      ),
+                      NineSpringTap(
+                        onTap: () {
+                          final state = context.read<MallBloc>().state;
+                          if (state.products.isNotEmpty) {
+                            final match = state.products.firstWhere(
+                              (p) => p.name == title || p.productName == title,
+                              orElse: () => state.products.first,
+                            );
+                            context.read<MallBloc>().add(AddToCartEvent(product: match, quantity: 1));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('$title ditambahkan ke keranjang!'),
+                                duration: const Duration(seconds: 1),
+                              ),
+                            );
+                          }
+                        },
+                        child: Container(
+                          width: 26,
+                          height: 26,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF8DC63F),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Icon(TablerIcons.plus, size: 15, color: Color(0xFF14171A)),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

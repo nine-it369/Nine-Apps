@@ -2,6 +2,8 @@ import '../../../../core/errors/failures.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../../../auth/domain/entities/user_entity.dart';
 import '../../../garage/domain/entities/voucher_entity.dart';
+import '../entities/customer_address_entity.dart';
+import '../entities/customer_order_summary_entity.dart';
 import '../repositories/i_profile_repository.dart';
 
 class GetProfileUseCase implements UseCase<UserEntity, NoParams> {
@@ -65,5 +67,27 @@ class GetCustomerVouchersUseCase implements UseCase<List<VoucherEntity>, NoParam
   @override
   Future<Either<Failure, List<VoucherEntity>>> call(NoParams params) {
     return repository.getCustomerVouchers();
+  }
+}
+
+class GetAddressesUseCase implements UseCase<List<CustomerAddressEntity>, NoParams> {
+  final IProfileRepository repository;
+
+  GetAddressesUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, List<CustomerAddressEntity>>> call(NoParams params) {
+    return repository.getAddresses();
+  }
+}
+
+class GetOrdersUseCase implements UseCase<List<CustomerOrderSummaryEntity>, NoParams> {
+  final IProfileRepository repository;
+
+  GetOrdersUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, List<CustomerOrderSummaryEntity>>> call(NoParams params) {
+    return repository.getOrders();
   }
 }

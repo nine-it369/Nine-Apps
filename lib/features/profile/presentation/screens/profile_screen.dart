@@ -64,6 +64,13 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         const Divider(height: 1, indent: 56, color: Color(0x0F000000)),
                         _buildListTile(
+                          icon: TablerIcons.map_pin,
+                          title: 'Alamat Tersimpan (Mall)',
+                          subtitle: '${profileState.addresses.length} Alamat Pengiriman Tersimpan',
+                          onTap: () => context.push(RouteNames.savedAddresses),
+                        ),
+                        const Divider(height: 1, indent: 56, color: Color(0x0F000000)),
+                        _buildListTile(
                           icon: TablerIcons.login,
                           title: 'Masuk / Beralih Akun (nine_try_db)',
                           subtitle: 'Login ke akun tersimpan di database',
@@ -111,8 +118,8 @@ class ProfileScreen extends StatelessWidget {
                       hasActiveDot: true,
                       dotColor: const Color(0xFF231F20),
                       title: 'Pesanan Nine Mall',
-                      subtitle: 'BiLED Matrix Pro 3.0" • Dalam Pengiriman',
-                      onTap: () => context.go(RouteNames.mall),
+                      subtitle: '${profileState.orders.length} Transaksi Terdata',
+                      onTap: () => context.push(RouteNames.orderHistory),
                     ),
                     const Divider(height: 1, indent: 56, color: Color(0x0F000000)),
                     _buildListTile(

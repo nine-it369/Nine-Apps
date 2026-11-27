@@ -3,6 +3,8 @@ import '../../../../core/errors/exceptions.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../auth/data/models/user_model.dart';
 import '../../../garage/data/models/voucher_model.dart';
+import '../models/customer_address_model.dart';
+import '../models/customer_order_summary_model.dart';
 
 abstract class IProfileRemoteDataSource {
   Future<UserModel> getProfile();
@@ -15,16 +17,24 @@ abstract class IProfileRemoteDataSource {
     required String newPassword,
   });
   Future<List<VoucherModel>> getCustomerVouchers();
+  Future<List<CustomerAddressModel>> getAddresses();
+  Future<List<CustomerOrderSummaryModel>> getOrders();
 }
 
 class ProfileRemoteDataSourceImpl implements IProfileRemoteDataSource {
-  final ApiClient apiClient;
+  final ApiClient garageApiClient;
+  final ApiClient? mallApiClient;
 
-  ProfileRemoteDataSourceImpl(this.apiClient);
+  ProfileRemoteDataSourceImpl(
+    this.garageApiClient, [
+    this.mallApiClient,
+  ]);
+
+  ApiClient get _mallClient => mallApiClient ?? garageApiClient;
 
   @override
   Future<UserModel> getProfile() async {
-    final response = await apiClient.get(ApiEndpoints.customerProfile);
+    final response = await garageApiClient.get(ApiEndpoints.customerProfile);
     if (response.statusCode == 200 && response.data != null) {
       final data = response.data['data'] as Map<String, dynamic>? ?? {};
       final userData = data['user'] as Map<String, dynamic>? ?? data;
@@ -44,7 +54,7 @@ class ProfileRemoteDataSourceImpl implements IProfileRemoteDataSource {
     if (email != null) {
       body['email'] = email;
     }
-    final response = await apiClient.put(
+    final response = await garageApiClient.put(
       ApiEndpoints.customerProfile,
       data: body,
     );
@@ -61,7 +71,7 @@ class ProfileRemoteDataSourceImpl implements IProfileRemoteDataSource {
     required String oldPassword,
     required String newPassword,
   }) async {
-    final response = await apiClient.post(
+    final response = await garageApiClient.post(
       '/auth/change-password',
       data: {
         'old_password': oldPassword,
@@ -75,13 +85,43 @@ class ProfileRemoteDataSourceImpl implements IProfileRemoteDataSource {
 
   @override
   Future<List<VoucherModel>> getCustomerVouchers() async {
-    final response = await apiClient.get(ApiEndpoints.vouchers);
-    if (response.statusCode == 200 && response.data != null) {
-      final data = response.data['data'] as List<dynamic>? ?? [];
-      return data
-          .map((e) => VoucherModel.fromJson(e as Map<String, dynamic>))
-          .toList();
-    }
+    try {
+      final response = await garageApiClient.get(ApiEndpoints.vouchers);
+      if (response.statusCode == 200 && response.data != null) {
+        final data = response.data['data'] as List<dynamic>? ?? [];
+        return data
+            .map((e) => VoucherModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+      }
+    } catch (_) {}
+    return [];
+  }
+
+  @override
+  Future<List<CustomerAddressModel>> getAddresses() async {
+    try {
+      final response = await _mallClient.get('/addresses');
+      if (response.statusCode == 200 && response.data != null) {
+        final data = response.data['data'] as List<dynamic>? ?? [];
+        return data
+            .map((e) => CustomerAddressModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+      }
+    } catch (_) {}
+    return [];
+  }
+
+  @override
+  Future<List<CustomerOrderSummaryModel>> getOrders() async {
+    try {
+      final response = await _mallClient.get('/orders');
+      if (response.statusCode == 200 && response.data != null) {
+        final data = response.data['data'] as List<dynamic>? ?? [];
+        return data
+            .map((e) => CustomerOrderSummaryModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+      }
+    } catch (_) {}
     return [];
   }
 }

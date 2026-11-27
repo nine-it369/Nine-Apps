@@ -8,11 +8,15 @@ import '../../features/garage/presentation/screens/booking_success_screen.dart';
 import '../../features/garage/presentation/screens/garage_landing_screen.dart';
 import '../../features/garage/presentation/screens/ticket_lookup_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/mall/presentation/screens/mall_cart_screen.dart';
+import '../../features/mall/presentation/screens/mall_checkout_screen.dart';
 import '../../features/mall/presentation/screens/mall_landing_screen.dart';
 import '../../features/profile/presentation/screens/change_password_screen.dart';
 import '../../features/profile/presentation/screens/edit_profile_screen.dart';
 import '../../features/profile/presentation/screens/loyalty_points_screen.dart';
+import '../../features/profile/presentation/screens/order_history_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
+import '../../features/profile/presentation/screens/saved_addresses_screen.dart';
 import '../../features/profile/presentation/screens/vouchers_screen.dart';
 import '../../features/smart_lighting/presentation/blocs/smart_lighting_bloc.dart';
 import '../../features/smart_lighting/presentation/screens/sensor_override_screen.dart';
@@ -146,6 +150,26 @@ class AppRouter {
         path: RouteNames.loyalty,
         name: 'loyalty',
         builder: (context, state) => const LoyaltyPointsScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.savedAddresses,
+        name: 'savedAddresses',
+        builder: (context, state) => const SavedAddressesScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.orderHistory,
+        name: 'orderHistory',
+        builder: (context, state) => const OrderHistoryScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.mallCart,
+        name: 'mallCart',
+        builder: (context, state) => const MallCartScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.mallCheckout,
+        name: 'mallCheckout',
+        builder: (context, state) => const MallCheckoutScreen(),
       ),
       GoRoute(
         path: RouteNames.login,

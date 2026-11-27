@@ -83,6 +83,42 @@ void main() {
         mallBloc.stream,
         emits(predicate<MallState>((s) => s.searchQuery == 'BiLED')),
       );
+
+      // Cart Operations: Add item, update quantity, toggle selection
+      if (mallBloc.state.products.isNotEmpty) {
+        final product = mallBloc.state.products.first;
+        mallBloc.add(AddToCartEvent(product: product, quantity: 2));
+        await expectLater(
+          mallBloc.stream,
+          emits(predicate<MallState>((s) => s.cartItems.any((i) => i.product.id == product.id))),
+        );
+
+        final cartItem = mallBloc.state.cartItems.firstWhere((i) => i.product.id == product.id);
+        mallBloc.add(UpdateCartQuantityEvent(cartItemId: cartItem.id, delta: 1));
+        await expectLater(
+          mallBloc.stream,
+          emits(predicate<MallState>((s) => s.cartItems.firstWhere((i) => i.id == cartItem.id).quantity == cartItem.quantity + 1)),
+        );
+
+        mallBloc.add(ToggleCartItemSelectionEvent(cartItem.id));
+        await expectLater(
+          mallBloc.stream,
+          emits(predicate<MallState>((s) => s.cartItems.firstWhere((i) => i.id == cartItem.id).isSelected == false)),
+        );
+      }
+    });
+
+    test('ProfileBloc loads dual API addresses from Mall and vouchers from Garage', () async {
+      final profileBloc = sl<ProfileBloc>();
+      profileBloc.add(const LoadProfileEvent());
+
+      await expectLater(
+        profileBloc.stream,
+        emitsInOrder([
+          predicate<ProfileState>((s) => s.status == ProfileStatus.loading),
+          predicate<ProfileState>((s) => s.status == ProfileStatus.loaded && s.addresses.isNotEmpty && s.orders.isNotEmpty),
+        ]),
+      );
     });
   });
 }

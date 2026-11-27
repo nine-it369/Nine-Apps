@@ -15,13 +15,17 @@ class ApiClient {
 
   String get baseUrl => dio.options.baseUrl;
 
-  factory ApiClient.create({EnvConfig? config}) {
+  factory ApiClient.create({
+    EnvConfig? config,
+    String? customBaseUrl,
+    AuthInterceptor? sharedAuth,
+  }) {
     final env = config ?? EnvConfig.current;
-    final auth = AuthInterceptor();
+    final auth = sharedAuth ?? AuthInterceptor();
 
     final dio = Dio(
       BaseOptions(
-        baseUrl: env.apiBaseUrl,
+        baseUrl: customBaseUrl ?? env.apiBaseUrl,
         connectTimeout: Duration(milliseconds: env.connectTimeoutMs),
         receiveTimeout: Duration(milliseconds: env.receiveTimeoutMs),
         headers: {

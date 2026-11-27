@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import '../config/env_config.dart';
 import '../network/api_client.dart';
 import '../../features/garage/data/datasources/garage_remote_datasource.dart';
 import '../../features/garage/data/datasources/garage_sse_datasource.dart';
@@ -49,8 +50,15 @@ import '../../features/mall/presentation/blocs/mall_event.dart';
 final sl = GetIt.instance;
 
 Future<void> configureDependencies() async {
-  // 1. Core Network
-  sl.registerLazySingleton<ApiClient>(() => ApiClient.create());
+  // 1. Core Network (Dual ApiClient: Garage :8080 & Mall :8081 with Shared Auth Token)
+  final garageApiClient = ApiClient.create(customBaseUrl: EnvConfig.current.apiBaseUrl);
+  sl.registerLazySingleton<ApiClient>(() => garageApiClient);
+
+  final mallApiClient = ApiClient.create(
+    customBaseUrl: EnvConfig.current.mallApiBaseUrl,
+    sharedAuth: garageApiClient.authInterceptor,
+  );
+  sl.registerLazySingleton<ApiClient>(() => mallApiClient, instanceName: 'mallApiClient');
 
   // 2. Data Sources
   sl.registerLazySingleton<IGarageRemoteDataSource>(
@@ -69,10 +77,13 @@ Future<void> configureDependencies() async {
     () => AuthLocalDataSourceImpl(sl<ApiClient>()),
   );
   sl.registerLazySingleton<IProfileRemoteDataSource>(
-    () => ProfileRemoteDataSourceImpl(sl<ApiClient>()),
+    () => ProfileRemoteDataSourceImpl(
+      sl<ApiClient>(),
+      sl<ApiClient>(instanceName: 'mallApiClient'),
+    ),
   );
   sl.registerLazySingleton<IMallRemoteDataSource>(
-    () => MallRemoteDataSourceImpl(sl<ApiClient>()),
+    () => MallRemoteDataSourceImpl(sl<ApiClient>(instanceName: 'mallApiClient')),
   );
 
   // 3. Repositories
@@ -186,6 +197,12 @@ Future<void> configureDependencies() async {
   sl.registerLazySingleton<GetCustomerVouchersUseCase>(
     () => GetCustomerVouchersUseCase(sl<IProfileRepository>()),
   );
+  sl.registerLazySingleton<GetAddressesUseCase>(
+    () => GetAddressesUseCase(sl<IProfileRepository>()),
+  );
+  sl.registerLazySingleton<GetOrdersUseCase>(
+    () => GetOrdersUseCase(sl<IProfileRepository>()),
+  );
 
   // 4e. Use Cases - Mall
   sl.registerLazySingleton<GetMallHomeDataUseCase>(
@@ -239,6 +256,8 @@ Future<void> configureDependencies() async {
       updateProfileUseCase: sl<UpdateProfileUseCase>(),
       changePasswordUseCase: sl<ChangePasswordUseCase>(),
       getCustomerVouchersUseCase: sl<GetCustomerVouchersUseCase>(),
+      getAddressesUseCase: sl<GetAddressesUseCase>(),
+      getOrdersUseCase: sl<GetOrdersUseCase>(),
     )..add(const LoadProfileEvent()),
   );
 

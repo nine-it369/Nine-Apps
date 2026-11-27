@@ -4,6 +4,8 @@ class RouteNames {
   static const String home = '/';
   static const String accessories = '/accessories';
   static const String mall = '/mall';
+  static const String mallCart = '/mall/cart';
+  static const String mallCheckout = '/mall/checkout';
   static const String profile = '/profile';
 
   static const String garage = '/garage';
@@ -18,5 +20,7 @@ class RouteNames {
   static const String changePassword = '/profile/password';
   static const String vouchers = '/profile/vouchers';
   static const String loyalty = '/profile/loyalty';
+  static const String savedAddresses = '/profile/addresses';
+  static const String orderHistory = '/profile/orders';
   static const String login = '/login';
 }

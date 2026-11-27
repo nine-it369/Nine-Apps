@@ -86,3 +86,50 @@ class MallProductEntity extends Equatable {
         isFlashSale,
       ];
 }
+
+class CartItemEntity extends Equatable {
+  final int id;
+  final MallProductEntity product;
+  final int quantity;
+  final String warehouseName;
+  final bool isSelected;
+  final bool withInstallation;
+
+  const CartItemEntity({
+    required this.id,
+    required this.product,
+    this.quantity = 1,
+    this.warehouseName = 'Gudang Utama Jakarta',
+    this.isSelected = true,
+    this.withInstallation = false,
+  });
+
+  int get unitPrice => product.discPrice > 0 ? product.discPrice : product.price;
+  int get subtotal => unitPrice * quantity + (withInstallation ? product.installationPrice : 0);
+
+  CartItemEntity copyWith({
+    int? quantity,
+    bool? isSelected,
+    bool? withInstallation,
+    String? warehouseName,
+  }) {
+    return CartItemEntity(
+      id: id,
+      product: product,
+      quantity: quantity ?? this.quantity,
+      warehouseName: warehouseName ?? this.warehouseName,
+      isSelected: isSelected ?? this.isSelected,
+      withInstallation: withInstallation ?? this.withInstallation,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        id,
+        product,
+        quantity,
+        warehouseName,
+        isSelected,
+        withInstallation,
+      ];
+}

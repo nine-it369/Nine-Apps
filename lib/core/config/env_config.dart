@@ -12,6 +12,7 @@ import 'flavor.dart';
 class EnvConfig {
   final Flavor flavor;
   final String apiBaseUrl;
+  final String mallApiBaseUrl;
   final int connectTimeoutMs;
   final int receiveTimeoutMs;
   final bool enableTelemetryLogging;
@@ -19,6 +20,7 @@ class EnvConfig {
   const EnvConfig({
     required this.flavor,
     required this.apiBaseUrl,
+    required this.mallApiBaseUrl,
     this.connectTimeoutMs = 15000,
     this.receiveTimeoutMs = 15000,
     this.enableTelemetryLogging = false,
@@ -32,6 +34,11 @@ class EnvConfig {
 
   static const String _envApiBaseUrl = String.fromEnvironment(
     'API_BASE_URL',
+    defaultValue: '',
+  );
+
+  static const String _envMallApiBaseUrl = String.fromEnvironment(
+    'MALL_API_BASE_URL',
     defaultValue: '',
   );
 
@@ -62,6 +69,9 @@ class EnvConfig {
           apiBaseUrl: _envApiBaseUrl == ''
               ? 'https://garage.nine.co.id/api/v1'
               : _envApiBaseUrl,
+          mallApiBaseUrl: _envMallApiBaseUrl == ''
+              ? 'https://mall.nine.co.id/api/v1'
+              : _envMallApiBaseUrl,
           connectTimeoutMs: _envConnectTimeout,
           receiveTimeoutMs: _envReceiveTimeout,
           enableTelemetryLogging: false,
@@ -72,6 +82,9 @@ class EnvConfig {
           apiBaseUrl: _envApiBaseUrl == ''
               ? 'https://dev-garage.nine.co.id/api/v1'
               : _envApiBaseUrl,
+          mallApiBaseUrl: _envMallApiBaseUrl == ''
+              ? 'https://dev-mall.nine.co.id/api/v1'
+              : _envMallApiBaseUrl,
           connectTimeoutMs: _envConnectTimeout,
           receiveTimeoutMs: _envReceiveTimeout,
           enableTelemetryLogging: _envEnableLogging,
@@ -83,6 +96,9 @@ class EnvConfig {
           apiBaseUrl: _envApiBaseUrl == ''
               ? 'http://localhost:8080/api/v1'
               : _envApiBaseUrl,
+          mallApiBaseUrl: _envMallApiBaseUrl == ''
+              ? 'http://localhost:8081/api/v1'
+              : _envMallApiBaseUrl,
           connectTimeoutMs: _envConnectTimeout,
           receiveTimeoutMs: _envReceiveTimeout,
           enableTelemetryLogging: _envEnableLogging,

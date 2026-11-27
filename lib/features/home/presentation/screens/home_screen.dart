@@ -166,7 +166,7 @@ class HomeScreen extends StatelessWidget {
 
                   // Cart Squircle Button with Badge
                   NineSpringTap(
-                    onTap: () => context.go(RouteNames.mall),
+                    onTap: () => context.push(RouteNames.mallCart),
                     child: Container(
                       width: 44,
                       height: 44,
@@ -468,7 +468,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             NineSpringTap(
-              onTap: () => context.go(RouteNames.mall),
+              onTap: () => context.push(RouteNames.orderHistory),
               child: const Text(
                 'Lihat Semua >',
                 style: TextStyle(
@@ -484,7 +484,7 @@ class HomeScreen extends StatelessWidget {
 
         // Activity 1: Mall Order
         NineSpringTap(
-          onTap: () => context.go(RouteNames.mall),
+          onTap: () => context.push(RouteNames.orderHistory),
           child: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(

@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import '../../../auth/domain/entities/user_entity.dart';
 import '../../../garage/domain/entities/voucher_entity.dart';
+import '../../domain/entities/customer_address_entity.dart';
+import '../../domain/entities/customer_order_summary_entity.dart';
 
 enum ProfileStatus { initial, loading, loaded, success, error }
 
@@ -8,6 +10,8 @@ class ProfileState extends Equatable {
   final ProfileStatus status;
   final UserEntity user;
   final List<VoucherEntity> vouchers;
+  final List<CustomerAddressEntity> addresses;
+  final List<CustomerOrderSummaryEntity> orders;
   final String? errorMessage;
   final String? successMessage;
 
@@ -24,6 +28,8 @@ class ProfileState extends Equatable {
       isVerified: true,
     ),
     this.vouchers = const [],
+    this.addresses = const [],
+    this.orders = const [],
     this.errorMessage,
     this.successMessage,
   });
@@ -32,6 +38,8 @@ class ProfileState extends Equatable {
     ProfileStatus? status,
     UserEntity? user,
     List<VoucherEntity>? vouchers,
+    List<CustomerAddressEntity>? addresses,
+    List<CustomerOrderSummaryEntity>? orders,
     String? errorMessage,
     String? successMessage,
   }) {
@@ -39,6 +47,8 @@ class ProfileState extends Equatable {
       status: status ?? this.status,
       user: user ?? this.user,
       vouchers: vouchers ?? this.vouchers,
+      addresses: addresses ?? this.addresses,
+      orders: orders ?? this.orders,
       errorMessage: errorMessage,
       successMessage: successMessage,
     );
@@ -49,6 +59,8 @@ class ProfileState extends Equatable {
         status,
         user,
         vouchers,
+        addresses,
+        orders,
         errorMessage,
         successMessage,
       ];
